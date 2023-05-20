@@ -13,10 +13,10 @@
     <!-- Libs CSS -->
 
 
-    <link href="./assets/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="./assets/node_modules/dropzone/dist/dropzone.css" rel="stylesheet">
-    <link href="./assets/node_modules/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="./assets/node_modules/prismjs/themes/prism-okaidia.css" rel="stylesheet">
+    <link href="./assets/node_moduless/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./assets/node_moduless/dropzone/dist/dropzone.css" rel="stylesheet">
+    <link href="./assets/node_moduless/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="./assets/node_moduless/prismjs/themes/prism-okaidia.css" rel="stylesheet">
 
 
 
@@ -1888,15 +1888,15 @@
 
     <!-- Scripts -->
     <!-- Libs JS -->
-    <script src="./assets/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="./assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/node_modules/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="./assets/node_modules/feather-icons/dist/feather.min.js"></script>
-    <script src="./assets/node_modules/prismjs/prism.js"></script>
-    <script src="./assets/node_modules/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="./assets/node_modules/dropzone/dist/min/dropzone.min.js"></script>
-    <script src="./assets/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
-    <script src="./assets/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="./assets/node_moduless/jquery/dist/jquery.min.js"></script>
+    <script src="./assets/node_moduless/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/node_moduless/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="./assets/node_moduless/feather-icons/dist/feather.min.js"></script>
+    <script src="./assets/node_moduless/prismjs/prism.js"></script>
+    <script src="./assets/node_moduless/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="./assets/node_moduless/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="./assets/node_moduless/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="./assets/node_moduless/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
 
 
 
