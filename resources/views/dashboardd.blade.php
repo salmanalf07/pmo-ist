@@ -457,7 +457,6 @@
         .svg_select_points {
             fill: #efefef;
             stroke: #333;
-            rx: 2;
         }
 
         .apexcharts-svg.apexcharts-zoomable.hovering-zoom {
