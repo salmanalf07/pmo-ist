@@ -22,12 +22,12 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboardd');
-    })->name('dashboard');
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
 });
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/settings', function () {
-        return view('setting');
-    })->name('setting');
-});
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+//     Route::get('/settings', function () {
+//         return view('setting');
+//     })->name('setting');
+// });
