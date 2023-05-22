@@ -20,27 +20,27 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarDashboard">
                             <li>
-                                <a class="dropdown-item" href="../horizontal/index.html">
+                                <a class="dropdown-item" href="profile">
                                     Team
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/dashboard-analytics.html">
+                                <a class="dropdown-item" href="profile">
                                     Project Metodology
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/dashboard-ecommerce.html">
+                                <a class="dropdown-item" href="profile">
                                     Template & Guidline
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/dashboard-crm.html">
+                                <a class="dropdown-item" href="profile">
                                     Arrange a Google Meet
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/dashboard-finance.html">
+                                <a class="dropdown-item" href="profile">
                                     IG : PMO link of communities</a>
                             </li>
 
@@ -136,7 +136,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="navbarBaseUI" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" href="dashboard" id="navbarBaseUI">
                             Dashboard
                         </a>
                     </li>
