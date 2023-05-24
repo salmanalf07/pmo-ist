@@ -16,12 +16,14 @@
     <link href="/assets/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="/assets/libs/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+    <!-- datatable -->
+    <link href="/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
 
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="/assets/css/theme.min.css">
-    <title>PMO-IST</title>
+    <title>PMO PORTAL</title>
 </head>
 
 <body>
@@ -43,7 +45,10 @@
     <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/libs/feather-icons/dist/feather.min.js"></script>
     <script src="/assets/libs/simplebar/dist/simplebar.min.js"></script>
-
+    <!-- flatpickr -->
+    <script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+    <!-- quill js -->
+    <script src="/assets/libs/quill/dist/quill.min.js"></script>
 
 
 
@@ -53,6 +58,12 @@
     <script src="/assets/libs/jsvectormap/dist/maps/world.js"></script>
     <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="/assets/js/vendors/chart.js"></script>
+
+    <!-- datatable -->
+    <script src="/assets/libs/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/assets/js/vendors/datatable.js"></script>
 
 
 

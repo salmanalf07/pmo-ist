@@ -61,7 +61,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/apps-file-manager.html">
+                                <a class="dropdown-item" href="customers">
                                     Customers
                                 </a>
                             </li>

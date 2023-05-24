@@ -17,45 +17,42 @@
                             <div class="d-flex align-items-center">
                                 <!-- avatar -->
                                 <div class="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
-                                    <img src="/assets/images/avatar/avatar-11.jpg" class="avatar-xxl rounded-circle border border-2 " alt="Image">
-                                    <a href="#!" class="position-absolute top-0 right-0 me-2">
+                                    <img src="/assets/images/logo-ist.png" class="avatar-xxl rounded-circle border border-2 " alt="Image">
+                                    <!-- <a href="#!" class="position-absolute top-0 right-0 me-2">
                                         <img src="/assets/images/svg/checked-mark.svg" alt="Image" class="icon-sm">
-                                    </a>
+                                    </a> -->
                                 </div>
                                 <!-- text -->
                                 <div class="lh-1">
                                     <h2 class="mb-0">
-                                        Jitu Chauhan
+                                        PMO PORTAL
                                         <a href="#!" class="text-decoration-none">
                                         </a>
                                     </h2>
-                                    <p class="mb-0 d-block">@imjituchauhan</p>
+                                    <p class="mb-0 d-block">PT. Infosys Solusi Terpadu</p>
                                 </div>
-                            </div>
-                            <div>
-                                <a href="#!" class="btn btn-outline-primary d-none d-md-block">Edit Profile</a>
                             </div>
                         </div>
                         <!-- nav -->
                         <ul class="nav nav-lt-tab px-4" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="profile-overview.html">Overview</a>
+                                <a class="nav-link active" href="profile-overview.html">Team</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-project.html">Project</a>
+                                <a class="nav-link" href="profile-project.html">Project Method</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-files.html">Files</a>
+                                <a class="nav-link" href="profile-files.html">Template & Guidelines</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-team.html">Team</a>
+                                <a class="nav-link" href="profile-team.html">Meeting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-followers.html"> Followers </a>
+                                <a class="nav-link" href="profile-followers.html">Lesson Learned</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-activity.html">Activity</a>
+                                <a class="nav-link" href="profile-activity.html">Link Comunity</a>
                             </li>
                         </ul>
                     </div>
