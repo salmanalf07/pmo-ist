@@ -68,55 +68,55 @@
                     <input class="form-control" type="text" name="id" id="id" hidden>
                     <div class="mb-3 col-12">
                         <label class="form-label">Karyawan ID <span class="text-danger">*</span></label>
-                        <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Nama Karyawan <span class="text-danger">*</span></label>
-                        <input name="name" id="name" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="name" id="name" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Nomor KTP</label>
-                        <input name="ktp" id="ktp" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="ktp" id="ktp" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Nomor NPWP</label>
-                        <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Nomor Rekening</label>
-                        <input name="norek" id="norek" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="norek" id="norek" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">No HP</label>
-                        <input name="nohp" id="nohp" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="nohp" id="nohp" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Level <span class="text-danger">*</span></label>
-                        <input name="level" id="level" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="level" id="level" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Divisi <span class="text-danger">*</span></label>
-                        <input name="divisi" id="divisi" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="divisi" id="divisi" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Perusahaan <span class="text-danger">*</span></label>
-                        <input name="company" id="company" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Penempatan</label>
-                        <input name="penempatan" id="penempatan" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="penempatan" id="penempatan" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Manajer Langsung <span class="text-danger">*</span></label>
-                        <input name="direct_manager" id="direct_manager" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="direct_manager" id="direct_manager" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Role <span class="text-danger">*</span></label>
-                        <input name="role" id="role" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="role" id="role" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Spesialisasi</label>
-                        <input name="spesialisasi" id="spesialisasi" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="spesialisasi" id="spesialisasi" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <!-- form group -->
                     <div class="mb-3 col-md-6 col-12">
@@ -141,11 +141,11 @@
 
                     <div class="mb-3 col-6">
                         <label class="form-label">Email IST <span class="text-danger">*</span></label>
-                        <input name="email_ist" id="email_ist" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="email_ist" id="email_ist" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">Email Pribadi <span class="text-danger">*</span></label>
-                        <input name="email" id="email" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="email" id="email" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="col-md-8"></div>
                     <!-- button -->

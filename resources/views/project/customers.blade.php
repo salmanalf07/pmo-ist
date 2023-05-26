@@ -81,27 +81,27 @@
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Company <span class="text-danger">*</span></label>
-                        <input name="company" id="company" type="text" class="form-control" placeholder="Enter Hear" required>
+                        <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Address</label>
-                        <input name="addres" id="addres" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="addres" id="addres" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">City</label>
-                        <input name="city" id="city" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="city" id="city" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">No NPWP</label>
-                        <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">PIC</label>
-                        <input name="pic" id="pic" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="pic" id="pic" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3 col-6">
                         <label class="form-label">No Telp. PIC</label>
-                        <input name="telppic" id="telppic" type="text" class="form-control" placeholder="Enter Hear">
+                        <input name="telppic" id="telppic" type="text" class="form-control" placeholder="Enter Here">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="selectOne">Industri</label>
