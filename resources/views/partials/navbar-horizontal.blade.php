@@ -81,6 +81,11 @@
                                 <ul class="dropdown-menu">
 
                                     <li>
+                                        <a href="employee" class="dropdown-item">
+                                            By List
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="../horizontal/invoice-list.html" class="dropdown-item">
                                             By Project
                                         </a>
