@@ -200,9 +200,13 @@
         var oTable = $('#example1').DataTable({
             processing: true,
             serverSide: true,
-            dom: 'Bfrtip',
+            dom: '<"row"<"col-md-6"l><"col-md-6"f>>rt<"bottom"pi>',
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
