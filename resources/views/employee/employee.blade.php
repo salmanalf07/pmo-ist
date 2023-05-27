@@ -161,32 +161,38 @@
 </div>
 
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<!-- flatpickr -->
+<script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script>
-    jQuery(function() {
-        initDatePicker();
+    // jQuery(function() {
+    //     initDatePicker();
+    // });
+
+    // checkIfTodaySelected = function(selDate, dateStr, fp) {
+    //     let today = new Date().toLocaleDateString();
+    //     let selDateDay = new Date(selDate).toLocaleDateString();
+    //     if (selDateDay === today) {
+    //         fp._input.value = "Today"
+    //     }
+    // }
+
+    // function initDatePicker() {
+    //     const fp = jQuery(".datepicker").flatpickr({
+    //         wrap: true,
+    //         altInput: true,
+    //         allowInput: false, // if doesn't need - disable it.
+    //         altFormat: "j F Y",
+    //         dateFormat: "d-m-Y",
+    //         defaultDate: "today",
+    //         onReady: checkIfTodaySelected,
+    //         onValueUpdate: checkIfTodaySelected
+    //     });
+
+    // }
+    flatpickr("#pkwt_start, #pkwt_end", {
+        dateFormat: "d-m-Y",
+        defaultDate: "today",
     });
-
-    checkIfTodaySelected = function(selDate, dateStr, fp) {
-        let today = new Date().toLocaleDateString();
-        let selDateDay = new Date(selDate).toLocaleDateString();
-        if (selDateDay === today) {
-            fp._input.value = "Today"
-        }
-    }
-
-    function initDatePicker() {
-        const fp = jQuery(".datepicker").flatpickr({
-            wrap: true,
-            altInput: true,
-            allowInput: false, // if doesn't need - disable it.
-            altFormat: "j F Y",
-            dateFormat: "d-m-Y",
-            defaultDate: "today",
-            onReady: checkIfTodaySelected,
-            onValueUpdate: checkIfTodaySelected
-        });
-
-    }
 </script>
 <script>
     $(function() {
@@ -285,19 +291,23 @@
 
                 //isi form
                 $('#id').val(data.id);
-                $('#company').val(data.company);
-                $('#addres').val(data.addres);
-                $('#city').val(data.city);
+                $('#employee_id').val(data.employee_id);
+                $('#name').val(data.name);
+                $('#ktp').val(data.ktp);
                 $('#npwp').val(data.npwp);
-                $('#pic').val(data.pic);
-                $('#telppic').val(data.telppic);
-                $('#industry').val(data.industry).trigger('change');
-                if (data.type === "customer") {
-                    $("#customer").prop('checked', true);
-                }
-                if (data.type === "vendor") {
-                    $("#vendor").prop('checked', true);
-                }
+                $('#norek').val(data.norek);
+                $('#nohp').val(data.nohp);
+                $('#level').val(data.level);
+                $('#divisi').val(data.divisi);
+                $('#company').val(data.company);
+                $('#penempatan').val(data.penempatan);
+                $('#direct_manager').val(data.direct_manager);
+                $('#role').val(data.role);
+                $('#spesialisasi').val(data.spesialisasi);
+                $('#pkwt_start').val((data.pkwt_start).split("-").reverse().join("-"));
+                $('#pkwt_end').val((data.pkwt_end).split("-").reverse().join("-"));
+                $('#email_ist').val(data.email_ist);
+                $('#email').val(data.email);
 
                 id = $('#id').val();
 
