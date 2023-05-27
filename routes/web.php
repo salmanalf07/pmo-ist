@@ -56,3 +56,57 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_employee', [employeeController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_employee/{id}', [employeeController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_employee/{id}', [employeeController::class, 'destroy']);
+//project list
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectInfo', function () {
+        return view('project/projectInfo', ['judul' => "Project"]);
+    })->name('projectInfo');
+});
+//projectinfo
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/inputProject', function () {
+        return view('project/inputProject', ['judul' => "Project"]);
+    })->name('inputProject');
+});
+//Detail Order
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/detailOrder', function () {
+        return view('project/detailOrder', ['judul' => "Project"]);
+    })->name('detailOrder');
+});
+//TOP
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/top', function () {
+        return view('project/top', ['judul' => "Project"]);
+    })->name('top');
+});
+//Project Member
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/projectMember', function () {
+        return view('project/projectMember', ['judul' => "Project"]);
+    })->name('projectMember');
+});
+//scopeHighLevel
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/scopeHighLevel', function () {
+        return view('project/scopeHighLevel', ['judul' => "Project"]);
+    })->name('scopeHighLevel');
+});
+//riskIssues
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/riskIssues', function () {
+        return view('project/riskIssues', ['judul' => "Project"]);
+    })->name('riskIssues');
+});
+//projectTimline
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/projectTimeline', function () {
+        return view('project/projectTimeline', ['judul' => "Project"]);
+    })->name('projectTimeline');
+});
+//mandays
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/mandays', function () {
+        return view('project/mandays', ['judul' => "Project"]);
+    })->name('mandays');
+});

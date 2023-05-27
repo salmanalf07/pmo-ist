@@ -14,41 +14,9 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
                 <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDashboard" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-display="static">
-                            Home
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarDashboard">
-                            <li>
-                                <a class="dropdown-item" href="profile">
-                                    Team
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="profile">
-                                    Project Metodology
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="profile">
-                                    Template & Guidline
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="profile">
-                                    Arrange a Google Meet
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="profile">
-                                    IG : PMO link of communities</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-
-
+                    <a class="nav-link" href="/profile">
+                        Home
+                    </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarApps" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Project
@@ -56,12 +24,12 @@
                         <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarApps">
 
                             <li>
-                                <a class="dropdown-item" href="../horizontal/calendar.html">
+                                <a class="dropdown-item" href="/projectInfo">
                                     Project List
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="customers">
+                                <a class="dropdown-item" href="/customers">
                                     Customers
                                 </a>
                             </li>
@@ -81,7 +49,7 @@
                                 <ul class="dropdown-menu">
 
                                     <li>
-                                        <a href="employee" class="dropdown-item">
+                                        <a href="/employee" class="dropdown-item">
                                             By List
                                         </a>
                                     </li>
@@ -141,7 +109,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="dashboard" id="navbarBaseUI">
+                        <a class="nav-link" href="/dashboard" id="navbarBaseUI">
                             Dashboard
                         </a>
                     </li>
