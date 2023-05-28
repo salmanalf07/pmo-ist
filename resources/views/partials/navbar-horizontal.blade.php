@@ -14,104 +14,40 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
                 <ul class="navbar-nav">
-                    <a class="nav-link" href="/profile">
+                    <a class="nav-link pe-5" href="/profile">
                         Home
                     </a>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarApps" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Project
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarApps">
-
-                            <li>
-                                <a class="dropdown-item" href="/projectInfo">
-                                    Project List
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/customers">
-                                    Customers
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarAuthentication" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Resources
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarAuthentication">
-
-                            <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
-                                    Resources
-                                </a>
-                                <ul class="dropdown-menu">
-
-                                    <li>
-                                        <a href="/employee" class="dropdown-item">
-                                            By List
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="../horizontal/invoice-list.html" class="dropdown-item">
-                                            By Project
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="../horizontal/invoice-detail.html" class="dropdown-item">
-                                            By Role
-                                        </a>
-                                    </li>
-                                </ul>
-
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle" href="#" id="layoutsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            CRM
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="layoutsDropdown">
-                            <li class="nav-item">
-                                <a class="dropdown-item" href="../index.html">
-                                    Customers
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="dropdown-item" href="../horizontal/index.html">Pipeline</a>
-                            </li>
-
-
-
-                        </ul>
-                    </li>
-
+                    <a class="nav-link pe-5" href="/projectInfo">
+                        Project
+                    </a>
+                    <a class="nav-link pe-5" href="/employee">
+                        Resources
+                    </a>
+                    <a class="nav-link pe-5" href="/customers">
+                        Resources
+                    </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Vendor
+                            Dashboard
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
 
                             <li>
-                                <a class="dropdown-item" href="../horizontal/pricing.html">
-                                    Vendor
+                                <a class="dropdown-item" href="/dashboard">
+                                    Management Dashboard
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="../horizontal/starter.html">
-                                    Project
+                                    Project Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="../horizontal/starter.html">
+                                    Resources Dashboard
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="/dashboard" id="navbarBaseUI">
-                            Dashboard
-                        </a>
                     </li>
                 </ul>
             </div>

@@ -1,173 +1,129 @@
 @extends('/project/navbarInput')
 
 @section('inputan')
+<style>
+    .input-80 td {
+        padding: 5px;
+    }
+
+    .input-80 input {
+        width: 100% !important;
+    }
+
+    .input-100 td {
+        padding: 0;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+
+    .input-100 input {
+        width: 100% !important;
+    }
+</style>
 <div>
     <!-- row -->
 
     <div class="row">
-        <div class="col-lg-8 col-12">
+        <div class="col-lg-12 col-12">
             <!-- card -->
             <div class="card mb-4">
                 <!-- card body -->
                 <div class="card-body">
-                    <div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product Title</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title" required>
-                        </div>
-                        <!-- input -->
-                        <div>
-                            <label class="form-label">Product Description</label>
-                            <div class="pb-8" id="editor"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <div class="mb-4">
-                            <!-- heading -->
-                            <h4 class="mb-4">Product Gallery</h4>
-                            <h5 class="mb-1">Product Image</h5>
-                            <p>Add Product main Image.</p>
-                            <!-- input -->
-                            <input type="file" class="form-control">
-                        </div>
-                        <div>
-                            <!-- heading -->
-                            <h5 class="mb-1">Product Gallery</h5>
-                            <p>Add Product Gallery Images.</p>
-                            <!-- input -->
-                            <form action="#" class="d-block dropzone border-dashed rounded-2">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="form-check form-switch mb-4">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
-                        <label class="form-check-label" for="flexSwitchStock">In Stock</label>
-                    </div>
-                    <!-- input -->
-                    <div>
-                        <div class="mb-3">
-                            <label class="form-label">Product Code</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product SKU</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label" id="productSKU">Gender</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                    <form action="">
+                        <div class="row">
+                            <!-- cpation on top -->
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th style="width: 5% !important;" scope="col">No</th>
+                                        <th style="width: 35% !important;" scope="col">Item</th>
+                                        <th style="width: 20% !important;" scope="col">Rev</th>
+                                        <th style="width: 20% !important;" scope="col">COGS</th>
+                                        <th style="width: 20% !important;" scope="col">GP %</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailOrder">
+                                    <tr class="input-100">
+                                        <td class="text-center">1</td>
+                                        <td><input type="text"></td>
+                                        <td><input type="text" class="number-input"></td>
+                                        <td><input type="text" class="number-input"></td>
+                                        <td><input type="text" class="number-input"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="input-80">
+                                    <tr>
+                                        <th colspan="2" class="text-end">Sub Total</th>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-end">PPN</th>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-end">Total</th>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                        <td><input type="text" readonly></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="mb-3 col-1" style="width: 10%;">
+                                <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
                             </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                            <div class="mb-3 col-1" style="width: 12%;">
+                                <button type="button" onclick="removeRow()" class="btn btn-danger">Remove Row</button>
                             </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-                                <label class="form-check-label" for="inlineRadio3">Kids</label>
+                            <div class="mb-3 col-1" style="width: 15%;">
+                                <button type="submit" class="btn btn-primary"> Save & Next</button>
                             </div>
                         </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label">Category</label>
-                                <a href="#!" class="btn-link fw-semi-bold">Add New</a>
-                            </div>
-                            <!-- select menu -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Shoe</option>
-                                <option value="1">Sunglasses</option>
-                                <option value="2">Handbag</option>
-                                <option value="3">Slingbag</option>
-                            </select>
-                        </div>
-                        <!-- tag -->
-                        <div class="mb-3">
-                            <label class="form-label">Tags
-                            </label>
-                            <input name='tags' value='' class="form-control w-100">
-                        </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- select -->
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Published</option>
-                            <option value="1">Unpublished</option>
-                            <option value="2">Draft</option>
-                        </select>
-                    </div>
-                    <!-- date -->
-                    <div class="mb-3">
-                        <label class="form-label">Schedule</label>
-                        <div class="input-group me-3 flatpickr rounded">
-                            <input class="form-control " type="text" placeholder="Select Date" aria-describedby="basic-addon2">
-
-                            <span class="input-group-text text-muted" id="basic-addon2"><i data-feather="calendar" class="icon-xs"></i></span>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Regular Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Sale Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="priceIncluded" checked>
-                        <label class="form-check-label" for="priceIncluded">
-                            Price includes taxes</label>
-                    </div>
-                </div>
-            </div>
-            <!-- button -->
-            <div class="d-grid">
-                <a href="#!" class="btn btn-primary">
-                    Create Product
-                </a>
             </div>
         </div>
     </div>
 </div>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script>
+    function addRow() {
+        var table = document.getElementById("detailOrder");
+        var lastRow = table.rows[table.rows.length - 1]; // Mendapatkan row terakhir
+        var cell1Last = lastRow.cells[0]; // Mengambil sel pertama pada row terakhir
+        var newData = parseInt(cell1Last.innerHTML); // Mengambil data dari sel pertama dan mengubahnya ke tipe integer
+        var result = newData + 1;
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+        var cell0 = row.insertCell(0);
+        cell0.innerHTML = result;
+        cell0.classList.add("text-center");
+
+        for (let i = 1; i <= 4; i++) {
+            var cell = row.insertCell(i)
+            var newInput = document.createElement("input"); // Membuat elemen input baru
+            newInput.type = "text"; // Mengatur tipe input menjadi teks
+            if (i >= "2") {
+                newInput.className = "number-input";
+            }
+            (cell).appendChild(newInput);
+        }
+        $(".number-input").on("input", function() {
+            formatNumber(this);
+        });
+    }
+
+    function removeRow() {
+        var table = document.getElementById("detailOrder");
+        var lastRowIndex = table.rows.length - 1;
+
+        if (lastRowIndex > 0) {
+            table.deleteRow(lastRowIndex);
+        }
+    }
+</script>
 @endsection

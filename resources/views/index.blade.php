@@ -19,7 +19,8 @@
     <!-- datatable -->
     <link href="/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
-
+    <!-- select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="/assets/css/theme.min.css">
@@ -65,6 +66,10 @@
     <script src="/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="/assets/js/vendors/datatable.js"></script>
 
+    <!-- select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- ribuan -->
+    <script src="/assets/js/ribuan.js"></script>
 
 
 </body>
