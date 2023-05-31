@@ -1,173 +1,167 @@
 @extends('/project/navbarInput')
 
 @section('inputan')
+<style>
+    .input-80 input {
+        width: 80% !important;
+    }
+
+    .input-100 input {
+        width: 100% !important;
+        border: 1px solid grey;
+        border-radius: 0.2rem;
+        height: 2.4rem;
+    }
+
+    .input-100 td {
+        padding: 0.5rem;
+    }
+</style>
+<!-- custom select2 -->
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div>
     <!-- row -->
 
     <div class="row">
-        <div class="col-lg-8 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product Title</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title" required>
-                        </div>
-                        <!-- input -->
-                        <div>
-                            <label class="form-label">Product Description</label>
-                            <div class="pb-8" id="editor"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <div class="mb-4">
-                            <!-- heading -->
-                            <h4 class="mb-4">Product Gallery</h4>
-                            <h5 class="mb-1">Product Image</h5>
-                            <p>Add Product main Image.</p>
-                            <!-- input -->
-                            <input type="file" class="form-control">
-                        </div>
-                        <div>
-                            <!-- heading -->
-                            <h5 class="mb-1">Product Gallery</h5>
-                            <p>Add Product Gallery Images.</p>
-                            <!-- input -->
-                            <form action="#" class="d-block dropzone border-dashed rounded-2">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="form-check form-switch mb-4">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
-                        <label class="form-check-label" for="flexSwitchStock">In Stock</label>
-                    </div>
-                    <!-- input -->
-                    <div>
-                        <div class="mb-3">
-                            <label class="form-label">Product Code</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product SKU</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label" id="productSKU">Gender</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-                                <label class="form-check-label" for="inlineRadio3">Kids</label>
-                            </div>
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label">Category</label>
-                                <a href="#!" class="btn-link fw-semi-bold">Add New</a>
-                            </div>
-                            <!-- select menu -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Shoe</option>
-                                <option value="1">Sunglasses</option>
-                                <option value="2">Handbag</option>
-                                <option value="3">Slingbag</option>
-                            </select>
-                        </div>
-                        <!-- tag -->
-                        <div class="mb-3">
-                            <label class="form-label">Tags
-                            </label>
-                            <input name='tags' value='' class="form-control w-100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- select -->
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Published</option>
-                            <option value="1">Unpublished</option>
-                            <option value="2">Draft</option>
-                        </select>
-                    </div>
-                    <!-- date -->
-                    <div class="mb-3">
-                        <label class="form-label">Schedule</label>
-                        <div class="input-group me-3 flatpickr rounded">
-                            <input class="form-control " type="text" placeholder="Select Date" aria-describedby="basic-addon2">
+        <div class="col-xxl-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Project Member</h4>
 
-                            <span class="input-group-text text-muted" id="basic-addon2"><i data-feather="calendar" class="icon-xs"></i></span>
-
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
                 <div class="card-body">
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Regular Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Sale Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="priceIncluded" checked>
-                        <label class="form-check-label" for="priceIncluded">
-                            Price includes taxes</label>
+                    <div class="table-responsive table-card">
+                        <table class="table table-centered text-nowrap mb-0">
+                            <thead class="table-light">
+                                <tr class="text-center">
+                                    <th style="width: 35%;">Name</th>
+                                    <th style="width: 20%;">Role</th>
+                                    <th style="width: 20%;">Dept/Div</th>
+                                    <th style="width: 20%;">Competency</th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailOrder">
+                                <tr class="input-100">
+                                    <td>
+                                        <select name="customer" id="customer" class="select2" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="banking">Bangking</option>
+                                            <option value="goverment">goverment</option>
+                                            <option value="bumn">BUMN</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="role" id="role" class="select2" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="banking">Bangking</option>
+                                            <option value="goverment">goverment</option>
+                                            <option value="bumn">BUMN</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" readonly>
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <i data-feather="trash-2" class="icon-xs"></i>
+                                            <div id="trashOne" class="d-none">
+                                                <span>Delete</span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <!-- button -->
-            <div class="d-grid">
-                <a href="#!" class="btn btn-primary">
-                    Create Product
-                </a>
+                <div class="card-footer  justify-content-between d-flex">
+                    <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
+                    <a href="#!" class="btn btn-primary">Save & Next</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+<script>
+    function addRow() {
+        var table = document.getElementById("detailOrder");
+        var tableRange = table.rows.length
+        var lastRow = table.rows[table.rows.length - 1];
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+
+
+        for (let j = 0; j <= 1; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+
+            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            newCell5.appendChild(clonedSelect);
+
+            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+
+            // Mengaktifkan kembali Select2 pada elemen select yang baru
+            $(clonedSelect).select2();
+
+            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+            });
+        }
+
+        // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
+        $('select').select2();
+
+        for (let j = 2; j <= 4; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+
+            if (j == 4) {
+                cell5.addEventListener("click", function() {
+                    deleteRow(this);
+                });
+                newCell5.addEventListener("click", function() {
+                    deleteRow(this);
+                });
+            }
+        }
+    }
+
+    // Fungsi untuk menghapus baris
+    function deleteRow(button) {
+        var row = button.closest("tr");
+        row.parentNode.removeChild(row);
+    }
+</script>
 @endsection

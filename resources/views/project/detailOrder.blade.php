@@ -2,89 +2,97 @@
 
 @section('inputan')
 <style>
-    .input-80 td {
-        padding: 5px;
-    }
-
-    .input-80 input {
+    .input-100 input {
         width: 100% !important;
+        border: 1px solid grey;
+        border-radius: 0.2rem;
+        height: 2rem;
     }
 
     .input-100 td {
-        padding: 0;
-        padding-top: 0.75rem !important;
-        padding-bottom: 0.75rem !important;
-    }
-
-    .input-100 input {
-        width: 100% !important;
+        padding: 0.5rem;
     }
 </style>
 <div>
     <!-- row -->
 
     <div class="row">
-        <div class="col-lg-12 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
+        <div class="col-xxl-9 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Detail Order</h4>
+
+                </div>
                 <div class="card-body">
-                    <form action="">
-                        <div class="row">
-                            <!-- cpation on top -->
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th style="width: 5% !important;" scope="col">No</th>
-                                        <th style="width: 35% !important;" scope="col">Item</th>
-                                        <th style="width: 20% !important;" scope="col">Rev</th>
-                                        <th style="width: 20% !important;" scope="col">COGS</th>
-                                        <th style="width: 20% !important;" scope="col">GP %</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="detailOrder">
-                                    <tr class="input-100">
-                                        <td class="text-center">1</td>
-                                        <td><input type="text"></td>
-                                        <td><input type="text" class="number-input"></td>
-                                        <td><input type="text" class="number-input"></td>
-                                        <td><input type="text" class="number-input"></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot class="input-80">
-                                    <tr>
-                                        <th colspan="2" class="text-end">Sub Total</th>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2" class="text-end">PPN</th>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2" class="text-end">Total</th>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                        <td><input type="text" readonly></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <div class="mb-3 col-1" style="width: 10%;">
-                                <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
-                            </div>
-                            <div class="mb-3 col-1" style="width: 12%;">
-                                <button type="button" onclick="removeRow()" class="btn btn-danger">Remove Row</button>
-                            </div>
-                            <div class="mb-3 col-1" style="width: 15%;">
-                                <button type="submit" class="btn btn-primary"> Save & Next</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="table-responsive table-card">
+                        <table class="table table-centered text-nowrap mb-0">
+                            <thead class="table-light">
+                                <tr class="text-center">
+                                    <th style="width: 35%;">Item</th>
+                                    <th style="width: 20%;">Rev</th>
+                                    <th style="width: 20%;">COGS</th>
+                                    <th style="width: 20%;">GP %</th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailOrder">
+                                <tr class="input-100">
+                                    <td>
+                                        <input type="text">
+                                    </td>
+                                    <td><input type="text" class="number-input"></td>
+                                    <td>
+                                        <input type="text" class="number-input">
+                                    </td>
+                                    <td><input type="text" class="number-input"></td>
+                                    <td>
+                                        <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <i data-feather="trash-2" class="icon-xs"></i>
+                                            <div id="trashOne" class="d-none">
+                                                <span>Delete</span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer  justify-content-between d-flex">
+                    <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
+                    <a href="#!" class="btn btn-primary">Save & Next</a>
                 </div>
             </div>
+        </div>
+        <div class="col-xxl-3 col-12">
+            <div class="card mb-4 mt-4 mt-xxl-0">
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between mb-3">
+                            <span>Sub Total :</span>
+                            <span>$340.00</span>
+
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <span>PPN : </span>
+                            <span class="text-success">-$51.00</span>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between">
+                            <span class="text-dark">Total</span>
+                            <span class="text-primary ">$368.00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -92,38 +100,47 @@
 <script>
     function addRow() {
         var table = document.getElementById("detailOrder");
-        var lastRow = table.rows[table.rows.length - 1]; // Mendapatkan row terakhir
-        var cell1Last = lastRow.cells[0]; // Mengambil sel pertama pada row terakhir
-        var newData = parseInt(cell1Last.innerHTML); // Mengambil data dari sel pertama dan mengubahnya ke tipe integer
-        var result = newData + 1;
+        var lastRow = table.rows[table.rows.length - 1];
+        var cell4 = lastRow.cells[4]; // Mengambil sel keempat (cell 4)
 
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
-        var cell0 = row.insertCell(0);
-        cell0.innerHTML = result;
-        cell0.classList.add("text-center");
 
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 0; i <= 3; i++) {
             var cell = row.insertCell(i)
             var newInput = document.createElement("input"); // Membuat elemen input baru
             newInput.type = "text"; // Mengatur tipe input menjadi teks
-            if (i >= "2") {
+            if (i >= "1") {
                 newInput.className = "number-input";
             }
             (cell).appendChild(newInput);
         }
+
+        var newCell4 = row.insertCell(4);
+        // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+        var clonedContent = cell4.cloneNode(true);
+        var childNodes = clonedContent.childNodes;
+
+        // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+        for (var i = 0; i < childNodes.length; i++) {
+            newCell4.appendChild(childNodes[i].cloneNode(true));
+        }
+        newCell4.addEventListener("click", function() {
+            deleteRow(this);
+        });
+        cell4.addEventListener("click", function() {
+            deleteRow(this);
+        });
+
         $(".number-input").on("input", function() {
             formatNumber(this);
         });
     }
 
-    function removeRow() {
-        var table = document.getElementById("detailOrder");
-        var lastRowIndex = table.rows.length - 1;
-
-        if (lastRowIndex > 0) {
-            table.deleteRow(lastRowIndex);
-        }
+    // Fungsi untuk menghapus baris
+    function deleteRow(button) {
+        var row = button.closest("tr");
+        row.parentNode.removeChild(row);
     }
 </script>
 @endsection

@@ -1,173 +1,151 @@
 @extends('/project/navbarInput')
 
 @section('inputan')
+<style>
+    .input-80 input {
+        width: 80% !important;
+    }
+
+    .input-100 input {
+        width: 100% !important;
+        border: 1px solid grey;
+        border-radius: 0.2rem;
+        height: 2rem;
+    }
+
+    .input-100 td {
+        padding: 0.5rem;
+    }
+</style>
 <div>
     <!-- row -->
 
     <div class="row">
-        <div class="col-lg-8 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product Title</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title" required>
-                        </div>
-                        <!-- input -->
-                        <div>
-                            <label class="form-label">Product Description</label>
-                            <div class="pb-8" id="editor"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <div class="mb-4">
-                            <!-- heading -->
-                            <h4 class="mb-4">Product Gallery</h4>
-                            <h5 class="mb-1">Product Image</h5>
-                            <p>Add Product main Image.</p>
-                            <!-- input -->
-                            <input type="file" class="form-control">
-                        </div>
-                        <div>
-                            <!-- heading -->
-                            <h5 class="mb-1">Product Gallery</h5>
-                            <p>Add Product Gallery Images.</p>
-                            <!-- input -->
-                            <form action="#" class="d-block dropzone border-dashed rounded-2">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="form-check form-switch mb-4">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
-                        <label class="form-check-label" for="flexSwitchStock">In Stock</label>
-                    </div>
-                    <!-- input -->
-                    <div>
-                        <div class="mb-3">
-                            <label class="form-label">Product Code</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product SKU</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label" id="productSKU">Gender</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-                                <label class="form-check-label" for="inlineRadio3">Kids</label>
-                            </div>
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label">Category</label>
-                                <a href="#!" class="btn-link fw-semi-bold">Add New</a>
-                            </div>
-                            <!-- select menu -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Shoe</option>
-                                <option value="1">Sunglasses</option>
-                                <option value="2">Handbag</option>
-                                <option value="3">Slingbag</option>
-                            </select>
-                        </div>
-                        <!-- tag -->
-                        <div class="mb-3">
-                            <label class="form-label">Tags
-                            </label>
-                            <input name='tags' value='' class="form-control w-100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- select -->
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Published</option>
-                            <option value="1">Unpublished</option>
-                            <option value="2">Draft</option>
-                        </select>
-                    </div>
-                    <!-- date -->
-                    <div class="mb-3">
-                        <label class="form-label">Schedule</label>
-                        <div class="input-group me-3 flatpickr rounded">
-                            <input class="form-control " type="text" placeholder="Select Date" aria-describedby="basic-addon2">
+        <div class="col-xxl-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Turn Of Payment</h4>
 
-                            <span class="input-group-text text-muted" id="basic-addon2"><i data-feather="calendar" class="icon-xs"></i></span>
-
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
                 <div class="card-body">
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Regular Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Sale Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="priceIncluded" checked>
-                        <label class="form-check-label" for="priceIncluded">
-                            Price includes taxes</label>
+                    <div class="table-responsive table-card">
+                        <table class="table table-centered text-nowrap mb-0">
+                            <thead class="table-light">
+                                <tr class="text-center">
+                                    <th style="width: 30%;">Name TOP</th>
+                                    <th style="width: 20%;">Value</th>
+                                    <th style="width: 15%;">Plant BAST</th>
+                                    <th style="width: 15%;">Invoice Date</th>
+                                    <th style="width: 15%;">Payment Date</th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailOrder">
+                                <tr class="input-100">
+                                    <td>
+                                        <input type="text">
+                                    </td>
+                                    <td><input type="text" class="number-input"></td>
+                                    <td>
+                                        <div class="input-group me-3">
+                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group me-3">
+                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group me-3 ">
+                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <i data-feather="trash-2" class="icon-xs"></i>
+                                            <div id="trashOne" class="d-none">
+                                                <span>Delete</span>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-            <!-- button -->
-            <div class="d-grid">
-                <a href="#!" class="btn btn-primary">
-                    Create Product
-                </a>
+                <div class="card-footer  justify-content-between d-flex">
+                    <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
+                    <a href="#!" class="btn btn-primary">Save & Next</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script>
+    flatpickr(".datepicker", {
+        dateFormat: "d-m-Y",
+        defaultDate: "today",
+    });
+</script>
+<script>
+    function addRow() {
+        var table = document.getElementById("detailOrder");
+        var lastRow = table.rows[table.rows.length - 1];
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+
+        for (let i = 0; i <= 1; i++) {
+            var cell = row.insertCell(i)
+            var newInput = document.createElement("input"); // Membuat elemen input baru
+            newInput.type = "text"; // Mengatur tipe input menjadi teks
+            if (i >= "1") {
+                newInput.className = "number-input";
+            }
+            (cell).appendChild(newInput);
+        }
+
+        for (let j = 2; j <= 5; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+
+            flatpickr(".datepicker", {
+                dateFormat: "d-m-Y",
+                defaultDate: "today",
+            });
+        }
+
+
+        newCell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+        cell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+
+        $(".number-input").on("input", function() {
+            formatNumber(this);
+        });
+    }
+
+    // Fungsi untuk menghapus baris
+    function deleteRow(button) {
+        var row = button.closest("tr");
+        row.parentNode.removeChild(row);
+    }
+</script>
 @endsection
