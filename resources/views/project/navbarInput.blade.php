@@ -19,26 +19,25 @@
                         <!-- nav -->
                         <ul class="nav nav-lt-tab px-4" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/inputProject') ? 'active' : '' }}" href="inputProject">Project Info</a>
+                                <a class="nav-link {{ request()->is('project/inputProject') ? 'active' : '' }}" href="inputProject">Project</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('project/detailOrder') ? 'active' : '' }}" href="detailOrder">Detail Order</a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/top') ? 'active' : '' }}" href="top">TOP</a>
+                                <a class="nav-link {{ request()->is('project/top') ? 'active' : '' }}" href="top">Terms</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/projectMember') ? 'active' : '' }}" href="projectMember">Project Member</a>
+                                <a class="nav-link {{ request()->is('project/scopeHighLevel') ? 'active' : '' }}" href="scopeHighLevel">Scope</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/scopeHighLevel') ? 'active' : '' }}" href="scopeHighLevel">Scope High Level</a>
+                                <a class="nav-link {{ request()->is('project/projectMember') ? 'active' : '' }}" href="projectMember">Member</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('project/riskIssues') ? 'active' : '' }}" href="riskIssues">Risk/Issues</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/projectTimeline') ? 'active' : '' }}" href="projectTimeline">Project Timeline</a>
+                                <a class="nav-link {{ request()->is('project/projectTimeline') ? 'active' : '' }}" href="projectTimeline">Timeline</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('project/mandays') ? 'active' : '' }}" href="mandays">Mandays</a>
