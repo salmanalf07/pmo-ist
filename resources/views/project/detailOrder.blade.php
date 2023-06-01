@@ -4,7 +4,7 @@
 <style>
     .input-100 input {
         width: 100% !important;
-        border: 1px solid grey;
+        border: 1px solid black;
         border-radius: 0.2rem;
         height: 2rem;
     }

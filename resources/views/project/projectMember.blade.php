@@ -8,7 +8,7 @@
 
     .input-100 input {
         width: 100% !important;
-        border: 1px solid grey;
+        border: 1px solid black;
         border-radius: 0.2rem;
         height: 2.4rem;
     }
@@ -34,36 +34,60 @@
                         <table class="table table-centered text-nowrap mb-0">
                             <thead class="table-light">
                                 <tr class="text-center">
-                                    <th style="width: 35%;">Name</th>
+                                    <th style="width: 30%;">Name</th>
                                     <th style="width: 20%;">Role</th>
-                                    <th style="width: 20%;">Dept/Div</th>
-                                    <th style="width: 20%;">Competency</th>
+                                    <th style="width: 15%;">Dept/Div</th>
+                                    <th style="width: 10%;">Start Date</th>
+                                    <th style="width: 10%;">End Date</th>
+                                    <th style="width: 10%;">Plan Mandays</th>
                                     <th style="width: 5%;"></th>
                                 </tr>
                             </thead>
                             <tbody id="detailOrder">
                                 <tr class="input-100">
                                     <td>
-                                        <select name="customer" id="customer" class="select2" aria-label="Default select example">
+                                        <select name="employee" id="employee" class="select2" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
-                                            <option value="banking">Bangking</option>
-                                            <option value="goverment">goverment</option>
-                                            <option value="bumn">BUMN</option>
+                                            @foreach($employee as $employee)
+                                            <option value="{{$employee->id}}">{{$employee->name}}</option>
+                                            @endforeach
                                         </select>
                                     </td>
                                     <td>
                                         <select name="role" id="role" class="select2" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
-                                            <option value="banking">Bangking</option>
-                                            <option value="goverment">goverment</option>
-                                            <option value="bumn">BUMN</option>
+                                            <option value="ProjectManager">Project Manager</option>
+                                            <option value="LeadFrontendDeveloper">Lead Frontend Developer</option>
+                                            <option value="FrontendDeveloper">Frontend Developer</option>
+                                            <option value="LeadBackendDeveloper">Lead Backend Developer</option>
+                                            <option value="BackendEngineer">Backend Engineer</option>
+                                            <option value="BussinessAnalyst">Bussiness Analyst</option>
+                                            <option value="Devops/IntegrationEngineer">Devops / Integration Engineer</option>
+                                            <option value="LeadQA">Lead QA</option>
+                                            <option value="QATester/QAEngineer">QA Tester / QA Engineer</option>
+                                            <option value="TechnicalWriter/UIUXWriter">Technical Writer / UI UX Writer</option>
+                                            <option value="UIUXAnalyst/ResearcherDesigner">UI UX Analyst / Researcher Designer</option>
+                                            <option value="ScrumMaster">Scrum Master</option>
+                                            <option value="FullstackDeveloper">Fullstack Developer</option>
+                                            <option value="SystemAnalyst">System Analyst</option>
+
                                         </select>
                                     </td>
                                     <td>
                                         <input type="text" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" readonly>
+                                        <div class="input-group me-3">
+                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group me-3">
+                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="0">
                                     </td>
                                     <td>
                                         <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -90,7 +114,12 @@
     </div>
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script>
+    flatpickr(".datepicker", {
+        dateFormat: "d-m-Y",
+        defaultDate: "today",
+    });
     $(document).ready(function() {
         $('.select2').select2();
     });
@@ -135,7 +164,7 @@
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
         $('select').select2();
 
-        for (let j = 2; j <= 4; j++) {
+        for (let j = 2; j <= 6; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -146,8 +175,13 @@
             for (var k = 0; k < childNodes.length; k++) {
                 newCell5.appendChild(childNodes[k].cloneNode(true));
             }
-
-            if (j == 4) {
+            if (j == 4 || j == 5) {
+                flatpickr(".datepicker", {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "today",
+                });
+            }
+            if (j == 6) {
                 cell5.addEventListener("click", function() {
                     deleteRow(this);
                 });

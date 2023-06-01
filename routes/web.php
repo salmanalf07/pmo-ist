@@ -92,37 +92,38 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 //TOP
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/top', function () {
-        return view('project/top', ['judul' => "Project"]);
+    Route::get('/project/top/{id}', function ($id) {
+        return view('project/top', ['judul' => "Project", 'id' => $id]);
     })->name('top');
 });
 //Project Member
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/projectMember', function () {
-        return view('project/projectMember', ['judul' => "Project"]);
+    Route::get('/project/projectMember/{id}', function ($id) {
+        $employee = employee::get();
+        return view('project/projectMember', ['judul' => "Project", 'id' => $id, "employee" => $employee]);
     })->name('projectMember');
 });
 //scopeHighLevel
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/scopeHighLevel', function () {
-        return view('project/scopeHighLevel', ['judul' => "Project"]);
+    Route::get('/project/scopeHighLevel/{id}', function ($id) {
+        return view('project/scopeHighLevel', ['judul' => "Project", 'id' => $id]);
     })->name('scopeHighLevel');
 });
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/riskIssues', function () {
-        return view('project/riskIssues', ['judul' => "Project"]);
+    Route::get('/project/riskIssues/{id}', function ($id) {
+        return view('project/riskIssues', ['judul' => "Project", 'id' => $id]);
     })->name('riskIssues');
 });
 //projectTimline
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/projectTimeline', function () {
-        return view('project/projectTimeline', ['judul' => "Project"]);
+    Route::get('/project/projectTimeline/{id}', function ($id) {
+        return view('project/projectTimeline', ['judul' => "Project", 'id' => $id]);
     })->name('projectTimeline');
 });
 //mandays
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/mandays', function () {
-        return view('project/mandays', ['judul' => "Project"]);
+    Route::get('/project/mandays/{id}', function ($id) {
+        return view('project/mandays', ['judul' => "Project", 'id' => $id]);
     })->name('mandays');
 });

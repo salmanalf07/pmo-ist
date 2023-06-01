@@ -8,7 +8,7 @@
 
     .input-100 input {
         width: 100% !important;
-        border: 1px solid grey;
+        border: 1px solid black;
         border-radius: 0.2rem;
         height: 2rem;
     }
@@ -24,7 +24,7 @@
         <div class="col-xxl-12 col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">Turn Of Payment</h4>
+                    <h4 class="mb-0">Terms Of Payment</h4>
 
                 </div>
                 <div class="card-body">
