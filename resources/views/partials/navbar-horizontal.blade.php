@@ -24,7 +24,7 @@
                         Resources
                     </a>
                     <a class="nav-link pe-5" href="/customers">
-                        Resources
+                        Customers
                     </a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

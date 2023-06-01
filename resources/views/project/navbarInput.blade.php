@@ -19,28 +19,28 @@
                         <!-- nav -->
                         <ul class="nav nav-lt-tab px-4" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/inputProject') ? 'active' : '' }}" href="inputProject">Project</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/inputProject') ? 'active' : '' }}" href="/project/inputProject">Project</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/detailOrder') ? 'active' : '' }}" href="detailOrder">Detail Order</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/detailOrder') ? 'active' : '' }}" < href="{{ isset($id) ? '/project/detailOrder/' . $id : '/project/detailOrder' }}">Detail Order</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/top') ? 'active' : '' }}" href="top">Terms</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/top') ? 'active' : '' }}" href="/project/top">Terms</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/scopeHighLevel') ? 'active' : '' }}" href="scopeHighLevel">Scope</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/scopeHighLevel') ? 'active' : '' }}" href="/project/scopeHighLevel">Scope</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/projectMember') ? 'active' : '' }}" href="projectMember">Member</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectMember') ? 'active' : '' }}" href="/project/projectMember">Member</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/riskIssues') ? 'active' : '' }}" href="riskIssues">Risk/Issues</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/riskIssues') ? 'active' : '' }}" href="/project/riskIssues">Risk/Issues</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/projectTimeline') ? 'active' : '' }}" href="projectTimeline">Timeline</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectTimeline') ? 'active' : '' }}" href="/project/projectTimeline">Timeline</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->is('project/mandays') ? 'active' : '' }}" href="mandays">Mandays</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/mandays') ? 'active' : '' }}" href="/project/mandays">Mandays</a>
                             </li>
                         </ul>
                     </div>

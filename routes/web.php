@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\customerController;
 use App\Http\Controllers\employeeController;
+use App\Http\Controllers\projectController;
+use App\Models\Customer;
+use App\Models\employee;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,16 +66,28 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('project/projectInfo', ['judul' => "Project"]);
     })->name('projectInfo');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);
 //projectinfo
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/inputProject', function () {
-        return view('project/inputProject', ['judul' => "Project"]);
+        $project = Project::select('noProject')->latest()->first();
+        if (!$project) {
+            $noProject = 1;
+        } else {
+            $noProject = $project->noProject + 1;
+        }
+        $customer = Customer::where('type', 'customer')->get();
+        $partner = Customer::where('type', 'partner')->get();
+        $employee = employee::get();
+        return view('project/inputProject', ['judul' => "Project", 'customer' => $customer, 'partner' => $partner, 'employee' => $employee, 'noProject' => $noProject]);
     })->name('inputProject');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_project', [projectController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/inputProject/{id}', [projectController::class, 'edit'])->name('editProject');
 //Detail Order
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/detailOrder', function () {
-        return view('project/detailOrder', ['judul' => "Project"]);
+    Route::get('/project/detailOrder/{id}', function ($id) {
+        return view('project/detailOrder', ['judul' => "Project", 'id' => $id]);
     })->name('detailOrder');
 });
 //TOP
