@@ -20,7 +20,7 @@
                             <!-- input -->
                             <div class="mb-3">
                                 <label class="form-label">Project ID</label>
-                                <input name="noProject" id="noProject" type="text" class="form-control" readonly>
+                                <input name="noProject" id="noProject" value="{{ (isset($noProject)) ? $noProject : $data->noProject }}" type="text" class="form-control" readonly>
                             </div>
                             <div class="mb-3 col-6">
                                 <label class="form-label" for="selectOne">Customer</label>
