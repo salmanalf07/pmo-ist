@@ -53,19 +53,9 @@
             ],
             "autoWidth": false,
             "columnDefs": [{
-                    "className": "text-center",
-                    "targets": [3], // table ke 1
-                },
-                {
-                    targets: 0, // Nomor indeks kolom yang ingin dibatasi karakternya
-                    render: function(data, type, row) {
-                        if (type === 'display' && data.length > 10) {
-                            return data.substr(0, 10) + '...'; // Batasi menjadi 10 karakter dan tambahkan elipsis
-                        }
-                        return data;
-                    }
-                }
-            ],
+                "className": "text-center",
+                "targets": [3], // table ke 1
+            }],
             ajax: {
                 url: '{{ url("json_project") }}'
             },
