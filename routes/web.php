@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\customerController;
 use App\Http\Controllers\employeeController;
+use App\Http\Controllers\orderController;
 use App\Http\Controllers\projectController;
+use App\Http\Controllers\scopeProjectController;
+use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
 use App\Models\employee;
+use App\Models\Order;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
@@ -85,17 +89,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_project', [projectController::class, 'store']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/inputProject/{id}', [projectController::class, 'edit'])->name('editProject');
 //Detail Order
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/detailOrder/{id}', function ($id) {
-        return view('project/detailOrder', ['judul' => "Project", 'id' => $id]);
-    })->name('detailOrder');
-});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/detailOrder/{id}', [orderController::class, 'edit'])->name('detailOrder');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_detailOrder/{id}', [orderController::class, 'store'])->name('storeOrder');
 //TOP
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/top/{id}', function ($id) {
-        return view('project/top', ['judul' => "Project", 'id' => $id]);
-    })->name('top');
-});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/top/{id}', [topProjectController::class, 'edit'])->name('top');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_top/{id}', [topProjectController::class, 'store'])->name('storeTop');
 //Project Member
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/projectMember/{id}', function ($id) {
@@ -104,11 +102,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('projectMember');
 });
 //scopeHighLevel
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/scopeHighLevel/{id}', function ($id) {
-        return view('project/scopeHighLevel', ['judul' => "Project", 'id' => $id]);
-    })->name('scopeHighLevel');
-});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/scopeHighLevel/{id}', [scopeProjectController::class, 'edit'])->name('scopeHighLevel');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_scopeHighLevel/{id}', [scopeProjectController::class, 'store'])->name('storescope');
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/riskIssues/{id}', function ($id) {

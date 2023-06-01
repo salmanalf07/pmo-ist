@@ -27,7 +27,7 @@
                                 <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
                                     <option value="#" selected>Open this select menu</option>
                                     @foreach($customer as $customer)
-                                    <option value="{{$customer->id}}">{{$customer->company}}</option>
+                                    <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -46,7 +46,7 @@
                                 <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
                             </div>
                             <div class="mb-3 col-4">
-                                <label class="form-label">Number Contract</label>
+                                <label class="form-label">Contract PO/SPP/SO Number</label>
                                 <input name="noContract" id="noContract" type="text" class="form-control" placeholder="Enter Here" required>
                             </div>
                             <div class="mb-3 col-3">
@@ -65,15 +65,15 @@
                                 <input class="form-check-input" type="checkbox" id="payung">
                             </div>
                             <div id="poHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">PO/SPP/SO</label>
+                                <label class="form-label">Main Contract</label>
                                 <input name="po" id="po" type="text" value="{{ (isset($data->po)) ? $data->po : '' }}" class="form-control" placeholder="Enter Here">
                             </div>
                             <div id="noPoHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">Number Of PO/SPP/SO</label>
+                                <label class="form-label">Main Contract Number</label>
                                 <input name="noPo" id="noPo" type="text" class="form-control" placeholder="Enter Here">
                             </div>
                             <div id="datePoHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">PO/SPP/SO Date</label>
+                                <label class="form-label">Main Contract Date</label>
                                 <div class="input-group me-3 datepicker">
                                     <input id="datePo" name="datePo" type="text" class="form-control rounded" data-input aria-describedby="date1">
                                     <div class="input-group-append">
@@ -81,11 +81,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label">Project Value</label>
-                                <input name="projectValue" id="projectValue" type="text" class="form-control number-input" placeholder="Enter Here" required>
+                            <div class="mb-3 col-6">
+                                <label class="form-label">Contract Start Date</label>
+                                <div class="input-group me-3 datepicker">
+                                    <input id="contractStart" name="contractStart" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3 col-4">
+                            <div class="mb-3 col-6">
+                                <label class="form-label">Contrack End Date</label>
+                                <div class="input-group me-3 datepicker">
+                                    <input id="contractEnd" name="contractEnd" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-6 col-4">
+                                <label class="form-label">Project Value</label>
+                                <input name="projectValue" id="projectValue" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
+                            </div>
+                            <div class="mb-8 col-4">
                                 <label class="form-label" for="selectOne">Project Type</label>
                                 <select name="projectType" id="projectType" class="select2" aria-label="Default select example" required>
                                     <option value="#" selected>Open this select menu</option>
@@ -94,8 +112,8 @@
                                     <option value="joinDevelopment">Join Development</option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-4" id="joinDev1"></div>
-                            <div class="mb-3 col-4" id="joinDev2" hidden>
+                            <div class="mb-8 col-4" id="joinDev1"></div>
+                            <div class="mb-8 col-4" id="joinDev2" hidden>
                                 <label class="form-label" for="selectOne">Partner</label>
                                 <select name="partnerId" id="partnerId" class="select2" aria-label="Default select example" required>
                                     <option value="#" selected>Open this select menu</option>
@@ -139,26 +157,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label">Contract Start Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="contractStart" name="contractStart" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label">Contrack End Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="contractEnd" name="contractEnd" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="mb-3 col-3">
-                                <button type="button" class="btn btn-primary add"> Save & Next</button>
+                                <button type="button" class="btn btn-primary-soft add"> Save</button>
                             </div>
                         </div>
                     </form>
@@ -235,12 +235,6 @@
         dateFormat: "d-m-Y",
         defaultDate: "today",
     });
-
-    function formatNumberr(number) {
-        var reversed = number.toString().split("").reverse().join("");
-        var formatted = reversed.match(/\d{1,3}/g).join(".");
-        return formatted.split("").reverse().join("");
-    }
 </script>
 <script>
     $(document).ready(function() {

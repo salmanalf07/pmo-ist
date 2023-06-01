@@ -54,7 +54,7 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 1, 2, 3], // table ke 1
+                "targets": [3], // table ke 1
             }, ],
             ajax: {
                 url: '{{ url("json_project") }}'

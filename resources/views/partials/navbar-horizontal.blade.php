@@ -14,9 +14,7 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
                 <ul class="navbar-nav">
-                    <a class="nav-link pe-5" href="/profile">
-                        Home
-                    </a>
+
                     <a class="nav-link pe-5" href="/projectInfo">
                         Project
                     </a>
@@ -49,6 +47,9 @@
                             </li>
                         </ul>
                     </li>
+                    <a class="nav-link pe-5" href="/profile">
+                        PMO
+                    </a>
                 </ul>
             </div>
 

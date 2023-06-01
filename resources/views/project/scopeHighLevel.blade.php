@@ -27,54 +27,64 @@
                     <h4 class="mb-0">Scope High Level</h4>
 
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive table-card">
-                        <table class="table table-centered text-nowrap mb-0">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th style="width: 35%;">Scope Of Work</th>
-                                    <th style="width: 20%;">Plan Start Date</th>
-                                    <th style="width: 20%;">Plan End Date</th>
-                                    <th style="width: 20%;">Progress %</th>
-                                    <th style="width: 5%;"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="detailOrder">
-                                <tr class="input-100">
-                                    <td>
-                                        <input type="text">
-                                    </td>
-                                    <td>
-                                        <div class="input-group me-3">
-                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group me-3">
-                                            <input id="pkwt_end" name="pkwt_end" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
-                                        </div>
-                                    </td>
-                                    <td><input type="text"></td>
-                                    <td>
-                                        <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
-                                            <i data-feather="trash-2" class="icon-xs"></i>
-                                            <div id="trashOne" class="d-none">
-                                                <span>Delete</span>
+                <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                    @csrf
+                    <span id="peringatan"></span>
+                    <input class="form-control" type="text" name="id" id="id" hidden>
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table class="table table-centered text-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr class="text-center">
+                                        <th style="width: 35%;">Scope Of Work</th>
+                                        <th style="width: 20%;">Plan Start Date</th>
+                                        <th style="width: 20%;">Plan End Date</th>
+                                        <th style="width: 20%;">Progress %</th>
+                                        <th style="width: 5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailOrder">
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idScope[]" id="idScope0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="scope[]" id="scope0">
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="planStart0" name="planStart[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
                                             </div>
-                                        </a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="planEnd0" name="planEnd[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input class="text-end" type="text" name="progProject[]" id="progProject0">
+                                        </td>
+                                        <td>
+                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
 
 
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer  justify-content-between d-flex">
-                    <button type="button" onclick="addRow()" class="btn btn-warning">Add Row</button>
-                    <a href="#!" class="btn btn-primary">Save & Next</a>
-                </div>
+                    <div class="card-footer  justify-content-between d-flex">
+                        <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
+                        <button type="button" class="btn btn-primary-soft add"> Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -88,30 +98,77 @@
     });
 </script>
 <script>
+    $(function() {
+        //add data
+        $('.card-footer').on('click', '.add', function() {
+            var form = document.getElementById("form-add");
+            var fd = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: '/store_scopeHighLevel/{{$id}}',
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data[1]) {
+                        let text = "";
+                        var dataa = Object.assign({}, data[0])
+                        for (let x in dataa) {
+                            text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
+                        }
+                        $('#peringatan').append(text);
+                    } else {
+                        //console.log(data)
+                        document.getElementById("form-add").reset();
+                        window.location.href = "/project/projectMember/" + data;
+                    }
+
+                },
+            });
+        });
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ('{{isset($aksi) && $aksi == "EditData"}}') {
+            var data = <?php echo json_encode($data); ?>;
+            $('#id').val('{{ isset($data) ? $id : "" }}');
+            for (let j = 0; j < ('{{count($data)}}' - 1); j++) {
+                addRow();
+            }
+
+            for (var i = 0; i < '{{count($data)}}'; i++) {
+                $('#idScope' + i).val(data[i].id);
+                $('#scope' + i).val(data[i].scope);
+                $('#planStart' + i).val((data[i].planStart).split("-").reverse().join("-"));
+                $('#planEnd' + i).val((data[i].planEnd).split("-").reverse().join("-"));
+                $('#progProject' + i).val(data[i].progProject);
+            }
+        }
+    })
+</script>
+<script>
     function addRow() {
         var table = document.getElementById("detailOrder");
+        var tableRange = table.rows.length
         var lastRow = table.rows[table.rows.length - 1];
 
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let i = 0; i <= 0; i++) {
-            var cell = row.insertCell(i)
-            var newInput = document.createElement("input"); // Membuat elemen input baru
-            newInput.type = "text"; // Mengatur tipe input menjadi teks
-            if (i >= "1") {
-                newInput.className = "number-input";
-            }
-            (cell).appendChild(newInput);
-        }
-
-        for (let j = 1; j <= 4; j++) {
+        for (let j = 0; j <= 5; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('input');
             var clonedContent = cell5.cloneNode(true);
             var childNodes = clonedContent.childNodes;
-
+            if (j == 0) {
+                newCell5.style.display = "none";
+            }
+            if (j <= 4) {
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
                 newCell5.appendChild(childNodes[k].cloneNode(true));
@@ -119,7 +176,6 @@
 
             flatpickr(".datepicker", {
                 dateFormat: "d-m-Y",
-                defaultDate: "today",
             });
         }
 

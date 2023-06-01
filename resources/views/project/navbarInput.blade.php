@@ -22,7 +22,7 @@
                                 <a class="nav-link" href="#">Summary</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/inputProject') ? 'active' : '' }}" href="{{ isset($id) ? '/project/inputProject/' . $id : '/project/inputProject' }}">Project</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/inputProject') ? 'active' : '' }}" href="{{ isset($id) ? '/project/inputProject/' . $id : '/project/inputProject' }}">Info</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/detailOrder') ? 'active' : '' }}" href="{{ isset($id) ? '/project/detailOrder/' . $id : '#' }}">Detail Order</a>
