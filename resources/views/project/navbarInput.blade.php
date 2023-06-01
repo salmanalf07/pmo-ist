@@ -25,25 +25,25 @@
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/inputProject') ? 'active' : '' }}" href="{{ isset($id) ? '/project/inputProject/' . $id : '/project/inputProject' }}">Project</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/detailOrder') ? 'active' : '' }}" href="{{ isset($id) ? '/project/detailOrder/' . $id : '/project/detailOrder' }}">Detail Order</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/detailOrder') ? 'active' : '' }}" href="{{ isset($id) ? '/project/detailOrder/' . $id : '#' }}">Detail Order</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/top') ? 'active' : '' }}" href="{{ isset($id) ? '/project/top/' . $id : '/project/top' }}">Terms</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/top') ? 'active' : '' }}" href="{{ isset($id) ? '/project/top/' . $id : '#' }}">Terms</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/scopeHighLevel') ? 'active' : '' }}" href="{{ isset($id) ? '/project/scopeHighLevel/' . $id : '/project/scopeHighLevel' }}">Scope</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/scopeHighLevel') ? 'active' : '' }}" href="{{ isset($id) ? '/project/scopeHighLevel/' . $id : '#' }}">Scope</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectMember') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectMember/' . $id : '/project/projectMember' }}">Member</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectMember') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectMember/' . $id : '#' }}">Member</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/riskIssues') ? 'active' : '' }}" href="{{ isset($id) ? '/project/riskIssues/' . $id : '/project/riskIssues' }}">Risk/Issues</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/riskIssues') ? 'active' : '' }}" href="{{ isset($id) ? '/project/riskIssues/' . $id : '#' }}">Risk/Issues</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectTimeline') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '/project/projectTimeline' }}">Timeline</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectTimeline') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '#' }}">Timeline</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/mandays') ? 'active' : '' }}" href="{{ isset($id) ? '/project/mandays/' . $id : '/project/mandays' }}">Mandays</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/mandays') ? 'active' : '' }}" href="{{ isset($id) ? '/project/mandays/' . $id : '#' }}">Mandays</a>
                             </li>
                         </ul>
                     </div>
