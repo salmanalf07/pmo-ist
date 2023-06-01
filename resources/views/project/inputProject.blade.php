@@ -245,6 +245,7 @@
 <script>
     $(document).ready(function() {
         if ('{{isset($aksi) && $aksi == "EditData"}}') {
+            $('#id').val('{{ isset($data) ? $data->id : "" }}');
             $('#noProject').val('{{ isset($data) ? $data->noProject : "" }}');
             $('#cust_id').val('{{ isset($data) ? $data->cust_id : "" }}').trigger('change');
             $('#customerType').val('{{ isset($data) ? $data->customerType : "" }}').trigger('change');
