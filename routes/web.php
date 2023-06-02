@@ -5,6 +5,7 @@ use App\Http\Controllers\employeeController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\projectController;
+use App\Http\Controllers\riskIssuestController;
 use App\Http\Controllers\scopeProjectController;
 use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
@@ -108,11 +109,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/scopeHighLevel/{id}', [scopeProjectController::class, 'edit'])->name('scopeHighLevel');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_scopeHighLevel/{id}', [scopeProjectController::class, 'store'])->name('storescope');
 //riskIssues
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/project/riskIssues/{id}', function ($id) {
-        return view('project/riskIssues', ['judul' => "Project", 'id' => $id]);
-    })->name('riskIssues');
-});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', [riskIssuestController::class, 'edit'])->name('riskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_riskIssues/{id}', [riskIssuestController::class, 'store'])->name('storeRiskIssues');
 //projectTimline
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/projectTimeline/{id}', function ($id) {

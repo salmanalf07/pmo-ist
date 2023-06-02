@@ -65,7 +65,7 @@
                                             <input type="text" name="contiPlan[]" id="contiPlan0">
                                         </td>
                                         <td>
-                                            <input type="text" name="owner[]" id="owner0">
+                                            <input type="text" name="riskOwner[]" id="riskOwner0">
                                         </td>
                                         <td>
                                             <select name="statRisk[]" id="statRisk0" class="select2" aria-label="Default select example">
@@ -127,7 +127,7 @@
                                             <input type="text" name="actionPlan[]" id="actionPlan0">
                                         </td>
                                         <td>
-                                            <input type="text" name="owner[]" id="owner0">
+                                            <input type="text" name="issuesOwner[]" id="issuesOwner0">
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
@@ -185,7 +185,7 @@
 <script>
     $(function() {
         //add data
-        $('.card-footer').on('click', '.add', function() {
+        $('.justify-content-between').on('click', '.add', function() {
             var form = document.getElementById("form-add");
             var fd = new FormData(form);
             $.ajax({
@@ -211,6 +211,45 @@
                 },
             });
         });
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        if ('{{isset($aksiRisk) && $aksiRisk == "EditData"}}') {
+            var data = <?php echo json_encode($dataRisk); ?>;
+            $('#id').val('{{ isset($dataRisk) ? $id : "" }}');
+            for (let j = 0; j < ('{{count($dataRisk)}}' - 1); j++) {
+                addRowRisk();
+            }
+
+            for (var i = 0; i < '{{count($dataRisk)}}'; i++) {
+                $('#idRisk' + i).val(data[i].id);
+                $('#riskDesc' + i).val(data[i].riskDesc);
+                $('#trigerEvent' + i).val(data[i].trigerEvent);
+                $('#riskResponse' + i).val(data[i].riskResponse);
+                $('#contiPlan' + i).val(data[i].contiPlan);
+                $('#riskOwner' + i).val(data[i].riskOwner);
+                $('#statRisk' + i).val(data[i].statRisk).trigger('change');
+            }
+        }
+        //issues
+        if ('{{isset($aksiIssues) && $aksiIssues == "EditData"}}') {
+            var data = <?php echo json_encode($dataIssues); ?>;
+            $('#id').val('{{ isset($dataIssues) ? $id : "" }}');
+            for (let j = 0; j < ('{{count($dataIssues)}}' - 1); j++) {
+                addRowIssues();
+            }
+
+            for (var i = 0; i < '{{count($dataIssues)}}'; i++) {
+                $('#idIssues' + i).val(data[i].id);
+                $('#issuesDesc' + i).val(data[i].issuesDesc);
+                $('#projectImpact' + i).val(data[i].projectImpact);
+                $('#actionPlan' + i).val(data[i].actionPlan);
+                $('#issuesOwner' + i).val(data[i].issuesOwner);
+                $('#resolvedDate' + i).val((data[i].resolvedDate).split("-").reverse().join("-"));
+                $('#statIssues' + i).val(data[i].statIssues).trigger('change');
+            }
+        }
     })
 </script>
 <script>

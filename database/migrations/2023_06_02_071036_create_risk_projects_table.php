@@ -20,7 +20,7 @@ class CreateRiskProjectsTable extends Migration
             $table->string('trigerEvent')->nullable();
             $table->string('riskResponse')->nullable();
             $table->string('contiPlan')->nullable();
-            $table->string('owner')->nullable();
+            $table->string('riskOwner')->nullable();
             $table->string('statRisk')->nullable();
             $table->softDeletes();
             $table->timestamps();

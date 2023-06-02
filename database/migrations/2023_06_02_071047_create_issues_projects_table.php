@@ -19,7 +19,7 @@ class CreateIssuesProjectsTable extends Migration
             $table->string('issuesDesc')->nullable();
             $table->string('projectImpact')->nullable();
             $table->string('actionPlan')->nullable();
-            $table->string('owner')->nullable();
+            $table->string('issuesOwner')->nullable();
             $table->date('resolvedDate')->nullable();
             $table->string('statIssues')->nullable();
             $table->softDeletes();
