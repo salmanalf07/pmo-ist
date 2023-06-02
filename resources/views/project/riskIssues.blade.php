@@ -38,13 +38,13 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="text-center" style="width:20%">Risk Description</th>
-                                        <th class="text-center" style="width:20%">Trigger Event/Indicator</th>
-                                        <th class="text-center" style="width:20%">Risk Response and Description</th>
-                                        <th class="text-center" style="width:15%">Contingency Plan</th>
-                                        <th class="text-center" style="width:15%">Owner</th>
-                                        <th class="text-center" style="width:5%">status</th>
-                                        <th class="text-center" style="width:5%;"></th>
+                                        <th style="width:20%">Risk Description</th>
+                                        <th style="width:20%">Trigger Event/Indicator</th>
+                                        <th style="width:20%">Risk Response and Description</th>
+                                        <th style="width:15%">Contingency Plan</th>
+                                        <th style="width:15%">Owner</th>
+                                        <th style="width:5%">Status</th>
+                                        <th style="width:5%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="detailRisk">
@@ -108,7 +108,7 @@
                                         <th class="text-center" style="width:20%">Action Plan/Resolution</th>
                                         <th class="text-center" style="width:15%">Owner</th>
                                         <th class="text-center" style="width:15%">Date Resolved</th>
-                                        <th class="text-center" style="width:5%">status</th>
+                                        <th class="text-center" style="width:5%">Status</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
                                 </thead>
@@ -163,7 +163,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="justify-content-between">
-                            <button type="button" class="btn btn-primary-soft add">Save Risk & Issues</button>
+                            <button type="button" class="btn btn-primary-soft add">Save</button>
                         </div>
                     </div>
                 </div>

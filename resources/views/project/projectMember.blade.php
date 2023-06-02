@@ -37,8 +37,8 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr class="text-center">
-                                        <th style="width: 30%;">Name</th>
-                                        <th style="width: 20%;">Role</th>
+                                        <th class="text-start" style="width: 30%;">Name</th>
+                                        <th class="text-start" style="width: 20%;">Role</th>
                                         <th style="width: 15%;">Dept/Div</th>
                                         <th style="width: 10%;">Start Date</th>
                                         <th style="width: 10%;">End Date</th>

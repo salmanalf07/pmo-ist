@@ -17,7 +17,7 @@ class Order extends Model
         'subTotalCogs',
         'subTotalGp',
         'ppn',
-        'grandTotal',
+        'totalGpp',
     ];
 
     public function detailOrder()

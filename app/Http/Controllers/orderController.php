@@ -28,7 +28,7 @@ class orderController extends Controller
             $request->validate([
                 'subTotalRev' => ['required', 'string', 'max:255'],
                 'subTotalCogs' => ['required', 'string', 'max:255'],
-                'grandTotal' => ['required', 'string', 'max:255'],
+                'totalGpp' => ['required', 'string', 'max:255'],
             ]);
 
             if ($request->id) {
@@ -40,7 +40,7 @@ class orderController extends Controller
             $post->subTotalRev = str_replace(".", "", $request->subTotalRev);
             $post->subTotalCogs = str_replace(".", "", $request->subTotalCogs);
             $post->subTotalGp = str_replace(".", "", $request->subTotalGp);
-            $post->grandTotal = str_replace(".", "", $request->grandTotal);
+            $post->totalGpp = str_replace("%", "", $request->totalGpp);
             $post->save();
 
             $idor = collect($request->idor)->filter()->all();

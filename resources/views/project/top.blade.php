@@ -36,12 +36,12 @@
                         <div class="table-responsive table-card">
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
-                                    <tr class="text-center">
+                                    <tr>
                                         <th style="width: 30%;">Name TOP</th>
-                                        <th style="width: 20%;">Value</th>
-                                        <th style="width: 15%;">Plant BAST</th>
-                                        <th style="width: 15%;">Invoice Date</th>
-                                        <th style="width: 15%;">Payment Date</th>
+                                        <th class="text-center" style="width: 20%;">Value</th>
+                                        <th class="text-center" style="width: 15%;">Plant BAST</th>
+                                        <th class="text-center" style="width: 15%;">Invoice Date</th>
+                                        <th class="text-center" style="width: 15%;">Payment Date</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>

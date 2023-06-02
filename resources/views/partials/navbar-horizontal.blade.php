@@ -18,6 +18,9 @@
                     <a class="nav-link pe-5" href="/projectInfo">
                         Project
                     </a>
+                    <a class="nav-link pe-5" href="#">
+                        Finance
+                    </a>
                     <a class="nav-link pe-5" href="/employee">
                         Resources
                     </a>

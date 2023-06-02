@@ -43,7 +43,7 @@
                                         <th style="width: 35%;">Item</th>
                                         <th class="text-end" style="width: 20%;">Rev</th>
                                         <th class="text-end" style="width: 20%;">COGS</th>
-                                        <th class="text-end" style="width: 20%;">GP %</th>
+                                        <th class="text-center" style="width: 20%;">GP %</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -59,7 +59,7 @@
                                         <td>
                                             <input name="cogs[]" id="cogs0" placeholder="0" type="text" class="number-input text-end">
                                         </td>
-                                        <td><input name="gp[]" id="gp0" type="text" class="number-input text-end"></td>
+                                        <td><input name="gp[]" id="gp0" type="text" class="number-input text-center"></td>
                                         <td>
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
@@ -84,30 +84,29 @@
             </div>
             <div class="col-xxl-3 col-12">
                 <div class="card mb-4 mt-4 mt-xxl-0">
-                    <div class="card-body">
+                    <div class="card-body pb-2">
                         <ul class="list-unstyled mb-0">
                             <li class="d-flex justify-content-between mb-3">
-                                <span>Sub Total Rev :</span>
+                                <span>Total Rev :</span>
                                 <input name="subTotalRev" id="subTotalRev" class="text-end input-total" type="text" value="0" readonly>
 
                             </li>
                             <li class="d-flex justify-content-between mb-3">
-                                <span>Sub Total COGS :</span>
+                                <span>Total COGS :</span>
                                 <input name="subTotalCogs" id="subTotalCogs" class="text-end input-total" type="text" value="0" readonly>
-                            </li>
-                            <li class="d-flex justify-content-between mb-3">
-                                <span>Sub Total GP % :</span>
-                                <input name="subTotalGp" id="subTotalGp" class="text-end input-total" type="text" value="0" readonly>
-
                             </li>
 
                         </ul>
                     </div>
                     <div class="card-footer">
                         <ul class="list-unstyled mb-0">
+                            <li class="d-flex justify-content-between mb-3">
+                                <span>Total GP </span>
+                                <input name="subTotalGp" id="subTotalGp" class="text-end input-total fw-bold" type="text" value="0" readonly>
+                            </li>
                             <li class="d-flex justify-content-between">
-                                <span class="text-dark">Total</span>
-                                <input name="grandTotal" id="grandTotal" class="text-end input-total fw-bold" type="text" value="0" readonly>
+                                <span class="text-dark">Total GP %</span>
+                                <input name="totalGpp" id="totalGpp" class="text-end input-total fw-bold" type="text" value="0" readonly>
                             </li>
                         </ul>
                     </div>
@@ -141,7 +140,7 @@
                     } else {
                         //console.log(data)
                         document.getElementById("form-add").reset();
-                        window.location.href = "/project/top/" + data[0].projectId;
+                        window.location.href = "/project/detailOrder/" + data[0].projectId;
                     }
 
                 },
@@ -157,7 +156,7 @@
             $('#subTotalRev').val(formatNumberr('{{ isset($data) ? $data->subTotalRev : "" }}'));
             $('#subTotalCogs').val(formatNumberr('{{ isset($data) ? $data->subTotalCogs : "" }}'));
             $('#subTotalGp').val(formatNumberr('{{ isset($data) ? $data->subTotalGp : "" }}'));
-            $('#grandTotal').val(formatNumberr('{{ isset($data) ? $data->grandTotal : "" }}'));
+            $('#totalGpp').val('{{ isset($data) ? $data->totalGpp : "" }}' + '%');
             for (let j = 0; j < (data.detail_order.length - 1); j++) {
                 addRow();
             }
@@ -245,8 +244,8 @@
 
             var SubTotalGp = parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))
             $('#subTotalGp').val(formatNumberr(SubTotalGp));
-            var GrandTotal = parseFloat($('#subTotalRev').val().replace(/\./g, "")) + parseFloat($('#subTotalCogs').val().replace(/\./g, ""))
-            $('#grandTotal').val(formatNumberr(GrandTotal));
+            var totalGpp = ((parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))) / parseFloat($('#subTotalRev').val().replace(/\./g, ""))) * 100
+            $('#totalGpp').val(totalGpp + '%');
         });
     });
 

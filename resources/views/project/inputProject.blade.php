@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Contrack End Date</label>
+                                        <label class="form-label">Contract End Date</label>
                                         <div class="input-group me-3 datepicker">
                                             <input id="contractEnd" name="contractEnd" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
                                             <div class="input-group-append custom-picker">

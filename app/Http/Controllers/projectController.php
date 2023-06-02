@@ -13,13 +13,13 @@ class projectController extends Controller
 {
     public function json()
     {
-        $data = Project::with('Customer', 'PM')->orderBy('created_at', 'DESC');
+        $data = Project::with('customer', 'pm')->orderBy('created_at', 'DESC');
 
         return DataTables::of($data)
-            ->addColumn('projectName', function ($data) {
+            ->addColumn('projectNamee', function ($data) {
                 return
                     '<div class="d-flex align-items-center">
-                        <div class="ms-3">
+                        <div>
                             <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 30) . '</a></h4>
                         </div>
                     </div>';
@@ -34,7 +34,7 @@ class projectController extends Controller
                         </div>
                     </div>';
             })
-            ->rawColumns(['projectName', 'progress'])
+            ->rawColumns(['projectNamee', 'progress'])
             ->toJson();
     }
 

@@ -60,16 +60,16 @@
                 url: '{{ url("json_project") }}'
             },
             columns: [{
-                    data: 'projectName',
-                    name: 'projectName'
+                    data: 'projectNamee',
+                    name: 'projectNamee'
                 },
                 {
-                    data: 'customer[0].company',
-                    name: 'customer[0].company'
+                    data: 'customer.company',
+                    name: 'customer.company'
                 },
                 {
-                    data: 'p_m[0].name',
-                    name: 'p_m[0].name'
+                    data: 'pm.name',
+                    name: 'pm.name'
                 },
                 {
                     data: 'progress',

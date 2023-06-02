@@ -32,13 +32,13 @@ class Project extends Model
         'contractEnd',
     ];
 
-    public function Customer()
+    public function customer()
     {
-        return $this->hasMany(Customer::class, 'id', 'cust_id');
+        return $this->belongsTo(Customer::class, 'cust_id', 'id');
     }
-    public function PM()
+    public function pm()
     {
-        return $this->hasMany(employee::class, 'id', 'pmName');
+        return $this->belongsTo(employee::class, 'pmName', 'id');
     }
     /**
      * The "booting" function of model

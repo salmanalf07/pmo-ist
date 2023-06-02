@@ -63,7 +63,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <input class="text-end" type="text" name="progProject[]" id="progProject0">
+                                            <input class="text-center" type="text" name="progProject[]" id="progProject0">
                                         </td>
                                         <td>
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
