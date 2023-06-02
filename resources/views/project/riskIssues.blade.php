@@ -1,173 +1,377 @@
 @extends('/project/navbarInput')
 
 @section('inputan')
+<style>
+    .input-80 input {
+        width: 80% !important;
+    }
+
+    .input-100 input {
+        width: 100% !important;
+        border: var(--dashui-border-width) solid var(--dashui-input-border);
+        border-radius: 0.2rem;
+        height: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .input-100 td {
+        padding: 0.5rem;
+    }
+</style>
 <div>
     <!-- row -->
 
-    <div class="row">
-        <div class="col-lg-8 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product Title</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title" required>
+    <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+        @csrf
+        <span id="peringatan"></span>
+        <input class="form-control" type="text" name="id" id="id" hidden>
+        <div class="row">
+            <div class="col-xxl-12 col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4 class="mb-0">Risk</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table class="table table-centered text-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width:20%">Risk Description</th>
+                                        <th class="text-center" style="width:20%">Trigger Event/Indicator</th>
+                                        <th class="text-center" style="width:20%">Risk Response and Description</th>
+                                        <th class="text-center" style="width:15%">Contingency Plan</th>
+                                        <th class="text-center" style="width:15%">Owner</th>
+                                        <th class="text-center" style="width:5%">status</th>
+                                        <th class="text-center" style="width:5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailRisk">
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idRisk[]" id="idRisk0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="riskDesc[]" id="riskDesc0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="trigerEvent[]" id="trigerEvent0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="riskResponse[]" id="riskResponse0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="contiPlan[]" id="contiPlan0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="owner[]" id="owner0">
+                                        </td>
+                                        <td>
+                                            <select name="statRisk[]" id="statRisk0" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>-- select --</option>
+                                                <option value="open">Open</option>
+                                                <option value="close">Close</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- input -->
-                        <div>
-                            <label class="form-label">Product Description</label>
-                            <div class="pb-8" id="editor"></div>
-                        </div>
+                    </div>
+                    <div class="card-footer  justify-content-between">
+                        <button type="button" onclick="addRowRisk()" class="btn btn-warning-soft">Add Row Risk</button>
                     </div>
                 </div>
             </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <div>
-                        <div class="mb-4">
-                            <!-- heading -->
-                            <h4 class="mb-4">Product Gallery</h4>
-                            <h5 class="mb-1">Product Image</h5>
-                            <p>Add Product main Image.</p>
-                            <!-- input -->
-                            <input type="file" class="form-control">
+            <div class="col-xxl-12 col-12">
+                <div class="card  mb-4">
+                    <div class="card-header">
+                        <h4 class="mb-0">Issues</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table class="table table-centered text-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width:20%">Issue Description</th>
+                                        <th class="text-center" style="width:20%">Project Impact</th>
+                                        <th class="text-center" style="width:20%">Action Plan/Resolution</th>
+                                        <th class="text-center" style="width:15%">Owner</th>
+                                        <th class="text-center" style="width:15%">Date Resolved</th>
+                                        <th class="text-center" style="width:5%">status</th>
+                                        <th class="text-center" style="width:5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailIssues">
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idIssues[]" id="idIssues0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="issuesDesc[]" id="issuesDesc0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="projectImpact[]" id="projectImpact0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="actionPlan[]" id="actionPlan0">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="owner[]" id="owner0">
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="resolvedDate0" name="resolvedDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select name="statIssues[]" id="statIssues0" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>-- select --</option>
+                                                <option value="open">Open</option>
+                                                <option value="close">Close</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div>
-                            <!-- heading -->
-                            <h5 class="mb-1">Product Gallery</h5>
-                            <p>Add Product Gallery Images.</p>
-                            <!-- input -->
-                            <form action="#" class="d-block dropzone border-dashed rounded-2">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                </div>
-                            </form>
+                    </div>
+                    <div class="card-footer  justify-content-between">
+                        <button type="button" onclick="addRowIssues()" class="btn btn-warning-soft">Add Row Issues</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-12 col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="justify-content-between">
+                            <button type="button" class="btn btn-primary-soft add">Save Risk & Issues</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="form-check form-switch mb-4">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
-                        <label class="form-check-label" for="flexSwitchStock">In Stock</label>
-                    </div>
-                    <!-- input -->
-                    <div>
-                        <div class="mb-3">
-                            <label class="form-label">Product Code</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label">Product SKU</label>
-                            <input type="text" class="form-control" placeholder="Enter Product Title">
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <label class="form-label" id="productSKU">Gender</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
-                            </div>
-                            <!-- input -->
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-                                <label class="form-check-label" for="inlineRadio3">Kids</label>
-                            </div>
-                        </div>
-                        <!-- input -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label">Category</label>
-                                <a href="#!" class="btn-link fw-semi-bold">Add New</a>
-                            </div>
-                            <!-- select menu -->
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Shoe</option>
-                                <option value="1">Sunglasses</option>
-                                <option value="2">Handbag</option>
-                                <option value="3">Slingbag</option>
-                            </select>
-                        </div>
-                        <!-- tag -->
-                        <div class="mb-3">
-                            <label class="form-label">Tags
-                            </label>
-                            <input name='tags' value='' class="form-control w-100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- select -->
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Published</option>
-                            <option value="1">Unpublished</option>
-                            <option value="2">Draft</option>
-                        </select>
-                    </div>
-                    <!-- date -->
-                    <div class="mb-3">
-                        <label class="form-label">Schedule</label>
-                        <div class="input-group me-3 flatpickr rounded">
-                            <input class="form-control " type="text" placeholder="Select Date" aria-describedby="basic-addon2">
-
-                            <span class="input-group-text text-muted" id="basic-addon2"><i data-feather="calendar" class="icon-xs"></i></span>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Regular Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Sale Price</label>
-                        <input type="text" class="form-control" placeholder="$ 49.00">
-                    </div>
-                    <!-- input -->
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="priceIncluded" checked>
-                        <label class="form-check-label" for="priceIncluded">
-                            Price includes taxes</label>
-                    </div>
-                </div>
-            </div>
-            <!-- button -->
-            <div class="d-grid">
-                <a href="#!" class="btn btn-primary">
-                    Create Product
-                </a>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script>
+    flatpickr(".datepicker", {
+        dateFormat: "d-m-Y",
+        defaultDate: "today",
+    });
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+<script>
+    $(function() {
+        //add data
+        $('.card-footer').on('click', '.add', function() {
+            var form = document.getElementById("form-add");
+            var fd = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: '/store_riskIssues/{{$id}}',
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data[1]) {
+                        let text = "";
+                        var dataa = Object.assign({}, data[0])
+                        for (let x in dataa) {
+                            text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
+                        }
+                        $('#peringatan').append(text);
+                    } else {
+                        //console.log(data)
+                        document.getElementById("form-add").reset();
+                        window.location.href = "/project/riskIssues/" + data;
+                    }
+
+                },
+            });
+        });
+    })
+</script>
+<script>
+    function addRowRisk() {
+        var table = document.getElementById("detailRisk");
+        var tableRange = table.rows.length
+        var lastRow = table.rows[table.rows.length - 1];
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+
+        for (let j = 0; j <= 5; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('input');
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+            if (j == 0) {
+                newCell5.style.display = "none";
+            }
+            if (j <= 5) {
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            }
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+        }
+        for (let j = 6; j <= 6; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+
+            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            newCell5.appendChild(clonedSelect);
+
+            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+
+            // Mengaktifkan kembali Select2 pada elemen select yang baru
+            $(clonedSelect).select2();
+
+            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+            });
+        }
+        for (let j = 7; j <= 7; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+        }
+        // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
+        $('select').select2();
+
+
+        newCell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+        cell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+    }
+
+    function addRowIssues() {
+        var table = document.getElementById("detailIssues");
+        var tableRange = table.rows.length
+        var lastRow = table.rows[table.rows.length - 1];
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+
+        for (let j = 0; j <= 5; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('input');
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+            if (j == 0) {
+                newCell5.style.display = "none";
+            }
+            if (j <= 5) {
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            }
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+
+            flatpickr(".datepicker", {
+                dateFormat: "d-m-Y",
+            });
+        }
+        for (let j = 6; j <= 6; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+
+            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            newCell5.appendChild(clonedSelect);
+
+            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+
+            // Mengaktifkan kembali Select2 pada elemen select yang baru
+            $(clonedSelect).select2();
+
+            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+            });
+        }
+        for (let j = 7; j <= 7; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                newCell5.appendChild(childNodes[k].cloneNode(true));
+            }
+        }
+        // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
+        $('select').select2();
+
+
+        newCell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+        cell5.addEventListener("click", function() {
+            deleteRow(this);
+        });
+    }
+
+    // Fungsi untuk menghapus baris
+    function deleteRow(button) {
+        var row = button.closest("tr");
+        row.parentNode.removeChild(row);
+    }
+</script>
 @endsection

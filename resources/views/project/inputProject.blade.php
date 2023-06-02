@@ -8,162 +8,204 @@
 
     <div class="row">
         <div class="col-lg-12 col-12">
-            <!-- card -->
-            <div class="card mb-4">
-                <!-- card body -->
-                <div class="card-body">
-                    <form method="post" role="form" id="form-add" enctype="multipart/form-data">
-                        <div class="row">
-                            @csrf
-                            <span id="peringatan"></span>
-                            <input class="form-control" type="text" name="id" id="id" hidden>
-                            <!-- input -->
-                            <div class="mb-3">
-                                <label class="form-label">Project ID</label>
-                                <input name="noProject" id="noProject" value="{{ (isset($noProject)) ? $noProject : $data->noProject }}" type="text" class="form-control" readonly>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label" for="selectOne">Customer</label>
-                                <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
-                                    <option value="#" selected>Open this select menu</option>
-                                    @foreach($customer as $customer)
-                                    <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label" for="selectOne">Customer Type</label>
-                                <select name="customerType" id="customerType" class="select2" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="BankingNFinancialServicesIndustry">Banking & Financial Services Industry</option>
-                                    <option value="BUMN">BUMN</option>
-                                    <option value="government">Government</option>
-                                    <option value="manufacture">Manufacture</option>
-                                </select>
-                            </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label">Project Name</label>
-                                <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
-                            </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label">Contract PO/SPP/SO Number</label>
-                                <input name="noContract" id="noContract" type="text" class="form-control" placeholder="Enter Here" required>
-                            </div>
-                            <div class="mb-3 col-3">
-                                <label class="form-label">Contract Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="contractDate" name="contractDate" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+
+            <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                <div class="row">
+                    @csrf
+                    <span id="peringatan"></span>
+                    <input class="form-control" type="text" name="id" id="id" hidden>
+                    <div class="col-xxl-9 col-12">
+                        <!-- card -->
+                        <div class="card mb-4">
+                            <!-- card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-2 col-12">
+                                        <h4 class="form-label">Project Information</h4>
+                                    </div>
+                                    <ul class="nav nav-lt-tab px-4 mb-3" id="pills-tab" role="tablist">
+                                    </ul>
+                                    <div class="mb-3">
+                                        <label class="form-label">Project ID</label>
+                                        <input name="noProject" id="noProject" value="{{ (isset($noProject)) ? $noProject : $data->noProject }}" type="text" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <label class="form-label">Project Name</label>
+                                        <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label" for="selectOne">Customer</label>
+                                        <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($customer as $customer)
+                                            <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label" for="selectOne">Sector</label>
+                                        <select name="customerType" id="customerType" class="select2" aria-label="Default select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="BankingNFinancialServicesIndustry">Banking & Financial Services Industry</option>
+                                            <option value="BUMN">BUMN</option>
+                                            <option value="government">Government</option>
+                                            <option value="manufacture">Manufacture</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <label class="form-label">Project Value</label>
+                                        <input name="projectValue" id="projectValue" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label" for="selectOne">Project Type</label>
+                                        <select name="projectType" id="projectType" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            <option value="internal">Internal</option>
+                                            <option value="external">External</option>
+                                            <option value="joinDevelopment">Join Development</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6" id="joinDev1"></div>
+                                    <div class="mb-3 col-6" id="joinDev2" hidden>
+                                        <label class="form-label" for="selectOne">Partner</label>
+                                        <select name="partnerId" id="partnerId" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($partner as $partner)
+                                            <option value="{{$partner->id}}">{{$partner->company}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Contract Start Date</label>
+                                        <div class="input-group me-3 datepicker">
+                                            <input id="contractStart" name="contractStart" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                            <div class="input-group-append custom-picker">
+                                                <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Contrack End Date</label>
+                                        <div class="input-group me-3 datepicker">
+                                            <input id="contractEnd" name="contractEnd" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                            <div class="input-group-append custom-picker">
+                                                <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-3 col-1 text-center">
-                                <label class="form-label" for="flexCheckChecked">
-                                    Main Contract
-                                </label>
-                                <input class="form-check-input" type="checkbox" id="payung">
-                            </div>
-                            <div id="poHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">Main Contract</label>
-                                <input name="po" id="po" type="text" value="{{ (isset($data->po)) ? $data->po : '' }}" class="form-control" placeholder="Enter Here">
-                            </div>
-                            <div id="noPoHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">Main Contract Number</label>
-                                <input name="noPo" id="noPo" type="text" class="form-control" placeholder="Enter Here">
-                            </div>
-                            <div id="datePoHid" class="mb-3 col-4" hidden>
-                                <label class="form-label">Main Contract Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="datePo" name="datePo" type="text" class="form-control rounded" data-input aria-describedby="date1">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label">Contract Start Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="contractStart" name="contractStart" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label class="form-label">Contrack End Date</label>
-                                <div class="input-group me-3 datepicker">
-                                    <input id="contractEnd" name="contractEnd" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-6 col-4">
-                                <label class="form-label">Project Value</label>
-                                <input name="projectValue" id="projectValue" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
-                            </div>
-                            <div class="mb-8 col-4">
-                                <label class="form-label" for="selectOne">Project Type</label>
-                                <select name="projectType" id="projectType" class="select2" aria-label="Default select example" required>
-                                    <option value="#" selected>Open this select menu</option>
-                                    <option value="internal">Internal</option>
-                                    <option value="external">External</option>
-                                    <option value="joinDevelopment">Join Development</option>
-                                </select>
-                            </div>
-                            <div class="mb-8 col-4" id="joinDev1"></div>
-                            <div class="mb-8 col-4" id="joinDev2" hidden>
-                                <label class="form-label" for="selectOne">Partner</label>
-                                <select name="partnerId" id="partnerId" class="select2" aria-label="Default select example" required>
-                                    <option value="#" selected>Open this select menu</option>
-                                    @foreach($partner as $partner)
-                                    <option value="{{$partner->id}}">{{$partner->company}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label" for="selectOne">Sales</label>
-                                <select name="sales" id="sales" class="select2" aria-label="Default select example" required>
-                                    <option value="#" selected>Open this select menu</option>
-                                    @foreach($employee as $sales)
-                                    <option value="{{$sales->id}}">{{$sales->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label" for="selectOne">Project Manager</label>
-                                <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
-                                    <option value="#" selected>Open this select menu</option>
-                                    @foreach($employee as $pmName)
-                                    <option value="{{$pmName->id}}">{{$pmName->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3 col-4">
-                                <label class="form-label" for="selectOne">Co Project Manager</label>
-                                <select name="coPm" id="coPm" class="select2" aria-label="Default select example" required>
-                                    <option value="#" selected>Open this select menu</option>
-                                    @foreach($employee as $coPm)
-                                    <option value="{{$coPm->id}}">{{$coPm->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Sponsor</label>
-                                <select name="sponsor[]" id="sponsor" multiple="multiple" class="select2 multi-sponsor" aria-label="Default select example" required>
-                                    @foreach($employee as $sponsor)
-                                    <option value="{{$sponsor->id}}">{{$sponsor->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3 col-3">
-                                <button type="button" class="btn btn-primary-soft add"> Save</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-xxl-3 col-12">
+                        <!-- card -->
+                        <div class="card mb-4">
+                            <!-- card body -->
+                            <div class="card-body">
+                                <div class="mb-2 col-12">
+                                    <h4 class="form-label">Contract Information</h4>
+                                </div>
+                                <ul class="nav nav-lt-tab px-4 mb-3" id="pills-tab" role="tablist">
+                                </ul>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label">Contract PO/SPP/SO Number</label>
+                                    <input name="noContract" id="noContract" type="text" class="form-control" placeholder="Enter Here" required>
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label">Contract Date</label>
+                                    <div class="input-group me-3 datepicker">
+                                        <input id="contractDate" name="contractDate" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                        <div class="input-group-append custom-picker">
+                                            <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <label class="form-label" for="flexCheckChecked">
+                                        Has main contract?
+                                    </label>
+                                    <input class="form-check-input" type="checkbox" id="payung">
+                                </div>
+                                <div id="poHid" class="mb-3 col-12" hidden>
+                                    <label class="form-label">Main Contract</label>
+                                    <input name="po" id="po" type="text" value="{{ (isset($data->po)) ? $data->po : '' }}" class="form-control" placeholder="Enter Here">
+                                </div>
+                                <div id="noPoHid" class="mb-3 col-12" hidden>
+                                    <label class="form-label">Main Contract Number</label>
+                                    <input name="noPo" id="noPo" type="text" class="form-control" placeholder="Enter Here">
+                                </div>
+                                <div id="datePoHid" class="mb-3 col-12" hidden>
+                                    <label class="form-label">Main Contract Date</label>
+                                    <div class="input-group me-3 datepicker">
+                                        <input id="datePo" name="datePo" type="text" class="form-control rounded" data-input aria-describedby="date1">
+                                        <div class="input-group-append custom-picker">
+                                            <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- input -->
+                    <div class="col-xxl-12 col-12">
+                        <!-- card -->
+                        <div class="card mb-4">
+                            <!-- card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-2 col-12">
+                                        <h4 class="form-label">Person In Charge</h4>
+                                    </div>
+                                    <ul class="nav nav-lt-tab px-4 mb-3" id="pills-tab" role="tablist">
+                                    </ul>
+                                    <div class="mb-3 col-4">
+                                        <label class="form-label" for="selectOne">Sales</label>
+                                        <select name="sales" id="sales" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($employee as $sales)
+                                            <option value="{{$sales->id}}">{{$sales->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label class="form-label" for="selectOne">Project Manager</label>
+                                        <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($employee as $pmName)
+                                            <option value="{{$pmName->id}}">{{$pmName->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label class="form-label" for="selectOne">Co Project Manager</label>
+                                        <select name="coPm" id="coPm" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($employee as $coPm)
+                                            <option value="{{$coPm->id}}">{{$coPm->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Sponsor</label>
+                                        <select name="sponsor[]" id="sponsor" multiple="multiple" class="select2 multi-sponsor" aria-label="Default select example" required>
+                                            @foreach($employee as $sponsor)
+                                            <option value="{{$sponsor->id}}">{{$sponsor->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="mb-3 col-3">
+                        <button type="button" class="btn btn-primary-soft add"> Save</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -195,7 +237,7 @@
                     } else {
                         //console.log(data)
                         document.getElementById("form-add").reset();
-                        window.location.href = "/project/detailOrder/" + data[0].id;
+                        window.location.href = "/project/inputProject/" + data[0].id;
                     }
 
                 },

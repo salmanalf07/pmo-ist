@@ -21,8 +21,8 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    background-color: #475569;
-    color: #fff;
+    color: #475569;
+    background-color: var(--dashui-border-width) solid var(--dashui-input-border);
     border-radius: 0 4px 4px 0;
     transition: background-color 0.3s;
 }
@@ -40,3 +40,9 @@
 .select2-container .select2-results__option--highlighted {
     background-color: #eee;
 }
+
+.custom-picker{
+    margin-left: -3rem !important;
+    border: var(--dashui-border-width) solid var(--dashui-input-border);
+    border-radius: .375rem;
+  }

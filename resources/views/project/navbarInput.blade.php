@@ -19,7 +19,7 @@
                         <!-- nav -->
                         <ul class="nav nav-lt-tab px-4" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Summary</a>
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/summaryProject') ? 'active' : '' }}" href="{{ isset($id) ? '/project/summaryProject/' . $id : '#' }}">Summary</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/inputProject') ? 'active' : '' }}" href="{{ isset($id) ? '/project/inputProject/' . $id : '/project/inputProject' }}">Info</a>

@@ -8,9 +8,10 @@
 
     .input-100 input {
         width: 100% !important;
-        border: 1px solid black;
+        border: var(--dashui-border-width) solid var(--dashui-input-border);
         border-radius: 0.2rem;
         height: 2rem;
+        padding-left: 1rem;
     }
 
     .input-100 td {

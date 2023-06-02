@@ -13,7 +13,7 @@
             </div>
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-2">
 
                     <a class="nav-link pe-5" href="/projectInfo">
                         Project

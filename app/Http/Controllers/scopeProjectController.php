@@ -45,7 +45,7 @@ class scopeProjectController extends Controller
                 $postt->scope = $scope[$count];
                 $postt->planStart = date("Y-m-d", strtotime(str_replace('-', '-', $planStart[$count])));
                 $postt->planEnd = date("Y-m-d", strtotime(str_replace('-', '-', $planEnd[$count])));
-                $postt->progProject = $progProject[$count];
+                $postt->progProject = str_replace("%", "", $progProject[$count]);
 
                 $postt->save();
             }

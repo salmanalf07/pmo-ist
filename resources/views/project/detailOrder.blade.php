@@ -7,6 +7,7 @@
         border: var(--dashui-border-width) solid var(--dashui-input-border);
         border-radius: 0.2rem;
         height: 2rem;
+        padding-left: 1rem;
     }
 
     .input-100 td {
@@ -38,11 +39,11 @@
                         <div class="table-responsive table-card">
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
-                                    <tr class="text-center">
+                                    <tr>
                                         <th style="width: 35%;">Item</th>
-                                        <th style="width: 20%;">Rev</th>
-                                        <th style="width: 20%;">COGS</th>
-                                        <th style="width: 20%;">GP %</th>
+                                        <th class="text-end" style="width: 20%;">Rev</th>
+                                        <th class="text-end" style="width: 20%;">COGS</th>
+                                        <th class="text-end" style="width: 20%;">GP %</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -166,7 +167,7 @@
                 $('#item' + i).val(data.detail_order[i].item);
                 $('#rev' + i).val(formatNumberr(data.detail_order[i].rev));
                 $('#cogs' + i).val(formatNumberr(data.detail_order[i].cogs));
-                $('#gp' + i).val(data.detail_order[i].gp);
+                $('#gp' + i).val(data.detail_order[i].gp + '%');
             }
         }
     })
@@ -238,7 +239,7 @@
             var gp = ((rev - cogs) / rev) * 100;
 
             // Menampilkan hasil perhitungan di input gp[] dengan ID yang sesuai
-            $('#gp' + index).val(Math.round(gp));
+            $('#gp' + index).val(Math.round(gp) + '%');
             findTotal('#rev', '#subTotalRev');
             findTotal('#cogs', '#subTotalCogs');
 

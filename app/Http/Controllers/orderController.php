@@ -60,7 +60,7 @@ class orderController extends Controller
                 $postt->item = $item[$count];
                 $postt->rev = str_replace(".", "", $rev[$count]);
                 $postt->cogs = str_replace(".", "", $cogs[$count]);
-                $postt->gp = $gp[$count];
+                $postt->gp = str_replace("%", "", $gp[$count]);
 
                 $postt->save();
             }

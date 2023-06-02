@@ -8,9 +8,10 @@
 
     .input-100 input {
         width: 100% !important;
-        border: 1px solid black;
+        border: var(--dashui-border-width) solid var(--dashui-input-border);
         border-radius: 0.2rem;
         height: 2rem;
+        padding-left: 1rem;
     }
 
     .input-100 td {
@@ -35,11 +36,11 @@
                         <div class="table-responsive table-card">
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
-                                    <tr class="text-center">
+                                    <tr>
                                         <th style="width: 35%;">Scope Of Work</th>
-                                        <th style="width: 20%;">Plan Start Date</th>
-                                        <th style="width: 20%;">Plan End Date</th>
-                                        <th style="width: 20%;">Progress %</th>
+                                        <th class="text-center" style="width: 20%;">Plan Start Date</th>
+                                        <th class="text-center" style="width: 20%;">Plan End Date</th>
+                                        <th class="text-center" style="width: 20%;">Progress %</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -80,7 +81,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer  justify-content-between d-flex">
+                    <div class="card-footer  justify-content-between">
                         <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
                     </div>
@@ -142,7 +143,7 @@
                 $('#scope' + i).val(data[i].scope);
                 $('#planStart' + i).val((data[i].planStart).split("-").reverse().join("-"));
                 $('#planEnd' + i).val((data[i].planEnd).split("-").reverse().join("-"));
-                $('#progProject' + i).val(data[i].progProject);
+                $('#progProject' + i).val(data[i].progProject + '%');
             }
         }
     })
