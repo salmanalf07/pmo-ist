@@ -71,6 +71,7 @@
     <!-- ribuan -->
     <script src="/assets/js/ribuan.js"></script>
     <script src="/assets/js/formatNumber.js"></script>
+    <script src="/assets/css/moment/moment.min.js"></script>
 
 
 </body>

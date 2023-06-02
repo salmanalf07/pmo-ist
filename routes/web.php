@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\customerController;
+use App\Http\Controllers\DocProjectController;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\riskIssuestController;
 use App\Http\Controllers\scopeProjectController;
 use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
+use App\Models\documentationProject;
 use App\Models\employee;
 use App\Models\Order;
 use App\Models\Project;
@@ -123,3 +125,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('project/mandays', ['judul' => "Project", 'id' => $id]);
     })->name('mandays');
 });
+//Documentation Project
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/project/documentation/{id}', function ($id) {
+        return view('project/documentation', ['judul' => "Documentation", 'id' => $id]);
+    })->name('documentation');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_documentation/{id}', [DocProjectController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_documentation/{id}', [DocProjectController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_documentation/{id}', [DocProjectController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_documentation/{id}', [DocProjectController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_documentation/{id}', [DocProjectController::class, 'destroy']);
