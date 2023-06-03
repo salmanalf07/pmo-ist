@@ -117,8 +117,8 @@
                 }
             },
             columns: [{
-                    data: 'project.projectName',
-                    name: 'project.projectName'
+                    data: 'projectNamee',
+                    name: 'projectNamee'
                 },
                 {
                     data: 'termsName',
