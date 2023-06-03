@@ -35,9 +35,9 @@ class projectController extends Controller
             ->addColumn('progress', function ($data) {
                 return
                     '<div class="d-flex align-items-center">
-                        <div class="me-2"> <span>80%</span></div>
+                        <div class="me-2"> <span>' . $data->overAllProg . '%</span></div>
                             <div class="progress flex-auto" style="height: 6px;">
-                                <div class="progress-bar bg-primary " role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $data->overAllProg . '%;" aria-valuenow="' . $data->overAllProg . '" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
                     </div>';
