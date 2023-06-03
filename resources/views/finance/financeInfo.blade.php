@@ -38,7 +38,7 @@
                     <!-- card -->
                     <div class="card">
                         <!-- table -->
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="border:0">
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
