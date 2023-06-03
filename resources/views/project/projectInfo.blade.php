@@ -42,8 +42,8 @@
                                 <div>
                                     <h4 class="mb-0">On Going Project</h4>
                                 </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
-                                    <i data-feather="list" height="20" width="20"></i>
+                                <div class="icon-shape icon-md text-primary rounded-2">
+                                    <img src="/assets/icon/puzzle.svg" width="45" alt="On Going Project">
                                 </div>
                             </div>
                             <!-- project number -->
@@ -63,8 +63,8 @@
                                 <div>
                                     <h4 class="mb-0">Completed</h4>
                                 </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
-                                    <i data-feather="users" height="20" width="20"></i>
+                                <div class="icon-shape icon-md  text-primary rounded-2">
+                                    <img src="/assets/icon/maze.svg" alt="Completed">
                                 </div>
                             </div>
                             <!-- project number -->
@@ -85,13 +85,13 @@
                                 <div>
                                     <h4 class="mb-0">Overdue</h4>
                                 </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
-                                    <i data-feather="target" height="20" width="20"></i>
+                                <div class="icon-shape icon-md  text-primary rounded-2">
+                                    <img src="/assets/icon/hammer.svg" alt="OverDue">
                                 </div>
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">76%</h1>
+                                <h1 class="  mb-1 fw-bold">15</h1>
                             </div>
                         </div>
                     </div>
