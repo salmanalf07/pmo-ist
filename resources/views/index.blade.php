@@ -19,7 +19,7 @@
     <!-- datatable -->
     <link href="/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="assets/css/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/assets/css/daterangepicker/daterangepicker.css">
     <!-- select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
@@ -53,8 +53,8 @@
     <!-- quill js -->
     <script src="/assets/libs/quill/dist/quill.min.js"></script>
     <!-- daterangepicker -->
-    <script src="assets/css/moment/moment.min.js"></script>
-    <script src="assets/css/daterangepicker/daterangepicker.js"></script>
+    <script src="/assets/css/moment/moment.min.js"></script>
+    <script src="/assets/css/daterangepicker/daterangepicker.js"></script>
 
 
     <!-- Theme JS -->
