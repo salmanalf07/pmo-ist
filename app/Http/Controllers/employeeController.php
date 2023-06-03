@@ -16,8 +16,10 @@ class employeeController extends Controller
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
                 return
-                    '<button id="edit" data-id="' . $data->id . '" class="btn btn-primary">Edit</button>
-                    <button id="delete" data-id="' . $data->id . '" class="btn btn-danger">Delete</button>';
+                    '<button id="edit" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                    <i class="bi bi-pencil-square"></i></button>
+                    <button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                    <i class="bi bi-trash"></i></button>';
             })
             ->rawColumns(['aksi'])
             ->toJson();
