@@ -37,11 +37,6 @@
                 <div class="col-12">
                     <!-- card -->
                     <div class="card">
-                        <div class="card-header d-md-flex border-bottom-0">
-                            <div class="flex-grow-1">
-                                <a href="project/inputProject" class="btn btn-primary">+ Add {{$judul}}</a>
-                            </div>
-                        </div>
                         <!-- table -->
                         <div class="table-responsive">
                             <table id="example1" class="table text-nowrap table-centered mt-0">
