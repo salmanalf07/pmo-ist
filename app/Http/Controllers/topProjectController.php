@@ -5,9 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
 
 class topProjectController extends Controller
 {
+    public function json(Request $request)
+    {
+        $dataa = topProject::with('project')->orderBy('created_at', 'DESC');
+
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
+
+        $data = $dataa->get();
+        return DataTables::of($data)
+            ->addColumn('projectNamee', function ($data) {
+                return
+                    '<div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 30) . '</a></h4>
+                        </div>
+                    </div>';
+            })
+            ->rawColumns(['projectNamee'])
+            ->toJson();
+    }
     public function edit(Request $request, $id)
     {
         $get = topProject::where('projectId', $id)->get();

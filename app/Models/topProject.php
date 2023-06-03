@@ -19,6 +19,10 @@ class topProject extends Model
         'invDate',
         'payDate',
     ];
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
     /**
      * The "booting" function of model
      *
