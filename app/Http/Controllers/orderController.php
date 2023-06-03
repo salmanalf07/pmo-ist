@@ -6,6 +6,7 @@ use App\Models\DetailOrder;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Expr\Isset_;
 
 class orderController extends Controller
 {
@@ -43,7 +44,7 @@ class orderController extends Controller
             $post->totalGpp = str_replace("%", "", $request->totalGpp);
             $post->save();
 
-            $idor = collect($request->idor)->filter()->all();
+            $idor = $request->idor;
             $item = collect($request->item)->filter()->all();
             $rev = collect($request->rev)->filter()->all();
             $cogs = collect($request->cogs)->filter()->all();
@@ -51,11 +52,7 @@ class orderController extends Controller
 
 
             for ($count = 0; $count < count($item); $count++) {
-                if (count($idor)) {
-                    $postt = DetailOrder::find($idor[$count]);
-                } else {
-                    $postt = new DetailOrder();
-                }
+                $postt = DetailOrder::findOrNew($idor[$count]);
                 $postt->orderId = $post->id;
                 $postt->item = $item[$count];
                 $postt->rev = str_replace(".", "", $rev[$count]);
@@ -70,5 +67,13 @@ class orderController extends Controller
             $data = [$error->errors(), "error"];
             return response($data);
         }
+    }
+
+    public function destroy($id)
+    {
+        $post = DetailOrder::find($id);
+        $post->delete();
+
+        return response()->json($post);
     }
 }

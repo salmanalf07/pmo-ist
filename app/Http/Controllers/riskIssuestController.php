@@ -33,7 +33,7 @@ class riskIssuestController extends Controller
     {
         try {
             //start Risk
-            $idRisk = collect($request->idRisk)->filter()->all();
+            $idRisk = $request->idRisk;
             $riskDesc = collect($request->riskDesc)->filter()->all();
             $trigerEvent = collect($request->trigerEvent)->filter()->all();
             $riskResponse = collect($request->riskResponse)->filter()->all();
@@ -44,11 +44,7 @@ class riskIssuestController extends Controller
 
 
             for ($count = 0; $count < count($riskDesc); $count++) {
-                if (count($idRisk)) {
-                    $postt = riskProject::find($idRisk[$count]);
-                } else {
-                    $postt = new riskProject();
-                }
+                $postt = riskProject::findOrNew($idRisk[$count]);
                 $postt->ProjectId = $id;
                 $postt->riskDesc = $riskDesc[$count];
                 $postt->trigerEvent = $trigerEvent[$count];
@@ -62,7 +58,7 @@ class riskIssuestController extends Controller
             }
             //end Risk
             //start issues
-            $idIssues = collect($request->idIssues)->filter()->all();
+            $idIssues = $request->idIssues;
             $issuesDesc = collect($request->issuesDesc)->filter()->all();
             $projectImpact = collect($request->projectImpact)->filter()->all();
             $actionPlan = collect($request->actionPlan)->filter()->all();
@@ -73,11 +69,7 @@ class riskIssuestController extends Controller
 
 
             for ($count = 0; $count < count($issuesDesc); $count++) {
-                if (count($idIssues)) {
-                    $postt = issuesProject::find($idIssues[$count]);
-                } else {
-                    $postt = new issuesProject();
-                }
+                $postt = issuesProject::findOrNew($idIssues[$count]);
                 $postt->ProjectId = $id;
                 $postt->issuesDesc = $issuesDesc[$count];
                 $postt->projectImpact = $projectImpact[$count];
@@ -96,5 +88,18 @@ class riskIssuestController extends Controller
             $data = [$error->errors(), "error"];
             return response($data);
         }
+    }
+
+    public function destroy($table, $id)
+    {
+        if ($table == "risk") {
+            $post = riskProject::find($id);
+        }
+        if ($table == "issues") {
+            $post = issuesProject::find($id);
+        }
+        $post->delete();
+
+        return response()->json($post);
     }
 }

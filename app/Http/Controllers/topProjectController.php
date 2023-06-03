@@ -26,7 +26,7 @@ class topProjectController extends Controller
     {
         try {
 
-            $idtop = collect($request->idtop)->filter()->all();
+            $idtop = $request->idtop;
             $termsName = collect($request->termsName)->filter()->all();
             $termsValue = collect($request->termsValue)->filter()->all();
             $bastDate = collect($request->bastDate)->filter()->all();
@@ -35,11 +35,7 @@ class topProjectController extends Controller
 
 
             for ($count = 0; $count < count($termsName); $count++) {
-                if (count($idtop)) {
-                    $postt = topProject::find($idtop[$count]);
-                } else {
-                    $postt = new topProject();
-                }
+                $postt = topProject::findOrNew($idtop[$count]);
                 $postt->ProjectId = $id;
                 $postt->termsName = $termsName[$count];
                 $postt->termsValue = str_replace(".", "", $termsValue[$count]);
@@ -55,5 +51,13 @@ class topProjectController extends Controller
             $data = [$error->errors(), "error"];
             return response($data);
         }
+    }
+
+    public function destroy($id)
+    {
+        $post = topProject::find($id);
+        $post->delete();
+
+        return response()->json($post);
     }
 }

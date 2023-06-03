@@ -176,38 +176,48 @@
         var table = document.getElementById("detailOrder");
         var tableRange = table.rows.length
         var lastRow = table.rows[table.rows.length - 1];
-        var cell4 = lastRow.cells[5]; // Mengambil sel keempat (cell 4)
+        var cell4 = lastRow.cells[5];
 
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
         for (let j = 0; j <= 5; j++) {
-            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var cell5 = lastRow.cells[j];
             var newCell5 = row.insertCell(j);
-            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
             var selectElement = cell5.querySelector('input');
             var clonedContent = cell5.cloneNode(true);
+
             if (j == 0) {
                 newCell5.style.display = "none";
             }
+
             if (j <= 4) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
+
             var childNodes = clonedContent.childNodes;
 
-            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
+
             if (j == 5) {
                 cell5.addEventListener("click", function() {
                     deleteRow(this);
                 });
+
                 newCell5.addEventListener("click", function() {
                     deleteRow(this);
                 });
             }
         }
+
+
 
         $(".number-input").on("input", function() {
             formatNumber(this);
@@ -217,7 +227,27 @@
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
+        var inputElement = row.querySelector("input[name='idor[]']");
+        if (inputElement) {
+            var id = inputElement.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_detailOrder/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
         row.parentNode.removeChild(row);
+        hitung2();
     }
 
     $(document).ready(function() {
@@ -245,9 +275,19 @@
             var SubTotalGp = parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))
             $('#subTotalGp').val(formatNumberr(SubTotalGp));
             var totalGpp = ((parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))) / parseFloat($('#subTotalRev').val().replace(/\./g, ""))) * 100
-            $('#totalGpp').val(totalGpp + '%');
+            $('#totalGpp').val(Math.round(totalGpp) + '%');
         });
     });
+
+    function hitung2() {
+        findTotal('#rev', '#subTotalRev');
+        findTotal('#cogs', '#subTotalCogs');
+
+        var SubTotalGp = parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))
+        $('#subTotalGp').val(formatNumberr(SubTotalGp));
+        var totalGpp = ((parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))) / parseFloat($('#subTotalRev').val().replace(/\./g, ""))) * 100
+        $('#totalGpp').val(Math.round(totalGpp) + '%');
+    }
 
     function findTotal(tablee, to) {
         //var arr = document.getElementsByName('total_price[]');

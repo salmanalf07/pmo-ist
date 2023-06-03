@@ -12,6 +12,7 @@ use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
+use App\Models\memberProject;
 use App\Models\Order;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
@@ -103,18 +104,23 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //Detail Order
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/detailOrder/{id}', [orderController::class, 'edit'])->name('detailOrder');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_detailOrder/{id}', [orderController::class, 'store'])->name('storeOrder');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_detailOrder/{id}', [orderController::class, 'destroy'])->name('deleteOrder');
 //TOP
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/top/{id}', [topProjectController::class, 'edit'])->name('top');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_top/{id}', [topProjectController::class, 'store'])->name('storeTop');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_top/{id}', [topProjectController::class, 'destroy'])->name('deleteTop');
 //Project Member
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', [memberProjectController::class, 'edit'])->name('projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');
 //scopeHighLevel
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/scopeHighLevel/{id}', [scopeProjectController::class, 'edit'])->name('scopeHighLevel');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_scopeHighLevel/{id}', [scopeProjectController::class, 'store'])->name('storescope');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_scopeHighLevel/{id}', [scopeProjectController::class, 'destroy'])->name('deletescope');
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', [riskIssuestController::class, 'edit'])->name('riskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_riskIssues/{id}', [riskIssuestController::class, 'store'])->name('storeRiskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_projectMember/{table}/{id}', [riskIssuestController::class, 'destroy'])->name('deleteIssues');
 //projectTimline
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/projectTimeline/{id}', function ($id) {

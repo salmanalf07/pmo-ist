@@ -202,7 +202,12 @@
             newCell5.style.display = "none";
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
         }
 
@@ -229,7 +234,7 @@
             // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
             var selectedOptions = Array.from(selectElement.selectedOptions);
             selectedOptions.forEach(option => {
-                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+                $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
             });
         }
 
@@ -254,7 +259,12 @@
                 }
             }
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
             if (j == 7) {
                 cell5.addEventListener("click", function() {
@@ -270,6 +280,25 @@
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
+        var inputElement = row.querySelector("input[name='idMember[]']");
+        if (inputElement) {
+            var id = inputElement.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_projectMember/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
         row.parentNode.removeChild(row);
     }
 </script>

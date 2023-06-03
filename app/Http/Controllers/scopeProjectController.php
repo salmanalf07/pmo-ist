@@ -28,7 +28,7 @@ class scopeProjectController extends Controller
     {
         try {
 
-            $idScope = collect($request->idScope)->filter()->all();
+            $idScope = $request->idScope;
             $scope = collect($request->scope)->filter()->all();
             $planStart = collect($request->planStart)->filter()->all();
             $planEnd = collect($request->planEnd)->filter()->all();
@@ -41,11 +41,7 @@ class scopeProjectController extends Controller
             $post->save();
 
             for ($count = 0; $count < count($scope); $count++) {
-                if (count($idScope)) {
-                    $postt = scopeProject::find($idScope[$count]);
-                } else {
-                    $postt = new scopeProject();
-                }
+                $postt = scopeProject::findOrNew($idScope[$count]);
                 $postt->ProjectId = $id;
                 $postt->scope = $scope[$count];
                 $postt->planStart = date("Y-m-d", strtotime(str_replace('-', '-', $planStart[$count])));
@@ -60,5 +56,13 @@ class scopeProjectController extends Controller
             $data = [$error->errors(), "error"];
             return response($data);
         }
+    }
+
+    public function destroy($id)
+    {
+        $post = scopeProject::find($id);
+        $post->delete();
+
+        return response()->json($post);
     }
 }

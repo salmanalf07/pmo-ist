@@ -276,7 +276,12 @@
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
         }
         for (let j = 6; j <= 6; j++) {
@@ -351,7 +356,12 @@
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
 
             flatpickr(".datepicker", {
@@ -410,6 +420,44 @@
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
+        var inputElement1 = row.querySelector("input[name='idRisk[]']");
+        var inputElement = row.querySelector("input[name='idIssues[]']");
+        if (inputElement1) {
+            var id = inputElement1.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_projectMember/risk/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
+        if (inputElement) {
+            var id = inputElement.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_projectMember/issues/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
         row.parentNode.removeChild(row);
     }
 </script>

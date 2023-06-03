@@ -28,7 +28,7 @@ class memberProjectController extends Controller
     {
         try {
 
-            $idMember = collect($request->idMember)->filter()->all();
+            $idMember = $request->idMember;
             $employee = collect($request->employee)->filter()->all();
             $role = collect($request->role)->filter()->all();
             $startDate = collect($request->startDate)->filter()->all();
@@ -39,11 +39,7 @@ class memberProjectController extends Controller
 
 
             for ($count = 0; $count < count($employee); $count++) {
-                if (count($idMember)) {
-                    $postt = memberProject::find($idMember[$count]);
-                } else {
-                    $postt = new memberProject();
-                }
+                $postt = memberProject::findOrNew($idMember[$count]);
                 $postt->ProjectId = $id;
                 $postt->employee = $employee[$count];
                 $postt->role = $role[$count];
@@ -59,5 +55,13 @@ class memberProjectController extends Controller
             $data = [$error->errors(), "error"];
             return response($data);
         }
+    }
+
+    public function destroy($id)
+    {
+        $post = memberProject::find($id);
+        $post->delete();
+
+        return response()->json($post);
     }
 }

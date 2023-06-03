@@ -125,7 +125,7 @@
                     } else {
                         //console.log(data)
                         document.getElementById("form-add").reset();
-                        window.location.href = "/project/scopeHighLevel/" + data;
+                        window.location.href = "/project/top/" + data;
                     }
 
                 },
@@ -177,7 +177,12 @@
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
 
             flatpickr(".datepicker", {
@@ -201,6 +206,25 @@
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
+        var inputElement = row.querySelector("input[name='idtop[]']");
+        if (inputElement) {
+            var id = inputElement.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_top/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
         row.parentNode.removeChild(row);
     }
 </script>

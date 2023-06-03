@@ -167,12 +167,14 @@
 
             if (inputElements.length !== 0) {
                 var average = total / inputElements.length;
-                $('#overAllProg').val(average + '%');
+                $('#overAllProg').val(Math.round(average) + '%');
             } else {
                 console.log("Tidak ada input yang ditemukan.");
             }
 
         })
+
+
     })
 </script>
 <script>
@@ -199,7 +201,12 @@
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
             }
 
             flatpickr(".datepicker", {
@@ -223,7 +230,44 @@
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
+        var inputElement = row.querySelector("input[name='idScope[]']");
+        if (inputElement) {
+            var id = inputElement.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_scopeHighLevel/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        }
         row.parentNode.removeChild(row);
+        hitung2();
+    }
+
+    function hitung2() {
+        var inputElements = document.querySelectorAll("input[id^='progProject']");
+        var total = 0;
+
+        inputElements.forEach(function(inputElement) {
+            var inputValue = parseFloat((inputElement.value).replace("%", "").trim());
+            total += inputValue;
+        });
+
+        if (inputElements.length !== 0) {
+            var average = total / inputElements.length;
+            $('#overAllProg').val(Math.round(average) + '%');
+        } else {
+            console.log("Tidak ada input yang ditemukan.");
+        }
     }
 </script>
 @endsection
