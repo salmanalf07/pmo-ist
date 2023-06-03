@@ -33,9 +33,9 @@ class memberProjectController extends Controller
             $role = collect($request->role)->filter()->all();
             $startDate = collect($request->startDate)->filter()->all();
             $endDate = collect($request->endDate)->filter()->all();
-            $planMandays = array_filter($request->planMandays, function ($value) {
-                return ($value !== null && $value !== false && $value !== '');
-            });
+            $planMandays = array_map(function ($value) {
+                return $value !== null ? $value : 0;
+            }, $request->planMandays);
 
 
             for ($count = 0; $count < count($employee); $count++) {
