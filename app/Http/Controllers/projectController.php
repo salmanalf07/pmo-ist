@@ -11,10 +11,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class projectController extends Controller
 {
-    public function json()
+    public function json(Request $request)
     {
-        $data = Project::with('customer', 'pm')->orderBy('created_at', 'DESC');
+        $dataa = Project::with('customer', 'pm')->orderBy('created_at', 'DESC');
 
+        if ($request->cust_id != "#" && $request->cust_id) {
+            $dataa->where('cust_id', $request->cust_id);
+        }
+        if ($request->pmName != "#" && $request->pmName) {
+            $dataa->where('pmName', $request->pmName);
+        }
+
+        $data = $dataa->get();
         return DataTables::of($data)
             ->addColumn('projectNamee', function ($data) {
                 return

@@ -78,6 +78,12 @@
 
 
                                 </tbody>
+                                <tfoot>
+                                    <tr class="input-100">
+                                        <td colspan="3" class="text-end fw-bold">OverAll Progress</td>
+                                        <td><input class="text-center" type="text" name="overAllProg" id="overAllProg"></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -121,7 +127,7 @@
                     } else {
                         //console.log(data)
                         document.getElementById("form-add").reset();
-                        window.location.href = "/project/projectMember/" + data;
+                        window.location.href = "/project/scopeHighLevel/" + data;
                     }
 
                 },
@@ -144,8 +150,29 @@
                 $('#planStart' + i).val((data[i].planStart).split("-").reverse().join("-"));
                 $('#planEnd' + i).val((data[i].planEnd).split("-").reverse().join("-"));
                 $('#progProject' + i).val(data[i].progProject + '%');
+                $('#overAllProg').val('{{$overAllProg->overAllProg}}' + '%');
             }
         }
+
+        //hitung overAll
+        $('#detailOrder').on('input', '[id^="progProject"]', function() {
+
+            var inputElements = document.querySelectorAll("input[id^='progProject']");
+            var total = 0;
+
+            inputElements.forEach(function(inputElement) {
+                var inputValue = parseFloat((inputElement.value).replace("%", "").trim());
+                total += inputValue;
+            });
+
+            if (inputElements.length !== 0) {
+                var average = total / inputElements.length;
+                $('#overAllProg').val(average + '%');
+            } else {
+                console.log("Tidak ada input yang ditemukan.");
+            }
+
+        })
     })
 </script>
 <script>

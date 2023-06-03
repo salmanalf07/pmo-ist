@@ -71,7 +71,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //project list
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectInfo', function () {
-        return view('project/projectInfo', ['judul' => "Project"]);
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('project/projectInfo', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
     })->name('projectInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);

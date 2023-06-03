@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\scopeProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -11,6 +12,7 @@ class scopeProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $get = scopeProject::where('projectId', $id)->get();
+        $overAllProg = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -18,7 +20,7 @@ class scopeProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/scopeHighLevel', ['id' => $id, 'aksi' => $aksi, 'data' => $get]);
+        return view('project/scopeHighLevel', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
         //return $get;
     }
 
@@ -34,6 +36,9 @@ class scopeProjectController extends Controller
                 return ($value !== null && $value !== false && $value !== '');
             });
 
+            $post = Project::find($id);
+            $post->overAllProg = str_replace("%", "", $request->overAllProg);
+            $post->save();
 
             for ($count = 0; $count < count($scope); $count++) {
                 if (count($idScope)) {
