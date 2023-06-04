@@ -108,28 +108,41 @@
         $('.card-footer').on('click', '.add', function() {
             var form = document.getElementById("form-add");
             var fd = new FormData(form);
-            $.ajax({
-                type: 'POST',
-                url: '/store_top/{{$id}}',
-                data: fd,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    if (data[1]) {
-                        let text = "";
-                        var dataa = Object.assign({}, data[0])
-                        for (let x in dataa) {
-                            text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
-                        }
-                        $('#peringatan').append(text);
-                    } else {
-                        //console.log(data)
-                        document.getElementById("form-add").reset();
-                        window.location.href = "/project/top/" + data;
-                    }
+            var totalValue = 0;
 
-                },
+            // Hitung total nilai
+            $('input[name^="termsValue\[\]"]').each(function() {
+                var value = parseFloat($(this).val().replaceAll(".", ""));
+                if (!isNaN(value)) {
+                    totalValue += value;
+                }
             });
+            if (totalValue != '{{$projectValue}}') {
+                alert('Total terms value tidak  sesuai dengan project value');
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/store_top/{{$id}}',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data[1]) {
+                            let text = "";
+                            var dataa = Object.assign({}, data[0])
+                            for (let x in dataa) {
+                                text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
+                            }
+                            $('#peringatan').append(text);
+                        } else {
+                            //console.log(data)
+                            document.getElementById("form-add").reset();
+                            window.location.href = "/project/top/" + data;
+                        }
+
+                    },
+                });
+            }
         });
     })
 </script>

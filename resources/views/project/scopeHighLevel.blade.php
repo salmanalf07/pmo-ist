@@ -17,6 +17,10 @@
     .input-100 td {
         padding: 0.5rem;
     }
+
+    .percentage-input::after {
+        content: '%';
+    }
 </style>
 <div>
     <!-- row -->
@@ -26,7 +30,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="mb-0">Scope High Level</h4>
-
+                    <span id="error-message"></span>
                 </div>
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">
                     @csrf
@@ -54,16 +58,16 @@
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
-                                                <input id="planStart0" name="planStart[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input id="planStart0" name="planStart[]" type="text" class="text-center datepicker" onchange="compareDates(this)" data-input aria-describedby="date1" required>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
-                                                <input id="planEnd0" name="planEnd[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input id="planEnd0" name="planEnd[]" type="text" class="text-center datepicker" onchange="compareDates(this)" data-input aria-describedby="date1" required>
                                             </div>
                                         </td>
                                         <td>
-                                            <input class="text-center" type="text" name="progProject[]" id="progProject0">
+                                            <input class="text-center" type="text" name="progProject[]" id="progProject0" onchange="addPercentage(this)">
                                         </td>
                                         <td>
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -103,6 +107,24 @@
         dateFormat: "d-m-Y",
         defaultDate: "today",
     });
+
+    function compareDates(input) {
+        // console.log((input.id).match(/\d+/g))
+        var id = (input.id).match(/\d+/g);
+        var dateInInput = input.id === "planStart0" ? input : document.getElementById('planStart' + id);
+        var dateEnfInput = input.id === "planEnd0" ? input : document.getElementById('planEnd' + id);
+
+        var dateIn = convertToDate(dateInInput.value);
+        var dateEnf = convertToDate(dateEnfInput.value);
+
+        if (dateIn.getTime() > dateEnf.getTime()) {
+            alert("Tanggal Plan Start harus sebelum Tanggal Plan End.");
+        } else if (dateIn.getTime() < dateEnf.getTime()) {
+            // Tanggal valid
+        } else {
+            alert("Tanggal Plan Start dan Tanggal Plan End tidak boleh sama.");
+        }
+    }
 </script>
 <script>
     $(function() {
@@ -206,14 +228,17 @@
 
                 if (clonedNode.tagName === "INPUT") {
                     clonedNode.value = ""; // Reset input value
+                    clonedNode.addEventListener("change", function() {
+                        compareDates(this);
+                    });
                 }
             }
+
 
             flatpickr(".datepicker", {
                 dateFormat: "d-m-Y",
             });
         }
-
 
         newCell5.addEventListener("click", function() {
             deleteRow(this);

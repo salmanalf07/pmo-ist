@@ -75,6 +75,30 @@
     <script src="/assets/js/ribuan.js"></script>
     <script src="/assets/js/formatNumber.js"></script>
     <script src="/assets/css/moment/moment.min.js"></script>
+    <script>
+        function addPercentage(inputField) {
+            var inputValue = inputField.value;
+            var numberOnly = inputValue.replace(/[^0-9]/g, '');
+
+            if (numberOnly > 100) {
+                alert("Angka melebihi 100!");
+                inputField.value = '0' + '%';
+                $(inputField).trigger('input');
+            } else {
+                inputField.value = numberOnly + '%';
+                $(inputField).trigger('input');
+            }
+        }
+
+        function convertToDate(dateString) {
+            var parts = dateString.split("-");
+            var day = parseInt(parts[0]);
+            var month = parseInt(parts[1]) - 1; // Januari adalah bulan 0 dalam objek Date
+            var year = parseInt(parts[2]);
+            var date = new Date(year, month, day);
+            return date;
+        }
+    </script>
 
 
 </body>

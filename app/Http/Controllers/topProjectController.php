@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -34,6 +35,7 @@ class topProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $get = topProject::where('projectId', $id)->get();
+        $value = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -41,7 +43,7 @@ class topProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/top', ['id' => $id, 'aksi' => $aksi, 'data' => $get]);
+        return view('project/top', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
         //return $get;
     }
 

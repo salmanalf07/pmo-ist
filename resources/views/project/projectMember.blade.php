@@ -89,11 +89,11 @@
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
-                                                <input id="endDate0" name="endDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input id="endDate0" name="endDate[]" type="text" onchange="compareDates(this)" class="text-center datepicker" data-input aria-describedby="date1" required>
                                             </div>
                                         </td>
                                         <td>
-                                            <input id="planMandays0" name="planMandays[]" type="text" class="text-center" value="0">
+                                            <input id="planMandays0" name="planMandays[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
                                         </td>
                                         <td>
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -130,6 +130,24 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
+
+    function compareDates(input) {
+        // console.log((input.id).match(/\d+/g))
+        var id = (input.id).match(/\d+/g);
+        var dateInInput = input.id === "startDate0" ? input : document.getElementById('startDate' + id);
+        var dateEnfInput = input.id === "endDate0" ? input : document.getElementById('endDate' + id);
+
+        var dateIn = convertToDate(dateInInput.value);
+        var dateEnf = convertToDate(dateEnfInput.value);
+
+        if (dateIn.getTime() > dateEnf.getTime()) {
+            alert("Tanggal  Start Date harus sebelum Tanggal End Date.");
+        } else if (dateIn.getTime() < dateEnf.getTime()) {
+            // Tanggal valid
+        } else {
+            alert("Tanggal  Start Date dan Tanggal Plan End Date tidak boleh sama.");
+        }
+    }
 </script>
 <script>
     $(function() {
@@ -264,6 +282,9 @@
 
                 if (clonedNode.tagName === "INPUT") {
                     clonedNode.value = ""; // Reset input value
+                    clonedNode.addEventListener("change", function() {
+                        compareDates(this);
+                    });
                 }
             }
             if (j == 7) {
