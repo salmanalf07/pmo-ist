@@ -12,7 +12,7 @@ class topProjectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = topProject::with('project')->orderBy('created_at', 'DESC');
+        $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
 
         if ($request->date_st != "#" && $request->date_st) {
             $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))

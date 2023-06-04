@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailOrder;
 use App\Models\Order;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use PhpParser\Node\Expr\Isset_;
@@ -13,6 +14,7 @@ class orderController extends Controller
     public function edit(Request $request, $id)
     {
         $get = Order::with('detailOrder')->where('projectId', $id)->first();
+        $value = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -20,7 +22,7 @@ class orderController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/detailOrder', ['id' => $id, 'aksi' => $aksi, 'data' => $get]);
+        return view('project/detailOrder', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
     }
 
     public function store(Request $request, $id)

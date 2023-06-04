@@ -25,8 +25,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
                                         <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter Data</button>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear Filter</button>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +45,9 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>Customer</th>
                                         <th>Project Name</th>
+                                        <th>No Contract</th>
                                         <th>Terms Name</th>
                                         <th>Terms Value</th>
                                         <th>BAST Date</th>
@@ -93,15 +98,15 @@
                     "targets": [1, 3], // table ke 1
                 }, {
                     "className": "text-end",
-                    "targets": [2], // table ke 1
+                    "targets": [4], // table ke 1
                 }, {
-                    targets: [3],
+                    targets: [5],
                     render: function(oTable) {
                         return moment(oTable).format('DD-MM-YYYY');
                     }
                 },
                 {
-                    targets: [2],
+                    targets: [4],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
             ],
@@ -117,8 +122,16 @@
                 }
             },
             columns: [{
+                    data: 'project.customer.company',
+                    name: 'project.customer.company'
+                },
+                {
                     data: 'projectNamee',
                     name: 'projectNamee'
+                },
+                {
+                    data: 'project.noContract',
+                    name: 'project.noContract'
                 },
                 {
                     data: 'termsName',
@@ -140,6 +153,10 @@
                 'date_st': date[0],
                 'date_ot': date[1],
             });
+            $('#example1').DataTable().draw();
+        });
+        $('.col-12').on('click', '#clear', function() {
+            $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
     })

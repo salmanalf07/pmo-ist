@@ -32,8 +32,8 @@
                                                     No
                                                 </th>
                                                 <th class="ps-1">Karyawan ID</th>
-                                                <th>Divisi</th>
-                                                <th>Email </th>
+                                                <th>Nama Karyawan</th>
+                                                <th>Emaxil </th>
                                                 <th>Manager Langsung</th>
                                                 <th>Action</th>
                                             </tr>

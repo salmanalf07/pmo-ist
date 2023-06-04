@@ -34,8 +34,11 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
                                         <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter Data</button>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear Filter</button>
                                     </div>
                                 </div>
                             </div>
@@ -129,6 +132,12 @@
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
             });
+            $('#example1').DataTable().draw();
+        });
+        $('.col-12').on('click', '#clear', function() {
+            $('#cust_id').val('#').trigger('change'),
+                $('#pmName').val('#').trigger('change'),
+                $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
     })

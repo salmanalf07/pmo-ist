@@ -29,6 +29,8 @@ class employee extends Model
         'pkwt_end',
         'email_ist',
         'email',
+        'status',
+        'keterangan',
     ];
     /**
      * The "booting" function of model
