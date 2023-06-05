@@ -308,8 +308,12 @@
                 $('#direct_manager').val(data.direct_manager);
                 $('#role').val(data.role);
                 $('#spesialisasi').val(data.spesialisasi);
-                $('#pkwt_start').val((data.pkwt_start).split("-").reverse().join("-"));
-                $('#pkwt_end').val((data.pkwt_end).split("-").reverse().join("-"));
+                if (data.pkwt_start != null) {
+                    $('#pkwt_start').val((data.pkwt_start).split("-").reverse().join("-"));
+                }
+                if (data.pkwt_end != null) {
+                    $('#pkwt_end').val((data.pkwt_end).split("-").reverse().join("-"));
+                }
                 $('#email_ist').val(data.email_ist);
                 $('#email').val(data.email);
 
