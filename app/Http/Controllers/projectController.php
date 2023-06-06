@@ -70,6 +70,9 @@ class projectController extends Controller
             $post->po = $request->po;
             $post->noPo = $request->noPo;
             $post->datePo = date("Y-m-d", strtotime(str_replace('-', '-', $request->datePo)));
+            $post->dateStPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateStPo)));
+            $post->dateEdPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateEdPo)));
+            $post->poValue = str_replace(".", "", $request->poValue);
             $post->projectValue = str_replace(".", "", $request->projectValue);
             $post->projectType = $request->projectType;
             $post->partnerId = $request->partnerId;

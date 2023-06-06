@@ -109,21 +109,21 @@
     });
 
     function compareDates(input) {
-        // console.log((input.id).match(/\d+/g))
-        var id = (input.id).match(/\d+/g);
-        var dateInInput = input.id === "planStart0" ? input : document.getElementById('planStart' + id);
-        var dateEnfInput = input.id === "planEnd0" ? input : document.getElementById('planEnd' + id);
+        console.log((input.id).match(/\d+/g))
+        // var id = (input.id).match(/\d+/g);
+        // var dateInInput = input.id === "planStart0" ? input : document.getElementById('planStart' + id);
+        // var dateEnfInput = input.id === "planEnd0" ? input : document.getElementById('planEnd' + id);
 
-        var dateIn = convertToDate(dateInInput.value);
-        var dateEnf = convertToDate(dateEnfInput.value);
+        // var dateIn = convertToDate(dateInInput.value);
+        // var dateEnf = convertToDate(dateEnfInput.value);
 
-        if (dateIn.getTime() > dateEnf.getTime()) {
-            alert("Tanggal Plan Start harus sebelum Tanggal Plan End.");
-        } else if (dateIn.getTime() < dateEnf.getTime()) {
-            // Tanggal valid
-        } else {
-            alert("Tanggal Plan Start dan Tanggal Plan End tidak boleh sama.");
-        }
+        // if (dateIn.getTime() > dateEnf.getTime()) {
+        //     alert("Tanggal Plan Start harus sebelum Tanggal Plan End.");
+        // } else if (dateIn.getTime() < dateEnf.getTime()) {
+        //     // Tanggal valid
+        // } else {
+        //     alert("Tanggal Plan Start dan Tanggal Plan End tidak boleh sama.");
+        // }
     }
 </script>
 <script>
