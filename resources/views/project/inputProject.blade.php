@@ -305,7 +305,7 @@
     //datepicker
     flatpickr("#contractDate,#contractStart,#contractEnd,#datePo,#dateStPo,#dateEdPo", {
         dateFormat: "d-m-Y",
-        defaultDate: "today",
+        defaultDate: "01-01-1900",
     });
 </script>
 <script>

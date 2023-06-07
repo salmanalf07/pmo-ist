@@ -125,7 +125,7 @@
 <script>
     flatpickr(".datepicker", {
         dateFormat: "d-m-Y",
-        defaultDate: "today",
+        defaultDate: "01-01-1900",
     });
     $(document).ready(function() {
         $('.select2').select2();
