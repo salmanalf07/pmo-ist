@@ -49,7 +49,9 @@ class orderController extends Controller
             $idor = $request->idor;
             $item = collect($request->item)->filter()->all();
             $rev = collect($request->rev)->filter()->all();
-            $cogs = collect($request->cogs)->filter()->all();
+            $cogs = array_map(function ($value) {
+                return $value !== null ? $value : 0;
+            }, $request->cogs);
             $gp = collect($request->gp)->filter()->all();
 
 
