@@ -59,8 +59,8 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Project Name</th>
                                         <th>Customer</th>
+                                        <th>Project Name</th>
                                         <th>Project Manager</th>
                                         <th>Progress</th>
                                     </tr>
@@ -110,12 +110,11 @@
                 }
             },
             columns: [{
-                    data: 'projectNamee',
-                    name: 'projectNamee'
-                },
-                {
                     data: 'customer.company',
                     name: 'customer.company'
+                }, {
+                    data: 'projectNamee',
+                    name: 'projectNamee'
                 },
                 {
                     data: 'pm.name',

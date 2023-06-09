@@ -11,7 +11,7 @@ class memberProjectController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = memberProject::where('projectId', $id)->get();
+        $get = memberProject::where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data

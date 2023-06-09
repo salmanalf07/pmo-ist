@@ -37,11 +37,12 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th style="width: 30%;">Name TOP</th>
-                                        <th class="text-center" style="width: 20%;">Value</th>
-                                        <th class="text-center" style="width: 15%;">Plant BAST</th>
-                                        <th class="text-center" style="width: 15%;">Invoice Date</th>
-                                        <th class="text-center" style="width: 15%;">Payment Date</th>
+                                        <th style="width: 25%;">Name TOP</th>
+                                        <th class="text-center" style="width: 13%;">Value</th>
+                                        <th class="text-center" style="width: 13%;">Plant BAST</th>
+                                        <th class="text-center" style="width: 13%;">Invoice Date</th>
+                                        <th class="text-center" style="width: 13%;">Payment Date</th>
+                                        <th class="text-center" style="width: 18%;">Remarks</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -67,6 +68,11 @@
                                         <td>
                                             <div class="input-group me-3 ">
                                                 <input id="payDate0" name="payDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3 ">
+                                                <input id="remaks0" name="remaks[]" type="text" required>
                                             </div>
                                         </td>
                                         <td>
@@ -162,6 +168,7 @@
                 $('#bastDate' + i).val((data[i].bastDate).split("-").reverse().join("-"));
                 $('#invDate' + i).val((data[i].invDate).split("-").reverse().join("-"));
                 $('#payDate' + i).val((data[i].payDate).split("-").reverse().join("-"));
+                $('#remaks' + i).val(data[i].remaks);
             }
         }
     })
@@ -175,7 +182,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 6; j++) {
+        for (let j = 0; j <= 7; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -185,7 +192,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 5) {
+            if (j <= 6) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -195,12 +202,16 @@
 
                 if (clonedNode.tagName === "INPUT") {
                     clonedNode.value = ""; // Reset input value
+
                 }
             }
 
-            flatpickr(".datepicker", {
-                dateFormat: "d-m-Y",
-            });
+            if (clonedContent.querySelector('input.datepicker')) {
+                flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "01-01-1900",
+                });
+            }
         }
 
 
@@ -220,7 +231,7 @@
     function deleteRow(button) {
         var row = button.closest("tr");
         var inputElement = row.querySelector("input[name='idtop[]']");
-        if (inputElement) {
+        if (inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({

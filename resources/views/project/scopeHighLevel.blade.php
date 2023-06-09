@@ -234,10 +234,12 @@
                 }
             }
 
-
-            flatpickr(".datepicker", {
-                dateFormat: "d-m-Y",
-            });
+            if (clonedContent.querySelector('input.datepicker')) {
+                flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "01-01-1900",
+                });
+            }
         }
 
         newCell5.addEventListener("click", function() {
@@ -256,7 +258,7 @@
     function deleteRow(button) {
         var row = button.closest("tr");
         var inputElement = row.querySelector("input[name='idScope[]']");
-        if (inputElement) {
+        if (inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({

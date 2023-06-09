@@ -34,7 +34,7 @@ class topProjectController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $get = topProject::where('projectId', $id)->get();
+        $get = topProject::where('projectId', $id)->orderBy('created_at')->get();
         $value = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -57,6 +57,7 @@ class topProjectController extends Controller
             $bastDate = collect($request->bastDate)->filter()->all();
             $invDate = collect($request->invDate)->filter()->all();
             $payDate = collect($request->payDate)->filter()->all();
+            $remaks = collect($request->remaks)->filter()->all();
 
 
             for ($count = 0; $count < count($termsName); $count++) {
@@ -67,6 +68,7 @@ class topProjectController extends Controller
                 $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
                 $postt->invDate = date("Y-m-d", strtotime(str_replace('-', '-', $invDate[$count])));
                 $postt->payDate = date("Y-m-d", strtotime(str_replace('-', '-', $payDate[$count])));
+                $postt->remaks = $remaks[$count];
 
                 $postt->save();
             }

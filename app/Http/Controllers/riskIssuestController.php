@@ -11,8 +11,8 @@ class riskIssuestController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $getRisk = riskProject::where('projectId', $id)->get();
-        $getIssues = issuesProject::where('projectId', $id)->get();
+        $getRisk = riskProject::where('projectId', $id)->orderBy('created_at')->get();
+        $getIssues = issuesProject::where('projectId', $id)->orderBy('created_at')->get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($getRisk) {

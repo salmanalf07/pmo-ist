@@ -422,7 +422,7 @@
         var row = button.closest("tr");
         var inputElement1 = row.querySelector("input[name='idRisk[]']");
         var inputElement = row.querySelector("input[name='idIssues[]']");
-        if (inputElement1) {
+        if (inputElement1.value) {
             var id = inputElement1.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
@@ -439,8 +439,10 @@
             } else {
                 return false;
             }
+        } else {
+            row.parentNode.removeChild(row);
         }
-        if (inputElement) {
+        if (inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
@@ -457,8 +459,10 @@
             } else {
                 return false;
             }
+        } else {
+            row.parentNode.removeChild(row);
         }
-        row.parentNode.removeChild(row);
+
     }
 </script>
 @endsection

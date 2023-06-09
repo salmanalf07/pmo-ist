@@ -270,11 +270,7 @@
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             if (j == 3 || j == 4 || j == 5 || j == 6) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
-                if (j != 3 || j != 6) {
-                    flatpickr(".datepicker", {
-                        dateFormat: "d-m-Y",
-                    });
-                }
+
             }
             for (var k = 0; k < childNodes.length; k++) {
                 var clonedNode = childNodes[k].cloneNode(true);
@@ -295,6 +291,12 @@
                     deleteRow(this);
                 });
             }
+            if (clonedContent.querySelector('input.datepicker')) {
+                flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "01-01-1900",
+                });
+            }
         }
     }
 
@@ -302,7 +304,7 @@
     function deleteRow(button) {
         var row = button.closest("tr");
         var inputElement = row.querySelector("input[name='idMember[]']");
-        if (inputElement) {
+        if (inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
