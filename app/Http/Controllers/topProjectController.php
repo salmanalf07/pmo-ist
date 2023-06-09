@@ -57,7 +57,9 @@ class topProjectController extends Controller
             $bastDate = collect($request->bastDate)->filter()->all();
             $invDate = collect($request->invDate)->filter()->all();
             $payDate = collect($request->payDate)->filter()->all();
-            $remaks = collect($request->remaks)->filter()->all();
+            $remaks = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->remaks);
 
 
             for ($count = 0; $count < count($termsName); $count++) {
