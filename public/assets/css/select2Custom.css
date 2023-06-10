@@ -46,3 +46,72 @@
     border: var(--dashui-border-width) solid var(--dashui-input-border);
     border-radius: .375rem;
   }
+
+.form-check-inputt {
+    --dashui-form-check-bg: var(--dashui-input-bg) !important;
+    print-color-adjust: exact !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-color: var(--dashui-form-check-bg) !important;
+    background-image: var(--dashui-form-check-bg-image) !important;
+    background-position: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    border: 1px solid var(--dashui-input-check-border) !important;
+    height: 2rem !important;
+    vertical-align: top !important;
+    width: 1em !important;
+    
+  }
+  .form-check {
+    display:block !important;
+    margin-bottom:.125rem !important;
+    min-height:1.3125rem !important;
+    padding-left:1.5em !important
+   }
+   .form-check .form-check-inputt {
+    float:left !important;
+    margin-left:-1.5em !important
+   }
+   .form-check-reverse {
+    padding-left:0 !important;
+    padding-right:1.5em !important;
+    text-align:right !important
+   }
+   .form-check-reverse .form-check-inputt {
+    float:right !important;
+    margin-left:0 !important;
+    margin-right:-1.5em !important
+   }
+   .form-check-inputt[type=radio] {
+    border-radius:50% !important
+   }
+   .form-check-inputt:active {
+    filter:brightness(90%) !important
+   }
+   .form-check-inputt:checked {
+    background-color:#624bff !important;
+    border-color:#624bff !important
+   }
+   .form-check-inputt:checked[type=checkbox] {
+    --dashui-form-check-bg-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3E%3C/svg%3E")
+   }
+   .form-check-inputt:checked[type=radio] {
+    --dashui-form-check-bg-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='2' fill='%23fff'/%3E%3C/svg%3E")
+   }
+   .form-check-inputt[type=checkbox]:indeterminate {
+    --dashui-form-check-bg-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3E%3C/svg%3E");
+    background-color:#624bff !important;
+    border-color:#624bff !important
+   }
+   .form-check-inputt:disabled {
+    filter:none !important;
+    opacity:.5 !important;
+    pointer-events:none !important
+   }
+   .form-check-inputt:disabled~.form-check-label,
+   .form-check-inputt[disabled]~.form-check-label {
+    cursor:default !important;
+    opacity:.5 !important
+   }
