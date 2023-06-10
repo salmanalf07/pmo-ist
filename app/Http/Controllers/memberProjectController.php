@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employee;
 use App\Models\memberProject;
+use App\Models\partnerProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -12,6 +13,7 @@ class memberProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $get = memberProject::where('projectId', $id)->orderBy('created_at')->get();
+        $partner = partnerProject::where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -20,7 +22,7 @@ class memberProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectMember', ['judul' => "Project", 'id' => $id, "employee" => $employee, 'aksi' => $aksi, 'data' => $get]);
+        return view('project/projectMember', ['judul' => "Project", 'id' => $id, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner]);
         //return $get;
     }
 
@@ -49,6 +51,32 @@ class memberProjectController extends Controller
 
                 $postt->save();
             }
+
+            $idPartner = $request->idPartner;
+            $partner = collect($request->partner)->filter()->all();
+            $rolePartner = collect($request->rolePartner)->filter()->all();
+            $partnerCorp = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->partnerCorp);;
+            $statePartner = collect($request->statePartner)->filter()->all();
+            $eddatePartner = collect($request->eddatePartner)->filter()->all();
+            $planManPartner = array_map(function ($value) {
+                return $value !== null ? $value : 0;
+            }, $request->planManPartner);
+
+
+            for ($count = 0; $count < count($partner); $count++) {
+                $postt = partnerProject::findOrNew($idPartner[$count]);
+                $postt->ProjectId = $id;
+                $postt->partner = $partner[$count];
+                $postt->rolePartner = $rolePartner[$count];
+                $postt->partnerCorp = $partnerCorp[$count];
+                $postt->statePartner = date("Y-m-d", strtotime(str_replace('-', '-', $statePartner[$count])));
+                $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $eddatePartner[$count])));
+                $postt->planManPartner = $planManPartner[$count];
+
+                $postt->save();
+            }
             $data = [$id];
             return response()->json($data);
         } catch (ValidationException $error) {
@@ -60,6 +88,14 @@ class memberProjectController extends Controller
     public function destroy($id)
     {
         $post = memberProject::find($id);
+        $post->delete();
+
+        return response()->json($post);
+    }
+
+    public function destroyPartner($id)
+    {
+        $post = partnerProject::find($id);
         $post->delete();
 
         return response()->json($post);

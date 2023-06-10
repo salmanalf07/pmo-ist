@@ -1,6 +1,7 @@
 @extends('/project/navbarInput')
 
 @section('inputan')
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <style>
     .input-80 input {
         width: 80% !important;
@@ -57,26 +58,31 @@
                                         <td><input type="text" class="number-input text-end" name="termsValue[]" id="termsValue0"></td>
                                         <td>
                                             <div class="input-group me-3">
-                                                <input id="bastDate0" name="bastDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input style="width: 85% !important;" id="bastDate0" name="bastDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input type="hidden" class="hideng" id="bastMain0" name="bastMain[]" value="0">
+                                                <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="bastMain0" name="bastMain[]" onclick="toggleCheckbox(this)" title="Main BAST">
                                             </div>
+
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
-                                                <input id="invDate0" name="invDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input style="width: 85% !important;" id="invDate0" name="invDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input type="hidden" class="hideng" id="invMain0" name="invMain[]" value="0">
+                                                <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="invMain0" name="invMain[]" onclick="toggleCheckbox(this)" title="Main Invoice">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="input-group me-3 ">
-                                                <input id="payDate0" name="payDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input style="width: 85% !important;" id="payDate0" name="payDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                                <input type="hidden" class="hideng" id="payMain0" name="payMain[]" value="0">
+                                                <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="payMain0" name="payMain[]" onclick="toggleCheckbox(this)" title="Main Payment">
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="input-group me-3 ">
-                                                <input id="remaks0" name="remaks[]" type="text" required>
-                                            </div>
+                                            <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
@@ -166,8 +172,17 @@
                 $('#termsName' + i).val(data[i].termsName);
                 $('#termsValue' + i).val(formatNumberr(data[i].termsValue));
                 $('#bastDate' + i).val((data[i].bastDate).split("-").reverse().join("-"));
+                if (data[i].bastMain != 0) {
+                    $(".form-check-inputt#bastMain" + i).prop("checked", true).trigger('change');
+                }
                 $('#invDate' + i).val((data[i].invDate).split("-").reverse().join("-"));
+                if (data[i].invMain != 0) {
+                    $(".form-check-inputt#invMain" + i).prop("checked", true).trigger('change');
+                }
                 $('#payDate' + i).val((data[i].payDate).split("-").reverse().join("-"));
+                if (data[i].payMain != 0) {
+                    $(".form-check-inputt#payMain" + i).prop("checked", true).trigger('change');
+                }
                 $('#remaks' + i).val(data[i].remaks);
             }
         }
@@ -195,6 +210,16 @@
             if (j <= 6) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
+            if (j == 3 || j == 4 || j == 5) {
+                var inputs = clonedContent.querySelectorAll('input');
+                inputs.forEach(function(input, index) {
+                    // if (input.type == "checkbox") {
+                    var newId = (input.id).replace(/\d+/g, '') + tableRange;
+                    input.id = newId;
+                    // console.log(input.id)
+                    // }
+                });
+            }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             for (var k = 0; k < childNodes.length; k++) {
                 var clonedNode = childNodes[k].cloneNode(true);
@@ -202,10 +227,12 @@
 
                 if (clonedNode.tagName === "INPUT") {
                     clonedNode.value = ""; // Reset input value
-
                 }
             }
 
+            if (clonedContent.querySelector('input.form-check-inputt')) {
+                $('.form-check-inputt#' + clonedContent.querySelector('input.form-check-inputt').id).prop("checked", false);
+            }
             if (clonedContent.querySelector('input.datepicker')) {
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
                     dateFormat: "d-m-Y",
@@ -218,9 +245,9 @@
         newCell5.addEventListener("click", function() {
             deleteRow(this);
         });
-        cell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
+        // cell5.addEventListener("click", function() {
+        //     deleteRow(this);
+        // });
 
         $(".number-input").on("input", function() {
             formatNumber(this);
@@ -250,6 +277,16 @@
             }
         }
         row.parentNode.removeChild(row);
+    }
+
+    function toggleCheckbox(button) {
+        if (button.checked) {
+            button.value = 1;
+            $('.hideng#' + button.id).prop('disabled', true);
+            console.log("Checkbox checked " + button.id + "+" + button.value);
+        } else {
+            $('.hideng#' + button.id).prop('disabled', false);
+        }
     }
 </script>
 @endsection

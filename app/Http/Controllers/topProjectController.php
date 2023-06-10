@@ -55,8 +55,11 @@ class topProjectController extends Controller
             $termsName = collect($request->termsName)->filter()->all();
             $termsValue = collect($request->termsValue)->filter()->all();
             $bastDate = collect($request->bastDate)->filter()->all();
+            $bastMain =  collect($request->bastMain)->filter()->all();
             $invDate = collect($request->invDate)->filter()->all();
+            $invMain =  collect($request->invMain)->filter()->all();
             $payDate = collect($request->payDate)->filter()->all();
+            $payMain =  collect($request->payMain)->filter()->all();
             $remaks = array_map(function ($value) {
                 return $value !== null ? $value : null;
             }, $request->remaks);
@@ -68,8 +71,11 @@ class topProjectController extends Controller
                 $postt->termsName = $termsName[$count];
                 $postt->termsValue = str_replace(".", "", $termsValue[$count]);
                 $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
+                $postt->bastMain = isset($bastMain[$count]) ? $bastMain[$count] : 0;
                 $postt->invDate = date("Y-m-d", strtotime(str_replace('-', '-', $invDate[$count])));
+                $postt->invMain = isset($invMain[$count]) ? $invMain[$count] : 0;
                 $postt->payDate = date("Y-m-d", strtotime(str_replace('-', '-', $payDate[$count])));
+                $postt->payMain = isset($payMain[$count]) ? $payMain[$count] : 0;
                 $postt->remaks = $remaks[$count];
 
                 $postt->save();

@@ -26,7 +26,7 @@
             @csrf
             <span id="peringatan"></span>
             <input class="form-control" type="text" name="id" id="id" hidden>
-            <div class="col-xxl-12 col-12">
+            <div class="col-xxl-12 col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="mb-0">Project Member</h4>
@@ -52,7 +52,7 @@
                                             <input type="text" name="idMember[]" id="idMember0">
                                         </td>
                                         <td>
-                                            <select name="employee[]" id="employee0" class="select2" aria-label="Default select example">
+                                            <select name="employee[]" id="employee0" class="select2" aria-label="Default select example" onchange="search_div(this)">
                                                 <option selected>Open this select menu</option>
                                                 @foreach($employee as $employee)
                                                 <option value="{{$employee->id}}">{{$employee->name}}</option>
@@ -80,7 +80,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="text" readonly>
+                                            <input id="divisi0" name="divisi[]" type="text" readonly>
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
@@ -96,7 +96,7 @@
                                             <input id="planMandays0" name="planMandays[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
@@ -112,8 +112,101 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
-                        <button type="button" class="btn btn-primary-soft add"> Save</button>
+                        <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row Member</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-12 col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Partner Member</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table-card">
+                            <table class="table table-centered text-nowrap mb-0">
+                                <thead class="table-light">
+                                    <tr class="text-center">
+                                        <th class="text-start" style="width: 30%;">Name</th>
+                                        <th class="text-start" style="width: 20%;">Role</th>
+                                        <th style="width: 15%;">Dept/Div</th>
+                                        <th style="width: 10%;">Start Date</th>
+                                        <th style="width: 10%;">End Date</th>
+                                        <th style="width: 10%;">Plan Mandays</th>
+                                        <th style="width: 5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailPartner">
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idPartner[]" id="idPartner0">
+                                        </td>
+                                        <td>
+                                            <input id="partner0" name="partner[]" type="text">
+                                        </td>
+                                        <td>
+                                            <select name="rolePartner[]" id="rolePartner0" class="select2" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                <option value="ProjectManager">Project Manager</option>
+                                                <option value="LeadFrontendDeveloper">Lead Frontend Developer</option>
+                                                <option value="FrontendDeveloper">Frontend Developer</option>
+                                                <option value="LeadBackendDeveloper">Lead Backend Developer</option>
+                                                <option value="BackendEngineer">Backend Engineer</option>
+                                                <option value="BussinessAnalyst">Bussiness Analyst</option>
+                                                <option value="Devops/IntegrationEngineer">Devops / Integration Engineer</option>
+                                                <option value="LeadQA">Lead QA</option>
+                                                <option value="QATester/QAEngineer">QA Tester / QA Engineer</option>
+                                                <option value="TechnicalWriter/UIUXWriter">Technical Writer / UI UX Writer</option>
+                                                <option value="UIUXAnalyst/ResearcherDesigner">UI UX Analyst / Researcher Designer</option>
+                                                <option value="ScrumMaster">Scrum Master</option>
+                                                <option value="FullstackDeveloper">Fullstack Developer</option>
+                                                <option value="SystemAnalyst">System Analyst</option>
+
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="partnerCorp0" name="partnerCorp[]" type="text">
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="stdatePartner0" name="stdatePartner[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="eddatePartner0" name="eddatePartner[]" type="text" onchange="compareDates(this)" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input id="planManPartner0" name="planManPartner[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
+                                        </td>
+                                        <td>
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer  justify-content-between">
+                        <button type="button" onclick="addRowPartner()" class="btn btn-warning-soft">Add Row Partner</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-12 col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="justify-content-between">
+                            <button type="button" class="btn btn-primary-soft add">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -197,6 +290,22 @@
                 $('#endDate' + i).val((data[i].endDate).split("-").reverse().join("-"));
                 $('#planMandays' + i).val(data[i].planMandays);
             }
+
+            var dataa = <?php echo json_encode($partner); ?>;
+            $('#id').val('{{ isset($partner) ? $id : "" }}');
+            for (let j = 0; j < ('{{count($partner)}}' - 1); j++) {
+                addRowPartner();
+            }
+
+            for (var i = 0; i < '{{count($partner)}}'; i++) {
+                $('#idPartner' + i).val(dataa[i].id);
+                $('#partner' + i).val(dataa[i].partner);
+                $('#rolePartner' + i).val(dataa[i].rolePartner).trigger('change');
+                $('#partnerCorp' + i).val(dataa[i].partnerCorp);
+                $('#stdatePartner' + i).val((dataa[i].stdatePartner).split("-").reverse().join("-"));
+                $('#eddatePartner' + i).val((dataa[i].eddatePartner).split("-").reverse().join("-"));
+                $('#planManPartner' + i).val(dataa[i].planManPartner);
+            }
         }
     })
 </script>
@@ -253,6 +362,9 @@
             var selectedOptions = Array.from(selectElement.selectedOptions);
             selectedOptions.forEach(option => {
                 $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
+                clonedNode.addEventListener("change", function() {
+                    search_div(this);
+                });
             });
         }
 
@@ -300,11 +412,116 @@
         }
     }
 
+    function addRowPartner() {
+        var table = document.getElementById("detailPartner");
+        var tableRange = table.rows.length
+        var lastRow = table.rows[table.rows.length - 1];
+
+        var row = table.insertRow(table.rows.length);
+        row.classList.add("input-100");
+
+        for (let j = 0; j <= 1; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var selectElement = cell5.querySelector('input');
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+            clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            if (j == 0) {
+                newCell5.style.display = "none";
+            }
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
+            }
+        }
+
+        for (let j = 2; j <= 2; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+
+            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            newCell5.appendChild(clonedSelect);
+
+            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+
+            // Mengaktifkan kembali Select2 pada elemen select yang baru
+            $(clonedSelect).select2();
+
+            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
+                clonedNode.addEventListener("change", function() {
+                    search_div(this);
+                });
+            });
+        }
+
+        // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
+        $('select').select2();
+
+        for (let j = 3; j <= 7; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('input');
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            if (j == 3 || j == 4 || j == 5 || j == 6) {
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            }
+            for (var k = 0; k < childNodes.length; k++) {
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                    clonedNode.addEventListener("change", function() {
+                        compareDates(this);
+                    });
+                }
+            }
+            if (j == 7) {
+                // cell5.addEventListener("click", function() {
+                //     deleteRow(this);
+                // });
+                newCell5.addEventListener("click", function() {
+                    deleteRow(this);
+                });
+            }
+            if (clonedContent.querySelector('input.datepicker')) {
+                flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "01-01-1900",
+                });
+            }
+        }
+    }
+
     // Fungsi untuk menghapus baris
     function deleteRow(button) {
         var row = button.closest("tr");
         var inputElement = row.querySelector("input[name='idMember[]']");
-        if (inputElement.value) {
+        var inputElement1 = row.querySelector("input[name='idPartner[]']");
+        if (inputElement && inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
@@ -321,8 +538,47 @@
             } else {
                 return false;
             }
+        } else {
+            row.parentNode.removeChild(row);
         }
-        row.parentNode.removeChild(row);
+        if (inputElement1 && inputElement1.value) {
+            var id = inputElement1.value;
+            if (confirm('Yakin akan menghapus data ini?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/delete_projectPartner/' + id,
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        } else {
+            row.parentNode.removeChild(row);
+        }
     }
+
+    function search_div(i) {
+        //console.log(i.id);
+        var matches = i.id.match(/\d+/);
+        var employee = $('#employee' + matches[0]).val();
+        $.ajax({
+            type: 'POST',
+            url: '/search_employee',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'id': employee,
+
+            },
+            success: function(data) {
+                $('#divisi' + matches).val(data.divisi);
+            },
+        });
+    };
 </script>
 @endsection
