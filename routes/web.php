@@ -42,6 +42,22 @@ Route::middleware([
     })->name('profile');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectMethod', function () {
+        return view('/profiles/projectMethod');
+    })->name('projectMethod');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/tempGuide', function () {
+        return view('/profiles/tempGuide');
+    })->name('tempGuide');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/kanban', function () {
+        return view('/profiles/kanban');
+    })->name('kanban');
+});
+//end profile
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');

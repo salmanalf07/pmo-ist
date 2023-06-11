@@ -57,23 +57,20 @@
                                         </td>
                                         <td><input type="text" class="number-input text-end" name="termsValue[]" id="termsValue0"></td>
                                         <td>
-                                            <div class="input-group me-3">
-                                                <input style="width: 85% !important;" id="bastDate0" name="bastDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
-                                                <input type="hidden" class="hideng" id="bastMain0" name="bastMain[]" value="0">
-                                                <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="bastMain0" name="bastMain[]" onclick="toggleCheckbox(this)" title="Main BAST">
-                                            </div>
-
+                                            <input style="width: 84% !important;" id="bastDate0" name="bastDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            <input type="hidden" class="hideng" id="bastMain0" name="bastMain[]" value="0">
+                                            <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="bastMain0" name="bastMain[]" onclick="toggleCheckbox(this)" title="Main BAST">
                                         </td>
                                         <td>
-                                            <div class="input-group me-3">
-                                                <input style="width: 85% !important;" id="invDate0" name="invDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            <div>
+                                                <input style="width: 84% !important;" id="invDate0" name="invDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
                                                 <input type="hidden" class="hideng" id="invMain0" name="invMain[]" value="0">
                                                 <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="invMain0" name="invMain[]" onclick="toggleCheckbox(this)" title="Main Invoice">
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="input-group me-3 ">
-                                                <input style="width: 85% !important;" id="payDate0" name="payDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            <div>
+                                                <input style="width: 84% !important;" id="payDate0" name="payDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
                                                 <input type="hidden" class="hideng" id="payMain0" name="payMain[]" value="0">
                                                 <input class="form-check-inputt" style="width: 1.35rem !important;" type="checkbox" id="payMain0" name="payMain[]" onclick="toggleCheckbox(this)" title="Main Payment">
                                             </div>
