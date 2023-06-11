@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="/assets/css/daterangepicker/daterangepicker.css">
     <!-- select2 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+    <!-- dragula -->
+    <link href="/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet">
     <!-- Theme CSS -->
     <link rel="stylesheet" href="/assets/css/theme.min.css">
     <title>PMO PORTAL</title>
@@ -41,7 +42,8 @@
     </main>
     <!-- Scripts -->
 
-
+    <!-- dragula -->
+    <script src="/assets/libs/dragula/dist/dragula.min.js"></script>
     <!-- Libs JS -->
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
