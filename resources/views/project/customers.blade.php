@@ -20,7 +20,7 @@
                         <div class="card">
                             <div class="card-header d-md-flex border-bottom-0">
                                 <div class="flex-grow-1">
-                                    <button id="adddata" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">+ Add {{$judul}}</button>
+                                    <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">+ Add {{$judul}}</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -50,77 +50,80 @@
     </div>
 </div>
 <!-- Offcanvas -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
+<div class="modal fade gd-example-modal-lg" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Add {{$judul}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-    <div class="offcanvas-body" data-simplebar>
-        <div class="offcanvas-header px-2 pt-0">
-            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Add Customer</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
+                </button>
+            </div>
 
-        <!-- card body -->
-        <div class="container">
-            <!-- form -->
-            <form method="post" role="form" id="form-add" enctype="multipart/form-data">
-                <div class="row">
-                    <!-- form group -->
-                    @csrf
-                    <span id="peringatan"></span>
-                    <input class="form-control" type="text" name="id" id="id" hidden>
-                    <div class="mb-3 mt-3 col-6">
-                        <input class="form-cek-input" type="radio" name="radio" value="customer" id="customer" checked>
-                        <label class="form-label" for="customer">
-                            Customer
-                        </label>
+            <!-- card body -->
+            <div class="modal-body">
+                <!-- form -->
+                <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- form group -->
+                        @csrf
+                        <span id="peringatan"></span>
+                        <input class="form-control" type="text" name="id" id="id" hidden>
+                        <div class="mb-3 mt-3 col-6">
+                            <input class="form-cek-input" type="radio" name="radio" value="customer" id="customer" checked>
+                            <label class="form-label" for="customer">
+                                Customer
+                            </label>
+                        </div>
+                        <div class="mb-3 mt-3 col-6">
+                            <input class="form-cek-input" type="radio" name="radio" value="vendor" id="vendor">
+                            <label class="form-label" for="vendor">
+                                Vendor
+                            </label>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Company <span class="text-danger">*</span></label>
+                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Address</label>
+                            <input name="addres" id="addres" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label class="form-label">City</label>
+                            <input name="city" id="city" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label class="form-label">No NPWP</label>
+                            <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">PIC</label>
+                            <input name="pic" id="pic" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">No Telp. PIC</label>
+                            <input name="telppic" id="telppic" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="selectOne">Industri</label>
+                            <select name="industry" id="industry" class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="banking">Bangking</option>
+                                <option value="goverment">goverment</option>
+                                <option value="bumn">BUMN</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8"></div>
+                        <!-- button -->
+                        <div class="col-12">
+                            <button id="in" class="btn btn-primary" type="button">Submit</button>
+                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
+                        </div>
                     </div>
-                    <div class="mb-3 mt-3 col-6">
-                        <input class="form-cek-input" type="radio" name="radio" value="vendor" id="vendor">
-                        <label class="form-label" for="vendor">
-                            Vendor
-                        </label>
-                    </div>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Company <span class="text-danger">*</span></label>
-                        <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
-                    </div>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Address</label>
-                        <input name="addres" id="addres" type="text" class="form-control" placeholder="Enter Here">
-                    </div>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">City</label>
-                        <input name="city" id="city" type="text" class="form-control" placeholder="Enter Here">
-                    </div>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">No NPWP</label>
-                        <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">PIC</label>
-                        <input name="pic" id="pic" type="text" class="form-control" placeholder="Enter Here">
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label class="form-label">No Telp. PIC</label>
-                        <input name="telppic" id="telppic" type="text" class="form-control" placeholder="Enter Here">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="selectOne">Industri</label>
-                        <select name="industry" id="industry" class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="banking">Bangking</option>
-                            <option value="goverment">goverment</option>
-                            <option value="bumn">BUMN</option>
-                        </select>
-                    </div>
-                    <div class="col-md-8"></div>
-                    <!-- button -->
-                    <div class="col-12">
-                        <button id="in" class="btn btn-primary" type="button">Submit</button>
-                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
-                    </div>
-                </div>
-            </form>
+                </form>
 
+            </div>
         </div>
     </div>
 </div>
@@ -207,7 +210,7 @@
                     }
                     $('#peringatan').append(text);
                 } else {
-                    $('#offcanvasRight').offcanvas('hide');
+                    $('#taskModal').modal('hide');
                     document.getElementById("form-add").reset();
                     $('#example1').DataTable().ajax.reload();
                 }
@@ -250,7 +253,7 @@
                 $('.modal-title').text('Edit Data');
                 $("#in").removeClass("btn btn-primary add");
                 $("#in").addClass("btn btn-primary update");
-                $('#offcanvasRight').offcanvas('show');
+                $('#taskModal').modal('show');
 
             },
         });
@@ -276,7 +279,7 @@
                     }
                     $('#peringatan').append(text);
                 } else {
-                    $('#offcanvasRight').offcanvas('hide');
+                    $('#taskModal').modal('hide');
                     document.getElementById("form-add").reset();
                     $('#example1').DataTable().ajax.reload();
                 }

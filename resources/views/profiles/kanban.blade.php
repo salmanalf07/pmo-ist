@@ -2,49 +2,18 @@
 
 @section('pmo')
 
-<div>
-    <div class="row mb-8 align-items-center">
-        <div class="col-xxl-10 col-xl-8 col-lg-6 col-md-12 col-12 mb-3 mb-lg-0">
-            <!-- heading -->
-            <h3 class="mb-0">DashUI Design & Development</h3>
-        </div>
-        <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
-            <!-- select -->
-            <select class="form-select mb-2 mb-lg-0">
-                <option selected>Sort</option>
-                <option value="None">None</option>
-                <option value="Due Date">Due Date</option>
-                <option value="Assignee">Assignee</option>
-                <option value="Likes">Likes</option>
-                <option value="Alphabetical">Alphabetical</option>
-                <option value="Priority">Priority</option>
-            </select>
-        </div>
-        <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-12 ps-lg-2">
-            <!-- select -->
-            <select class="form-select">
-                <option selected>Filter</option>
-                <option value="Just my task">Just my task</option>
-                <option value="Due this week">Due this week</option>
-                <option value="Due next week">Due next week</option>
-            </select>
-        </div>
-    </div>
-</div>
 <div class="row">
     <div class="col-12">
         <div class="task-kanban-container">
             <!-- card -->
-            <div class="
-                     me-6 task-card">
+            <div class="me-6 task-card">
                 <!-- card body -->
                 <!-- card body -->
                 <div class="card-body">
                     <!-- task list -->
                     <div class="task-list">
                         <!-- content -->
-                        <div class="d-flex justify-content-between
-                          align-items-center mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
                                 <!-- heading -->
                                 <h4 class="mb-0">To Do</h4>
@@ -56,26 +25,16 @@
                                         <i data-feather="more-horizontal" class="icon-xxs"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownboardOne">
-                                        <a class="dropdown-item
-                                  d-flex
-                                  align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="users"></i>Edit
+                                        <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="users"></i>Edit
                                             Column
                                         </a>
-                                        <a class="dropdown-item
-                                  d-flex
-                                  align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="user-x"></i>Manage</a>
-                                        <a class="dropdown-item
-                                  d-flex
-                                  align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="clipboard"></i>Copy
+                                        <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="user-x"></i>Manage</a>
+                                        <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="clipboard"></i>Copy
                                             Column link
                                         </a>
-                                        <a class="dropdown-item
-                                  d-flex
-                                  align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="edit"></i>Archive
+                                        <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon " data-feather="edit"></i>Archive
                                             All Cards</a>
-                                        <a class="dropdown-item
-                                  d-flex
-                                  align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete
+                                        <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete
                                             column</a>
                                     </div>
                                 </div>
@@ -108,8 +67,7 @@
                                                         <i data-feather="more-horizontal" class="icon-xxs"></i>
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                        <a class="dropdown-item
-                                          d-flex
+                                                        <a class="dropdown-item d-flex 
                                           align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
                                                         </a>
                                                         <a class="dropdown-item
@@ -166,104 +124,6 @@
                                         text-muted icon-xxs" data-feather="paperclip"></i>
                                                     <span class="
                                         fs-6">2</span>
-                                                </span>
-                                                <span class="align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="message-square"></i>
-                                                    <span class="
-                                        fs-6">12</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- card -->
-                                <div class="card">
-                                    <!-- card body -->
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck2">
-                                                    <label class="form-check-label" for="customCheck2">
-                                                        <span class="h5">Invite
-                                                            your teammates and
-                                                            start collaborating</span>
-                                                        <br>
-                                                        <span class="badge badge-danger-soft">High</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <!-- dropdown -->
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTask2">
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="check-square"></i>Mark
-                                                            Complete</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="eye"></i>View
-                                                            Details
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="maximize-2"></i>Open in
-                                                            New Tab</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="copy"></i>Duplicate
-                                                            task</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="link"></i>Copy
-                                                            task link</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon
-                                            " data-feather="trash-2"></i>Delete task
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3 ps-4">
-                                            <img src="../assets/images/blog/blog-img-1.jpg" alt="Image" class="img-fluid rounded-3">
-
-                                        </div>
-                                        <div class="d-flex justify-content-between
-                                  align-items-center ps-4 mt-4">
-                                            <!-- img -->
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/avatar/avatar-2.jpg" alt="Image" class="avatar avatar-xs
-                                      rounded-circle imgtooltip" data-template="two">
-                                                <!-- avatar -->
-                                                <!-- text -->
-                                                <div id="two" class="d-none">
-                                                    <span>Gali Lanier</span>
-                                                </div>
-                                                <!-- text -->
-                                                <div class="ms-2">
-                                                    <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                        Dec</span>
-                                                </div>
-                                            </div>
-                                            <!-- message count -->
-                                            <div>
-                                                <span class="me-2 align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="paperclip"></i>
-                                                    <span class="
-                                        fs-6">4</span>
                                                 </span>
                                                 <span class="align-middle">
                                                     <i class="
@@ -528,198 +388,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- card -->
-                                <div class="card">
-                                    <!-- card body -->
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck5">
-                                                    <label class="form-check-label" for="customCheck5">
-                                                        <span class="h5">Start
-                                                            prototyping in framer for
-
-                                                            admin dashboard.</span>
-                                                        <br>
-                                                        <span class="badge badge-danger-soft">High</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <!-- dropdown -->
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTask5">
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="check-square"></i>Mark
-                                                            Complete</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="eye"></i>View
-                                                            Details
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="maximize-2"></i>Open in
-                                                            New Tab</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="copy"></i>Duplicate
-                                                            task</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="link"></i>Copy
-                                                            task link</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon
-                                            " data-feather="trash-2"></i>Delete task
-                                                        </a>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between
-                                  align-items-center ps-4 mt-4">
-                                            <!-- img -->
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/avatar/avatar-6.jpg" alt="Image" class="avatar avatar-xs
-                                      rounded-circle imgtooltip" data-template="five">
-                                                <!-- avatar -->
-                                                <!-- text -->
-                                                <div id="five" class="d-none">
-                                                    <span>Jessica Nasto</span>
-
-                                                </div>
-                                                <!-- text -->
-                                                <div class="ms-2">
-                                                    <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                        Dec</span>
-                                                </div>
-                                            </div>
-                                            <!-- message count -->
-                                            <div>
-                                                <span class="me-2 align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="paperclip"></i>
-                                                    <span class="
-                                        fs-6">9</span>
-                                                </span>
-                                                <span class="align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="message-square"></i>
-                                                    <span class="
-                                        fs-6">18</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- card -->
-                                <div class="card">
-                                    <!-- card body -->
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck6">
-                                                    <label class="form-check-label" for="customCheck6">
-                                                        <span class="h5">Intial
-                                                            wireframe of website
-                                                            design</span>
-                                                        <br>
-                                                        <span class="badge badge-danger-soft">High</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <!-- dropdown -->
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTask6">
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="check-square"></i>Mark
-                                                            Complete</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="eye"></i>View
-                                                            Details
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="maximize-2"></i>Open in
-                                                            New Tab</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="copy"></i>Duplicate
-                                                            task</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="link"></i>Copy
-                                                            task link</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon
-                                            " data-feather="trash-2"></i>Delete task
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between
-                                  align-items-center ps-4 mt-4">
-                                            <!-- img -->
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/avatar/avatar-7.jpg" alt="Image" class="avatar avatar-xs
-                                      rounded-circle imgtooltip" data-template="six">
-                                                <!-- avatar -->
-                                                <!-- text -->
-                                                <div id="six" class="d-none">
-                                                    <span>Nancy Limabd</span>
-
-                                                </div>
-                                                <!-- text -->
-                                                <div class="ms-2">
-                                                    <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                        Dec</span>
-                                                </div>
-                                            </div>
-                                            <!-- message count -->
-                                            <div>
-                                                <span class="me-2 align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="paperclip"></i>
-                                                    <span class="
-                                        fs-6">12</span>
-                                                </span>
-                                                <span class="align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="message-square"></i>
-                                                    <span class="
-                                        fs-6">22</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -973,196 +641,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- card -->
-                                <div class="card">
-                                    <!-- card body -->
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <!-- checkbox -->
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck7">
-                                                    <label class="form-check-label" for="customCheck7">
-                                                        <span class="h5">Website launch
-                                                            planning</span>
-                                                        <br>
-                                                        <span class="badge badge-warning-soft">Medium</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <!-- dropdown -->
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask7" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTask7">
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="check-square"></i>Mark
-                                                            Complete</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="eye"></i>View
-                                                            Details
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="maximize-2"></i>Open in
-                                                            New Tab</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="copy"></i>Duplicate
-                                                            task</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="link"></i>Copy
-                                                            task link</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon
-                                            " data-feather="trash-2"></i>Delete task
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between
-                                  align-items-center ps-4 mt-6">
-                                            <!-- img -->
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/avatar/avatar-8.jpg" alt="Image" class="avatar avatar-xs
-                                      rounded-circle imgtooltip" data-template="nine">
-                                                <!-- avatar -->
-                                                <!-- text -->
-                                                <div id="nine" class="d-none">
-                                                    <span>Disha Noma</span>
-                                                </div>
-                                                <!-- text -->
-                                                <div class="ms-2">
-                                                    <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                        Dec</span>
-                                                </div>
-                                            </div>
-                                            <!-- message count -->
-                                            <div>
-                                                <span class="me-2 align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="paperclip"></i>
-                                                    <span class="
-                                        fs-6">6</span>
-                                                </span>
-                                                <span class="align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="message-square"></i>
-                                                    <span class="
-                                        fs-6">16</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- card -->
-                                <div class="card">
-                                    <!-- card body -->
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="customCheck8">
-                                                    <label class="form-check-label" for="customCheck8">
-                                                        <span class="h5">Intial
-                                                            wireframe of website
-                                                            design</span>
-                                                        <br>
-                                                        <span class="badge badge-info-soft">Low</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <!-- dropdown -->
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask8" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTask8">
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="check-square"></i>Mark
-                                                            Complete</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="eye"></i>View
-                                                            Details
-                                                        </a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="maximize-2"></i>Open in
-                                                            New Tab</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="copy"></i>Duplicate
-                                                            task</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="link"></i>Copy
-                                                            task link</a>
-                                                        <a class="dropdown-item
-                                          d-flex
-                                          align-items-center" href="#!"><i class="dropdown-item-icon
-                                            " data-feather="trash-2"></i>Delete task
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between
-                                  align-items-center ps-4 mt-4">
-                                            <!-- img -->
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/images/avatar/avatar-4.jpg" alt="Image" class="avatar avatar-xs
-                                      rounded-circle imgtooltip" data-template="eleven">
-                                                <!-- avatar -->
-                                                <!-- text -->
-                                                <div id="eleven" class="d-none">
-                                                    <span>Paul Haney</span>
-                                                </div>
-                                                <!-- text -->
-                                                <div class="ms-2">
-                                                    <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                        Dec</span>
-                                                </div>
-                                            </div>
-                                            <!-- message count -->
-                                            <div>
-                                                <span class="me-2 align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="paperclip"></i>
-                                                    <span class="
-                                        fs-6">5</span>
-                                                </span>
-                                                <span class="align-middle">
-                                                    <i class="
-                                        text-muted icon-xxs" data-feather="message-square"></i>
-                                                    <span class="
-                                        fs-6">8</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -1177,8 +655,7 @@
                     </div>
                 </div>
             </div>
-            <div class="
-                     me-6  mb-4 task-card">
+            <div class="me-6  mb-4 task-card">
                 <!-- card body -->
                 <div class="card-body">
                     <!-- task list -->
