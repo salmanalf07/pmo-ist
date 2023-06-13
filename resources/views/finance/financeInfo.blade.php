@@ -91,7 +91,7 @@
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
             ],
-            "autoWidth": false,
+            "autoWidth": true,
             "columnDefs": [{
                     "className": "text-center",
                     "targets": [1], // table ke 1
