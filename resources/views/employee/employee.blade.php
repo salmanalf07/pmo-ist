@@ -33,7 +33,7 @@
                                                 </th>
                                                 <th>Karyawan ID</th>
                                                 <th>Nama Karyawan</th>
-                                                <th>Emaxil </th>
+                                                <th>Email </th>
                                                 <th>Manager Langsung</th>
                                                 <th>Action</th>
                                             </tr>

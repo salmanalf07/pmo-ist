@@ -93,9 +93,6 @@
             ],
             "autoWidth": true,
             "columnDefs": [{
-                    "className": "text-center",
-                    "targets": [1], // table ke 1
-                }, {
                     "className": "text-end",
                     "targets": [4], // table ke 1
                 }, {
@@ -132,7 +129,7 @@
                     data: 'project.noContract',
                     name: 'project.noContract',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
+                        return type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
                     }
                 },
                 {

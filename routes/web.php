@@ -14,6 +14,7 @@ use App\Models\documentationProject;
 use App\Models\employee;
 use App\Models\memberProject;
 use App\Models\Order;
+use App\Models\pipeline;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
@@ -50,11 +51,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/tempGuide', function () {
         return view('/profiles/tempGuide');
     })->name('tempGuide');
-});
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/kanban', function () {
-        return view('/profiles/kanban');
-    })->name('kanban');
 });
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -171,6 +167,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('financeInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
+//end Finance
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/pipeline', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        $new = pipeline::where('status', 'new')->get();
+        return view('pipeline/pipeline', ['judul' => "Pipeline", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('pipeline');
+});
+//end pipeline
 //test google sheet
 Route::get('/google/auth', [employeeController::class, 'auth']);
 Route::get('/google/callback', [employeeController::class, 'callback']);

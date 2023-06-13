@@ -31,7 +31,7 @@
                                                 <th>
                                                     No
                                                 </th>
-                                                <th>Company</th>
+                                                <th style="width: 20%;">Company</th>
                                                 <th>Category</th>
                                                 <th>City</th>
                                                 <th>Industry</th>
