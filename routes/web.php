@@ -171,3 +171,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('financeInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
+//test google sheet
+Route::get('/google/auth', [employeeController::class, 'auth']);
+Route::get('/google/callback', [employeeController::class, 'callback']);
+Route::get('/googleSheet', [employeeController::class, 'getSheetsData']);

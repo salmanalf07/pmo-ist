@@ -3,7 +3,7 @@
 @section('pmo')
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 ps-9">
         <div class="task-kanban-container">
             <!-- card -->
             <div class="me-6 task-card">

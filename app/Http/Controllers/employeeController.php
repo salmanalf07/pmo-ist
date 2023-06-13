@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -127,5 +128,15 @@ class employeeController extends Controller
         $post->delete();
 
         return response()->json($post);
+    }
+
+    public function getSheetsData(Request $request)
+    {
+        $data = Sheets::spreadsheet(env('GOOGLE_SHEET_ID'))
+            ->sheet('Employee') // Ganti 'Sheet1' dengan rentang yang benar
+            ->all();
+
+        //return response()->json($data);
+        return view('sheets', compact('data'));
     }
 }

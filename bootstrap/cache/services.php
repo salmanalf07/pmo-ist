@@ -32,16 +32,19 @@
     28 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     29 => 'Laravel\\Tinker\\TinkerServiceProvider',
     30 => 'Livewire\\LivewireServiceProvider',
-    31 => 'Carbon\\Laravel\\ServiceProvider',
-    32 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    33 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    34 => 'App\\Providers\\AppServiceProvider',
-    35 => 'App\\Providers\\AuthServiceProvider',
-    36 => 'App\\Providers\\EventServiceProvider',
-    37 => 'App\\Providers\\RouteServiceProvider',
-    38 => 'App\\Providers\\FortifyServiceProvider',
-    39 => 'App\\Providers\\JetstreamServiceProvider',
-    40 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    31 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    32 => 'Carbon\\Laravel\\ServiceProvider',
+    33 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    34 => 'PulkitJalan\\Google\\GoogleServiceProvider',
+    35 => 'Revolution\\Google\\Sheets\\Providers\\SheetsServiceProvider',
+    36 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    37 => 'App\\Providers\\AppServiceProvider',
+    38 => 'App\\Providers\\AuthServiceProvider',
+    39 => 'App\\Providers\\EventServiceProvider',
+    40 => 'App\\Providers\\RouteServiceProvider',
+    41 => 'App\\Providers\\FortifyServiceProvider',
+    42 => 'App\\Providers\\JetstreamServiceProvider',
+    43 => 'Yajra\\DataTables\\DataTablesServiceProvider',
   ),
   'eager' => 
   array (
@@ -62,16 +65,18 @@
     14 => 'Laravel\\Jetstream\\JetstreamServiceProvider',
     15 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     16 => 'Livewire\\LivewireServiceProvider',
-    17 => 'Carbon\\Laravel\\ServiceProvider',
-    18 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    19 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    20 => 'App\\Providers\\AppServiceProvider',
-    21 => 'App\\Providers\\AuthServiceProvider',
-    22 => 'App\\Providers\\EventServiceProvider',
-    23 => 'App\\Providers\\RouteServiceProvider',
-    24 => 'App\\Providers\\FortifyServiceProvider',
-    25 => 'App\\Providers\\JetstreamServiceProvider',
-    26 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    17 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    18 => 'Carbon\\Laravel\\ServiceProvider',
+    19 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    20 => 'PulkitJalan\\Google\\GoogleServiceProvider',
+    21 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    22 => 'App\\Providers\\AppServiceProvider',
+    23 => 'App\\Providers\\AuthServiceProvider',
+    24 => 'App\\Providers\\EventServiceProvider',
+    25 => 'App\\Providers\\RouteServiceProvider',
+    26 => 'App\\Providers\\FortifyServiceProvider',
+    27 => 'App\\Providers\\JetstreamServiceProvider',
+    28 => 'Yajra\\DataTables\\DataTablesServiceProvider',
   ),
   'deferred' => 
   array (
@@ -198,6 +203,7 @@
     'Laravel\\Sail\\Console\\InstallCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'Laravel\\Sail\\Console\\PublishCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
+    'Revolution\\Google\\Sheets\\Contracts\\Factory' => 'Revolution\\Google\\Sheets\\Providers\\SheetsServiceProvider',
   ),
   'when' => 
   array (
@@ -241,6 +247,9 @@
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 
+    array (
+    ),
+    'Revolution\\Google\\Sheets\\Providers\\SheetsServiceProvider' => 
     array (
     ),
   ),

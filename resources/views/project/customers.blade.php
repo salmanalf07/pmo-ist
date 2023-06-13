@@ -28,10 +28,10 @@
                                     <table id="example1" class="table text-nowrap table-centered mt-0" style="width: 100%">
                                         <thead class="table-light">
                                             <tr>
-                                                <th class="pe-0">
+                                                <th>
                                                     No
                                                 </th>
-                                                <th class="ps-1">Company</th>
+                                                <th>Company</th>
                                                 <th>Category</th>
                                                 <th>City</th>
                                                 <th>Industry</th>
@@ -145,7 +145,7 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 1, 2, 3, 4, 5, 6], // table ke 1
+                "targets": [0, 2, 6], // table ke 1
             }, ],
             ajax: {
                 url: '{{ url("json_customer") }}'
