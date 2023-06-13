@@ -130,11 +130,17 @@
                 },
                 {
                     data: 'project.noContract',
-                    name: 'project.noContract'
+                    name: 'project.noContract',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
+                    }
                 },
                 {
                     data: 'termsName',
-                    name: 'termsName'
+                    name: 'termsName',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
+                    }
                 },
                 {
                     data: 'termsValue',
