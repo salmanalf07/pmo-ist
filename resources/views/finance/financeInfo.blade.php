@@ -4,7 +4,6 @@
 <!-- custom select2 -->
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div id="app-content">
-
     <!-- Container fluid -->
     <div class="app-content-area">
         <div class="container-fluid">
@@ -95,7 +94,7 @@
             "autoWidth": false,
             "columnDefs": [{
                     "className": "text-center",
-                    "targets": [1, 3], // table ke 1
+                    "targets": [1], // table ke 1
                 }, {
                     "className": "text-end",
                     "targets": [4], // table ke 1
