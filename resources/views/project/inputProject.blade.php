@@ -47,9 +47,10 @@
                                         <select name="customerType" id="customerType" class="select2" aria-label="Default select example">
                                             <option selected>Open this select menu</option>
                                             <option value="BankingNFinancialServicesIndustry">Banking & Financial Services Industry</option>
-                                            <option value="BUMN">BUMN</option>
+                                            <option value="bumn">BUMN</option>
                                             <option value="government">Government</option>
                                             <option value="manufacture">Manufacture</option>
+                                            <option value="swasta">Swasta</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 col-12">
