@@ -27,6 +27,7 @@
                                     <div class="task-kanban">
                                         <div id="new">
                                             <!-- card -->
+                                            @foreach($new as $new)
                                             <div class="card">
                                                 <!-- card body -->
                                                 <div class="card-body">
@@ -35,8 +36,15 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
+                                                                    <span class="h5">{{$new->projectName}}</span>
+                                                                    <br>
+                                                                    @if($new->priority == "low")
+                                                                    <span class="badge badge-info-soft">Low</span>
+                                                                    @elseif($new->priority == "medium")
+                                                                    <span class="badge badge-warning-soft">Medium</span>
+                                                                    @elseif($new->priority == "high")
+                                                                    <span class="badge badge-danger-soft">High</span>
+                                                                    @endif
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -47,9 +55,9 @@
                                                                     <i data-feather="more-horizontal" class="icon-xxs"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="edit" data-id="{{$new->id}}" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
                                                                     </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="delete" data-id="{{$new->id}}" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -66,20 +74,20 @@
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
+                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>{{date("d-m-Y", strtotime(str_replace('-', '-', $new->dueDate)))}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="mt-3">
                                         <!-- button -->
 
                                         <div class="d-grid">
-                                            <button id="new" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
+                                            <button id="adddata" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
                                                 <i class="fe fe-plus-circle me-1"></i>Add Task</button>
                                         </div>
                                     </div>
@@ -103,7 +111,7 @@
                                     <div class="task-kanban">
                                         <div id="progresss">
                                             <!-- card -->
-                                            <!-- card -->
+                                            @foreach($inProgress as $inProgress)
                                             <div class="card">
                                                 <!-- card body -->
                                                 <div class="card-body">
@@ -112,8 +120,15 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
+                                                                    <span class="h5">{{$inProgress->projectName}}</span>
+                                                                    <br>
+                                                                    @if($inProgress->priority == "low")
+                                                                    <span class="badge badge-info-soft">Low</span>
+                                                                    @elseif($inProgress->priority == "medium")
+                                                                    <span class="badge badge-warning-soft">Medium</span>
+                                                                    @elseif($inProgress->priority == "high")
+                                                                    <span class="badge badge-danger-soft">High</span>
+                                                                    @endif
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -124,9 +139,9 @@
                                                                     <i data-feather="more-horizontal" class="icon-xxs"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="edit" data-id="{{$inProgress->id}}" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
                                                                     </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="delete" data-id="{{$inProgress->id}}" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -143,66 +158,19 @@
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
+                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>{{date("d-m-Y", strtotime(str_replace('-', '-', $inProgress->dueDate)))}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- card -->
-                                            <div class="card">
-                                                <!-- card body -->
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <!-- checkbox -->
-                                                            <div class="form-check">
-                                                                <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <!-- dropdown -->
-                                                            <div class="dropdown dropstart">
-                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                                </a>
-                                                                <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                        <!-- img -->
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
-                                                            </div>
-                                                            <!-- text -->
-                                                            <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="mt-3">
                                         <!-- button -->
                                         <div class="d-grid">
-                                            <button id="progress" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
+                                            <button id="adddata" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
                                                 <i class="fe fe-plus-circle me-1"></i>Add Task</button>
                                         </div>
                                     </div>
@@ -227,7 +195,7 @@
                                     <div class="task-kanban">
                                         <div id="submittedd">
                                             <!-- card -->
-                                            <!-- card -->
+                                            @foreach($submitted as $submitted)
                                             <div class="card">
                                                 <!-- card body -->
                                                 <div class="card-body">
@@ -236,8 +204,15 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
+                                                                    <span class="h5">{{$submitted->projectName}}</span>
+                                                                    <br>
+                                                                    @if($submitted->priority == "low")
+                                                                    <span class="badge badge-info-soft">Low</span>
+                                                                    @elseif($submitted->priority == "medium")
+                                                                    <span class="badge badge-warning-soft">Medium</span>
+                                                                    @elseif($submitted->priority == "high")
+                                                                    <span class="badge badge-danger-soft">High</span>
+                                                                    @endif
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -248,9 +223,9 @@
                                                                     <i data-feather="more-horizontal" class="icon-xxs"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="edit" data-id="{{$submitted->id}}" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
                                                                     </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="delete" data-id="{{$submitted->id}}" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -267,66 +242,19 @@
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
+                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>{{date("d-m-Y", strtotime(str_replace('-', '-', $submitted->dueDate)))}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- card -->
-                                            <div class="card">
-                                                <!-- card body -->
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <!-- checkbox -->
-                                                            <div class="form-check">
-                                                                <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <!-- dropdown -->
-                                                            <div class="dropdown dropstart">
-                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="dropdownTask1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    <i data-feather="more-horizontal" class="icon-xxs"></i>
-                                                                </a>
-                                                                <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                        <!-- img -->
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
-                                                            </div>
-                                                            <!-- text -->
-                                                            <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="mt-3">
                                         <!-- button -->
                                         <div class="d-grid">
-                                            <button id="submitted" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
+                                            <button id="adddata" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
                                                 <i class="fe fe-plus-circle me-1"></i>Add Task</button>
                                         </div>
                                     </div>
@@ -350,6 +278,7 @@
                                     <div class="task-kanban">
                                         <div id="done">
                                             <!-- card -->
+                                            @foreach($done as $done)
                                             <div class="card">
                                                 <!-- card body -->
                                                 <div class="card-body">
@@ -358,8 +287,15 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
-                                                                    <span class="h5">Start prototyping in
-                                                                        frame for admin dashboard.</span>
+                                                                    <span class="h5">{{$done->projectName}}</span>
+                                                                    <br>
+                                                                    @if($done->priority == "low")
+                                                                    <span class="badge badge-info-soft">Low</span>
+                                                                    @elseif($done->priority == "medium")
+                                                                    <span class="badge badge-warning-soft">Medium</span>
+                                                                    @elseif($done->priority == "high")
+                                                                    <span class="badge badge-danger-soft">High</span>
+                                                                    @endif
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -370,9 +306,9 @@
                                                                     <i data-feather="more-horizontal" class="icon-xxs"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownTask1">
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="edit" data-id="{{$done->id}}" href="#!"><i class="dropdown-item-icon" data-feather="edit-2"></i>Edit this task
                                                                     </a>
-                                                                    <a class="dropdown-item d-flex align-items-center" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
+                                                                    <a class="dropdown-item d-flex align-items-center" id="delete" data-id="{{$done->id}}" href="#!"><i class="dropdown-item-icon" data-feather="trash-2"></i>Delete task
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -389,19 +325,19 @@
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
-                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>30
-                                                                    Dec</span>
+                                                                <span class="fs-6"><i class=" text-muted icon-xxs me-1 align-text-bottom" data-feather="clock"></i>{{date("d-m-Y", strtotime(str_replace('-', '-', $done->dueDate)))}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="mt-3">
                                         <!-- button -->
                                         <div class="d-grid">
-                                            <button id="done" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
+                                            <button id="adddata" type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-toggle="modal" data-bs-target="#taskModal">
                                                 <i class="fe fe-plus-circle me-1"></i>Add Task</button>
                                         </div>
                                     </div>
@@ -412,7 +348,7 @@
                 </div>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" data-bs-focus="false">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -423,7 +359,10 @@
                         </div>
                         <div class="modal-body">
                             <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" id="id" name="id">
                                 <div class="row">
+                                    <span id="peringatan"></span>
                                     <div class="mb-2 col-12">
                                         <label class="form-label" for="selectOne">Customer</label>
                                         <select name="customerId" id="customerId" class="select2" aria-label="Default select example">
@@ -438,8 +377,8 @@
                                         <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here">
                                     </div>
                                     <div class="mb-2 col-12">
-                                        <label for="descriptions" class="form-label">Descriptions</label>
-                                        <textarea class="form-control" id="descriptions" rows="3" required></textarea>
+                                        <label for="description" class="form-label">Descriptions</label>
+                                        <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
                                     </div>
                                     <div class="mb-2 col-6">
                                         <label class="form-label">Value</label>
@@ -454,7 +393,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-2 col-12">
+                                    <div class="mb-2 col-6">
                                         <label class="form-label" for="selectOne">Status</label>
                                         <select name="status" id="status" class="form-select select2" aria-label="Default select example">
                                             <option value="#" selected>Open this select menu</option>
@@ -462,6 +401,15 @@
                                             <option value="inProgress">In Progress</option>
                                             <option value="submitted">Submitted</option>
                                             <option value="done">Done</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2 col-6">
+                                        <label class="form-label" for="selectOne">Priority</label>
+                                        <select name="priority" id="priority" class="form-select select2" aria-label="Default select example">
+                                            <option value="#" selected>Open this select menu</option>
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
                                         </select>
                                     </div>
                                     <div class="col-12 mb-3">
@@ -497,6 +445,128 @@
         flatpickr("#dueDate", {
             dateFormat: "d-m-Y",
             defaultDate: "01-01-1900",
+            // static: true
+        });
+    })
+
+    $(function() {
+        $(document).on('click', '#adddata', function() {
+            $("#in").removeClass("btn btn-primary update");
+            $("#in").addClass("btn btn-primary add");
+        });
+        //add data
+        $('.col-12').on('click', '.add', function() {
+            var form = document.getElementById("form-add");
+            var fd = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: '{{ url("store_pipeline") }}',
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data[1]) {
+                        let text = "";
+                        var dataa = Object.assign({}, data[0])
+                        for (let x in dataa) {
+                            text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
+                        }
+                        $('#peringatan').append(text);
+                    } else {
+                        $('#taskModal').modal('hide');
+                        document.getElementById('form-add').reset()
+                        location.reload();
+                    }
+
+                },
+            });
+        });
+        $(document).on('click', '#edit', function(e) {
+            e.preventDefault();
+            var uid = $(this).data('id');
+
+            $.ajax({
+                type: 'POST',
+                url: 'edit_pipeline',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': uid,
+                },
+                success: function(data) {
+                    //console.log(data);
+
+                    //isi form
+                    $('#id').val(data.id);
+                    $('#projectName').val(data.projectName);
+                    $('#customerId').val(data.customerId).trigger('change');
+                    $('#description').val(data.description);
+                    $('#value').val(formatNumberr(data.value));
+                    if (data.dueDate != null) {
+                        $('#dueDate').val((data.dueDate).split("-").reverse().join("-"));
+                    }
+                    $('#status').val(data.status).trigger('change');
+                    $('#priority').val(data.priority).trigger('change');
+                    $('#asignTo').val(data.asignTo).trigger('change');
+
+                    id = $('#id').val();
+
+                    $("#in").removeClass("btn btn-primary add");
+                    $("#in").addClass("btn btn-primary update");
+                    $('#taskModal').modal('show');
+
+
+                },
+            });
+
+        });
+        //end edit
+        //update
+        $('.col-12').on('click', '.update', function() {
+            var form = document.getElementById("form-add");
+            var fd = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: 'update_pipeline/' + id,
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if (data[1]) {
+                        let text = "";
+                        var dataa = Object.assign({}, data[0])
+                        for (let x in dataa) {
+                            text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
+                        }
+                        $('#peringatan').append(text);
+                    } else {
+                        $('#taskModal').modal('hide');
+                        document.getElementById('form-add').reset()
+                        location.reload();
+                    }
+                }
+            });
+        });
+        //end update
+        $(document).on('click', '#delete', function(e) {
+            e.preventDefault();
+            if (confirm('Yakin akan menghapus data ini?')) {
+                // alert("Thank you for subscribing!" + $(this).data('id') );
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'delete_pipeline/' + $(this).data('id'),
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                        location.reload();
+                    }
+                });
+
+            } else {
+                return false;
+            }
         });
     })
 </script>

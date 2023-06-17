@@ -16,6 +16,7 @@ class pipeline extends Model
         'projectName',
         'description',
         'status',
+        'priority',
         'value',
         'dueDate',
         'asignTo',

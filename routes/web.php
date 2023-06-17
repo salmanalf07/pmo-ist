@@ -5,6 +5,7 @@ use App\Http\Controllers\DocProjectController;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
+use App\Http\Controllers\pipelineController;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\riskIssuestController;
 use App\Http\Controllers\scopeProjectController;
@@ -168,14 +169,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
 //end Finance
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/pipeline', function () {
-        $customer = Customer::where('type', 'customer')->get();
-        $employee = employee::get();
-        $new = pipeline::where('status', 'new')->get();
-        return view('pipeline/pipeline', ['judul' => "Pipeline", 'customer' => $customer, 'employee' => $employee,]);
-    })->name('pipeline');
-});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/pipeline', [pipelineController::class, 'index'])->name('pipeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_pipeline', [pipelineController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_pipeline', [pipelineController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_pipeline/{id}', [pipelineController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_pipeline/{id}', [pipelineController::class, 'destroy']);
 //end pipeline
 //test google sheet
 Route::get('/google/auth', [employeeController::class, 'auth']);
