@@ -95,7 +95,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //summarry
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/summaryProject/{id}', function ($id) {
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id]);
+        $data = Project::find($id);
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data]);
     })->name('summaryProject');
 });
 //projectinfo
