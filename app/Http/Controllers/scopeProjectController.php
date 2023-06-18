@@ -11,7 +11,7 @@ class scopeProjectController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = scopeProject::where('projectId', $id)->orderBy('created_at')->get();
+        $get = scopeProject::where('projectId', $id)->orderBy('scope')->get();
         $overAllProg = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data

@@ -1,6 +1,48 @@
 @extends('index')
 
 @section('konten')
+<style>
+    #initial-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    #initial-circle {
+        position: relative;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        background-color: #f1f1f1;
+        color: #333;
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+        line-height: 2em;
+        cursor: pointer;
+    }
+
+    #initial-circle::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 30%;
+        transform: translateX(-20%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 3px 12px;
+        font-size: 8pt;
+        border-radius: 4px;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s linear;
+    }
+
+    #initial-circle:hover::before {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div id="app-content">
     <!-- Container fluid -->
@@ -36,6 +78,8 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
+                                                                    <span class="h6">{{$new->customer->company}}</span>
+                                                                    <br>
                                                                     <span class="h5">{{$new->projectName}}</span>
                                                                     <br>
                                                                     @if($new->priority == "low")
@@ -66,11 +110,8 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
+                                                            <div id="initial-container">
+                                                                <div class="initial-container" id="initial-circle" data-tooltip="{{isset($new->employee->name)?$new->employee->name:''}}"></div>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
@@ -120,6 +161,8 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
+                                                                    <span class="h6">{{$inProgress->customer->company}}</span>
+                                                                    <br>
                                                                     <span class="h5">{{$inProgress->projectName}}</span>
                                                                     <br>
                                                                     @if($inProgress->priority == "low")
@@ -150,11 +193,8 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
+                                                            <div id="initial-container">
+                                                                <div class="initial-container" id="initial-circle" data-tooltip="{{isset($inProgress->employee->name)?$inProgress->employee->name:''}}"></div>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
@@ -204,6 +244,8 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
+                                                                    <span class="h6">{{$submitted->customer->company}}</span>
+                                                                    <br>
                                                                     <span class="h5">{{$submitted->projectName}}</span>
                                                                     <br>
                                                                     @if($submitted->priority == "low")
@@ -234,11 +276,8 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
+                                                            <div id="initial-container">
+                                                                <div class="initial-container" id="initial-circle" data-tooltip="{{isset($submitted->employee->name)?$submitted->employee->name:''}}"></div>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
@@ -287,6 +326,8 @@
                                                             <!-- checkbox -->
                                                             <div class="form-check">
                                                                 <label class="form-check-label" for="customCheck1">
+                                                                    <span class="h6">{{$done->customer->company}}</span>
+                                                                    <br>
                                                                     <span class="h5">{{$done->projectName}}</span>
                                                                     <br>
                                                                     @if($done->priority == "low")
@@ -317,11 +358,8 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar avatar-xs rounded-circle imgtooltip" data-template="one">
-                                                            <!-- avatar -->
-                                                            <!-- text -->
-                                                            <div id="one" class="d-none">
-                                                                <span>Paul Haney</span>
+                                                            <div id="initial-container">
+                                                                <div class="initial-container" id="initial-circle" data-tooltip="{{isset($done->employee->name)?$done->employee->name:''}}"></div>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
@@ -436,6 +474,32 @@
     </div>
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script>
+    function getInitials(name) {
+        const words = name.split(' ');
+        let initials = '';
+
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            if (word[0] === word[0].toUpperCase()) {
+                initials += word[0];
+            }
+        }
+
+        return initials.substring(0, 2);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const initialContainers = document.getElementsByClassName('initial-container');
+        for (let i = 0; i < initialContainers.length; i++) {
+            const div = initialContainers[i];
+            const name = div.dataset.tooltip;
+            const initials = getInitials(name);
+            div.setAttribute('id', 'initial-circle');
+            div.innerHTML = initials;
+        }
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('.select2').select2({

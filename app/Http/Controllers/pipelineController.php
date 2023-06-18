@@ -14,10 +14,10 @@ class pipelineController extends Controller
     {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        $new = pipeline::where('status', 'new')->get();
-        $inProgress = pipeline::where('status', 'inProgress')->get();
-        $submitted = pipeline::where('status', 'submitted')->get();
-        $done = pipeline::where('status', 'done')->get();
+        $new = pipeline::with('customer', 'employee')->where('status', 'new')->get();
+        $inProgress = pipeline::with('customer', 'employee')->where('status', 'inProgress')->get();
+        $submitted = pipeline::with('customer', 'employee')->where('status', 'submitted')->get();
+        $done = pipeline::with('customer', 'employee')->where('status', 'done')->get();
         return view('pipeline/pipeline', ['judul' => "Pipeline", 'customer' => $customer, 'employee' => $employee, 'new' => $new, 'inProgress' => $inProgress, 'submitted' => $submitted, 'done' => $done]);
     }
 

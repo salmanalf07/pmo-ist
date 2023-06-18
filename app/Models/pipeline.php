@@ -21,6 +21,15 @@ class pipeline extends Model
         'dueDate',
         'asignTo',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customerId', 'id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(employee::class, 'asignTo', 'id');
+    }
     /**
      * The "booting" function of model
      *
