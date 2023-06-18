@@ -55,7 +55,22 @@
                         <div class="mb-2 col-12 h3">
                             <span>{{$data->projectName}}</span>
                             <br>
-                            <span class="h5">Contract Start Date ({{date("d M Y",strtotime($data->contractStart))}}) – Contract End Date ({{date("d M Y",strtotime($data->contractEnd))}})</span>
+                            <?php
+                            // Mendapatkan tanggal saat ini
+                            $currentDate = date('Y-m-d');
+
+                            // Menghitung 1 bulan sebelum tanggal yang ditentukan
+                            $oneMonthBeforeCustomDate = date('Y-m-d', strtotime('-1 month', strtotime($data->contractEnd)));
+
+                            // Memeriksa apakah tanggal saat ini berada di dalam rentang 1 bulan
+                            if ($currentDate >= $oneMonthBeforeCustomDate) {
+                                // Jika iya, ubah warna teks menjadi merah
+                                echo '<span class="h5">Contract Start Date (' . date("d M Y", strtotime($data->contractStart)) . ') – Contract End Date (<span style="color: red;">' . date("d M Y", strtotime($data->contractEnd)) . '</span>)</span>';
+                            } else {
+                                echo '<span class="h5">Contract Start Date (' . date("d M Y", strtotime($data->contractStart)) . ') – Contract End Date (' . date("d M Y", strtotime($data->contractEnd)) . ')</span>';
+                            }
+                            ?>
+
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
                             <!-- card -->
