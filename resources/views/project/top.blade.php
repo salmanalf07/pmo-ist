@@ -170,15 +170,15 @@
                 $('#termsValue' + i).val(formatNumberr(data[i].termsValue));
                 $('#bastDate' + i).val((data[i].bastDate).split("-").reverse().join("-"));
                 if (data[i].bastMain != 0) {
-                    $(".form-check-inputt#bastMain" + i).prop("checked", true).trigger('change');
+                    $(".form-check-inputt#bastMain" + i).trigger('click');
                 }
                 $('#invDate' + i).val((data[i].invDate).split("-").reverse().join("-"));
                 if (data[i].invMain != 0) {
-                    $(".form-check-inputt#invMain" + i).prop("checked", true).trigger('change');
+                    $(".form-check-inputt#invMain" + i).trigger('click');
                 }
                 $('#payDate' + i).val((data[i].payDate).split("-").reverse().join("-"));
                 if (data[i].payMain != 0) {
-                    $(".form-check-inputt#payMain" + i).prop("checked", true).trigger('change');
+                    $(".form-check-inputt#payMain" + i).trigger('click');
                 }
                 $('#remaks' + i).val(data[i].remaks);
             }
