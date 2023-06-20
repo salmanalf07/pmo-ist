@@ -91,7 +91,7 @@
                                     </div>
                                     <!-- project number -->
                                     <div class="lh-1">
-                                        <h1 class=" mb-1 fw-bold">{{$data->overAllProg}} %</h1>
+                                        <h1 class=" mb-1 fw-bold">{{$data->overAllProg}}%</h1>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                     </div>
                                     <!-- project number -->
                                     <div class="lh-1">
-                                        <h1 class=" mb-1 fw-bold">18</h1>
+                                        <h1 class=" mb-1 fw-bold">{{$invoiced}}%</h1>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,11 @@
                                     </div>
                                     <!-- project number -->
                                     <div class="lh-1">
-                                        <h1 class=" mb-1 fw-bold">18</h1>
+                                        @if($payment == 0)
+                                        <h1 class=" mb-1 fw-bold text-danger">{{$payment}}%</h1>
+                                        @elseif($payment > 0 && $payment < 50) <h1 class=" mb-1 fw-bold text-warning">{{$payment}}%</h1>
+                                            @elseif ($payment >= 50 && $payment <= 100) <h1 class=" mb-1 fw-bold">{{$payment}}%</h1>
+                                                @endif
                                     </div>
                                 </div>
                             </div>

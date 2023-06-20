@@ -17,6 +17,7 @@ use App\Models\memberProject;
 use App\Models\Order;
 use App\Models\pipeline;
 use App\Models\Project;
+use App\Models\topProject;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -95,8 +96,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //summarry
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/summaryProject/{id}', function ($id) {
+
         $data = Project::find($id);
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data]);
+        $sumInv = topProject::where([
+            ['projectId', '=', $id],
+            ['invMain', '=', 1]
+        ])->sum('termsValue');
+        $invoiced = ($sumInv / $data->projectValue) * 100;
+        $sumPay = topProject::where([
+            ['projectId', '=', $id],
+            ['payMain', '=', 1]
+        ])->sum('termsValue');
+        $payment = ($sumPay / $data->projectValue) * 100;
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => $invoiced, 'payment' =>  $payment]);
+        //return $invoiced;
     })->name('summaryProject');
 });
 //projectinfo
