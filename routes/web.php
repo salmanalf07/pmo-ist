@@ -108,7 +108,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             ['payMain', '=', 1]
         ])->sum('termsValue');
         $payment = ($sumPay / $data->projectValue) * 100;
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => $invoiced, 'payment' =>  $payment]);
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 2), 'payment' =>  round($payment, 2)]);
         //return $invoiced;
     })->name('summaryProject');
 });
