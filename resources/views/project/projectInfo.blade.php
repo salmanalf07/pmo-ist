@@ -63,6 +63,7 @@
                                         <th>Project Name</th>
                                         <th>Project Manager</th>
                                         <th>Progress</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -124,6 +125,10 @@
                     data: 'progress',
                     name: 'progress'
                 },
+                {
+                    data: 'aksi',
+                    name: 'aksi'
+                }
             ],
         });
         $('.col-12').on('click', '#in', function() {
@@ -138,6 +143,28 @@
                 $('#pmName').val('#').trigger('change'),
                 $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
+        });
+
+        $(document).on('click', '#delete', function(e) {
+            e.preventDefault();
+            if (confirm('Yakin akan menghapus data ini?')) {
+                // alert("Thank you for subscribing!" + $(this).data('id') );
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'delete_project/' + $(this).data('id'),
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                        $('#example1').DataTable().ajax.reload();
+                    }
+                });
+
+            } else {
+                return false;
+            }
         });
     })
 </script>

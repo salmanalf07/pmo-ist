@@ -3,8 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\documentationProject;
 use App\Models\employee;
+use App\Models\issuesProject;
+use App\Models\memberProject;
+use App\Models\Order;
+use App\Models\partnerProject;
 use App\Models\Project;
+use App\Models\riskProject;
+use App\Models\scopeProject;
+use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
@@ -42,7 +50,12 @@ class projectController extends Controller
                         </div>
                     </div>';
             })
-            ->rawColumns(['projectNamee', 'progress'])
+            ->addColumn('aksi', function ($data) {
+                return
+                    '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                <i class="bi bi-trash"></i></button>';
+            })
+            ->rawColumns(['projectNamee', 'progress', 'aksi'])
             ->toJson();
     }
 
@@ -107,7 +120,16 @@ class projectController extends Controller
     {
         $post = Project::find($id);
         $post->delete();
+        //project
+        Order::whereIn('projectId', [$id])->delete();
+        topProject::whereIn('projectId', [$id])->delete();
+        scopeProject::whereIn('projectId', [$id])->delete();
+        memberProject::whereIn('projectId', [$id])->delete();
+        partnerProject::whereIn('projectId', [$id])->delete();
+        riskProject::whereIn('projectId', [$id])->delete();
+        issuesProject::whereIn('projectId', [$id])->delete();
+        documentationProject::whereIn('projectId', [$id])->delete();
 
-        return response()->json($post);
+        return response()->json();
     }
 }
