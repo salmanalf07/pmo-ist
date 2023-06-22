@@ -34,7 +34,7 @@ class topProjectController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $get = topProject::where('projectId', $id)->orderBy('termsName')->get();
+        $get = topProject::where('projectId', $id)->orderBy('noRef')->get();
         $value = Project::find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
