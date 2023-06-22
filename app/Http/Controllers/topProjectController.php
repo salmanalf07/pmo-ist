@@ -68,6 +68,7 @@ class topProjectController extends Controller
             for ($count = 0; $count < count($termsName); $count++) {
                 $postt = topProject::findOrNew($idtop[$count]);
                 $postt->ProjectId = $id;
+                $postt->noRef = $count + 1;
                 $postt->termsName = $termsName[$count];
                 $postt->termsValue = str_replace(".", "", $termsValue[$count]);
                 $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
