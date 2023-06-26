@@ -255,7 +255,7 @@
     function deleteRow(button) {
         var row = button.closest("tr");
         var inputElement = row.querySelector("input[name='idtop[]']");
-        if (inputElement.value) {
+        if (inputElement && inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({

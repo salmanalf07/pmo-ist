@@ -27,11 +27,11 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/detailOrder') ? 'active' : '' }}" href="{{ isset($id) ? '/project/detailOrder/' . $id : '#' }}">Detail Order</a>
                             </li>
+                            <li class=" nav-item">
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/sow') ? 'active' : '' }}" href="{{ isset($id) ? '/project/sow/' . $id : '#' }}">SOW</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/top') ? 'active' : '' }}" href="{{ isset($id) ? '/project/top/' . $id : '#' }}">Terms</a>
-                            </li>
-                            <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/scopeHighLevel') ? 'active' : '' }}" href="{{ isset($id) ? '/project/scopeHighLevel/' . $id : '#' }}">Scope</a>
                             </li>
                             <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/projectMember') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectMember/' . $id : '#' }}">Member</a>

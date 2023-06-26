@@ -7,7 +7,7 @@ use App\Models\scopeProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class scopeProjectController extends Controller
+class timelineController extends Controller
 {
     public function edit(Request $request, $id)
     {
@@ -20,7 +20,7 @@ class scopeProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/scopeHighLevel', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
+        return view('project/projectTimeline', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
         //return $get;
     }
 
