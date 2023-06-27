@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div id="inputfile" class="row">
                             <input type="hidden" name="idfile" id="idfile">
                             <div class="mb-3 col-6">
                                 <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Name File Here">
@@ -42,6 +42,8 @@
                             <div class="mb-3 col-6">
                                 <input name="link" id="link" type="text" class="form-control" placeholder="Enter Link Here">
                             </div>
+                        </div>
+                        <div style="display: none;" id="linkDirect" class="row">
                         </div>
                     </div>
                 </div>
@@ -57,7 +59,8 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="text-center" style="width:65%">Description</th>
+                                        <th class="text-center" style="width:5%">No</th>
+                                        <th class="text-center" style="width:60%">Description</th>
                                         <th class="text-center" style="width:30%">Remaks</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
@@ -66,6 +69,9 @@
                                     <tr class="input-100">
                                         <td hidden>
                                             <input type="text" name="idInScope[]" id="idInScope0">
+                                        </td>
+                                        <td class="text-center">
+                                            1
                                         </td>
                                         <td>
                                             <input type="text" name="inScope[]" id="inScope0">
@@ -102,7 +108,8 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="text-center" style="width:65%">Description</th>
+                                        <th class="text-center" style="width:5%">No</th>
+                                        <th class="text-center" style="width:60%">Description</th>
                                         <th class="text-center" style="width:30%">Remaks</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
@@ -111,6 +118,9 @@
                                     <tr class="input-100">
                                         <td hidden>
                                             <input type="text" name="idOutScope[]" id="idOutScope0">
+                                        </td>
+                                        <td class="text-center">
+                                            1
                                         </td>
                                         <td>
                                             <input type="text" name="outOfScope[]" id="outOfScope0">
@@ -178,6 +188,11 @@
                 },
             });
         });
+
+        $(document).on('click', '#buttonUpdateLink', function() {
+            $('#linkDirect').hide();
+            $('#inputfile').show();
+        });
     })
 </script>
 <script>
@@ -214,6 +229,16 @@
             $('#idFile').val(data.id);
             $('#nameFile').val(data.nameFile);
             $('#link').val(data.link);
+            $('#linkDirect').html('<div class="mb-3 col-9">' +
+                '<a href="' + data.link + '" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">' +
+                '<i class="bi bi-link-45deg icon-lg me-1"></i>' + data.nameFile +
+                '</a></div>' +
+                '<div class="mb-3 col-3">' +
+                '<div class="justify-content-between text-end">' +
+                '<button type="button" id="buttonUpdateLink" class="btn btn-warning-soft">Update</button>' +
+                '</div');
+            $('#linkDirect').show();
+            $('#inputfile').hide();
         }
     })
 </script>
@@ -226,7 +251,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 2; j++) {
+        for (let j = 0; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -236,7 +261,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 2) {
+            if (j > 1 && j <= 3) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -248,8 +273,12 @@
                     clonedNode.value = ""; // Reset input value
                 }
             }
+            if (j == 1) {
+                newCell5.innerHTML = tableRange + 1;
+                newCell5.classList = "text-center";
+            }
         }
-        for (let j = 3; j <= 3; j++) {
+        for (let j = 4; j <= 4; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -260,6 +289,7 @@
                 newCell5.appendChild(childNodes[k].cloneNode(true));
             }
         }
+
 
 
         newCell5.addEventListener("click", function() {
@@ -278,7 +308,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 2; j++) {
+        for (let j = 0; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -288,7 +318,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 2) {
+            if (j > 1 && j <= 3) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -300,12 +330,16 @@
                     clonedNode.value = ""; // Reset input value
                 }
             }
+            if (j == 1) {
+                newCell5.innerHTML = tableRange + 1;
+                newCell5.classList = "text-center";
+            }
 
             flatpickr(".datepicker", {
                 dateFormat: "d-m-Y",
             });
         }
-        for (let j = 3; j <= 3; j++) {
+        for (let j = 4; j <= 4; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
