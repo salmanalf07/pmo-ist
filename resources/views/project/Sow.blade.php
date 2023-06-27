@@ -28,6 +28,25 @@
         <input class="form-control" type="text" name="id" id="id" hidden>
         <div class="row">
             <div class="col-xxl-12 col-12">
+                <div class="card  mb-4">
+                    <div class="card-header">
+                        <h4 class="mb-0">Documentation</h4>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <input type="hidden" name="idfile" id="idfile">
+                            <div class="mb-3 col-6">
+                                <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Name File Here">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <input name="link" id="link" type="text" class="form-control" placeholder="Enter Link Here">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-12 col-12">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4 class="mb-0">In Scope</h4>
@@ -38,7 +57,8 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="text-center" style="width:95%">In Scope</th>
+                                        <th class="text-center" style="width:65%">Description</th>
+                                        <th class="text-center" style="width:30%">Remaks</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
                                 </thead>
@@ -49,6 +69,9 @@
                                         </td>
                                         <td>
                                             <input type="text" name="inScope[]" id="inScope0">
+                                        </td>
+                                        <td>
+                                            <input id="remaksIn0" name="remaksIn[]" type="text">
                                         </td>
                                         <td>
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -79,7 +102,8 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th class="text-center" style="width:95%">Out Of Scope</th>
+                                        <th class="text-center" style="width:65%">Description</th>
+                                        <th class="text-center" style="width:30%">Remaks</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
                                 </thead>
@@ -90,6 +114,9 @@
                                         </td>
                                         <td>
                                             <input type="text" name="outOfScope[]" id="outOfScope0">
+                                        </td>
+                                        <td>
+                                            <input id="remaksOut0" name="remaksOut[]" type="text">
                                         </td>
                                         <td>
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -122,16 +149,6 @@
     </form>
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
-<script>
-    flatpickr(".datepicker", {
-        dateFormat: "d-m-Y",
-        defaultDate: "today",
-    });
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-</script>
 <script>
     $(function() {
         //add data
@@ -175,6 +192,7 @@
             for (var i = 0; i < '{{count($dataInScope)}}'; i++) {
                 $('#idInScope' + i).val(data[i].id);
                 $('#inScope' + i).val(data[i].inScope);
+                $('#remaksIn' + i).val(data[i].remaks);
             }
         }
         //issues
@@ -188,7 +206,14 @@
             for (var i = 0; i < '{{count($dataOutScope)}}'; i++) {
                 $('#idOutScope' + i).val(data[i].id);
                 $('#outOfScope' + i).val(data[i].outOfScope);
+                $('#remaksOut' + i).val(data[i].remaks);
             }
+        }
+        if ('{{isset($aksiFile) && $aksiFile == "EditData"}}') {
+            var data = <?php echo json_encode($file); ?>;
+            $('#idFile').val(data.id);
+            $('#nameFile').val(data.nameFile);
+            $('#link').val(data.link);
         }
     })
 </script>
@@ -201,7 +226,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 1; j++) {
+        for (let j = 0; j <= 2; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -211,7 +236,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 1) {
+            if (j <= 2) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -224,7 +249,7 @@
                 }
             }
         }
-        for (let j = 2; j <= 2; j++) {
+        for (let j = 3; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -253,7 +278,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 1; j++) {
+        for (let j = 0; j <= 2; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -263,7 +288,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 1) {
+            if (j <= 2) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -280,7 +305,7 @@
                 dateFormat: "d-m-Y",
             });
         }
-        for (let j = 2; j <= 2; j++) {
+        for (let j = 3; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya

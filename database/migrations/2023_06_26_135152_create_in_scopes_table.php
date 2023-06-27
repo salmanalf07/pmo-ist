@@ -17,6 +17,7 @@ class CreateInScopesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('projectId');
             $table->string('inScope')->nullable();
+            $table->string('remaks')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

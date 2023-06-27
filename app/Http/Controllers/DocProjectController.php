@@ -12,7 +12,7 @@ class DocProjectController extends Controller
 {
     public function json($id)
     {
-        $data = documentationProject::with('user')->where('projectId', $id)->orderBy('created_at', 'DESC');
+        $data = documentationProject::with('user')->where('projectId', $id)->where('type', '!=', 'SOW')->orderBy('created_at', 'DESC');
 
         return DataTables::of($data)
             ->addColumn('namaFile', function ($data) {
