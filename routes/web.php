@@ -138,7 +138,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             $status = "In Progress with Stopper(s)";
         } elseif ($data->overAllProg == 100) {
             $color = "text-primary";
-            $status = "In Progress with Stopper(s)";
+            $status = "Completed";
         } else {
             $color = "text-dark";
             $status = "Not Yet Started";
