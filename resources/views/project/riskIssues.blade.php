@@ -250,7 +250,7 @@
                 $('#issuesDesc' + i).val(data[i].issuesDesc);
                 $('#projectImpact' + i).val(data[i].projectImpact);
                 $('#actionPlan' + i).val(data[i].actionPlan);
-                $('#issuesOwner' + i).val(data[i].issuesOwner);
+                $('#issuesOwner' + i).val(data[i].issuesOwner).trigger('change');
                 $('#resolvedDate' + i).val((data[i].resolvedDate).split("-").reverse().join("-"));
                 $('#statIssues' + i).val(data[i].statIssues).trigger('change');
             }

@@ -302,6 +302,7 @@
                 $('#idMember' + i).val(data[i].id);
                 $('#employee' + i).val(data[i].employee).trigger('change');
                 $('#role' + i).val(data[i].role).trigger('change');
+                $('#accesType' + i).val(data[i].accesType).trigger('change');
                 $('#startDate' + i).val((data[i].startDate).split("-").reverse().join("-"));
                 $('#endDate' + i).val((data[i].endDate).split("-").reverse().join("-"));
                 $('#planMandays' + i).val(data[i].planMandays);
@@ -317,6 +318,7 @@
                 $('#idPartner' + i).val(dataa[i].id);
                 $('#partner' + i).val(dataa[i].partner);
                 $('#rolePartner' + i).val(dataa[i].rolePartner).trigger('change');
+                $('#accesPartner' + i).val(data[i].accesPartner).trigger('change');
                 $('#partnerCorp' + i).val(dataa[i].partnerCorp);
                 $('#stdatePartner' + i).val((dataa[i].stdatePartner).split("-").reverse().join("-"));
                 $('#eddatePartner' + i).val((dataa[i].eddatePartner).split("-").reverse().join("-"));
