@@ -126,17 +126,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         if ($data->overAllProg == 0) {
             $color = "text-secondary";
+            $status = "Not Yet Started";
         } elseif ($data->overAllProg > 0 && $data->overAllProg < 100 && $issue == 0 && $Stopper == 0) {
+            $color = "text-succes";
+            $status = "In Progress";
+        } elseif ($data->overAllProg > 0 && $data->overAllProg < 100 && $issue > 0 && $Stopper == 0) {
             $color = "text-warning";
+            $status = "In Progress with Issue(s)";
         } elseif ($data->overAllProg > 0 && $data->overAllProg < 100 && $issue > 0 && $Stopper > 0) {
             $color = "text-danger";
+            $status = "In Progress with Stopper(s)";
         } elseif ($data->overAllProg == 100) {
-            $color = "text-dark";
+            $color = "text-primary";
+            $status = "In Progress with Stopper(s)";
         } else {
             $color = "text-dark";
+            $status = "Not Yet Started";
         }
 
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 0), 'payment' =>  round($payment, 0), 'color' => $color]);
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 0), 'payment' =>  round($payment, 0), 'color' => $color, 'status' => $status]);
         //return $invoiced;
     })->name('summaryProject');
 });

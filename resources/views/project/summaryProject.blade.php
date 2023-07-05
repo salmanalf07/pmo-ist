@@ -167,7 +167,7 @@
                                     </div>
                                     <!-- project number -->
                                     <div class="lh-1">
-                                        <h1 class=" mb-1 fw-bold {{$color}}">{{$data->overAllProg}}%</h1>
+                                        <h3 class=" mb-1 fw-bold {{$color}}">{{$status}}</h3>
                                     </div>
                                 </div>
                             </div>
