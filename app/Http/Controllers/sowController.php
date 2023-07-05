@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\documentationProject;
 use App\Models\inScope;
 use App\Models\outScope;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -16,6 +17,7 @@ class sowController extends Controller
         $getInScope = inScope::where('projectId', $id)->orderBy('created_at')->get();
         $getOutScope = outScope::where('projectId', $id)->orderBy('created_at')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'SOW')->first();
+        $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($getInScope) {
@@ -33,7 +35,7 @@ class sowController extends Controller
         } else {
             $aksiFile = 'Add';
         }
-        return view('project/Sow', ['id' => $id, 'aksiInScope' => $aksiInScope, 'aksiOutScope' => $aksiOutScope, 'dataInScope' => $getInScope, 'dataOutScope' => $getOutScope, 'aksiFile' => $aksiFile, 'file' => $file]);
+        return view('project/Sow', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksiInScope' => $aksiInScope, 'aksiOutScope' => $aksiOutScope, 'dataInScope' => $getInScope, 'dataOutScope' => $getOutScope, 'aksiFile' => $aksiFile, 'file' => $file]);
         //return $getOutScope;
     }
 

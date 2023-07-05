@@ -15,6 +15,7 @@ use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
+use App\Models\issuesProject;
 use App\Models\memberProject;
 use App\Models\Order;
 use App\Models\pipeline;
@@ -36,7 +37,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/login');
 });
-
+//dashboard
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectDashboard', function () {
+        return view('/dashboard/projectDashboard');
+    })->name('projectDashboard');
+});
+//end Dashboard
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -111,7 +118,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             ['payMain', '=', 1]
         ])->sum('termsValue');
         $payment = ($sumPay / $data->projectValue) * 100;
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 2), 'payment' =>  round($payment, 2)]);
+        $issueStopeer = issuesProject::where([
+            ['projectId', '=', $id]
+        ]);
+        $issue = $issueStopeer->where('issuesOwner', 'Issue')->count('issuesOwner');
+        $Stopper = $issueStopeer->where('issuesOwner', 'Stopper')->count('issuesOwner');
+
+        if ($data->overAllProg == 0) {
+            $color = "text-secondary";
+        } elseif ($data->overAllProg > 0 && $data->overAllProg < 100 && $issue == 0 && $Stopper == 0) {
+            $color = "text-warning";
+        } elseif ($data->overAllProg > 0 && $data->overAllProg < 100 && $issue > 0 && $Stopper > 0) {
+            $color = "text-danger";
+        } elseif ($data->overAllProg == 100) {
+            $color = "text-dark";
+        } else {
+            $color = "text-dark";
+        }
+
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 0), 'payment' =>  round($payment, 0), 'color' => $color]);
         //return $invoiced;
     })->name('summaryProject');
 });
@@ -166,7 +191,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //Documentation Project
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/documentation/{id}', function ($id) {
-        return view('project/documentation', ['judul' => "Documentation", 'id' => $id]);
+        $value = Project::with('customer')->find($id);
+        return view('project/documentation', ['judul' => "Documentation", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName]);
     })->name('documentation');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_documentation/{id}', [DocProjectController::class, 'json']);

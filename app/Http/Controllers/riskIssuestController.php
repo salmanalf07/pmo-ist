@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\issuesProject;
+use App\Models\Project;
 use App\Models\riskProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -13,6 +14,7 @@ class riskIssuestController extends Controller
     {
         $getRisk = riskProject::where('projectId', $id)->orderBy('created_at')->get();
         $getIssues = issuesProject::where('projectId', $id)->orderBy('created_at')->get();
+        $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($getRisk) {
@@ -25,7 +27,7 @@ class riskIssuestController extends Controller
         } else {
             $aksiIssues = 'Add';
         }
-        return view('project/riskIssues', ['id' => $id, 'aksiRisk' => $aksiRisk, 'aksiIssues' => $aksiIssues, 'dataRisk' => $getRisk, 'dataIssues' => $getIssues]);
+        return view('project/riskIssues', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksiRisk' => $aksiRisk, 'aksiIssues' => $aksiIssues, 'dataRisk' => $getRisk, 'dataIssues' => $getIssues]);
         //return $getIssues;
     }
 

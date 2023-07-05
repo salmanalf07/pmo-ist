@@ -16,7 +16,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-6">
+                                    <div class="mb-3 col-3">
                                         <label class="form-label" for="selectOne">Customer</label>
                                         <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
                                             <option value="#" selected>Open this select menu</option>
@@ -25,7 +25,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-6">
+                                    <div class="mb-3 col-3">
                                         <label class="form-label">Project Manager</label>
                                         <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
                                             <option value="#" selected>Open this select menu</option>
@@ -35,10 +35,12 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter Data</button>
                                     </div>
-                                    <div class="mb-3 col-6">
-                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear Filter</button>
+                                    <div class="mb-3 col-3">
+                                        <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +53,7 @@
                     <div class="card">
                         <div class="card-header d-md-flex border-bottom-0">
                             <div class="flex-grow-1">
-                                <a href="project/inputProject" class="btn btn-primary">+ Add {{$judul}}</a>
+                                <a href="project/inputProject" class="btn btn-primary">Add New</a>
                             </div>
                         </div>
                         <!-- table -->
@@ -61,9 +63,10 @@
                                     <tr>
                                         <th>Customer</th>
                                         <th>Project Name</th>
+                                        <th>SPK</th>
                                         <th>Project Manager</th>
                                         <th>Progress</th>
-                                        <th>Aksi</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -112,10 +115,20 @@
             },
             columns: [{
                     data: 'customer.company',
-                    name: 'customer.company'
+                    name: 'customer.company',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
+                    }
                 }, {
                     data: 'projectNamee',
                     name: 'projectNamee'
+                },
+                {
+                    data: 'noContract',
+                    name: 'noContract',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                    }
                 },
                 {
                     data: 'pm.name',

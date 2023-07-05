@@ -36,7 +36,7 @@ class projectController extends Controller
                 return
                     '<div class="d-flex align-items-center">
                         <div>
-                            <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 30) . '</a></h4>
+                            <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit" target="_blank">' . substr($data->projectName, 0, 30) . '</a></h4>
                         </div>
                     </div>';
             })

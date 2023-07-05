@@ -14,7 +14,7 @@
         border-radius: 50%;
         background-color: #f1f1f1;
         color: #333;
-        font-size: 1em;
+        font-size: 1.5em;
         font-weight: bold;
         text-align: center;
         line-height: 2em;
@@ -52,7 +52,7 @@
                 <!-- card body -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="mb-2 col-12 h3">
+                        <div class="mb-2 col-12 h3" style="font-size: 1.2rem;">
                             <span>{{$data->projectName}}</span>
                             <br>
                             <?php
@@ -146,29 +146,56 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                            <!-- card -->
+                            <div class="card h-100 card-lift">
+                                <!-- card body -->
+                                <div class="card-body">
+                                    <!-- heading -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h4 class="mb-0">Status</h4>
+                                        </div>
+                                        <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                    <path d="m23 6l-9.5 9.5l-5-5L1 18" />
+                                                    <path d="M17 6h6v6" />
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- project number -->
+                                    <div class="lh-1">
+                                        <h1 class=" mb-1 fw-bold {{$color}}">{{$data->overAllProg}}%</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <br>
                         <span class="h5">Project Member</span>
                         <br>
                         <div class="avatar-group">
-                            <span class="avatar avatar-sm">
+                            <span class="avatar avatar-md">
                                 <div id="initial-container">
                                     <div class="initial-container" id="initial-circle" data-tooltip="SALMAN ALF"></div>
                                 </div>
                             </span>
-                            <span class="avatar avatar-sm">
+                            <span class="avatar avatar-md">
                                 <div id="initial-container">
                                     <div class="initial-container" id="initial-circle" data-tooltip="ANWAR NASIHIN"></div>
                                 </div>
                             </span>
-                            <span class="avatar avatar-sm">
+                            <span class="avatar avatar-md">
                                 <div id="initial-container">
                                     <div class="initial-container" id="initial-circle" data-tooltip="YOVAN ANDIKA"></div>
                                 </div>
                             </span>
-                            <!-- <span class="avatar avatar-sm avatar-primary">
-                                <span class="avatar-initials rounded-circle
-                        fs-6">+5</span>
-                            </span> -->
+                            <span class="avatar avatar-md">
+                                <div id="initial-container">
+                                    <div class="initial-container" id="initial-circle" data-tooltip="+ 5"></div>
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>

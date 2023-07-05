@@ -15,6 +15,7 @@ class memberProject extends Model
         'projectId',
         'employee',
         'role',
+        'accesType',
         'startDate',
         'endDate',
         'planMandays',

@@ -35,7 +35,7 @@ class topProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $get = topProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
-        $value = Project::find($id);
+        $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -43,7 +43,7 @@ class topProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/top', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
+        return view('project/top', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
         //return $get;
     }
 

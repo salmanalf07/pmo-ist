@@ -14,7 +14,7 @@ class orderController extends Controller
     public function edit(Request $request, $id)
     {
         $get = Order::with('detailOrder')->where('projectId', $id)->orderBy('created_at')->first();
-        $value = Project::find($id);
+        $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -22,7 +22,7 @@ class orderController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/detailOrder', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
+        return view('project/detailOrder', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
     }
 
     public function store(Request $request, $id)

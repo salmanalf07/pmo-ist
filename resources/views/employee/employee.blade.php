@@ -20,7 +20,7 @@
                         <div class="card">
                             <div class="card-header d-md-flex border-bottom-0">
                                 <div class="flex-grow-1">
-                                    <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">+ Add {{$judul}}</button>
+                                    <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Add New</button>
                                 </div>
                             </div>
                             <div class="card-body">

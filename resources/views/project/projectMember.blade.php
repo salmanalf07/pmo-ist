@@ -37,8 +37,9 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr class="text-center">
-                                        <th class="text-start" style="width: 30%;">Name</th>
-                                        <th class="text-start" style="width: 20%;">Role</th>
+                                        <th class="text-start" style="width: 25%;">Name</th>
+                                        <th class="text-start" style="width: 15%;">Role</th>
+                                        <th style="width: 10%;">AccesType</th>
                                         <th style="width: 15%;">Dept/Div</th>
                                         <th style="width: 10%;">Start Date</th>
                                         <th style="width: 10%;">End Date</th>
@@ -77,6 +78,13 @@
                                                 <option value="FullstackDeveloper">Fullstack Developer</option>
                                                 <option value="SystemAnalyst">System Analyst</option>
 
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="accesType[]" id="accesType0" class="select2" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                <option value="Remote">Remote</option>
+                                                <option value="Onsite">Onsite</option>
                                             </select>
                                         </td>
                                         <td>
@@ -128,7 +136,8 @@
                                 <thead class="table-light">
                                     <tr class="text-center">
                                         <th class="text-start" style="width: 30%;">Name</th>
-                                        <th class="text-start" style="width: 20%;">Role</th>
+                                        <th class="text-start" style="width: 15%;">Role</th>
+                                        <th style="width: 10%;">AccesType</th>
                                         <th style="width: 15%;">Dept/Div</th>
                                         <th style="width: 10%;">Start Date</th>
                                         <th style="width: 10%;">End Date</th>
@@ -162,6 +171,13 @@
                                                 <option value="FullstackDeveloper">Fullstack Developer</option>
                                                 <option value="SystemAnalyst">System Analyst</option>
 
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="accesPartner[]" id="accesPartner0" class="select2" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                <option value="Remote">Remote</option>
+                                                <option value="Onsite">Onsite</option>
                                             </select>
                                         </td>
                                         <td>
@@ -338,7 +354,7 @@
             }
         }
 
-        for (let j = 1; j <= 2; j++) {
+        for (let j = 1; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
 
@@ -371,7 +387,7 @@
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
         $('select').select2();
 
-        for (let j = 3; j <= 7; j++) {
+        for (let j = 4; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -380,7 +396,7 @@
             var childNodes = clonedContent.childNodes;
 
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
-            if (j == 3 || j == 4 || j == 5 || j == 6) {
+            if (j == 4 || j == 5 || j == 6 || j == 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
 
             }
@@ -395,7 +411,7 @@
                     });
                 }
             }
-            if (j == 7) {
+            if (j == 8) {
                 cell5.addEventListener("click", function() {
                     deleteRow(this);
                 });
@@ -442,7 +458,7 @@
             }
         }
 
-        for (let j = 2; j <= 2; j++) {
+        for (let j = 2; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
 
@@ -475,7 +491,7 @@
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
         $('select').select2();
 
-        for (let j = 3; j <= 7; j++) {
+        for (let j = 4; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -484,7 +500,7 @@
             var childNodes = clonedContent.childNodes;
 
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
-            if (j == 3 || j == 4 || j == 5 || j == 6) {
+            if (j == 4 || j == 5 || j == 6 || j == 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
 
             }
@@ -499,7 +515,7 @@
                     });
                 }
             }
-            if (j == 7) {
+            if (j == 8) {
                 // cell5.addEventListener("click", function() {
                 //     deleteRow(this);
                 // });

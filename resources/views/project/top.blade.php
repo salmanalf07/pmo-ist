@@ -95,8 +95,18 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
-                        <button type="button" class="btn btn-primary-soft add"> Save</button>
+                        <div class="row input-100">
+                            <div class="col-6">
+                                <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
+                                <button type="button" class="btn btn-primary-soft add"> Save</button>
+                            </div>
+                            <div class="col-3">
+                                <input class="text-end" id="totInvoiced" type="text" placeholder="Total Invoiced" readonly>
+                            </div>
+                            <div class="col-3">
+                                <input class="text-end" id="totPayment" type="text" placeholder="Total Payment" readonly>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -280,10 +290,42 @@
         if (button.checked) {
             button.value = 1;
             $('.hideng#' + button.id).prop('disabled', true);
-            console.log("Checkbox checked " + button.id + "+" + button.value);
+            //console.log("Checkbox checked " + button.id + "+" + button.value);
+
+            if ((button.id).replace(/[0-9]/g, '') == "invMain") {
+                findTotal('#termsValue', '#invMain', '#totInvoiced');
+            }
+            if ((button.id).replace(/[0-9]/g, '') == "payMain") {
+                findTotal('#termsValue', '#payMain', '#totPayment');
+            }
+
         } else {
             $('.hideng#' + button.id).prop('disabled', false);
+            button.value = 0;
+            if ((button.id).replace(/[0-9]/g, '') == "invMain") {
+                findTotal('#termsValue', '#invMain', '#totInvoiced');
+            }
+            if ((button.id).replace(/[0-9]/g, '') == "payMain") {
+                findTotal('#termsValue', '#payMain', '#totPayment');
+            }
         }
+    }
+
+    function findTotal(tablee, search, to) {
+        //var arr = document.getElementsByName('total_price[]');
+        var table = document.getElementById('detailOrder');
+        var rowCount = table.rows.length;
+        //console.log(rowCount);
+        var tot = 0;
+        for (var i = 0; i < rowCount; i++) {
+            if (parseFloat($(tablee + i).val()) && $('.form-check-inputt' + search + i).val() == 1) {
+                var total_p = $(tablee + i).val().replaceAll(".", "");
+                //console.log(total_p);
+                tot += parseFloat(total_p);
+            }
+            // console.log($('.form-check-inputt' + search + i).val());
+        }
+        $(to).val(formatNumberr(tot));
     }
 </script>
 @endsection

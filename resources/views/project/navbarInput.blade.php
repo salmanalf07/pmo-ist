@@ -12,9 +12,8 @@
             <div class="row align-items-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12">
                     <div class="card rounded-bottom rounded-0 smooth-shadow-sm mb-5">
-                        <div class="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
-                            <div class="d-flex align-items-center">
-                            </div>
+                        <div class="d-flex align-items-end justify-content-end pt-4 pb-4 px-4">
+                            {{isset($header)?$header:""}}
                         </div>
                         <!-- nav -->
                         <ul class="nav nav-lt-tab px-4" id="pills-tab" role="tablist">

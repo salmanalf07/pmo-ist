@@ -15,6 +15,7 @@ class partnerProject extends Model
         'projectId',
         'partner',
         'rolePartner',
+        'accesPartner',
         'partnerCorp',
         'stdatePartner',
         'eddatePartner',

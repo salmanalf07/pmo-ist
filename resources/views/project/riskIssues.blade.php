@@ -19,6 +19,7 @@
         padding: 0.5rem;
     }
 </style>
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div>
     <!-- row -->
 
@@ -106,7 +107,7 @@
                                         <th class="text-center" style="width:20%">Issue Description</th>
                                         <th class="text-center" style="width:20%">Project Impact</th>
                                         <th class="text-center" style="width:20%">Action Plan/Resolution</th>
-                                        <th class="text-center" style="width:15%">Owner</th>
+                                        <th class="text-center" style="width:15%">Issue Type</th>
                                         <th class="text-center" style="width:15%">Date Resolved</th>
                                         <th class="text-center" style="width:5%">Status</th>
                                         <th class="text-center" style="width:5%;"></th>
@@ -127,7 +128,11 @@
                                             <input type="text" name="actionPlan[]" id="actionPlan0">
                                         </td>
                                         <td>
-                                            <input type="text" name="issuesOwner[]" id="issuesOwner0">
+                                            <select name="issuesOwner[]" id="issuesOwner0" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>-- select --</option>
+                                                <option value="Issue">Issue</option>
+                                                <option value="Stopper">Stopper</option>
+                                            </select>
                                         </td>
                                         <td>
                                             <div class="input-group me-3">
@@ -341,7 +346,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 5; j++) {
+        for (let j = 0; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -351,7 +356,55 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 5) {
+            if (j <= 3) {
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            }
+            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            for (var k = 0; k < childNodes.length; k++) {
+                var clonedNode = childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = ""; // Reset input value
+                }
+            }
+
+        }
+        for (let j = 4; j <= 4; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+
+            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+
+            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+            newCell5.appendChild(clonedSelect);
+
+            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+
+            // Mengaktifkan kembali Select2 pada elemen select yang baru
+            $(clonedSelect).select2();
+
+            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+            });
+        }
+        for (let j = 5; j <= 5; j++) {
+            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var newCell5 = row.insertCell(j);
+            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+            var selectElement = cell5.querySelector('input');
+            var clonedContent = cell5.cloneNode(true);
+            var childNodes = clonedContent.childNodes;
+
+            if (j == 5) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -367,6 +420,7 @@
             flatpickr(".datepicker", {
                 dateFormat: "d-m-Y",
             });
+
         }
         for (let j = 6; j <= 6; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)

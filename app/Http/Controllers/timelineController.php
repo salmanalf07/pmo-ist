@@ -12,7 +12,7 @@ class timelineController extends Controller
     public function edit(Request $request, $id)
     {
         $get = scopeProject::where('projectId', $id)->orderBy('scope')->get();
-        $overAllProg = Project::find($id);
+        $overAllProg = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {
@@ -20,7 +20,7 @@ class timelineController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectTimeline', ['id' => $id, 'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
+        return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
         //return $get;
     }
 
