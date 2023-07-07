@@ -121,7 +121,7 @@
                     }
                 }, {
                     data: 'projectNamee',
-                    name: 'projectNamee'
+                    name: 'projectNamee',
                 },
                 {
                     data: 'noContract',
@@ -131,7 +131,13 @@
                     }
                 },
                 {
-                    data: 'pm.name',
+                    data: function(row) {
+                        if (row.pm && row.pm.name) {
+                            return row.pm.name; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
                     name: 'pm.name'
                 },
                 {

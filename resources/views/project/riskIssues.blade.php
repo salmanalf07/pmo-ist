@@ -107,9 +107,9 @@
                                         <th class="text-center" style="width:20%">Issue Description</th>
                                         <th class="text-center" style="width:20%">Project Impact</th>
                                         <th class="text-center" style="width:20%">Action Plan/Resolution</th>
-                                        <th class="text-center" style="width:15%">Issue Type</th>
-                                        <th class="text-center" style="width:15%">Date Resolved</th>
-                                        <th class="text-center" style="width:5%">Status</th>
+                                        <th class="text-center" style="width:13%">Issue Type</th>
+                                        <th class="text-center" style="width:10%">Date Resolved</th>
+                                        <th class="text-center" style="width:12%">Status</th>
                                         <th class="text-center" style="width:5%;"></th>
                                     </tr>
                                 </thead>
@@ -128,7 +128,7 @@
                                             <input type="text" name="actionPlan[]" id="actionPlan0">
                                         </td>
                                         <td>
-                                            <select name="issuesOwner[]" id="issuesOwner0" class="select2" aria-label="Default select example">
+                                            <select name="issuesOwner[]" id="issuesOwner0" class="select2" aria-label="Default select example" onchange="count(this)">
                                                 <option value="#" selected>-- select --</option>
                                                 <option value="Issue">Issue</option>
                                                 <option value="Stopper">Stopper</option>
@@ -160,7 +160,23 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        <button type="button" onclick="addRowIssues()" class="btn btn-warning-soft">Add Row Issues</button>
+                        <div class="row input-100">
+                            <div class="col-6">
+                                <button type="button" onclick="addRowIssues()" class="btn btn-warning-soft">Add Row Issues</button>
+                            </div>
+                            <div class="col-1 text-end">
+                                Stopper
+                            </div>
+                            <div class="col-2">
+                                <input class="text-end" id="totStopper" type="text" placeholder="Count Stopper" readonly>
+                            </div>
+                            <div class="col-1  text-end">
+                                Issue
+                            </div>
+                            <div class="col-2">
+                                <input class="text-end" id="totIssue" type="text" placeholder="Count Issue" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -393,8 +409,12 @@
             // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
             var selectedOptions = Array.from(selectElement.selectedOptions);
             selectedOptions.forEach(option => {
-                $(clonedSelect).find(`option[value="${option.value}"]`).prop('selected', true);
+                $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
             });
+
+            // newCell5.addEventListener("change", function() {
+            //     count(this);
+            // });
         }
         for (let j = 5; j <= 5; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
@@ -517,6 +537,23 @@
             row.parentNode.removeChild(row);
         }
 
+    }
+
+    function count(button) {
+        var array = document.getElementsByName("issuesOwner[]"); // Mengambil elemen dengan atribut name "arra[]"
+
+        var stopper = 0;
+        var issue = 0;
+        for (let i = 0; i <= array.length; i++) {
+            if ($('#' + (button.id).replace(/[0-9]/g, '') + [i]).val() == "Issue") {
+                issue += 1
+            }
+            if ($('#' + (button.id).replace(/[0-9]/g, '') + [i]).val() == "Stopper") {
+                stopper += 1
+            }
+        }
+        $('#totStopper').val(stopper);
+        $('#totIssue').val(issue);
     }
 </script>
 @endsection

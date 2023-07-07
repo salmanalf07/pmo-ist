@@ -20,24 +20,9 @@
                     <a class="nav-link pe-5" href="/projectInfo">
                         Project
                     </a>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Finance
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
-
-                            <li>
-                                <a class="dropdown-item" href="/financeInfo">
-                                    Data Finance
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    Report
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <a class="nav-link pe-5" href="/financeInfo">
+                        Finance
+                    </a>
                     <a class="nav-link pe-5" href="/employee">
                         Resources
                     </a>

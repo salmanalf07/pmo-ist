@@ -1,6 +1,7 @@
 @extends('index')
 
 @section('konten')
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div id="app-content">
     <!-- Container fluid -->
     <div class="app-content-area">
@@ -15,7 +16,47 @@
             </div>
             <div>
                 <!-- row -->
-                <div class="row">
+                <div class="row mb-3">
+                    <div class="col-12 mb-3">
+                        <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="mb-3 col-3">
+                                            <label class="form-label" for="selectOne">End Date</label>
+                                            <div class="input-group me-3 datepicker">
+                                                <input id="dateEnd" name="dateEnd" type="text" class="form-control rounded" data-input aria-describedby="date1">
+                                                <div class="input-group-append custom-picker">
+                                                    <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label class="form-label">Progress Project</label>
+                                            <select name="progressProj" id="progressProj" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="0">0%</option>
+                                                <option value="20">20%</option>
+                                                <option value="40">40%</option>
+                                                <option value="60">60%</option>
+                                                <option value="80">80%</option>
+                                                <option value="100">100%</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-md-flex border-bottom-0">
@@ -53,7 +94,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="taskModalLabel">Add {{$judul}}</h5>
+                <h5 class="modal-title" id="taskModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
                 </button>
@@ -68,87 +109,88 @@
                         <span id="peringatan"></span>
                         <input class="form-control" type="text" name="id" id="id" hidden>
                         <div class="mb-3 col-12">
+                            <h4>Employee</h4>
+                        </div>
+                        <div class="mb-3 col-8">
                             <label class="form-label">Karyawan ID <span class="text-danger">*</span></label>
                             <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Here" required>
                         </div>
+                        <div class="form-check form-switch mb-3 col-4" style="padding-top: 2.5rem;padding-left: 4rem !important;">
+                            <input class="form-check-input" type="checkbox" role="switch" id="typeEmployee" name="typeEmployee" onclick="toggleCheckbox(this)" value="0">
+                            <label class="form-check-label" for="typeEmployee">Type Employee</label>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Company</label>
+                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" value="PT Infosys Solusi Terpadu" readonly>
+                        </div>
+                        <div class="mb-3 col-6"></div>
                         <div class="mb-3 col-12">
                             <label class="form-label">Nama Karyawan <span class="text-danger">*</span></label>
                             <input name="name" id="name" type="text" class="form-control" placeholder="Enter Here" required>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Nomor KTP</label>
-                            <input name="ktp" id="ktp" type="text" class="form-control" placeholder="Enter Here">
+                            <label class="form-label">Division</label>
+                            <select name="divisi" id="divisi" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Nomor NPWP</label>
-                            <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
+                            <label class="form-label">Department</label>
+                            <select name="department" id="department" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Nomor Rekening</label>
-                            <input name="norek" id="norek" type="text" class="form-control" placeholder="Enter Here">
+                            <label class="form-label">Direct Manager</label>
+                            <select name="direct_manager" id="direct_manager" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">No HP</label>
-                            <input name="nohp" id="nohp" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Level <span class="text-danger">*</span></label>
-                            <input name="level" id="level" type="text" class="form-control" placeholder="Enter Here" required>
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Divisi <span class="text-danger">*</span></label>
-                            <input name="divisi" id="divisi" type="text" class="form-control" placeholder="Enter Here" required>
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Perusahaan <span class="text-danger">*</span></label>
-                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Penempatan</label>
-                            <input name="penempatan" id="penempatan" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Manajer Langsung <span class="text-danger">*</span></label>
-                            <input name="direct_manager" id="direct_manager" type="text" class="form-control" placeholder="Enter Here" required>
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Role <span class="text-danger">*</span></label>
-                            <input name="role" id="role" type="text" class="form-control" placeholder="Enter Here" required>
                         </div>
                         <div class="mb-3 col-12">
-                            <label class="form-label">Spesialisasi</label>
-                            <input name="spesialisasi" id="spesialisasi" type="text" class="form-control" placeholder="Enter Here">
+                            <hr>
                         </div>
-                        <!-- form group -->
-                        <div class="mb-3 col-md-6 col-12">
-                            <label class="form-label">Tanggal Mulai PKWT <span class="text-danger">*</span></label>
-                            <div class="input-group me-3 datepicker">
-                                <input id="pkwt_start" name="pkwt_start" type="text" class="form-control rounded" data-input aria-describedby="date2" required>
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" id="date2" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- form group -->
-                        <div class="mb-3 col-md-6 col-12">
-                            <label class="form-label">Tanggal Akhir PKWT <span class="text-danger">*</span></label>
-                            <div class="input-group me-3 datepicker">
-                                <input id="pkwt_end" name="pkwt_end" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Email IST <span class="text-danger">*</span></label>
-                            <input name="email_ist" id="email_ist" type="text" class="form-control" placeholder="Enter Here" required>
+                        <div class="mb-3 col-12">
+                            <h4>Location</h4>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Email Pribadi <span class="text-danger">*</span></label>
-                            <input name="email" id="email" type="text" class="form-control" placeholder="Enter Here" required>
+                            <label class="form-label">Employment Location </label>
+                            <select name="penempatan" id="penempatan" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
                         </div>
-                        <div class="col-md-8"></div>
+                        <div class="mb-3 col-6">
+                        </div>
+                        <div class="mb-3 col-12">
+                            <hr>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <h4>Technical Skill</h4>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Technical Specialization</label>
+                            <select name="spesialisasi" id="spesialisasi" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Role</label>
+                            <select name="role" id="role" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Skill Level</label>
+                            <select name="level" id="level" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Rate</label>
+                            <input name="rate" id="rate" type="text" class="form-control" placeholder="Enter Here">
+                        </div>
+                        <div class="mb-5 col-12"></div>
                         <!-- button -->
                         <div class="col-12">
                             <button id="in" class="btn btn-primary" type="button">Submit</button>
@@ -166,35 +208,16 @@
 <!-- flatpickr -->
 <script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script>
-    // jQuery(function() {
-    //     initDatePicker();
-    // });
-
-    // checkIfTodaySelected = function(selDate, dateStr, fp) {
-    //     let today = new Date().toLocaleDateString();
-    //     let selDateDay = new Date(selDate).toLocaleDateString();
-    //     if (selDateDay === today) {
-    //         fp._input.value = "Today"
-    //     }
-    // }
-
-    // function initDatePicker() {
-    //     const fp = jQuery(".datepicker").flatpickr({
-    //         wrap: true,
-    //         altInput: true,
-    //         allowInput: false, // if doesn't need - disable it.
-    //         altFormat: "j F Y",
-    //         dateFormat: "d-m-Y",
-    //         defaultDate: "today",
-    //         onReady: checkIfTodaySelected,
-    //         onValueUpdate: checkIfTodaySelected
-    //     });
-
-    // }
-    flatpickr("#pkwt_start, #pkwt_end", {
+    flatpickr("#dateEnd", {
         dateFormat: "d-m-Y",
-        defaultDate: "today",
+        defaultDate: "01-01-1990",
     });
+    $(document).ready(function() {
+        $('.select2').select2({
+            dropdownParent: $('#taskModal')
+        });
+        $('#progressProj,#endDate').select2();
+    })
 </script>
 <script>
     $(function() {
@@ -380,6 +403,20 @@
             return false;
         }
     });
+
+    function toggleCheckbox(button) {
+        if (button.checked) {
+            button.value = 1;
+            $('#company').val('');
+            document.getElementById("company").readOnly = false;
+            // console.log(button.value);
+        } else {
+            button.value = 0;
+            $('#company').val('PT Infosys Solusi Terpadu');
+            document.getElementById("company").readOnly = true;
+            // console.log(button.value);
+        }
+    }
 </script>
 
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\financeExport;
 use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class topProjectController extends Controller
@@ -95,5 +97,18 @@ class topProjectController extends Controller
         $post->delete();
 
         return response()->json($post);
+    }
+
+    public function financeExport(Request $request)
+    {
+        $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
+
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
+
+        $data = $dataa->get();
+        return Excel::download(new financeExport($data), 'Finance_Report.xlsx');
     }
 }
