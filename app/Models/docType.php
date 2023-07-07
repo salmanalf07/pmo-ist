@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class outScope extends Model
+class docType extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'projectId',
-        'noRef',
-        'outOfScope',
+        'docType',
+        'keterangan',
     ];
     /**
      * The "booting" function of model

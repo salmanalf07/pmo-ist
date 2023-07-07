@@ -13,6 +13,7 @@ use App\Http\Controllers\sowController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
+use App\Models\docType;
 use App\Models\documentationProject;
 use App\Models\employee;
 use App\Models\issuesProject;
@@ -200,7 +201,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/documentation/{id}', function ($id) {
         $value = Project::with('customer')->find($id);
-        return view('project/documentation', ['judul' => "Documentation", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName]);
+        $doc = docType::get();
+        return view('project/documentation', ['judul' => "Documentation", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'doc' => $doc]);
     })->name('documentation');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_documentation/{id}', [DocProjectController::class, 'json']);

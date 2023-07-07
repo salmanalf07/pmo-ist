@@ -2,7 +2,7 @@
 
 @section('inputan')
 
-
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <!-- row -->
 <div class="row">
     <!-- col -->
@@ -54,8 +54,13 @@
                     <span id="peringatan"></span>
                     <input class="form-control" type="text" name="id" id="id" hidden>
                     <div class="mb-3 col-12">
-                        <label class="form-label">Nama File <span class="text-danger">*</span></label>
-                        <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Here" required>
+                        <label class="form-label">Type File</label>
+                        <select name="type" id="type" class="select2" aria-label="Default select example" required>
+                            <option value="#" selected>Open this select menu</option>
+                            @foreach($doc as $doc)
+                            <option value="{{$doc->id}}">{{$doc->docType}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3 col-12">
                         <label class="form-label">Link <span class="text-danger">*</span></label>
@@ -75,6 +80,11 @@
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            dropdownParent: $('#offcanvasRight')
+        });
+    })
     $(function() {
 
         var oTable = $('#example1').DataTable({
@@ -103,8 +113,8 @@
                 url: '/json_documentation/{{$id}}'
             },
             columns: [{
-                    data: 'namaFile',
-                    name: 'namaFile'
+                    data: 'document.docType',
+                    name: 'document.docType'
                 },
                 {
                     data: 'created_at',

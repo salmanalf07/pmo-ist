@@ -251,7 +251,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 3; j++) {
+        for (let j = 0; j <= 4; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -260,6 +260,7 @@
             var childNodes = clonedContent.childNodes;
             if (j == 0) {
                 newCell5.style.display = "none";
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             if (j > 1 && j <= 3) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
@@ -278,23 +279,23 @@
                 newCell5.classList = "text-center";
             }
         }
-        for (let j = 4; j <= 4; j++) {
-            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
-            var newCell5 = row.insertCell(j);
-            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
-            var clonedContent = cell5.cloneNode(true);
-            var childNodes = clonedContent.childNodes;
-            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
-            for (var k = 0; k < childNodes.length; k++) {
-                newCell5.appendChild(childNodes[k].cloneNode(true));
-            }
-        }
+        // for (let j = 4; j <= 4; j++) {
+        //     var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+        //     var newCell5 = row.insertCell(j);
+        //     // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
+        //     var clonedContent = cell5.cloneNode(true);
+        //     var childNodes = clonedContent.childNodes;
+        //     // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
+        //     for (var k = 0; k < childNodes.length; k++) {
+        //         newCell5.appendChild(childNodes[k].cloneNode(true));
+        //     }
+        // }
 
 
 
-        newCell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
+        // newCell5.addEventListener("click", function() {
+        //     deleteRow(this);
+        // });
         // cell5.addEventListener("click", function() {
         //     deleteRow(this);
         // });
@@ -317,6 +318,7 @@
             var childNodes = clonedContent.childNodes;
             if (j == 0) {
                 newCell5.style.display = "none";
+                clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             if (j > 1 && j <= 3) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
@@ -365,6 +367,7 @@
         var row = button.closest("tr");
         var inputElement1 = row.querySelector("input[name='idInScope[]']");
         var inputElement = row.querySelector("input[name='idOutScope[]']");
+        // console.log(inputElement1)
         if (inputElement1 && inputElement1.value) {
             var id = inputElement1.value;
             if (confirm('Yakin akan menghapus data ini?')) {

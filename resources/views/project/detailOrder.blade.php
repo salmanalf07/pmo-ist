@@ -40,10 +40,12 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th style="width: 35%;">Item</th>
-                                        <th class="text-end" style="width: 20%;">Rev</th>
-                                        <th class="text-end" style="width: 20%;">COGS</th>
-                                        <th class="text-center" style="width: 20%;">GP %</th>
+                                        <th style="width: 30%;">Item</th>
+                                        <th class="text-center" style="width: 10%;">Quantity</th>
+                                        <th class="text-center" style="width: 15%;">Unit</th>
+                                        <th class="text-end" style="width: 15%;">Rev</th>
+                                        <th class="text-end" style="width: 15%;">COGS</th>
+                                        <th class="text-center" style="width: 10%;">GP %</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -54,6 +56,12 @@
                                         </td>
                                         <td>
                                             <input name="item[]" id="item0" type="text">
+                                        </td>
+                                        <td>
+                                            <input name="qty[]" id="qty0" type="text" class="text-center">
+                                        </td>
+                                        <td>
+                                            <input name="unit[]" id="unit0" type="text">
                                         </td>
                                         <td><input name="rev[]" id="rev0" placeholder="0" type="text" class="number-input text-end"></td>
                                         <td>
@@ -170,7 +178,9 @@
             for (var i = 0; i < data.detail_order.length; i++) {
                 $('#idor' + i).val(data.detail_order[i].id);
                 $('#item' + i).val(data.detail_order[i].item);
-                $('#rev' + i).val(formatNumberr(data.detail_order[i].rev));
+                $('#qty' + i).val(data.detail_order[i].qty);
+                $('#unit' + i).val(data.detail_order[i].unit);
+                $('#rev' + i).val(formatNumberr(data.detail_order[i].rev)).change();
                 $('#cogs' + i).val(formatNumberr(data.detail_order[i].cogs));
                 $('#gp' + i).val(data.detail_order[i].gp + '%');
             }
@@ -187,7 +197,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 5; j++) {
+        for (let j = 0; j <= 7; j++) {
             var cell5 = lastRow.cells[j];
             var newCell5 = row.insertCell(j);
             var selectElement = cell5.querySelector('input');
@@ -197,7 +207,7 @@
                 newCell5.style.display = "none";
             }
 
-            if (j <= 4) {
+            if (j <= 6) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
 
@@ -212,15 +222,15 @@
                 }
             }
 
-            if (j == 5) {
-                cell5.addEventListener("click", function() {
-                    deleteRow(this);
-                });
+            // if (j == 5) {
+            //     cell5.addEventListener("click", function() {
+            //         deleteRow(this);
+            //     });
 
-                newCell5.addEventListener("click", function() {
-                    deleteRow(this);
-                });
-            }
+            //     newCell5.addEventListener("click", function() {
+            //         deleteRow(this);
+            //     });
+            // }
         }
 
 
@@ -282,6 +292,7 @@
             $('#subTotalGp').val(formatNumberr(SubTotalGp));
             var totalGpp = ((parseFloat($('#subTotalRev').val().replace(/\./g, "")) - parseFloat($('#subTotalCogs').val().replace(/\./g, ""))) / parseFloat($('#subTotalRev').val().replace(/\./g, ""))) * 100
             $('#totalGpp').val(Math.round(totalGpp) + '%');
+            // console.log(gp);
         });
     });
 

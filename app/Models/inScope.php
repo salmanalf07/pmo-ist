@@ -13,6 +13,7 @@ class inScope extends Model
 
     protected $fillable = [
         'projectId',
+        'noRef',
         'inScope',
     ];
     /**

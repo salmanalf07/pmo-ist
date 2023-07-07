@@ -14,8 +14,8 @@ class sowController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $getInScope = inScope::where('projectId', $id)->orderBy('created_at')->get();
-        $getOutScope = outScope::where('projectId', $id)->orderBy('created_at')->get();
+        $getInScope = inScope::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
+        $getOutScope = outScope::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'SOW')->first();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
@@ -45,12 +45,15 @@ class sowController extends Controller
             //start Risk
             $idInScope = $request->idInScope;
             $inScope = collect($request->inScope)->filter()->all();
-            $remaksIn = collect($request->remaksIn)->filter()->all();
+            $remaksIn = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->remaksIn);
 
 
             for ($count = 0; $count < count($inScope); $count++) {
                 $postt = inScope::findOrNew($idInScope[$count]);
                 $postt->ProjectId = $id;
+                $postt->noRef = $count + 1;
                 $postt->inScope = $inScope[$count];
                 $postt->remaks = $remaksIn[$count];
 
@@ -60,11 +63,14 @@ class sowController extends Controller
             //start issues
             $idOutScope = $request->idOutScope;
             $outOfScope = collect($request->outOfScope)->filter()->all();
-            $remaksOut = collect($request->remaksOut)->filter()->all();
+            $remaksOut = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->remaksOut);
 
             for ($count = 0; $count < count($outOfScope); $count++) {
                 $postt = outScope::findOrNew($idOutScope[$count]);
                 $postt->ProjectId = $id;
+                $postt->noRef = $count + 1;
                 $postt->outOfScope = $outOfScope[$count];
                 $postt->remaks = $remaksOut[$count];
 

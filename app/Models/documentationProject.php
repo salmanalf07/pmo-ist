@@ -22,6 +22,10 @@ class documentationProject extends Model
     {
         return $this->hasOne(User::class, 'id', 'userId');
     }
+    public function document()
+    {
+        return $this->hasOne(docType::class, 'id', 'type');
+    }
     /**
      * The "booting" function of model
      *

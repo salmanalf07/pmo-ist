@@ -12,7 +12,11 @@ class DocProjectController extends Controller
 {
     public function json($id)
     {
-        $data = documentationProject::with('user')->where('projectId', $id)->where('type', '!=', 'SOW')->orderBy('created_at', 'DESC');
+        $data = documentationProject::with('user', 'document')
+            ->where([
+                ['projectId', $id],
+                ['type', '!=', "SOW"],
+            ])->orderBy('created_at', 'DESC')->get();
 
         return DataTables::of($data)
             ->addColumn('namaFile', function ($data) {
@@ -53,13 +57,13 @@ class DocProjectController extends Controller
     {
         try {
             $request->validate([
-                'nameFile' => ['required', 'string', 'max:255'],
+                'type' => ['required', 'string', 'max:255'],
                 'link' => ['required', 'string', 'max:255'],
             ]);
 
             $post = new documentationProject();
             $post->projectId = $id;
-            $post->nameFile = $request->nameFile;
+            $post->type = $request->type;
             $post->link = $request->link;
             $post->userId = Auth::user()->id;
             $post->save();
@@ -83,12 +87,13 @@ class DocProjectController extends Controller
     {
         try {
             $request->validate([
-                'nameFile' => ['required', 'string', 'max:255'],
+                'type' => ['required', 'string', 'max:255'],
                 'link' => ['required', 'string', 'max:255'],
             ]);
 
             $post = documentationProject::find($id);
-            $post->nameFile = $request->nameFile;
+            $post->nameFile = "-";
+            $post->type = $request->type;
             $post->link = $request->link;
             $post->userId = Auth::user()->id;
             $post->save();

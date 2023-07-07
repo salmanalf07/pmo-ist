@@ -48,17 +48,27 @@ class orderController extends Controller
 
             $idor = $request->idor;
             $item = collect($request->item)->filter()->all();
+            $qty = array_map(function ($value) {
+                return $value !== null ? $value : 0;
+            }, $request->qty);
+            $unit = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->unit);
             $rev = collect($request->rev)->filter()->all();
             $cogs = array_map(function ($value) {
                 return $value !== null ? $value : 0;
             }, $request->cogs);
-            $gp = collect($request->gp)->filter()->all();
+            $gp = array_map(function ($value) {
+                return $value !== "NaN%" ? $value : 100;
+            }, $request->gp);
 
 
             for ($count = 0; $count < count($item); $count++) {
                 $postt = DetailOrder::findOrNew($idor[$count]);
                 $postt->orderId = $post->id;
                 $postt->item = $item[$count];
+                $postt->qty = $qty[$count];
+                $postt->unit = $unit[$count];
                 $postt->rev = str_replace(".", "", $rev[$count]);
                 $postt->cogs = str_replace(".", "", $cogs[$count]);
                 $postt->gp = str_replace("%", "", $gp[$count]);

@@ -312,36 +312,36 @@
 <script>
     $(document).ready(function() {
         if ('{{isset($aksi) && $aksi == "EditData"}}') {
-            $('#id').val('{{ isset($data) ? $data->id : "" }}');
-            $('#noProject').val('{{ isset($data) ? $data->noProject : "" }}');
-            $('#cust_id').val('{{ isset($data) ? $data->cust_id : "" }}').trigger('change');
-            $('#customerType').val('{{ isset($data) ? $data->customerType : "" }}').trigger('change');
-            $('#projectName').val('{{ isset($data) ? $data->projectName : "" }}');
-            $('#po').val('{{ isset($data) ? $data->po : "" }}');
-            $('#noContract').val('{{ isset($data) ? $data->noContract : "" }}');
-            $('#contractDate').val(('{{ isset($data) ? $data->contractDate : "" }}').split("-").reverse().join("-"));
-            if ('{{ isset($data) && $data->po !== null }}') {
+            $('#id').val('{!! isset($data) ? $data->id : "" !!}');
+            $('#noProject').val('{!! isset($data) ? $data->noProject : "" !!}');
+            $('#cust_id').val('{!! isset($data) ? $data->cust_id : "" !!}').trigger('change');
+            $('#customerType').val('{!! isset($data) ? $data->customerType : "" !!}').trigger('change');
+            $('#projectName').val('{!! isset($data) ? $data->projectName : "" !!}');
+            $('#po').val('{!! isset($data) ? $data->po : "" !!}');
+            $('#noContract').val('{!! isset($data) ? $data->noContract : "" !!}');
+            $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
+            if ('{!! isset($data) && $data->po !== null !!}') {
                 $("#payung").prop("checked", true).trigger('change');
             }
-            $('#po').val('{{ isset($data) ? $data->po : "" }}');
-            $('#noPo').val('{{ isset($data) ? $data->noPo : "" }}');
-            $('#datePo').val(('{{ isset($data) ? $data->datePo : "" }}').split("-").reverse().join("-"));
-            $('#dateStPo').val(('{{ isset($data) ? $data->dateStPo : "" }}').split("-").reverse().join("-"));
-            $('#dateEdPo').val(('{{ isset($data) ? $data->dateEdPo : "" }}').split("-").reverse().join("-"));
-            $('#poValue').val(formatNumberr('{{ isset($data) ? $data->poValue : "" }}'));
-            $('#projectValue').val(formatNumberr('{{ isset($data) ? $data->projectValue : "" }}'));
-            $('#projectType').val('{{ isset($data) ? $data->projectType : "" }}').trigger('change');
-            $('#partnerId').val('{{ isset($data) ? $data->partnerId : "" }}').trigger('change');
-            $('#sales').val('{{ isset($data) ? $data->sales : "" }}').trigger('change');
-            $('#pmName').val('{{ isset($data) ? $data->pmName : "" }}').trigger('change');
-            $('#coPm').val('{{ isset($data) ? $data->coPm : "" }}').trigger('change');
+            $('#po').val('{!! isset($data) ? $data->po : "" !!}');
+            $('#noPo').val('{!! isset($data) ? $data->noPo : "" !!}');
+            $('#datePo').val(('{!! isset($data) ? $data->datePo : "" !!}').split("-").reverse().join("-"));
+            $('#dateStPo').val(('{!! isset($data) ? $data->dateStPo : "" !!}').split("-").reverse().join("-"));
+            $('#dateEdPo').val(('{!! isset($data) ? $data->dateEdPo : "" !!}').split("-").reverse().join("-"));
+            $('#poValue').val(formatNumberr('{!! isset($data) ? $data->poValue : "" !!}'));
+            $('#projectValue').val(formatNumberr('{!! isset($data) ? $data->projectValue : "" !!}'));
+            $('#projectType').val('{!! isset($data) ? $data->projectType : "" !!}').trigger('change');
+            $('#partnerId').val('{!! isset($data) ? $data->partnerId : "" !!}').trigger('change');
+            $('#sales').val('{!! isset($data) ? $data->sales : "" !!}').trigger('change');
+            $('#pmName').val('{!! isset($data) ? $data->pmName : "" !!}').trigger('change');
+            $('#coPm').val('{!! isset($data) ? $data->coPm : "" !!}').trigger('change');
             //multi-select
-            var rawData = '{{ isset($data) ? $data->sponsor : "" }}';
+            var rawData = '{!! isset($data) ? $data->sponsor : "" !!}';
             var dataArray = rawData.split(",");
             $('#sponsor').val(dataArray).trigger('change');
             //end
-            $('#contractStart').val(('{{ isset($data) ? $data->contractStart : "" }}').split("-").reverse().join("-"));
-            $('#contractEnd').val(('{{ isset($data) ? $data->contractEnd : "" }}').split("-").reverse().join("-"));
+            $('#contractStart').val(('{!! isset($data) ? $data->contractStart : "" !!}').split("-").reverse().join("-"));
+            $('#contractEnd').val(('{!! isset($data) ? $data->contractEnd : "" !!}').split("-").reverse().join("-"));
         }
     })
 </script>
