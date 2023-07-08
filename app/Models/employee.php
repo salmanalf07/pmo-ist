@@ -37,6 +37,10 @@ class employee extends Model
      *
      * @return void
      */
+    public function divisi()
+    {
+        return $this->belongsTo(division::class, 'divisi', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

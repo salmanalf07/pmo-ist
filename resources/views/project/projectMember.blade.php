@@ -219,7 +219,7 @@
             </div>
             <div class="col-xxl-12 col-12">
                 <div class="card mb-4">
-                    <div class="card-header">
+                    <div class="card-footer">
                         <div class="justify-content-between">
                             <button type="button" class="btn btn-primary-soft add">Save</button>
                         </div>
@@ -594,7 +594,7 @@
 
             },
             success: function(data) {
-                $('#divisi' + matches).val(data.divisi);
+                $('#divisi' + matches).val(data.divisi['division']);
             },
         });
     };

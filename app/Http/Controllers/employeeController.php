@@ -56,7 +56,7 @@ class employeeController extends Controller
     }
     public function edit(Request $request)
     {
-        $get = employee::find($request->id);
+        $get = employee::with('divisi')->find($request->id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         return response()->json($get);

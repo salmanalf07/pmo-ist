@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\division;
 use App\Models\employee;
 use App\Models\memberProject;
 use App\Models\partnerProject;
@@ -16,6 +17,7 @@ class memberProjectController extends Controller
         $get = memberProject::where('projectId', $id)->orderBy('created_at')->get();
         $partner = partnerProject::where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
+        $divisi = division::get();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -24,7 +26,7 @@ class memberProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectMember', ['judul' => "Project", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner]);
+        return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner]);
         //return $get;
     }
 
