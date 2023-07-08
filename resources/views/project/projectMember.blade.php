@@ -387,7 +387,7 @@
         }
 
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
-        $('select').select2();
+        $('.select2').select2();
 
         for (let j = 4; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
@@ -491,7 +491,7 @@
         }
 
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
-        $('select').select2();
+        $('.select2').select2();
 
         for (let j = 4; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
