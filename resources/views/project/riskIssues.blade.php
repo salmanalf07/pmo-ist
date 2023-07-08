@@ -76,7 +76,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne" onclick="deleteRow(this);">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
@@ -147,7 +147,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne" onclick="deleteRow(this);">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
@@ -197,7 +197,7 @@
 <script>
     flatpickr(".datepicker", {
         dateFormat: "d-m-Y",
-        defaultDate: "today",
+        defaultDate: "01-01-1900",
     });
     $(document).ready(function() {
         $('.select2').select2();
@@ -304,6 +304,7 @@
                     clonedNode.value = ""; // Reset input value
                 }
             }
+
         }
         for (let j = 6; j <= 6; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
@@ -343,15 +344,8 @@
             }
         }
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
-        $('select').select2();
+        $('.select2').select2();
 
-
-        newCell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
-        cell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
     }
 
     function addRowIssues() {
@@ -437,9 +431,12 @@
                 }
             }
 
-            flatpickr(".datepicker", {
-                dateFormat: "d-m-Y",
-            });
+            if (clonedContent.querySelector('input.datepicker')) {
+                flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
+                    dateFormat: "d-m-Y",
+                    defaultDate: "01-01-1900",
+                });
+            }
 
         }
         for (let j = 6; j <= 6; j++) {
@@ -480,15 +477,8 @@
             }
         }
         // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
-        $('select').select2();
+        $('.select2').select2();
 
-
-        newCell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
-        cell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
     }
 
     // Fungsi untuk menghapus baris
@@ -496,7 +486,7 @@
         var row = button.closest("tr");
         var inputElement1 = row.querySelector("input[name='idRisk[]']");
         var inputElement = row.querySelector("input[name='idIssues[]']");
-        if (inputElement1.value) {
+        if (inputElement1 && inputElement1.value) {
             var id = inputElement1.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
@@ -516,7 +506,7 @@
         } else {
             row.parentNode.removeChild(row);
         }
-        if (inputElement.value) {
+        if (inputElement && inputElement.value) {
             var id = inputElement.value;
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({

@@ -82,15 +82,15 @@
         $('.select2').select2();
 
         $('#reservation').daterangepicker({
-                locale: {
-                    format: 'DD/MM/YYYY'
-                }
-            },
-            function(start, end) {
-                dateinn = start.format('YYYY-MM-DD');
-                dateenn = end.format('YYYY-MM-DD');
+            startDate: moment().startOf('month'), // Mengatur tanggal awal ke awal bulan ini
+            endDate: moment().endOf('month'), // Mengatur tanggal akhir ke akhir bulan ini
+            locale: {
+                format: 'DD/MM/YYYY'
             }
-        )
+        }, function(start, end) {
+            var dateinn = start.format('YYYY-MM-DD');
+            var dateenn = end.format('YYYY-MM-DD');
+        });
     })
 </script>
 <script>
