@@ -11,7 +11,7 @@ class timelineController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = scopeProject::where('projectId', $id)->orderBy('scope')->get();
+        $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $overAllProg = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -43,6 +43,7 @@ class timelineController extends Controller
             for ($count = 0; $count < count($scope); $count++) {
                 $postt = scopeProject::findOrNew($idScope[$count]);
                 $postt->ProjectId = $id;
+                $postt->noRef = $count + 1;
                 $postt->scope = $scope[$count];
                 $postt->planStart = date("Y-m-d", strtotime(str_replace('-', '-', $planStart[$count])));
                 $postt->planEnd = date("Y-m-d", strtotime(str_replace('-', '-', $planEnd[$count])));
