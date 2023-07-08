@@ -318,7 +318,7 @@
                 $('#idPartner' + i).val(dataa[i].id);
                 $('#partner' + i).val(dataa[i].partner);
                 $('#rolePartner' + i).val(dataa[i].rolePartner).trigger('change');
-                $('#accesPartner' + i).val(data[i].accesPartner).trigger('change');
+                $('#accesPartner' + i).val(dataa[i].accesPartner).trigger('change');
                 $('#partnerCorp' + i).val(dataa[i].partnerCorp);
                 $('#stdatePartner' + i).val((dataa[i].stdatePartner).split("-").reverse().join("-"));
                 $('#eddatePartner' + i).val((dataa[i].eddatePartner).split("-").reverse().join("-"));
