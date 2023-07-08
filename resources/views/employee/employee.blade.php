@@ -46,7 +46,7 @@
                                         <div class="mb-3 col-6">
                                         </div>
                                         <div class="mb-3 col-3">
-                                            <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
+                                            <button id="inn" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
                                         </div>
                                         <div class="mb-3 col-3">
                                             <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
