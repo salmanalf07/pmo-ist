@@ -32,35 +32,19 @@ class employeeController extends Controller
             $request->validate([
                 'employee_id' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
-                'level' => ['required', 'string', 'max:255'],
-                'divisi' => ['required', 'string', 'max:255'],
-                'company' => ['required', 'string', 'max:255'],
-                'direct_manager' => ['required', 'string', 'max:255'],
-                'role' => ['required', 'string', 'max:255'],
-                'pkwt_start' => ['required', 'string', 'max:255'],
-                'pkwt_end' => ['required', 'string', 'max:255'],
-                'email_ist' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'max:255'],
             ]);
 
             $post = new employee();
             $post->employee_id = $request->employee_id;
             $post->name = $request->name;
-            $post->ktp = $request->ktp;
-            $post->npwp = $request->npwp;
-            $post->norek = $request->norek;
-            $post->nohp = $request->nohp;
             $post->level = $request->level;
             $post->divisi = $request->divisi;
             $post->company = $request->company;
+            $post->department = $request->department;
             $post->penempatan = $request->penempatan;
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
-            $post->pkwt_start = date("Y-m-d", strtotime(str_replace('-', '-', $request->pkwt_start)));
-            $post->pkwt_end = date("Y-m-d", strtotime(str_replace('-', '-', $request->pkwt_end)));
-            $post->email_ist = $request->email_ist;
-            $post->email = $request->email;
             $post->save();
 
             $data = [$post];
@@ -84,35 +68,19 @@ class employeeController extends Controller
             $request->validate([
                 'employee_id' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
-                'level' => ['required', 'string', 'max:255'],
-                'divisi' => ['required', 'string', 'max:255'],
-                'company' => ['required', 'string', 'max:255'],
-                'direct_manager' => ['required', 'string', 'max:255'],
-                'role' => ['required', 'string', 'max:255'],
-                'pkwt_start' => ['required', 'string', 'max:255'],
-                'pkwt_end' => ['required', 'string', 'max:255'],
-                'email_ist' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'max:255'],
             ]);
 
             $post = employee::find($id);
             $post->employee_id = $request->employee_id;
             $post->name = $request->name;
-            $post->ktp = $request->ktp;
-            $post->npwp = $request->npwp;
-            $post->norek = $request->norek;
-            $post->nohp = $request->nohp;
             $post->level = $request->level;
             $post->divisi = $request->divisi;
             $post->company = $request->company;
+            $post->department = $request->department;
             $post->penempatan = $request->penempatan;
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
-            $post->pkwt_start = date("Y-m-d", strtotime(str_replace('-', '-', $request->pkwt_start)));
-            $post->pkwt_end = date("Y-m-d", strtotime(str_replace('-', '-', $request->pkwt_end)));
-            $post->email_ist = $request->email_ist;
-            $post->email = $request->email;
             $post->save();
 
             $data = [$post];
