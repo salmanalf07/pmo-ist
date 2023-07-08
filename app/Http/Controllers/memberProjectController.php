@@ -65,7 +65,7 @@ class memberProjectController extends Controller
             $partnerCorp = array_map(function ($value) {
                 return $value !== null ? $value : null;
             }, $request->partnerCorp);;
-            $statePartner = collect($request->statePartner)->filter()->all();
+            $stdatePartner = collect($request->stdatePartner)->filter()->all();
             $eddatePartner = collect($request->eddatePartner)->filter()->all();
             $planManPartner = array_map(function ($value) {
                 return $value !== null ? $value : 0;
@@ -79,7 +79,7 @@ class memberProjectController extends Controller
                 $postt->rolePartner = $rolePartner[$count];
                 $postt->accesPartner = $accesPartner[$count];
                 $postt->partnerCorp = $partnerCorp[$count];
-                $postt->statePartner = date("Y-m-d", strtotime(str_replace('-', '-', $statePartner[$count])));
+                $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $stdatePartner[$count])));
                 $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $eddatePartner[$count])));
                 $postt->planManPartner = $planManPartner[$count];
 
