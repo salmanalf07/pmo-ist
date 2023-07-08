@@ -18,7 +18,7 @@
                 <!-- row -->
                 <div class="row mb-3">
                     <div class="col-12 mb-3">
-                        <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+                        <form method="post" role="form" id="form-filter" enctype="multipart/form-data">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -95,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reset_form()">
 
                 </button>
             </div>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="mb-3 col-8">
                             <label class="form-label">Karyawan ID <span class="text-danger">*</span></label>
-                            <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Here" required>
+                            <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="form-check form-switch mb-3 col-4" style="padding-top: 2.5rem;padding-left: 4rem !important;">
                             <input class="form-check-input" type="checkbox" role="switch" id="typeEmployee" name="typeEmployee" onclick="toggleCheckbox(this)" value="0">
@@ -132,18 +132,27 @@
                             <label class="form-label">Division</label>
                             <select name="divisi" id="divisi" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($divisi as $divisi)
+                                <option value="{{$divisi->id}}">{{$divisi->division}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Department</label>
                             <select name="department" id="department" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($department as $department)
+                                <option value="{{$department->id}}">{{$department->department}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Direct Manager</label>
                             <select name="direct_manager" id="direct_manager" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($employee as $employee)
+                                <option value="{{$employee->id}}">{{$employee->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
@@ -158,6 +167,9 @@
                             <label class="form-label">Employment Location </label>
                             <select name="penempatan" id="penempatan" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($location as $location)
+                                <option value="{{$location->id}}">{{$location->location}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
@@ -172,18 +184,27 @@
                             <label class="form-label">Technical Specialization</label>
                             <select name="spesialisasi" id="spesialisasi" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($specialization as $specialization)
+                                <option value="{{$specialization->id}}">{{$specialization->specialization}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Role</label>
                             <select name="role" id="role" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($role as $role)
+                                <option value="{{$role->id}}">{{$role->roleEmployee}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Skill Level</label>
                             <select name="level" id="level" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
+                                @foreach($skill as $skill)
+                                <option value="{{$skill->id}}">{{$skill->skillLevel}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
@@ -194,7 +215,7 @@
                         <!-- button -->
                         <div class="col-12">
                             <button id="in" class="btn btn-primary" type="button">Submit</button>
-                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
+                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="reset_form()">Close</button>
                         </div>
                     </div>
                 </form>
@@ -203,21 +224,22 @@
         </div>
     </div>
 </div>
-
-<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <!-- flatpickr -->
 <script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
     flatpickr("#dateEnd", {
         dateFormat: "d-m-Y",
         defaultDate: "01-01-1990",
     });
+
     $(document).ready(function() {
-        $('.select2').select2({
-            dropdownParent: $('#taskModal')
+        $('select.select2:not(.normal)').each(function() {
+            $(this).select2({
+                dropdownParent: $(this).parent().parent()
+            });
         });
-        $('#progressProj,#endDate').select2();
-    })
+    });
 </script>
 <script>
     $(function() {
@@ -322,25 +344,14 @@
                 $('#id').val(data.id);
                 $('#employee_id').val(data.employee_id);
                 $('#name').val(data.name);
-                $('#ktp').val(data.ktp);
-                $('#npwp').val(data.npwp);
-                $('#norek').val(data.norek);
-                $('#nohp').val(data.nohp);
-                $('#level').val(data.level);
-                $('#divisi').val(data.divisi);
-                $('#company').val(data.company);
-                $('#penempatan').val(data.penempatan);
-                $('#direct_manager').val(data.direct_manager);
-                $('#role').val(data.role);
-                $('#spesialisasi').val(data.spesialisasi);
-                if (data.pkwt_start != null) {
-                    $('#pkwt_start').val((data.pkwt_start).split("-").reverse().join("-"));
-                }
-                if (data.pkwt_end != null) {
-                    $('#pkwt_end').val((data.pkwt_end).split("-").reverse().join("-"));
-                }
-                $('#email_ist').val(data.email_ist);
-                $('#email').val(data.email);
+                $('#level').val(data.level).trigger('change');
+                $('#divisi').val(data.divisi).trigger('change');
+                $('#company').val(data.company).trigger('change');
+                $('#department').val(data.department).trigger('change');
+                $('#penempatan').val(data.penempatan).trigger('change');
+                $('#direct_manager').val(data.direct_manager).trigger('change');
+                $('#role').val(data.role).trigger('change');
+                $('#spesialisasi').val(data.spesialisasi).trigger('change');
 
                 id = $('#id').val();
 
@@ -416,6 +427,11 @@
             document.getElementById("company").readOnly = true;
             // console.log(button.value);
         }
+    }
+
+    function reset_form() {
+        document.getElementById('form-add').reset();
+        $(".select2").val("#").trigger("change");
     }
 </script>
 

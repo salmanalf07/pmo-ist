@@ -13,14 +13,20 @@ use App\Http\Controllers\sowController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
+use App\Models\department;
+use App\Models\division;
 use App\Models\docType;
 use App\Models\documentationProject;
 use App\Models\employee;
 use App\Models\issuesProject;
+use App\Models\locationEmployee;
 use App\Models\memberProject;
 use App\Models\Order;
 use App\Models\pipeline;
 use App\Models\Project;
+use App\Models\roleEmployee;
+use App\Models\skillLevel;
+use App\Models\specialization;
 use App\Models\topProject;
 use Illuminate\Support\Facades\Route;
 
@@ -85,7 +91,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //employe
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/employee', function () {
-        return view('employee/employee', ['judul' => "Employees"]);
+        $divisi = division::get();
+        $department = department::get();
+        $employee = employee::get();
+        $location = locationEmployee::get();
+        $specialization = specialization::get();
+        $role = roleEmployee::get();
+        $skill = skillLevel::get();
+        return view('employee/employee', ['judul' => "Employees", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
     })->name('employees');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);

@@ -21,7 +21,7 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="/assets/css/daterangepicker/daterangepicker.css">
     <!-- select2 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- dragula -->
     <link href="/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet">
     <!-- Theme CSS -->
@@ -72,7 +72,7 @@
     <script src="/assets/js/vendors/datatable.js"></script>
 
     <!-- select2 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- ribuan -->
     <script src="/assets/js/ribuan.js"></script>
     <script src="/assets/js/formatNumber.js"></script>
