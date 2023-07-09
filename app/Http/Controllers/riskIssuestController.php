@@ -37,10 +37,18 @@ class riskIssuestController extends Controller
             //start Risk
             $idRisk = $request->idRisk;
             $riskDesc = collect($request->riskDesc)->filter()->all();
-            $trigerEvent = collect($request->trigerEvent)->filter()->all();
-            $riskResponse = collect($request->riskResponse)->filter()->all();
-            $contiPlan = collect($request->contiPlan)->filter()->all();
-            $riskOwner = collect($request->riskOwner)->filter()->all();
+            $trigerEvent = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->trigerEvent);
+            $riskResponse = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->riskResponse);
+            $contiPlan = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->contiPlan);
+            $riskOwner = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->riskOwner);
             $statRisk = collect($request->statRisk)->filter()->all();
 
 
@@ -62,8 +70,12 @@ class riskIssuestController extends Controller
             //start issues
             $idIssues = $request->idIssues;
             $issuesDesc = collect($request->issuesDesc)->filter()->all();
-            $projectImpact = collect($request->projectImpact)->filter()->all();
-            $actionPlan = collect($request->actionPlan)->filter()->all();
+            $projectImpact = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->projectImpact);
+            $actionPlan = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->actionPlan);
             $issuesOwner = collect($request->issuesOwner)->filter()->all();
             $resolvedDate = collect($request->resolvedDate)->filter()->all();
             $statIssues = collect($request->statIssues)->filter()->all();
