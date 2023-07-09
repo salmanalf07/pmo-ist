@@ -64,7 +64,8 @@
                                         <th>Customer</th>
                                         <th>Project Name</th>
                                         <th>SPK</th>
-                                        <th>Project Manager</th>
+                                        <th>Contract Start Date</th>
+                                        <th>Contract End Date</th>
                                         <th>Progress</th>
                                         <th></th>
                                     </tr>
@@ -99,8 +100,10 @@
             ],
             "autoWidth": false,
             "columnDefs": [{
-                "className": "text-center",
-                "targets": [3], // table ke 1
+                targets: [3, 4],
+                render: function(oTable) {
+                    return moment(oTable).format('DD-MM-YYYY');
+                }
             }],
             ajax: {
                 url: '{{ url("json_project") }}',
@@ -137,14 +140,12 @@
                     }
                 },
                 {
-                    data: function(row) {
-                        if (row.pm && row.pm.name) {
-                            return row.pm.name; // Mengembalikan nilai properti name jika ada
-                        } else {
-                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
-                        }
-                    },
-                    name: 'pm.name'
+                    data: 'contractStart',
+                    name: 'contractStart',
+                },
+                {
+                    data: 'contractEnd',
+                    name: 'contractEnd'
                 },
                 {
                     data: 'progress',

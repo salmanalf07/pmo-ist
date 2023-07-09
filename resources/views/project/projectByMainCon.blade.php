@@ -61,11 +61,10 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>Main Contract</th>
+                                        <th>Contract</th>
                                         <th>Customer</th>
                                         <th>Project Name</th>
-                                        <th>SPK</th>
-                                        <th>Project Manager</th>
-                                        <th>Progress</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -98,10 +97,7 @@
                 [10, 25, 50, "All"]
             ],
             "autoWidth": false,
-            "columnDefs": [{
-                "className": "text-center",
-                "targets": [3], // table ke 1
-            }],
+            "columnDefs": [],
             ajax: {
                 url: '{{ url("json_project") }}',
                 data: function(d) {
@@ -114,16 +110,6 @@
                 }
             },
             columns: [{
-                    data: 'customer.company',
-                    name: 'customer.company',
-                    render: function(data, type, row) {
-                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
-                    }
-                }, {
-                    data: 'projectNamee',
-                    name: 'projectNamee',
-                },
-                {
                     data: function(row) {
                         if (row.noContract && row.noContract) {
                             return row.noContract; // Mengembalikan nilai properti name jika ada
@@ -138,17 +124,27 @@
                 },
                 {
                     data: function(row) {
-                        if (row.pm && row.pm.name) {
-                            return row.pm.name; // Mengembalikan nilai properti name jika ada
+                        if (row.po && row.po) {
+                            return row.po; // Mengembalikan nilai properti name jika ada
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
                     },
-                    name: 'pm.name'
+                    name: 'po',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                    }
                 },
                 {
-                    data: 'progress',
-                    name: 'progress'
+                    data: 'customer.company',
+                    name: 'customer.company',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
+                    }
+                },
+                {
+                    data: 'projectNamee',
+                    name: 'projectNamee',
                 },
                 {
                     data: 'aksi',

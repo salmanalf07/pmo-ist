@@ -115,6 +115,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('project/projectInfo', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
     })->name('projectInfo');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectInfoByDate', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('project/projectInfoByDate', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('projectInfoByDate');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectByMainCon', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('project/projectByMainCon', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('projectByMainCon');
+});
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_project/{id}', [projectController::class, 'destroy']);
 //summarry
@@ -126,12 +140,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             ['projectId', '=', $id],
             ['invMain', '=', 1]
         ])->sum('termsValue');
-        $invoiced = ($sumInv / $data->projectValue) * 100;
+        if ($sumInv > 0) {
+            $invoiced = ($sumInv / $data->projectValue) * 100;
+        } else {
+            $invoiced = 0;
+        }
         $sumPay = topProject::where([
             ['projectId', '=', $id],
             ['payMain', '=', 1]
         ])->sum('termsValue');
-        $payment = ($sumPay / $data->projectValue) * 100;
+        if ($sumPay > 0) {
+            $payment = ($sumPay / $data->projectValue) * 100;
+        } else {
+            $payment = 0;
+        }
         $issueStopeer = issuesProject::where([
             ['projectId', '=', $id]
         ]);

@@ -29,12 +29,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/projectInfoByDate">
                                     By Contract Date
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/projectByMainCon">
                                     By Main Contract
                                 </a>
                             </li>
