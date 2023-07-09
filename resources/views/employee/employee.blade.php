@@ -74,7 +74,7 @@
                                                 </th>
                                                 <th>Karyawan ID</th>
                                                 <th>Nama Karyawan</th>
-                                                <th>Email </th>
+                                                <th>Divisi</th>
                                                 <th>Manager Langsung</th>
                                                 <th>Action</th>
                                             </tr>
@@ -278,12 +278,18 @@
                     name: 'name'
                 },
                 {
-                    data: 'divisi',
-                    name: 'divisi'
+                    data: 'divisi.division',
+                    name: 'divisi.division'
                 },
                 {
-                    data: 'direct_manager',
-                    name: 'direct_manager'
+                    data: function(row) {
+                        if (row.manager && row.manager.name) {
+                            return row.manager.name; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'manager.name'
                 },
                 {
                     data: 'aksi',

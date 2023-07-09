@@ -14,23 +14,78 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
                 <ul class="navbar-nav ms-2">
-                    <a class="nav-link pe-5" href="/pipeline">
+                    <a class="nav-link {{ request()->is('pipeline') ? 'active' : '' }} pe-5" href="/pipeline">
                         Pipeline
                     </a>
-                    <a class="nav-link pe-5" href="/projectInfo">
-                        Project
-                    </a>
-                    <a class="nav-link pe-5" href="/financeInfo">
-                        Finance
-                    </a>
-                    <a class="nav-link pe-5" href="/employee">
-                        Resources
-                    </a>
-                    <a class="nav-link pe-5" href="/customers">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{ request()->is('projectInfo','project/*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Project
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
+
+                            <li>
+                                <a class="dropdown-item" href="/projectInfo">
+                                    Project All
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    By Contract Date
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    By Main Contract
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{ request()->is('financeInfo') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Finance
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
+
+                            <li>
+                                <a class="dropdown-item" href="/financeInfo">
+                                    Plan BAST
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Terms Status
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{ request()->is('employee') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Resources
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
+
+                            <li>
+                                <a class="dropdown-item" href="/employee">
+                                    All Employee
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    By Assignment
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    External Resources
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <a class="nav-link pe-5 {{ request()->is('customers') ? 'active' : '' }}" href="/customers">
                         Customers
                     </a>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -52,7 +107,7 @@
                             </li>
                         </ul>
                     </li>
-                    <a class="nav-link pe-5" href="/profile">
+                    <a class="nav-link pe-5 {{ str_contains(request()->url(), 'profile') ? 'active' : '' }}" href="/profile">
                         PMO
                     </a>
                 </ul>

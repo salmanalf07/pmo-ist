@@ -41,6 +41,10 @@ class employee extends Model
     {
         return $this->belongsTo(division::class, 'divisi', 'id');
     }
+    public function manager()
+    {
+        return $this->belongsTo(employee::class, 'direct_manager', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

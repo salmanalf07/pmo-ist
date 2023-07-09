@@ -12,7 +12,7 @@ class employeeController extends Controller
 {
     public function json()
     {
-        $data = employee::orderBy('created_at', 'DESC');
+        $data = employee::with('divisi', 'manager')->orderBy('created_at', 'DESC')->get();
 
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
