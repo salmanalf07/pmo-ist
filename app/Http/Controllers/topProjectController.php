@@ -19,6 +19,8 @@ class topProjectController extends Controller
         if ($request->date_st != "#" && $request->date_st) {
             $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('bastDate', '=', date("m"));
         }
 
         $data = $dataa->get();

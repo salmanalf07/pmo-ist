@@ -24,10 +24,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-6">
+                                    <!-- <div class="mb-3 col-6">
                                         <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter Data</button>
-                                    </div>
-                                    <div class="mb-3 col-6">
+                                    </div> -->
+                                    <div class="mb-3 col-12">
                                         <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear Filter</button>
                                     </div>
                                 </div>
@@ -179,6 +179,11 @@
             var date = $('#reservation').val().split(" - ");
             $('#date_st').val(date[0])
             $('#date_ot').val(date[1])
+            $('#example1').data('dt_params', {
+                'date_st': date[0],
+                'date_ot': date[1],
+            });
+            $('#example1').DataTable().draw();
             // console.log(date)
         });
     })
