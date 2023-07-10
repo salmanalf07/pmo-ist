@@ -42,9 +42,12 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th style="width: 35%;">Scope Of Work</th>
-                                        <th class="text-center" style="width: 20%;">Plan Start Date</th>
-                                        <th class="text-center" style="width: 20%;">Plan End Date</th>
-                                        <th class="text-center" style="width: 20%;">Progress %</th>
+                                        <th class="text-center" style="width: 10%;">Plan Start Date</th>
+                                        <th class="text-center" style="width: 10%;">Plan End Date</th>
+                                        <th class="text-center" style="width: 10%;">Act Start Date</th>
+                                        <th class="text-center" style="width: 10%;">Act End Date</th>
+                                        <th class="text-center" style="width: 5%;">Progress %</th>
+                                        <th class="text-center" style="width: 15%;">Remaks</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -67,7 +70,20 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="input-group me-3">
+                                                <input id="actStart0" name="actStart[]" type="text" class="text-center datepicker" onchange="compareDates(this)" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="actEnd0" name="actEnd[]" type="text" class="text-center datepicker" onchange="compareDates(this)" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <input class="text-center" type="text" name="progProject[]" id="progProject0" onchange="addPercentage(this)">
+                                        </td>
+                                        <td>
+                                            <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -84,7 +100,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="input-100">
-                                        <td colspan="3" class="text-end fw-bold">OverAll Progress</td>
+                                        <td colspan="5" class="text-end fw-bold">OverAll Progress</td>
                                         <td><input class="text-center" type="text" name="overAllProg" id="overAllProg"></td>
                                     </tr>
                                 </tfoot>
@@ -171,7 +187,10 @@
                 $('#scope' + i).val(data[i].scope);
                 $('#planStart' + i).val((data[i].planStart).split("-").reverse().join("-"));
                 $('#planEnd' + i).val((data[i].planEnd).split("-").reverse().join("-"));
+                $('#actStart' + i).val((data[i].actStart).split("-").reverse().join("-"));
+                $('#actEnd' + i).val((data[i].actEnd).split("-").reverse().join("-"));
                 $('#progProject' + i).val(data[i].progProject + '%');
+                $('#remaks' + i).val(data[i].remaks);
                 $('#overAllProg').val('{{$overAllProg->overAllProg}}' + '%');
             }
         }
@@ -208,7 +227,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 5; j++) {
+        for (let j = 0; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -218,7 +237,7 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 4) {
+            if (j <= 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru

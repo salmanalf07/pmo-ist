@@ -32,7 +32,12 @@ class timelineController extends Controller
             $scope = collect($request->scope)->filter()->all();
             $planStart = collect($request->planStart)->filter()->all();
             $planEnd = collect($request->planEnd)->filter()->all();
+            $actStart = collect($request->actStart)->filter()->all();
+            $actEnd = collect($request->actEnd)->filter()->all();
             $progProject = array_filter($request->progProject, function ($value) {
+                return ($value !== null && $value !== false && $value !== '');
+            });
+            $remaks = array_filter($request->remaks, function ($value) {
                 return ($value !== null && $value !== false && $value !== '');
             });
 
@@ -47,7 +52,10 @@ class timelineController extends Controller
                 $postt->scope = $scope[$count];
                 $postt->planStart = date("Y-m-d", strtotime(str_replace('-', '-', $planStart[$count])));
                 $postt->planEnd = date("Y-m-d", strtotime(str_replace('-', '-', $planEnd[$count])));
+                $postt->actStart = date("Y-m-d", strtotime(str_replace('-', '-', $actStart[$count])));
+                $postt->actEnd = date("Y-m-d", strtotime(str_replace('-', '-', $actEnd[$count])));
                 $postt->progProject = str_replace("%", "", $progProject[$count]);
+                $postt->remaks = $remaks[$count];
 
                 $postt->save();
             }

@@ -16,7 +16,10 @@ class scopeProject extends Model
         'scope',
         'planStart',
         'planEnd',
+        'actStart',
+        'actEnd',
         'progProject',
+        'remaks'
     ];
     /**
      * The "booting" function of model
