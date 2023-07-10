@@ -253,6 +253,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('finance/financeInfo', ['judul' => "Finance", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeInfo');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/financeTermsStat', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('finance/financeTermsStat', ['judul' => "Finance", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('financeTermsStat');
+});
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
 //end Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/pipeline', [pipelineController::class, 'index'])->name('pipeline');

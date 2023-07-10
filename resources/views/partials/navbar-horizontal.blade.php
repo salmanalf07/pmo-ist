@@ -41,7 +41,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('financeInfo') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('financeInfo','financeTermsStat') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Finance
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -52,7 +52,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/financeTermsStat">
                                     Terms Status
                                 </a>
                             </li>
