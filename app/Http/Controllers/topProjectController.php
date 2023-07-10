@@ -20,7 +20,8 @@ class topProjectController extends Controller
             $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         } else {
-            $dataa->whereMonth('bastDate', '=', date("m"));
+            $dataa->whereMonth('bastDate', '=', date("m"))
+                ->whereYear('bastDate', '=', date("Y"));
         }
 
         $data = $dataa->get();
