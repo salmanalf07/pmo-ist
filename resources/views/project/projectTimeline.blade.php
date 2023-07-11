@@ -47,7 +47,7 @@
                                         <th class="text-center" style="width: 10%;">Act Start Date</th>
                                         <th class="text-center" style="width: 10%;">Act End Date</th>
                                         <th class="text-center" style="width: 5%;">Progress %</th>
-                                        <th class="text-center" style="width: 15%;">Remaks</th>
+                                        <th class="text-center" style="width: 15%;">Remarks</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>

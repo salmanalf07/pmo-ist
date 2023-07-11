@@ -37,9 +37,9 @@ class timelineController extends Controller
             $progProject = array_filter($request->progProject, function ($value) {
                 return ($value !== null && $value !== false && $value !== '');
             });
-            $remaks = array_filter($request->remaks, function ($value) {
-                return ($value !== null && $value !== false && $value !== '');
-            });
+            $remaks = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->remaks);
 
             $post = Project::find($id);
             $post->overAllProg = str_replace("%", "", $request->overAllProg);
