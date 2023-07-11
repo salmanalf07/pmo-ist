@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
+use App\Models\memberProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
 
 class employeeController extends Controller
 {
-    public function json()
+    public function json(Request $request)
     {
-        $data = employee::with('divisi', 'manager')->orderBy('created_at', 'DESC')->get();
-
+        $dataa = employee::with('divisi', 'manager')->orderBy('created_at', 'DESC');
+        if ($request->divisii && $request->divisii != '#') {
+            $dataa->where('divisi', '=', $request->divisii);
+        }
+        $data = $dataa->get();
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
                 return
@@ -23,6 +27,44 @@ class employeeController extends Controller
                     <i class="bi bi-trash"></i></button>';
             })
             ->rawColumns(['aksi'])
+            ->toJson();
+    }
+
+    function jsonByAssignment(Request $request)
+    {
+        $dataa = memberProject::with('project', 'employee.divisi');
+        $dataa->whereHas('employee', function ($q) {
+            $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
+        });
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('endDate', '=', date("m"))
+                ->whereYear('endDate', '=', date("Y"));
+        }
+        $data = $dataa->get();
+        return DataTables::of($data)
+            ->toJson();
+    }
+    function jsonExtResources(Request $request)
+    {
+        $dataa = memberProject::with('project.customer', 'employee.divisi');
+        if ($request->company != "#" && $request->company) {
+            $dataa->whereHas('employee', function ($q) use ($request) {
+                $q->where([
+                    ['company', '!=', 'PT. Infosys Solusi Terpadu'],
+                    ['company', '=', $request->company]
+                ]);
+            });
+        } else {
+            $dataa->whereHas('employee', function ($q) {
+                $q->where('company', '!=', 'PT. Infosys Solusi Terpadu');
+            });
+        }
+
+        $data = $dataa->get();
+        return DataTables::of($data)
             ->toJson();
     }
 

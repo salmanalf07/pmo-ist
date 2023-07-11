@@ -101,7 +101,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('employee/employee', ['judul' => "Employees", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
     })->name('employees');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/empByAssignment', function () {
+        return view('employee/byAssignment', ['judul' => "Employee By Assigment"]);
+    })->name('empByAssignment');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/empExtResources', function () {
+        $employee = employee::get();
+        $company = employee::get();
+        return view('employee/extResources', ['judul' => "Employee External Resources", 'employee' => $employee, 'company' => $company]);
+    })->name('empExtResources');
+});
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAssignment', [employeeController::class, 'jsonByAssignment']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ExtResources', [employeeController::class, 'jsonExtResources']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_employee', [employeeController::class, 'store']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_employee', [employeeController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_employee/{id}', [employeeController::class, 'update']);

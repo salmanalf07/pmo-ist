@@ -25,6 +25,14 @@ class memberProject extends Model
      *
      * @return void
      */
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(employee::class, 'employee', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

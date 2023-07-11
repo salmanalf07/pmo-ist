@@ -23,24 +23,21 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="mb-3 col-3">
-                                            <label class="form-label" for="selectOne">End Date</label>
-                                            <div class="input-group me-3 datepicker">
-                                                <input id="dateEnd" name="dateEnd" type="text" class="form-control rounded" data-input aria-describedby="date1">
-                                                <div class="input-group-append custom-picker">
-                                                    <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                                </div>
-                                            </div>
+                                            <label class="form-label" for="selectOne">Dept/Div</label>
+                                            <select name="divisii" id="divisii" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($divisi as $divDept)
+                                                <option value="{{$divDept->id}}">{{$divDept->division}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3 col-3">
-                                            <label class="form-label">Progress Project</label>
-                                            <select name="progressProj" id="progressProj" class="select2" aria-label="Default select example" required>
+                                            <label class="form-label">Direct Manager</label>
+                                            <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
-                                                <option value="0">0%</option>
-                                                <option value="20">20%</option>
-                                                <option value="40">40%</option>
-                                                <option value="60">60%</option>
-                                                <option value="80">80%</option>
-                                                <option value="100">100%</option>
+                                                @foreach($employee as $employe)
+                                                <option value="{{$employe->id}}">{{$employe->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="mb-3 col-6">
@@ -260,7 +257,15 @@
                 "targets": [0, 5], // table ke 1
             }, ],
             ajax: {
-                url: '{{ url("json_employee") }}'
+                url: '{{ url("json_employee") }}',
+                data: function(d) {
+                    // Retrieve dynamic parameters
+                    var dt_params = $('#example1').data('dt_params');
+                    // Add dynamic parameters to the data object sent to the server
+                    if (dt_params) {
+                        $.extend(d, dt_params);
+                    }
+                }
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
@@ -297,12 +302,22 @@
                 }
             ],
         });
+        $('.col-3').on('click', '#inn', function() {
+            $('#example1').data('dt_params', {
+                'divisii': $('#divisii').val(),
+            });
+            $('#example1').DataTable().draw();
+        });
     });
 
     //button add
     $(document).on('click', '#adddata', function() {
         $("#in").removeClass("btn btn-primary update");
         $("#in").addClass("btn btn-primary add");
+    });
+    $('.col-12').on('click', '#clear', function() {
+        $('#example1').data('dt_params', {});
+        $('#example1').DataTable().draw();
     });
 
     //add data
