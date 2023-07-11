@@ -39,10 +39,11 @@ class employeeController extends Controller
         if ($request->date_st != "#" && $request->date_st) {
             $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        } else {
-            $dataa->whereMonth('endDate', '=', date("m"))
-                ->whereYear('endDate', '=', date("Y"));
         }
+        // else {
+        //     $dataa->whereMonth('endDate', '=', date("m"))
+        //         ->whereYear('endDate', '=', date("Y"));
+        // }
         $data = $dataa->get();
         return DataTables::of($data)
             ->toJson();
