@@ -54,7 +54,9 @@ class orderController extends Controller
             $unit = array_map(function ($value) {
                 return $value !== null ? $value : null;
             }, $request->unit);
-            $rev = collect($request->rev)->filter()->all();
+            $rev = array_map(function ($value) {
+                return $value !== null ? $value : 0;
+            }, $request->rev);
             $cogs = array_map(function ($value) {
                 return $value !== null ? $value : 0;
             }, $request->cogs);
