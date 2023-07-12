@@ -68,6 +68,7 @@ class orderController extends Controller
             for ($count = 0; $count < count($item); $count++) {
                 $postt = DetailOrder::findOrNew($idor[$count]);
                 $postt->orderId = $post->id;
+                $postt->noRef = $count + 1;
                 $postt->item = $item[$count];
                 $postt->qty = $qty[$count];
                 $postt->unit = $unit[$count];
