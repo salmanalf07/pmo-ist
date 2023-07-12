@@ -13,7 +13,7 @@ class orderController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = Order::with('detailOrder')->where('projectId', $id)->orderBy('created_at')->first();
+        $get = Order::with('detailOrder')->where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->first();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
