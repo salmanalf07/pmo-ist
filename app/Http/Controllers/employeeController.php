@@ -13,7 +13,7 @@ class employeeController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = employee::with('divisi', 'manager')->orderBy('created_at', 'DESC');
+        $dataa = employee::with('divisi', 'manager', 'department')->orderBy('created_at', 'DESC');
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }

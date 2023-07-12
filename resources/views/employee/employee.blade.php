@@ -72,6 +72,7 @@
                                                 <th>Karyawan ID</th>
                                                 <th>Nama Karyawan</th>
                                                 <th>Divisi</th>
+                                                <th>Department</th>
                                                 <th>Manager Langsung</th>
                                                 <th>Action</th>
                                             </tr>
@@ -285,6 +286,10 @@
                 {
                     data: 'divisi.division',
                     name: 'divisi.division'
+                },
+                {
+                    data: 'department.department',
+                    name: 'department.department'
                 },
                 {
                     data: function(row) {
