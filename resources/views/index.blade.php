@@ -80,14 +80,16 @@
     <script>
         function addPercentage(inputField) {
             var inputValue = inputField.value;
-            var numberOnly = inputValue.replace(/[^0-9]/g, '');
+            var numberOnly = inputValue.replace(/[^0-9,.]/g, '');
+            var formattedValue = numberOnly.replace(/,/g, '.');
+            // console.log(formattedValue)
 
-            if (numberOnly > 100) {
+            if (parseFloat(formattedValue) > 100) {
                 alert("Angka melebihi 100!");
                 inputField.value = '0' + '%';
                 $(inputField).trigger('input');
             } else {
-                inputField.value = numberOnly + '%';
+                inputField.value = formattedValue + '%';
                 $(inputField).trigger('input');
             }
         }
