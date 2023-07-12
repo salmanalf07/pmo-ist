@@ -13,7 +13,9 @@ class orderController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = Order::with('detailOrder')->where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->first();
+        $get = Order::with(['detailOrder' => function ($query) {
+            $query->orderBy('noRef', 'asc'); // Ganti 'namaKolomYangInginDiUrutkan' dengan nama kolom yang ingin diurutkan
+        }])->where('projectId', $id)->first();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
