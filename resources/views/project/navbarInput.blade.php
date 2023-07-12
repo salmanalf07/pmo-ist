@@ -47,6 +47,9 @@
                             <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/documentation') ? 'active' : '' }}" href="{{ isset($id) ? '/project/documentation/' . $id : '#' }}">Documentation</a>
                             </li>
+                            <li class=" nav-item">
+                                <a class="nav-link {{ str_contains(request()->url(), 'project/bonus') ? 'active' : '' }}" href="{{ isset($id) ? '/project/bonus/' . $id : '#' }}">Project Bonus</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

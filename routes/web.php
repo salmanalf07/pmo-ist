@@ -6,6 +6,7 @@ use App\Http\Controllers\employeeController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\pipelineController;
+use App\Http\Controllers\projBonus;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\riskIssuestController;
 use App\Http\Controllers\scopeProjectController;
@@ -259,6 +260,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_documentation/{id}', [DocProjectController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_documentation/{id}', [DocProjectController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_documentation/{id}', [DocProjectController::class, 'destroy']);
+//Project Bonus
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/bonus/{id}', [projBonus::class, 'edit'])->name('projectBonus');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_bonus/{id}', [projBonus::class, 'store'])->name('storeBonus');
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {
