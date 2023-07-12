@@ -13,6 +13,7 @@ class DetailOrder extends Model
 
     protected $fillable = [
         'orderId',
+        'noRef',
         'item',
         'rev',
         'cogs',
