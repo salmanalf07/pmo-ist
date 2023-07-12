@@ -426,6 +426,7 @@
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
                     dateFormat: "d-m-Y",
                     defaultDate: "01-01-1900",
+                    allowInput: true, // Mengizinkan input manual
                 });
             }
         }
@@ -530,6 +531,7 @@
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
                     dateFormat: "d-m-Y",
                     defaultDate: "01-01-1900",
+                    allowInput: true, // Mengizinkan input manual
                 });
             }
         }
