@@ -198,6 +198,7 @@
     flatpickr(".datepicker", {
         dateFormat: "d-m-Y",
         defaultDate: "01-01-1900",
+        allowInput: true, // Mengizinkan input manual
     });
     $(document).ready(function() {
         $('.select2').select2();
