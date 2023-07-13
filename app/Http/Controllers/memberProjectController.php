@@ -7,6 +7,7 @@ use App\Models\employee;
 use App\Models\memberProject;
 use App\Models\partnerProject;
 use App\Models\Project;
+use App\Models\roleEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -18,6 +19,7 @@ class memberProjectController extends Controller
         $partner = partnerProject::where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         $divisi = division::get();
+        $role = roleEmployee::get();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -26,7 +28,7 @@ class memberProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner]);
+        return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
         //return $get;
     }
 

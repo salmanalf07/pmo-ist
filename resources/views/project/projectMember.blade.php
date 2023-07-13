@@ -54,7 +54,7 @@
                                         </td>
                                         <td>
                                             <select name="employee[]" id="employee0" class="select2" aria-label="Default select example" onchange="search_div(this)">
-                                                <option selected>Open this select menu</option>
+                                                <option value="#" selected>Open this select menu</option>
                                                 @foreach($employee as $employee)
                                                 <option value="{{$employee->id}}">{{$employee->name}}</option>
                                                 @endforeach
@@ -62,27 +62,15 @@
                                         </td>
                                         <td>
                                             <select name="role[]" id="role0" class="select2" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="ProjectManager">Project Manager</option>
-                                                <option value="LeadFrontendDeveloper">Lead Frontend Developer</option>
-                                                <option value="FrontendDeveloper">Frontend Developer</option>
-                                                <option value="LeadBackendDeveloper">Lead Backend Developer</option>
-                                                <option value="BackEndDeveloper">Back End Developer</option>
-                                                <option value="BussinessAnalyst">Bussiness Analyst</option>
-                                                <option value="Devops/IntegrationEngineer">Devops / Integration Engineer</option>
-                                                <option value="LeadQA">Lead QA</option>
-                                                <option value="QATester/QAEngineer">QA Tester / QA Engineer</option>
-                                                <option value="TechnicalWriter/UIUXWriter">Technical Writer / UI UX Writer</option>
-                                                <option value="UIUXAnalyst/ResearcherDesigner">UI UX Analyst / Researcher Designer</option>
-                                                <option value="ScrumMaster">Scrum Master</option>
-                                                <option value="FullstackDeveloper">Fullstack Developer</option>
-                                                <option value="SystemAnalyst">System Analyst</option>
-
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($role as $role)
+                                                <option value="{{$role->id}}">{{$role->roleEmployee}}</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td>
                                             <select name="accesType[]" id="accesType0" class="select2" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
+                                                <option value="#" selected>Open this select menu</option>
                                                 <option value="Remote">Remote</option>
                                                 <option value="Onsite">Onsite</option>
                                             </select>
@@ -156,20 +144,9 @@
                                         <td>
                                             <select name="rolePartner[]" id="rolePartner0" class="select2" aria-label="Default select example">
                                                 <option selected>Open this select menu</option>
-                                                <option value="ProjectManager">Project Manager</option>
-                                                <option value="LeadFrontendDeveloper">Lead Frontend Developer</option>
-                                                <option value="FrontendDeveloper">Frontend Developer</option>
-                                                <option value="LeadBackendDeveloper">Lead Backend Developer</option>
-                                                <option value="BackEndDeveloper">Back End Developer</option>
-                                                <option value="BussinessAnalyst">Bussiness Analyst</option>
-                                                <option value="Devops/IntegrationEngineer">Devops / Integration Engineer</option>
-                                                <option value="LeadQA">Lead QA</option>
-                                                <option value="QATester/QAEngineer">QA Tester / QA Engineer</option>
-                                                <option value="TechnicalWriter/UIUXWriter">Technical Writer / UI UX Writer</option>
-                                                <option value="UIUXAnalyst/ResearcherDesigner">UI UX Analyst / Researcher Designer</option>
-                                                <option value="ScrumMaster">Scrum Master</option>
-                                                <option value="FullstackDeveloper">Fullstack Developer</option>
-                                                <option value="SystemAnalyst">System Analyst</option>
+                                                @foreach($roleMember as $roleMember)
+                                                <option value="{{$roleMember->id}}">{{$roleMember->roleEmployee}}</option>
+                                                @endforeach
 
                                             </select>
                                         </td>
