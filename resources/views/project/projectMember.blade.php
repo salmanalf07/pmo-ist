@@ -415,12 +415,12 @@
                 }
             }
             if (j == 8) {
-                cell5.addEventListener("click", function() {
-                    deleteRow(this);
-                });
-                newCell5.addEventListener("click", function() {
-                    deleteRow(this);
-                });
+                // cell5.addEventListener("click", function() {
+                //     deleteRow(this);
+                // });
+                // newCell5.addEventListener("click", function() {
+                //     deleteRow(this);
+                // });
             }
             if (clonedContent.querySelector('input.datepicker')) {
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
@@ -523,9 +523,9 @@
                 // cell5.addEventListener("click", function() {
                 //     deleteRow(this);
                 // });
-                newCell5.addEventListener("click", function() {
-                    deleteRow(this);
-                });
+                // newCell5.addEventListener("click", function() {
+                //     deleteRow(this);
+                // });
             }
             if (clonedContent.querySelector('input.datepicker')) {
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
