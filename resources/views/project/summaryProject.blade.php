@@ -176,26 +176,20 @@
                         <span class="h5">Project Member</span>
                         <br>
                         <div class="avatar-group">
+                            @foreach($employee as $dataa)
                             <span class="avatar avatar-md">
                                 <div id="initial-container">
-                                    <div class="initial-container" id="initial-circle" data-tooltip="SALMAN ALF"></div>
+                                    <div class="initial-container" id="initial-circle" data-tooltip="{{$dataa['employees']['name']}}"></div>
                                 </div>
                             </span>
+                            @endforeach
+                            @if($employeeCount > 0)
                             <span class="avatar avatar-md">
                                 <div id="initial-container">
-                                    <div class="initial-container" id="initial-circle" data-tooltip="ANWAR NASIHIN"></div>
+                                    <div class="initial-container" id="initial-circle" data-tooltip="+ {{$employeeCount}}"></div>
                                 </div>
                             </span>
-                            <span class="avatar avatar-md">
-                                <div id="initial-container">
-                                    <div class="initial-container" id="initial-circle" data-tooltip="YOVAN ANDIKA"></div>
-                                </div>
-                            </span>
-                            <span class="avatar avatar-md">
-                                <div id="initial-container">
-                                    <div class="initial-container" id="initial-circle" data-tooltip="+ 5"></div>
-                                </div>
-                            </span>
+                            @endif
                         </div>
                     </div>
                 </div>

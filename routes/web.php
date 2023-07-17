@@ -104,7 +104,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empByAssignment', function () {
-        return view('employee/byAssignment', ['judul' => "Employee By Assigment"]);
+        return view('employee/byAssignment', ['judul' => "Employee By Assignment"]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -195,7 +195,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             $status = "Not Yet Started";
         }
 
-        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 0), 'payment' =>  round($payment, 0), 'color' => $color, 'status' => $status]);
+        $employee = memberProject::with('employees')->where('projectId', '=', $id)->get();
+        // dd($employee);
+        return view('project/summaryProject', ['judul' => "Project", 'id' => $id, 'data' => $data, 'invoiced' => round($invoiced, 0), 'payment' =>  round($payment, 0), 'color' => $color, 'status' => $status, 'employee' => $employee->take(5), 'employeeCount' => count($employee) - 5]);
         //return $invoiced;
     })->name('summaryProject');
 });

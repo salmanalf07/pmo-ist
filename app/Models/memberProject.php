@@ -33,6 +33,10 @@ class memberProject extends Model
     {
         return $this->belongsTo(employee::class, 'employee', 'id');
     }
+    public function employees()
+    {
+        return $this->belongsTo(employee::class, 'employee', 'id');
+    }
     protected static function boot()
     {
         parent::boot();
