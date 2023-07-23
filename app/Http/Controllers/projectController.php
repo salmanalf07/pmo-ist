@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\allProjectExport;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
@@ -15,19 +16,27 @@ use App\Models\scopeProject;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class projectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = Project::with('customer', 'pm')->orderBy('created_at', 'DESC');
+        $dataa = Project::with('customer', 'pm', 'saless')->orderBy('created_at', 'DESC');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $dataa->where('cust_id', $request->cust_id);
         }
         if ($request->pmName != "#" && $request->pmName) {
             $dataa->where('pmName', $request->pmName);
+        }
+        if ($request->status != "#" && $request->status) {
+            if ($request->status == "progress") {
+                $dataa->where('overAllProg', '<', 100);
+            } elseif ($request->status == "completed") {
+                $dataa->where('overAllProg', '=', 100);
+            }
         }
 
         $data = $dataa->get();
@@ -36,7 +45,7 @@ class projectController extends Controller
                 return
                     '<div class="d-flex align-items-center">
                         <div>
-                            <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit" target="_blank">' . substr($data->projectName, 0, 30) . '</a></h4>
+                            <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit" target="_blank">' . substr($data->projectName, 0, 25) . '</a></h4>
                         </div>
                     </div>';
             })
@@ -131,5 +140,19 @@ class projectController extends Controller
         documentationProject::whereIn('projectId', [$id])->delete();
 
         return response()->json();
+    }
+
+    function allProjectExport(Request $request)
+    {
+        $dataa = topProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+
+        $data = $dataa
+            ->orderBy('projectId')
+            ->orderBy('noRef')
+            ->get();
+
+        return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
+
+        //return $data;
     }
 }

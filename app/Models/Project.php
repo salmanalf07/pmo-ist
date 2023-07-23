@@ -40,6 +40,23 @@ class Project extends Model
     {
         return $this->belongsTo(employee::class, 'pmName', 'id');
     }
+    public function coPm()
+    {
+        return $this->belongsTo(employee::class, 'pmName', 'id');
+    }
+    public function sponsors()
+    {
+        return $this->belongsTo(employee::class, 'sponsor', 'id');
+    }
+    public function saless()
+    {
+        return $this->belongsTo(employee::class, 'sales', 'id');
+    }
+    public function partner()
+    {
+        return $this->belongsTo(Customer::class, 'partnerId', 'id');
+    }
+
     /**
      * The "booting" function of model
      *

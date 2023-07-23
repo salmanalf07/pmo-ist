@@ -127,14 +127,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/projectInfo', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectInfo', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
+        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee,]);
     })->name('projectInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectInfoByDate', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectInfoByDate', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
+        return view('project/projectInfoByDate', ['judul' => "Project By Date", 'customer' => $customer, 'employee' => $employee,]);
     })->name('projectInfoByDate');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -297,6 +297,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 //Report
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/financeExport', [topProjectController::class, 'financeExport']);
+//r_allProject
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/r_allProject', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_allProject', ['judul' => "Report All Project", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_allProject');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/allProjectExport', [projectController::class, 'allProjectExport']);
 //end Report
 
 //test google sheet

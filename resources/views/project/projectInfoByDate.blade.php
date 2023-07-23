@@ -3,6 +3,11 @@
 @section('konten')
 <!-- custom select2 -->
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
+<style>
+    .icon-red path {
+        fill: red;
+    }
+</style>
 <div id="app-content">
 
     <!-- Container fluid -->
@@ -16,31 +21,43 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Customer</label>
-                                        <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($customer as $customer)
-                                            <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row col-10">
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label" for="selectOne">Customer</label>
+                                            <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($customer as $customer)
+                                                <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Project Manager</label>
+                                            <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($employee as $pmName)
+                                                <option value="{{$pmName->id}}">{{$pmName->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Contract Status</label>
+                                            <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="all">All</option>
+                                                <option value="active">Active</option>
+                                                <option value="Exp">Completed</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label">Project Manager</label>
-                                        <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($employee as $pmName)
-                                            <option value="{{$pmName->id}}">{{$pmName->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
+                                    <div class="row col-2 pt-7 ms-3">
+                                        <div class="mb-3 col-12">
+                                            <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -55,6 +72,9 @@
                             <div class="flex-grow-1">
                                 <a href="project/inputProject" class="btn btn-primary">Add New</a>
                             </div>
+                            <div class="justify-content-end">
+                                <p>Project - {{$judul}}</p>
+                            </div>
                         </div>
                         <!-- table -->
                         <div class="table-responsive">
@@ -62,6 +82,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Customer</th>
+                                        <th>Sales</th>
                                         <th>Project Name</th>
                                         <th>SPK</th>
                                         <th>Contract Start Date</th>
@@ -120,9 +141,25 @@
                     data: 'customer.company',
                     name: 'customer.company',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
+                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
                     }
-                }, {
+                },
+                {
+                    data: function(row) {
+                        if (row.saless && row.saless.name) {
+                            const initials = getInitials(row.saless.name);
+                            return '<span class="avatar avatar-md">' +
+                                '<div id="initial-container">' +
+                                '<div class="initial-container" id="initial-circle" data-tooltip="' + row.saless.name + '">' + initials + '</div>' +
+                                '</div>' +
+                                '</span>';
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'saless.name',
+                },
+                {
                     data: 'projectNamee',
                     name: 'projectNamee',
                 },
@@ -136,7 +173,7 @@
                     },
                     name: 'noContract',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        return type === 'display' && data.length > 12 ? data.substring(0, 12) + '..' : data;
                     }
                 },
                 {
@@ -145,7 +182,18 @@
                 },
                 {
                     data: 'contractEnd',
-                    name: 'contractEnd'
+                    name: 'contractEnd',
+                    render: function(data, type, row) {
+                        var contractEnd = moment(data); // Pastikan Anda sudah mengimpor moment.js jika belum dilakukan sebelumnya.
+                        var today = moment();
+                        var icon = '';
+
+                        if (contractEnd.isSame(today, 'day') || contractEnd.isBefore(today, 'day')) {
+                            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle icon-red" viewBox="0 0 16 16">  <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/></svg>';
+                        }
+
+                        return contractEnd.format('DD-MM-YYYY') + " " + icon;
+                    }
                 },
                 {
                     data: 'progress',
@@ -157,17 +205,19 @@
                 }
             ],
         });
-        $('.col-12').on('click', '#in', function() {
+        $('#cust_id, #pmName, #status').on('change', function() {
             $('#example1').data('dt_params', {
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
+                // 'status': $('#status').val(),
             });
             $('#example1').DataTable().draw();
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#cust_id').val('#').trigger('change'),
-                $('#pmName').val('#').trigger('change'),
-                $('#example1').data('dt_params', {});
+            $('#cust_id').val('#').trigger('change');
+            $('#pmName').val('#').trigger('change');
+            // $('#status').val('#').trigger('change');
+            $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
 

@@ -48,16 +48,18 @@ class memberProjectController extends Controller
 
 
             for ($count = 0; $count < count($employee); $count++) {
-                $postt = memberProject::findOrNew($idMember[$count]);
-                $postt->ProjectId = $id;
-                $postt->employee = $employee[$count];
-                $postt->role = $role[$count];
-                $postt->accesType = $accesType[$count];
-                $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $startDate[$count])));
-                $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $endDate[$count])));
-                $postt->planMandays = $planMandays[$count];
+                if ($employee[$count] != "#") {
+                    $postt = memberProject::findOrNew($idMember[$count]);
+                    $postt->ProjectId = $id;
+                    $postt->employee = $employee[$count];
+                    $postt->role = $role[$count];
+                    $postt->accesType = $accesType[$count];
+                    $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $startDate[$count])));
+                    $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $endDate[$count])));
+                    $postt->planMandays = $planMandays[$count];
 
-                $postt->save();
+                    $postt->save();
+                }
             }
 
             $idPartner = $request->idPartner;

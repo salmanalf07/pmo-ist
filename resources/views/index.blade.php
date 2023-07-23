@@ -26,6 +26,7 @@
     <link href="/assets/libs/dragula/dist/dragula.min.css" rel="stylesheet">
     <!-- Theme CSS -->
     <link rel="stylesheet" href="/assets/css/theme.min.css">
+    <link rel="stylesheet" href="/assets/css/circleName.css">
     <title>PMO PORTAL</title>
 </head>
 
@@ -77,6 +78,7 @@
     <script src="/assets/js/ribuan.js"></script>
     <script src="/assets/js/formatNumber.js"></script>
     <script src="/assets/css/moment/moment.min.js"></script>
+
     <script>
         function addPercentage(inputField) {
             var inputValue = inputField.value;
@@ -101,6 +103,20 @@
             var year = parseInt(parts[2]);
             var date = new Date(year, month, day);
             return date;
+        }
+
+        function getInitials(name) {
+            const words = name.split(' ');
+            let initials = '';
+
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i];
+                if (word[0] === word[0].toUpperCase()) {
+                    initials += word[0];
+                }
+            }
+
+            return initials.substring(0, 2);
         }
     </script>
 

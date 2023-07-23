@@ -14,9 +14,32 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse  px-6 px-lg-0" id="navbar-default">
                 <ul class="navbar-nav ms-2">
-                    <a class="nav-link {{ request()->is('pipeline') ? 'active' : '' }} pe-5" href="/pipeline">
+                    <!-- <a class="nav-link {{ request()->is('pipeline') ? 'active' : '' }} pe-5" href="/pipeline">
                         Pipeline
-                    </a>
+                    </a> -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dashboard
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
+
+                            <li>
+                                <a class="dropdown-item" href="/dashboard">
+                                    Management Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/projectDashboard">
+                                    Project Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="../horizontal/starter.html">
+                                    Resources Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('projectInfo','project/*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Project
@@ -84,32 +107,38 @@
                     <a class="nav-link pe-5 {{ request()->is('customers') ? 'active' : '' }}" href="/customers">
                         Customers
                     </a>
+
+                    <a class="nav-link pe-5 {{ str_contains(request()->url(), 'profile') ? 'active' : '' }}" href="/profile">
+                        PMO
+                    </a>
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dashboard
+                        <a class="nav-link {{ request()->is('r_allProject','r_projectClose','r_invByMonth','r_statPayment') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
 
                             <li>
-                                <a class="dropdown-item" href="/dashboard">
-                                    Management Dashboard
+                                <a class="dropdown-item" href="/r_allProject">
+                                    All Data Project
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/projectDashboard">
-                                    Project Dashboard
+                                <a class="dropdown-item" href="/r_projectClose">
+                                    Project Close
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/starter.html">
-                                    Resources Dashboard
+                                <a class="dropdown-item" href="/r_invByMonth">
+                                    Invoice By Month
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="r_statPayment">
+                                    Status Payment
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <a class="nav-link pe-5 {{ str_contains(request()->url(), 'profile') ? 'active' : '' }}" href="/profile">
-                        PMO
-                    </a>
                 </ul>
             </div>
 

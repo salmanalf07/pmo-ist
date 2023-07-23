@@ -55,6 +55,7 @@
                             <div class="flex-grow-1">
                                 <a href="project/inputProject" class="btn btn-primary">Add New</a>
                             </div>
+
                         </div>
                         <!-- table -->
                         <div class="table-responsive">

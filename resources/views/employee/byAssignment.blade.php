@@ -136,15 +136,25 @@
                     name: 'employee.name'
                 },
                 {
-                    data: 'employee.divisi.division',
+                    data: function(row) {
+                        if (row.employee.divisi && row.employee.divisi.division) {
+                            return row.employee.divisi.division; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
                     name: 'employee.divisi.division'
                 },
                 {
-                    data: 'project.projectName',
+                    data: function(row, type) {
+                        if (row.project && row.project.projectName) {
+                            var data = row.project.projectName;
+                            return type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
                     name: 'project.projectName',
-                    render: function(data, type, row) {
-                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
-                    }
                 },
                 {
                     data: 'startDate',

@@ -1,0 +1,40 @@
+#initial-container {
+    position: relative;
+    display: inline-block;
+}
+
+#initial-circle {
+    position: relative;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 2em;
+    cursor: pointer;
+}
+
+#initial-circle::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 30%;
+    transform: translateX(-20%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 3px 12px;
+    font-size: 8pt;
+    border-radius: 4px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+#initial-circle:hover::before {
+    visibility: visible;
+    opacity: 1;
+}

@@ -16,31 +16,43 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Customer</label>
-                                        <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($customer as $customer)
-                                            <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row col-10">
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label" for="selectOne">Customer</label>
+                                            <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($customer as $customer)
+                                                <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Project Manager</label>
+                                            <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($employee as $pmName)
+                                                <option value="{{$pmName->id}}">{{$pmName->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Project Status</label>
+                                            <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="all">All</option>
+                                                <option value="progress">In Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label">Project Manager</label>
-                                        <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($employee as $pmName)
-                                            <option value="{{$pmName->id}}">{{$pmName->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <button id="in" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
+                                    <div class="row col-2 pt-7 ms-3">
+                                        <div class="mb-3 col-12">
+                                            <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -54,6 +66,9 @@
                         <div class="card-header d-md-flex border-bottom-0">
                             <div class="flex-grow-1">
                                 <a href="project/inputProject" class="btn btn-primary">Add New</a>
+                            </div>
+                            <div class="justify-content-end">
+                                <p>Project - {{$judul}}</p>
                             </div>
                         </div>
                         <!-- table -->
@@ -156,17 +171,20 @@
                 }
             ],
         });
-        $('.col-12').on('click', '#in', function() {
+        // $('.col-12').on('click', '#in', function() {
+        $('#cust_id, #pmName, #status').on('change', function() {
             $('#example1').data('dt_params', {
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
+                'status': $('#status').val(),
             });
             $('#example1').DataTable().draw();
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#cust_id').val('#').trigger('change'),
-                $('#pmName').val('#').trigger('change'),
-                $('#example1').data('dt_params', {});
+            $('#cust_id').val('#').trigger('change');
+            $('#pmName').val('#').trigger('change');
+            $('#status').val('#').trigger('change');
+            $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
 
