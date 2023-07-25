@@ -99,12 +99,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $specialization = specialization::get();
         $role = roleEmployee::get();
         $skill = skillLevel::get();
-        return view('employee/employee', ['judul' => "Employees", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
+        return view('employee/employee', ['judul' => "All Employee", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
     })->name('employees');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empByAssignment', function () {
-        return view('employee/byAssignment', ['judul' => "Employee By Assignment"]);
+        $employee = employee::get();
+        $project = Project::get();
+        return view('employee/byAssignment', ['judul' => "Employee By Assignment", 'employee' => $employee, 'project' => $project]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -141,9 +143,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/projectByMainCon', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectByMainCon', ['judul' => "Project", 'customer' => $customer, 'employee' => $employee,]);
+        return view('project/projectByMainCon', ['judul' => "Project By Main Contract", 'customer' => $customer, 'employee' => $employee,]);
     })->name('projectByMainCon');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projMainCon', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_project/{id}', [projectController::class, 'destroy']);
 //summarry
@@ -270,14 +273,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/financeInfo', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('finance/financeInfo', ['judul' => "Finance", 'customer' => $customer, 'employee' => $employee,]);
+        return view('finance/financeInfo', ['judul' => "Finance Info", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeTermsStat', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('finance/financeTermsStat', ['judul' => "Finance", 'customer' => $customer, 'employee' => $employee,]);
+        return view('finance/financeTermsStat', ['judul' => "Term Status", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeTermsStat');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
@@ -306,6 +309,33 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('r_allProject');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/allProjectExport', [projectController::class, 'allProjectExport']);
+//r_projectClose
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/r_projectClose', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_projectClose', ['judul' => "Report Close Project", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_projectClose');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/closeProjectExport', [projectController::class, 'closeProjectExport']);
+//r_invByMonth
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/r_invByMonth', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_invByMonth', ['judul' => "Report Invoice By Month", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_invByMonth');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/invByMonthExport', [projectController::class, 'invByMonthExport']);
+//r_statPayment
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/r_statPayment', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_statPayment', ['judul' => "Report Status Payment", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_statPayment');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/statPaymentExport', [projectController::class, 'statPaymentExport']);
 //end Report
 
 //test google sheet

@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
+class closeProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $data;
 
@@ -61,11 +61,11 @@ class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, 
             'project.customerType' => 'Type Customer',
             'project.customer.company' => 'Customer',
             'project.projectName' => 'Project Name',
-            'project.noContract' => 'No Contract/SPK/PO/SO',
-            'project.contractDate' => 'Date contract/SPK/PO/SO',
+            'project.noContract' => 'No Contract',
+            'project.contractDate' => 'Date Contract',
             'project.po' => 'PO',
-            'project.noPo' => 'No Main contract',
-            'project.datePo' => 'Date Main contract',
+            'project.noPo' => 'No PO',
+            'project.datePo' => 'Date PO',
             'project.dateStPo' => 'Contract Start',
             'project.dateEdPo' => 'Contract End',
             'project.poValue' => 'PO Value',
@@ -79,11 +79,12 @@ class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, 
             'project.sponsors.name' => 'Sponsor',
             'project.contractStart' => ' Start Date Contract',
             'project.contractEnd' => 'End Date Contract',
-            'termsName' => 'Terms Name',
-            'termsValue' => 'Terms of Payment',
-            'bastDate' => 'Plan/BAST Date',
-            'invDate' => 'Invoice Date',
-            'payDate' => 'Payment Date',
+            'scope' => 'Scope',
+            'planStart' => 'Plan Date Start',
+            'planEnd' => 'Plan Date End',
+            'actStart' => 'Actual Date Start',
+            'actEnd' => 'Actual Date End',
+            'progProject' => 'Progress Project',
             'remaks' => 'Remaks',
 
         ];

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\allProjectExport;
+use App\Exports\closeProjectExport;
+use App\Exports\invByMonthExport;
+use App\Exports\statPaymentExport;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
@@ -37,6 +40,18 @@ class projectController extends Controller
             } elseif ($request->status == "completed") {
                 $dataa->where('overAllProg', '=', 100);
             }
+        }
+        if ($request->conStatus != "#" && $request->conStatus) {
+            if ($request->conStatus == "active") {
+                $dataa->where('contractEnd', '>', date("Y-m-d"));
+            } elseif ($request->conStatus == "exp") {
+                $dataa->where('contractEnd', '<=', date("Y-m-d"));
+            } elseif ($request->conStatus == "none") {
+                $dataa->where('noContract', '=', null);
+            }
+        }
+        if ($request->segment(1) == "json_projMainCon") {
+            $dataa->where('po', '!=', null);
         }
 
         $data = $dataa->get();
@@ -152,6 +167,45 @@ class projectController extends Controller
             ->get();
 
         return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
+
+        //return $data;
+    }
+    function closeProjectExport(Request $request)
+    {
+        $dataa = scopeProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+
+        $data = $dataa
+            ->orderBy('projectId')
+            ->orderBy('noRef')
+            ->get();
+
+        return Excel::download(new closeProjectExport($data), 'closeProjectExport.xlsx');
+
+        //return $data;
+    }
+    function invByMonthExport(Request $request)
+    {
+        $dataa = topProject::with('project');
+
+        $data = $dataa
+            ->orderBy('projectId')
+            ->orderBy('noRef')
+            ->get();
+
+        return Excel::download(new invByMonthExport($data), 'invByMonthExport.xlsx');
+
+        //return $data;
+    }
+    function statPaymentExport(Request $request)
+    {
+        $dataa = topProject::with('project');
+
+        $data = $dataa
+            ->orderBy('projectId')
+            ->orderBy('noRef')
+            ->get();
+
+        return Excel::download(new statPaymentExport($data), 'statPaymentExport.xlsx');
 
         //return $data;
     }

@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
+class invByMonthExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $data;
 
@@ -57,34 +57,11 @@ class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, 
     public function headings(): array
     {
         return [
-            'project.noProject' => 'No Project',
-            'project.customerType' => 'Type Customer',
-            'project.customer.company' => 'Customer',
             'project.projectName' => 'Project Name',
-            'project.noContract' => 'No Contract/SPK/PO/SO',
-            'project.contractDate' => 'Date contract/SPK/PO/SO',
-            'project.po' => 'PO',
-            'project.noPo' => 'No Main contract',
-            'project.datePo' => 'Date Main contract',
-            'project.dateStPo' => 'Contract Start',
-            'project.dateEdPo' => 'Contract End',
-            'project.poValue' => 'PO Value',
-            'project.projectValue' => 'Project Value',
-            'project.overAllProg' => 'Progress',
-            'project.projectType' => 'Type Project',
-            'project.partner.company' => 'Partner',
-            'project.saless.name' => 'Sales',
-            'project.pm.name' => 'Project Manager',
-            'project.co_pm.name' => 'Co PM',
-            'project.sponsors.name' => 'Sponsor',
-            'project.contractStart' => ' Start Date Contract',
-            'project.contractEnd' => 'End Date Contract',
+            'project.noContract' => 'No Contract',
             'termsName' => 'Terms Name',
-            'termsValue' => 'Terms of Payment',
-            'bastDate' => 'Plan/BAST Date',
+            'termsValue' => 'Terms Value',
             'invDate' => 'Invoice Date',
-            'payDate' => 'Payment Date',
-            'remaks' => 'Remaks',
 
         ];
     }

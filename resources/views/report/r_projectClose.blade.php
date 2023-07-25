@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="row col-2 pt-7 ms-3">
                                     <div class="mb-3 col-12">
-                                        <form method="post" role="form" id="form-print" action="/allProjectExport" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form-print" action="/closeProjectExport" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="date_st" name="date_st" hidden>
                                             <input type="text" id="date_ot" name="date_ot" hidden>

@@ -17,6 +17,12 @@ class employeeController extends Controller
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
+        if ($request->departmentt && $request->departmentt != '#') {
+            $dataa->where('department', '=', $request->departmentt);
+        }
+        if ($request->directManager && $request->directManager != '#') {
+            $dataa->where('direct_manager', '=', $request->directManager);
+        }
         $data = $dataa->get();
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
@@ -36,11 +42,21 @@ class employeeController extends Controller
         $dataa->whereHas('employee', function ($q) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
         });
-        if ($request->date_st != "#" && $request->date_st) {
-            $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        // if ($request->date_st != "#" && $request->date_st) {
+        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        // }
+        if ($request->name != "#" && $request->name) {
+            $dataa->where('employee', '=', $request->name);
         }
+        if ($request->projectId != "#" && $request->projectId) {
+            $dataa->where('projectId', '=', $request->projectId);
+        }
+        // if ($request->availableAt != "01-01-1900" && $request->availableAt) {
+        //     $dataa->where('endDate', date("Y-m-d", '<=', strtotime(str_replace('-', '-', $request->availableAt))));
+        // }
         // else {
+
         //     $dataa->whereMonth('endDate', '=', date("m"))
         //         ->whereYear('endDate', '=', date("Y"));
         // }

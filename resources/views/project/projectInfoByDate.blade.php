@@ -42,11 +42,12 @@
                                         </div>
                                         <div class="mb-3 col-4">
                                             <label class="form-label">Contract Status</label>
-                                            <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                            <select name="conStatus" id="conStatus" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
                                                 <option value="all">All</option>
                                                 <option value="active">Active</option>
-                                                <option value="Exp">Completed</option>
+                                                <option value="exp">Expired</option>
+                                                <option value="none">None</option>
                                             </select>
                                         </div>
                                     </div>
@@ -205,18 +206,18 @@
                 }
             ],
         });
-        $('#cust_id, #pmName, #status').on('change', function() {
+        $('#cust_id, #pmName, #conStatus').on('change', function() {
             $('#example1').data('dt_params', {
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
-                // 'status': $('#status').val(),
+                'conStatus': $('#conStatus').val(),
             });
             $('#example1').DataTable().draw();
         });
         $('.col-12').on('click', '#clear', function() {
             $('#cust_id').val('#').trigger('change');
             $('#pmName').val('#').trigger('change');
-            // $('#status').val('#').trigger('change');
+            $('#conStatus').val('#').trigger('change');
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });

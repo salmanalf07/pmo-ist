@@ -6,14 +6,6 @@
     <!-- Container fluid -->
     <div class="app-content-area">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <!-- Page header -->
-                    <div class="mb-5">
-                        <h3 class="mb-0">{{$judul}}</h3>
-                    </div>
-                </div>
-            </div>
             <div>
                 <!-- row -->
                 <div class="row mb-3">
@@ -22,7 +14,16 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="mb-3 col-6">
+                                        <div class="mb-3 col-3">
+                                            <label class="form-label" for="selectOne">Employee</label>
+                                            <select name="name" id="name" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($employee as $employees)
+                                                <option value="{{$employees->id}}">{{$employees->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-3">
                                             <label class="form-label">Date Range</label>
                                             <div class="input-group me-3">
                                                 <input type="text" class="form-control float-right" id="reservation">
@@ -31,13 +32,30 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3 col-6">
+                                        <div class="mb-3 col-3">
+                                            <label class="form-label">Available Date</label>
+                                            <div class="input-group me-3 datepicker">
+                                                <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                                <div class="input-group-append custom-picker">
+                                                    <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="mb-3 col-3">
-                                            <button id="inn" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
+                                            <label class="form-label" for="selectOne">Project Name</label>
+                                            <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($project as $projects)
+                                                <option value="{{$projects->id}}">{{$projects->projectName}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <div class="mb-3 col-3">
-                                            <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
+                                        <div class="mb-3 pt-7 col-3">
+                                            <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -47,6 +65,13 @@
 
                     <div class="col-12">
                         <div class="card">
+                            <div class="card-header d-md-flex border-bottom-0">
+                                <div class="flex-grow-1">
+                                </div>
+                                <div class="justify-content-end">
+                                    <p>Employee - {{$judul}}</p>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive table-card">
                                     <table id="example1" class="table text-nowrap table-centered mt-0" style="width: 100%">
@@ -87,6 +112,18 @@
         }, function(start, end) {
             var dateinn = start.format('YYYY-MM-DD');
             var dateenn = end.format('YYYY-MM-DD');
+        });
+
+        $('select.select2:not(.normal)').each(function() {
+            $(this).select2({
+                dropdownParent: $(this).parent().parent()
+            });
+        });
+
+        flatpickr("#availableAt", {
+            dateFormat: "d-m-Y",
+            defaultDate: "01-01-1900",
+            allowInput: true, // Mengizinkan input manual
         });
     })
 </script>
@@ -166,16 +203,23 @@
                 },
             ],
         });
-        $('.col-6').on('change', '#reservation', function() {
+        $('#reservation, #name, #projectId, #availableAt').on('change', function() {
             var date = $('#reservation').val().split(" - ");
             $('#example1').data('dt_params', {
                 'date_st': date[0],
                 'date_ot': date[1],
+                'name': $('#name').val(),
+                'projectId': $('#projectId').val(),
+                'availableAt': $('#availableAt').val(),
+
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
         $('.col-12').on('click', '#clear', function() {
+            $('#name').val('#').trigger('change');
+            $('#projectId').val('#').trigger('change');
+
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });

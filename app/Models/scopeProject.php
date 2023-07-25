@@ -21,6 +21,11 @@ class scopeProject extends Model
         'progProject',
         'remaks'
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
     /**
      * The "booting" function of model
      *

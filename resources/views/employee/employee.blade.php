@@ -6,14 +6,6 @@
     <!-- Container fluid -->
     <div class="app-content-area">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <!-- Page header -->
-                    <div class="mb-5">
-                        <h3 class="mb-0">{{$judul}}</h3>
-                    </div>
-                </div>
-            </div>
             <div>
                 <!-- row -->
                 <div class="row mb-3">
@@ -23,11 +15,20 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="mb-3 col-3">
-                                            <label class="form-label" for="selectOne">Dept/Div</label>
+                                            <label class="form-label" for="selectOne">Division</label>
                                             <select name="divisii" id="divisii" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
                                                 @foreach($divisi as $divDept)
                                                 <option value="{{$divDept->id}}">{{$divDept->division}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-3">
+                                            <label class="form-label" for="selectOne">Department </label>
+                                            <select name="departmentt" id="departmentt" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($department as $depart)
+                                                <option value="{{$depart->id}}">{{$depart->department}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -40,13 +41,12 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 col-6">
-                                        </div>
-                                        <div class="mb-3 col-3">
-                                            <button id="inn" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
-                                        </div>
-                                        <div class="mb-3 col-3">
-                                            <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
+                                        <div class="mb-3 pt-7 col-3">
+                                            <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -60,6 +60,9 @@
                                 <div class="flex-grow-1">
                                     <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Add New</button>
                                 </div>
+                                <div class="justify-content-end">
+                                    <p>Employee - {{$judul}}</p>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive table-card">
@@ -69,11 +72,11 @@
                                                 <th>
                                                     No
                                                 </th>
-                                                <th>Karyawan ID</th>
-                                                <th>Nama Karyawan</th>
-                                                <th>Divisi</th>
+                                                <th>ID</th>
+                                                <th>Name</th>
                                                 <th>Department</th>
-                                                <th>Manager Langsung</th>
+                                                <th>Division</th>
+                                                <th>Direct Manager</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -110,7 +113,7 @@
                             <h4>Employee</h4>
                         </div>
                         <div class="mb-3 col-8">
-                            <label class="form-label">Karyawan ID <span class="text-danger">*</span></label>
+                            <label class="form-label">Employee ID <span class="text-danger">*</span></label>
                             <input name="employee_id" id="employee_id" type="text" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="form-check form-switch mb-3 col-4" style="padding-top: 2.5rem;padding-left: 4rem !important;">
@@ -123,7 +126,7 @@
                         </div>
                         <div class="mb-3 col-6"></div>
                         <div class="mb-3 col-12">
-                            <label class="form-label">Nama Karyawan <span class="text-danger">*</span></label>
+                            <label class="form-label">Employee Name <span class="text-danger">*</span></label>
                             <input name="name" id="name" type="text" class="form-control" placeholder="Enter Here" required>
                         </div>
                         <div class="mb-3 col-6">
@@ -284,12 +287,24 @@
                     name: 'name'
                 },
                 {
-                    data: 'divisi.division',
-                    name: 'divisi.division'
+                    data: function(row) {
+                        if (row.department && row.department.department) {
+                            return row.department.department; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'department.department'
                 },
                 {
-                    data: 'department.department',
-                    name: 'department.department'
+                    data: function(row) {
+                        if (row.divisi && row.divisi.division) {
+                            return row.divisi.division; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'divisi.division'
                 },
                 {
                     data: function(row) {
@@ -306,10 +321,17 @@
                     name: 'aksi'
                 }
             ],
+            order: [
+                [3, 'asc'],
+                [4, 'asc'],
+                [2, 'asc'],
+            ]
         });
-        $('.col-3').on('click', '#inn', function() {
+        $('#divisii, #departmentt, #directManager').on('change', function() {
             $('#example1').data('dt_params', {
                 'divisii': $('#divisii').val(),
+                'departmentt': $('#departmentt').val(),
+                'directManager': $('#directManager').val(),
             });
             $('#example1').DataTable().draw();
         });
@@ -321,6 +343,9 @@
         $("#in").addClass("btn btn-primary add");
     });
     $('.col-12').on('click', '#clear', function() {
+        $('#divisii').val('#').trigger('change');
+        $('#departmentt').val('#').trigger('change');
+        $('#directManager').val('#').trigger('change');
         $('#example1').data('dt_params', {});
         $('#example1').DataTable().draw();
     });
