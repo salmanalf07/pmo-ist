@@ -121,7 +121,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $divisi = division::get();
         $department = department::get();
         $employee = employee::get();
-        return view('employee/ByUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
+        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
     })->name('empByUnassigned');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
