@@ -319,7 +319,7 @@
             $('#customerType').val('{!! isset($data) ? $data->customerType : "" !!}').trigger('change');
             $('#projectName').val('{!! isset($data) ? $data->projectName : "" !!}');
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
-            $('#noContract').val('{!! isset($data) ? $data->noContract : "" !!}');
+            $('#noContract').val(`{!! isset($data) ? $data->noContract : "" !!}`);
             $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
             if ('{!! isset($data) && $data->po !== null !!}') {
                 $("#payung").prop("checked", true).trigger('change');

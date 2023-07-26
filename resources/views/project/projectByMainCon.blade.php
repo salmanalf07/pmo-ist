@@ -118,13 +118,13 @@
             },
             columns: [{
                     data: function(row) {
-                        if (row.po && row.po) {
-                            return row.po; // Mengembalikan nilai properti name jika ada
+                        if (row.noPo && row.noPo) {
+                            return row.noPo; // Mengembalikan nilai properti name jika ada
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
                     },
-                    name: 'po',
+                    name: 'noPo',
                     render: function(data, type, row) {
                         return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
                     }
