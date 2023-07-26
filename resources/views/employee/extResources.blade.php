@@ -6,14 +6,6 @@
     <!-- Container fluid -->
     <div class="app-content-area">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <!-- Page header -->
-                    <div class="mb-5">
-                        <h3 class="mb-0">{{$judul}}</h3>
-                    </div>
-                </div>
-            </div>
             <div>
                 <!-- row -->
                 <div class="row mb-3">
@@ -31,12 +23,9 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 col-6">
-                                        </div>
                                         <div class="mb-3 col-3">
-                                            <button id="inn" type="button" class="btn btn-primary-soft" style="width:100%">Filter</button>
                                         </div>
-                                        <div class="mb-3 col-3">
+                                        <div class="mb-3 pt-7 col-3">
                                             <button id="clear" type="button" class="btn btn-danger-soft" style="width:100%">Clear</button>
                                         </div>
                                     </div>
@@ -47,12 +36,19 @@
 
                     <div class="col-12">
                         <div class="card">
+                            <div class="card-header d-md-flex border-bottom-0">
+                                <div class="flex-grow-1">
+                                </div>
+                                <div class="justify-content-end">
+                                    <p>Employee - {{$judul}}</p>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive table-card">
                                     <table id="example1" class="table text-nowrap table-centered mt-0" style="width: 100%">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>Nama Karyawan</th>
+                                                <th>Employee Name</th>
                                                 <th>Company</th>
                                                 <th>Customer</th>
                                                 <th>Project Name</th>
@@ -141,7 +137,7 @@
                 },
             ],
         });
-        $('.col-3').on('click', '#inn', function() {
+        $('#company').on('change', function() {
             $('#example1').data('dt_params', {
                 'company': $('#company').val(),
             });
@@ -149,6 +145,7 @@
             // console.log(date)
         });
         $('.col-12').on('click', '#clear', function() {
+            $('#company').val('#').trigger('change');
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });

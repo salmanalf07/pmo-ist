@@ -49,6 +49,10 @@ class employee extends Model
     {
         return $this->belongsTo(employee::class, 'direct_manager', 'id');
     }
+    public function memberProject()
+    {
+        return $this->hasMany(memberProject::class, 'employee', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

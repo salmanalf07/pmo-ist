@@ -38,14 +38,14 @@ class employeeController extends Controller
 
     function jsonByAssignment(Request $request)
     {
-        $dataa = memberProject::with('project', 'employee.divisi');
+        $dataa = memberProject::with('project', 'employee.divisi', 'employee.department');
         $dataa->whereHas('employee', function ($q) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
         });
-        // if ($request->date_st != "#" && $request->date_st) {
-        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        // }
+        if ($request->dateChange == "true") {
+            $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
         if ($request->name != "#" && $request->name) {
             $dataa->where('employee', '=', $request->name);
         }
@@ -81,6 +81,21 @@ class employeeController extends Controller
         }
 
         $data = $dataa->get();
+        return DataTables::of($data)
+            ->toJson();
+    }
+    function jsonByUnassigned(Request $request)
+    {
+        $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager');
+        if ($request->divisii && $request->divisii != '#') {
+            $dataa->where('divisi', '=', $request->divisii);
+        }
+        if ($request->departmentt && $request->departmentt != '#') {
+            $dataa->where('department', '=', $request->departmentt);
+        }
+
+        $data = $dataa->get();
+
         return DataTables::of($data)
             ->toJson();
     }

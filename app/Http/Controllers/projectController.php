@@ -159,7 +159,18 @@ class projectController extends Controller
 
     function allProjectExport(Request $request)
     {
-        $dataa = topProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+        $dataa = topProject::whereHas('project', function ($query) use ($request) {
+
+            if ($request->cust_id != "#" && $request->cust_id) {
+                $query->where('cust_id', $request->cust_id);
+            }
+            if ($request->pmName != "#" && $request->pmName) {
+                $query->where('pmName', $request->pmName);
+            }
+            if ($request->sales != "#" && $request->sales) {
+                $query->where('sales', $request->sales);
+            }
+        })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
 
         $data = $dataa
             ->orderBy('projectId')

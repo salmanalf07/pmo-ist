@@ -106,19 +106,28 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/empByAssignment', function () {
         $employee = employee::get();
         $project = Project::get();
-        return view('employee/byAssignment', ['judul' => "Employee By Assignment", 'employee' => $employee, 'project' => $project]);
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empExtResources', function () {
         $employee = employee::get();
         $company = employee::get();
-        return view('employee/extResources', ['judul' => "Employee External Resources", 'employee' => $employee, 'company' => $company]);
+        return view('employee/extResources', ['judul' => "External Resources", 'employee' => $employee, 'company' => $company]);
     })->name('empExtResources');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/empByUnassigned', function () {
+        $divisi = division::get();
+        $department = department::get();
+        $employee = employee::get();
+        return view('employee/ByUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
+    })->name('empByUnassigned');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAssignment', [employeeController::class, 'jsonByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ExtResources', [employeeController::class, 'jsonExtResources']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByUnassigned', [employeeController::class, 'jsonByUnassigned']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_employee', [employeeController::class, 'store']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_employee', [employeeController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_employee/{id}', [employeeController::class, 'update']);
