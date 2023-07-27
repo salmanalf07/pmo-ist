@@ -113,40 +113,15 @@
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Revenue</h4>
-                            <div role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked>
-                                <label class="btn btn-outline-white btn-sm" for="btnradio1">All</label>
-
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2">
-                                <label class="btn btn-outline-white btn-sm" for="btnradio2">1M</label>
-
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
-                                <label class="btn btn-outline-white btn-sm" for="btnradio3">6M</label>
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4">
-                                <label class="btn btn-outline-white btn-sm" for="btnradio4">1Y</label>
-                            </div>
-
                         </div>
                         <div class="card-body">
                             <div id="revenueChart"></div>
                             <div class="mt-4 px-lg-6 ">
                                 <div class="row bg-light rounded-3 ">
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-lg-12 col-md-6">
                                         <div class="p-4">
                                             <span><i class="mdi mdi-circle small me-1 text-primary"></i>Current Week</span>
                                             <h3 class="mb-0  mt-2">$235,965</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="p-4">
-                                            <span><i class="mdi mdi-circle small me-1 text-info"></i>Past Week</span>
-                                            <h3 class="mb-0  mt-2">$198,214</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="p-4">
-                                            <span>Today's Earning: </span>
-                                            <h3 class="mb-0  mt-2">$2,562.30</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +179,7 @@
             <div class="row ">
 
                 <!-- card  -->
-                <div class="col-xl-8 mb-5 ">
+                <div class="col-xl-7 mb-5 ">
 
                     <div class=" card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -217,19 +192,11 @@
                     </div>
                 </div>
                 <!-- card  -->
-                <div class="col-xl-4 mb-5">
+                <div class="col-xl-5 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Campaign Email Sent</h4>
+                            <h4 class="mb-0">Revenue By Sector</h4>
                             <div class="dropdown dropstart">
-                                <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i data-feather="more-vertical" class="icon-xs"></i>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Action</a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Another action</a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Something else here</a></li>
-                                </ul>
                             </div>
                         </div>
                         <div class="card-body">
@@ -237,31 +204,8 @@
                             <div id="chartCampaignEmail" class="d-flex justify-content-center mt-8"></div>
 
                             <div class="mt-8">
-                                <div class="row row-cols-lg-3 text-center">
-                                    <div class="col">
-                                        <div>
+                                <div class="row row-cols-lg-3 text-center" id="chartSecRevenue">
 
-                                            <i class="text-muted mb-3 icon-sm" data-feather="send"></i>
-                                            <h4 class="mb-1">4,567</h4>
-                                            <span><i class="mdi mdi-circle small text-warning me-1"></i>Total Sent</span>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-
-                                            <i class="text-muted mb-3 icon-sm" data-feather="flag"></i>
-                                            <h4 class="mb-1">2,346</h4>
-                                            <span><i class="mdi mdi-circle small text-success me-1"></i>Reached</span>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-
-                                            <i class="text-muted mb-3 icon-sm" data-feather="mail"></i>
-                                            <h4 class="mb-1">1,784</h4>
-                                            <span><i class="mdi mdi-circle small text-primary me-1"></i>Opened</span>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
@@ -276,9 +220,8 @@
 
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script>
-    // Assuming $salesRevenue contains the revenue data as an array
     var salesRevenueData = <?php echo json_encode($salesRevenue); ?>;
-    // Function to generate a random color
+
     function getRandomColor() {
         var letters = "0123456789ABCDEF";
         var color = "#";
@@ -287,74 +230,134 @@
         }
         return color;
     }
-    var modifiedData = salesRevenueData.map(item => ({
-        name: item.name,
-        data: item.data,
-        color: getRandomColor() // Generate random colors for each data point
-    }));
-    var e = {
-        series: [{
-            name: "Revenue", // Provide a common name for the series
-            data: salesRevenueData.map(item => item.data), // Extract data only,
+
+    var data = [];
+
+    // Iterate through the salesRevenueData array and create objects in the required format
+    for (var value of salesRevenueData) {
+        data.push({
+            name: value.name,
+            data: [value.data],
             color: getRandomColor()
-        }],
+        });
+    }
+    e = {
+        series: data,
         chart: {
             type: "bar",
             height: 350,
+            toolbar: {
+                show: 1
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                columnWidth: "90%"
+            }
         },
         stroke: {
             show: !0,
             width: 5,
             colors: ["transparent"]
         },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: "110%"
-            },
-
-        },
-        yaxis: {
-            labels: {
-                formatter: function(e) {
-                    return e + ' B';
-                },
-            },
-            tickAmount: 4,
-            min: 0,
+        grid: {
+            borderColor: "#acb0c3"
         },
         xaxis: {
-            categories: salesRevenueData.map(item => item.name), // Provide full names for X-axis labels
+            categories: [""],
             axisTicks: {
-                show: false,
+                show: !1,
                 borderType: "solid",
-                color: "#acb0c3", // Set the axis ticks color directly
+                color: "#acb0d5",
                 height: 6,
                 offsetX: 0,
                 offsetY: 0,
             },
             axisBorder: {
-                show: true,
-                color: "#acb0c3", // Set the axis border color directly
+                show: !0,
+                color: "#acb0d5",
                 offsetX: 0,
                 offsetY: 0,
             },
-            colors: ["#624bff", "#198754", "#0ea5e9"],
+            title: {
+                text: "Total Forecasted Value",
+                offsetX: 0,
+                offsetY: -30,
+                style: {
+                    color: "#acb0d5",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    fontFamily: '"Inter", "sans-serif"',
+                },
+            },
         },
+        yaxis: {
+            labels: {
+                formatter: function(e) {
+                    return e + " B";
+                },
+            },
+            tickAmount: 4,
+            min: 0,
+        },
+        fill: {
+            opacity: 1
+        },
+        legend: {
+            show: !0,
+            position: "bottom",
+            horizontalAlign: "center",
+            fontWeight: 500,
+            offsetX: 0,
+            offsetY: -14,
+            itemMargin: {
+                horizontal: 8,
+                vertical: 0
+            },
+            markers: {
+                width: 10,
+                height: 10
+            },
+        },
+        // colors: ["#624bff", "#198754", "#0ea5e9"],
     };
-
-    new ApexCharts(document.querySelector("#salesForecastChart"), e).render();
+    new ApexCharts(
+        document.querySelector("#salesForecastChart"),
+        e
+    ).render();
 </script>
 
 <script>
+    var custTypeRevenue = <?php echo json_encode($custTypeRevenue); ?>;
+
+    // Menggunakan perulangan untuk menambahkan data dengan key baru ke custTypeRevenue
+    custTypeRevenue.forEach(function(data) {
+        // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
+        data["color"] = getRandomColor();
+
+        // Langkah 1: Dapatkan referensi ke elemen div tujuan
+        var divTujuan = document.getElementById("chartSecRevenue");
+
+        // Langkah 2: Gunakan innerHTML untuk menambahkan elemen div baru beserta kontennya
+        divTujuan.innerHTML += '<div class="col">' +
+            '<div><h4 class="mb-1">' + data["totalRevenue"] + '</h4>' +
+            '<span><i class="mdi mdi-circle small me-1" style="color:' + data["color"] + '"></i>' + data["customerType"] + '</span></div></div>';
+    });
+
+
     var e = {
-        series: [55, 33, 12],
-        labels: ["Total Sent", "Reached", "Opened"],
+        series: custTypeRevenue.map(obj => {
+            // Hapus " B" dari totalRevenue dan konversi ke tipe numerik
+            return parseFloat(obj.totalRevenue.replace(" B", ""));
+        }),
+        labels: custTypeRevenue.map(obj => obj.customerType),
         chart: {
             width: 350,
             type: "donut"
         },
-        colors: ["#f59e0b", "#198754", "#624BFF"],
+
+        colors: custTypeRevenue.map(obj => obj.color),
         plotOptions: {
             pie: {
                 donut: {
@@ -371,6 +374,15 @@
         stroke: {
             show: !0,
             colors: "transparent",
+        },
+        yaxis: {
+            labels: {
+                formatter: function(e) {
+                    return e + " B";
+                },
+            },
+            tickAmount: 4,
+            min: 0,
         },
         responsive: [{
             breakpoint: 768,
@@ -392,14 +404,9 @@
 <script>
     e = {
         series: [{
-                name: "Current Week",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-            {
-                name: "Past Week",
-                data: [11, 32, 45, 32, 34, 52, 41],
-            },
-        ],
+            name: "Current Week",
+            data: [31, 40, 28, 51, 42, 109, 100],
+        }, ],
         labels: [
             "Jan",
             "Feb",

@@ -75,6 +75,36 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
+        $kamus = [
+            [
+                "key" => "BankingNFinancialServicesIndustry",
+                "value" => "Banking & Financial Services Industry",
+            ],
+            [
+                "key" => "bumn",
+                "value" => "BUMN",
+            ],
+            [
+                "key" => "government",
+                "value" => "Government",
+            ],
+            [
+                "key" => "swasta",
+                "value" => "Swasta",
+            ],
+        ];
+
+        function vlookupInKamus($record, $kamus)
+        {
+            foreach ($kamus as $item) {
+                if ($item['key'] === $record) {
+                    return $item['value'];
+                }
+            }
+            // Jika tidak ditemukan, kembalikan nilai record asli
+            return $record;
+        }
+
         function formatAngka($angka)
         {
             $satuan = ['', 'K', 'M', 'B', 'T']; // Menambahkan satuan seperti K (ribu), M (juta), B (miliar), dan T (triliun) sesuai kebutuhan
@@ -107,8 +137,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 'data' => formatAngka($salesData->totalRevenue),
             ];
         }
-        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray]);
-        //return $resultArray;
+        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('customerType')->get();
+        // Loop setiap hasil dari kueri $salesRevenue
+        $resultCustTypeRevenue = [];
+        foreach ($custTypeRevenue as $custTypeRevenuee) {
+
+            $resultCustTypeRevenue[] = [
+                'customerType' => vlookupInKamus($custTypeRevenuee->customerType, $kamus),
+                'totalRevenue' => formatAngka($custTypeRevenuee->totalRevenue),
+            ];
+        }
+        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue]);
+        //return $custTypeRevenue;
     })->name('dashboard');
 });
 
