@@ -1,115 +1,107 @@
 @extends('index')
 
 @section('konten')
+<style>
+    .col-xl-2 {
+        width: 20%;
+    }
+</style>
 <div id="app-content">
     <div class="app-content-area pt-0 ">
         <div class="bg-primary pt-12 pb-21 "></div>
         <div class="container-fluid mt-n22 ">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12">
-                    <!-- Page header -->
-                    <div class="d-flex justify-content-between align-items-center mb-5">
-                        <div class="mb-2 mb-lg-0">
-                            <h3 class="mb-0  text-white">Projects</h3>
-                        </div>
-                        <div>
-                            <a href="#!" class="btn btn-white">Create New Project</a>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                <div class="col-xl-2 col-lg-6 col-md-12 col-12 mb-5">
                     <!-- card -->
                     <div class="card h-100 card-lift">
                         <!-- card body -->
                         <div class="card-body">
                             <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
                                 <div>
-                                    <h4 class="mb-0">Projects</h4>
-                                </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
-                                    <i data-feather="briefcase" height="20" width="20"></i>
+                                    <h4 class="mb-0"># On Going Projects</h4>
                                 </div>
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class=" mb-1 fw-bold">18</h1>
-                                <p class="mb-0"><span class="text-dark me-2">2</span>Completed</p>
+                                <h1 class="d-flex justify-content-center mb-1 fw-bold">{{$projectOnGoing}}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                <div class="col-xl-2 col-lg-6 col-md-12 col-12 mb-5">
                     <!-- card -->
                     <div class="card h-100 card-lift">
                         <!-- card body -->
                         <div class="card-body">
                             <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center
-            mb-3">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
                                 <div>
-                                    <h4 class="mb-0">Active Task</h4>
-                                </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary
-              rounded-2">
-                                    <i data-feather="list" height="20" width="20"></i>
+                                    <h4 class="mb-0"># New Projects</h4>
                                 </div>
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">132</h1>
-                                <p class="mb-0"><span class="text-dark me-2">28</span>Completed</p>
+                                <h1 class="d-flex justify-content-center mb-1 fw-bold">{{$projectThisYear}}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                <div class="col-xl-2 col-lg-6 col-md-12 col-12 mb-5">
                     <!-- card -->
                     <div class="card h-100 card-lift">
                         <!-- card body -->
                         <div class="card-body">
                             <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center
-            mb-3">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
                                 <div>
-                                    <h4 class="mb-0">Teams</h4>
-                                </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary
-              rounded-2">
-                                    <i data-feather="users" height="20" width="20"></i>
+                                    <h4 class="mb-0">Potential Revenue</h4>
                                 </div>
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">12</h1>
-                                <p class="mb-0"><span class="text-dark me-2">1</span>Completed</p>
+                                <h1 class="d-flex justify-content-center mb-1 fw-bold">{{$PotensialRevenue}}</h1>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                <div class="col-xl-2 col-lg-6 col-md-12 col-12 mb-5">
                     <!-- card -->
                     <div class="card h-100 card-lift">
                         <!-- card body -->
                         <div class="card-body">
                             <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center
-            mb-3">
+                            <div class="d-flex justify-content-center align-items-center mb-3">
                                 <div>
-                                    <h4 class="mb-0">Productivity</h4>
-                                </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary
-              rounded-2">
-                                    <i data-feather="target" height="20" width="20"></i>
+                                    <h4 class="mb-0">Revenue New PO</h4>
                                 </div>
                             </div>
                             <!-- project number -->
                             <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">76%</h1>
-                                <p class="mb-0"><span class="text-success me-2">5%</span>Completed</p>
+                                <h1 class="d-flex justify-content-center mb-1 fw-bold">{{$RevenueNewPo}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-6 col-md-12 col-12 mb-5">
+                    <!-- card -->
+                    <div class="card h-100 card-lift">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <!-- heading -->
+                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                <div>
+                                    <h4 class="mb-0">Invoiced</h4>
+                                </div>
+                            </div>
+                            <!-- project number -->
+                            <div class="lh-1">
+                                <h1 class="d-flex justify-content-center mb-1 fw-bold">{{$invoiced}}</h1>
                             </div>
                         </div>
                     </div>
@@ -117,350 +109,92 @@
             </div>
             <!-- row  -->
             <div class="row ">
-                <div class="col-xl-8 col-12 mb-5">
-                    <!-- card  -->
-                    <div class="card">
-                        <!-- card header  -->
-                        <div class="card-header ">
-                            <h4 class="mb-0">Active Projects</h4>
+                <div class="col-xl-5 col-12 mb-5">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Revenue</h4>
+                            <div role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked>
+                                <label class="btn btn-outline-white btn-sm" for="btnradio1">All</label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2">
+                                <label class="btn btn-outline-white btn-sm" for="btnradio2">1M</label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
+                                <label class="btn btn-outline-white btn-sm" for="btnradio3">6M</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio4">
+                                <label class="btn btn-outline-white btn-sm" for="btnradio4">1Y</label>
+                            </div>
+
                         </div>
-                        <!-- table  -->
+                        <div class="card-body">
+                            <div id="revenueChart"></div>
+                            <div class="mt-4 px-lg-6 ">
+                                <div class="row bg-light rounded-3 ">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="p-4">
+                                            <span><i class="mdi mdi-circle small me-1 text-primary"></i>Current Week</span>
+                                            <h3 class="mb-0  mt-2">$235,965</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="p-4">
+                                            <span><i class="mdi mdi-circle small me-1 text-info"></i>Past Week</span>
+                                            <h3 class="mb-0  mt-2">$198,214</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="p-4">
+                                            <span>Today's Earning: </span>
+                                            <h3 class="mb-0  mt-2">$2,562.30</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-6 mb-5">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center ">
+
+                            <h4 class="mb-0">Top Project Value</h4>
+
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table class="table text-nowrap mb-0 table-centered table-hover">
+                                <table class="table text-nowrap mb-0 table-centered">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Project name</th>
-                                            <th>Hours</th>
-                                            <th>Priority</th>
-                                            <th>Members</th>
+                                            <th>Customer</th>
+                                            <th>Project Name</th>
+                                            <th>Project Value</th>
                                             <th>Progress</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-1.svg" alt="Image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Dropbox
-                                                                Design
-                                                                System</a></h5>
+                                        @foreach($projectByValue as $project)
 
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>34</td>
-                                            <td><span class="badge badge-warning-soft">Medium</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-11.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-2.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-3.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+5</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark">
-                                                <div class="float-start me-3">15%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar" role="progressbar" style="width:15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
                                         <tr>
+                                            <td>{{substr($project->customer->company, 0, 15)}}</td>
                                             <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-2.svg" alt="Image">
+                                                <h4 class="mb-0 fs-5"><a href="/project/summaryProject/{{$project->id}}" class="text-inherit" target="_blank">{{substr($project->projectName, 0, 25)}}</a></h4>
+                                            </td>
+                                            <td class="text-end text-dark">{{number_format($project->projectValue,0,',','.')}}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>{{$project->overAllProg}}%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width:{{$project->overAllProg}}%;" aria-valuenow="{{$project->overAllProg}}" aria-valuemin="0" aria-valuemax="100">
                                                         </div>
                                                     </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Slack
-                                                                Team UI Design</a></h5>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>47</td>
-                                            <td><span class="badge badge-danger-soft">High</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-4.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-5.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-6.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+5</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark">
-                                                <div class="float-start me-3">35%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar" role="progressbar" style="width:35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-3.svg" alt="Image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">GitHub
-                                                                Satellite</a></h5>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>120</td>
-                                            <td><span class="badge badge-info-soft">Low</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-7.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-8.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-9.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+1</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark">
-                                                <div class="float-start me-3">75%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar" role="progressbar" style="width:75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-6.svg" alt="Image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">3D
-                                                                Character Modelling</a></h5>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>89</td>
-                                            <td><span class="badge badge-warning-soft">Medium</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-10.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-11.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-12.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+5</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark">
-                                                <div class="float-start me-3">63%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar" role="progressbar" style="width:63%" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-4.svg" alt="Image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Webapp
-                                                                Design System</a>
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>108</td>
-                                            <td><span class="badge badge-success-soft">Track</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-13.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-14.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-15.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+5</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark">
-                                                <div class="float-start me-3">100%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width:100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex
-                    align-items-center">
-                                                    <div>
-                                                        <div>
-                                                            <img src="../assets/images/svg/brand-logo-5.svg" alt="Image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Github
-                                                                Event Design</a>
-                                                        </h5>
-
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>120</td>
-                                            <td><span class="badge badge-info-soft">Low</span></td>
-                                            <td>
-                                                <div class="avatar-group">
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-13.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-14.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm">
-                                                        <img alt="avatar" src="../assets/images/avatar/avatar-15.jpg" class="rounded-circle">
-                                                    </span>
-                                                    <span class="avatar avatar-sm avatar-primary">
-                                                        <span class="avatar-initials rounded-circle
-                        fs-6">+1</span>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class=" text-dark ">
-                                                <div class="float-start me-3">75%</div>
-                                                <div class="mt-2">
-                                                    <div class="progress" style="height: 5px;">
-                                                        <div class="progress-bar" role="progressbar" style="width:75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                            </td>
-                                        </tr>
-
+                                        @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                        <!-- card footer  -->
-                        <div class="card-footer text-center">
-                            <a href="#!" class="btn btn-primary">View All Projects</a>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-xl-4 col-lg-12 col-md-12 col-12 mb-5 ">
-                    <!-- card  -->
-                    <div class="card h-100">
-                        <!-- card body  -->
-                        <div class="card-header d-flex align-items-center
-                        justify-content-between">
-                            <div>
-                                <h4 class="mb-0">Tasks Performance </h4>
-                            </div>
-
-                            <!-- dropdown  -->
-                            <div class="dropdown dropstart">
-                                <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTask" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="icon-xs" data-feather="more-vertical"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownTask">
-                                    <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                    <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                    <a class="dropdown-item d-flex align-items-center" href="#!">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-                            <!-- chart  -->
-                            <div class="mb-6">
-                                <div id="perfomanceChart"></div>
-                            </div>
-                            <!-- icon with content  -->
-                            <div class="d-flex align-items-center justify-content-around">
-                                <div class="text-center">
-                                    <i class="icon-sm text-success" data-feather="check-circle"></i>
-                                    <h1 class="fs-2 mb-0 ">76%</h1>
-                                    <p>Completed</p>
-                                </div>
-                                <div class="text-center">
-                                    <i class="icon-sm text-warning" data-feather="trending-up"></i>
-                                    <h1 class="fs-2 mb-0 ">32%</h1>
-                                    <p>In-Progress</p>
-                                </div>
-                                <div class="text-center">
-                                    <i class="icon-sm text-danger" data-feather="trending-down"></i>
-                                    <h1 class="fs-2 mb-0 ">13%</h1>
-                                    <p>Behind</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -470,391 +204,296 @@
             <div class="row ">
 
                 <!-- card  -->
-                <div class="col-xl-6 col-lg-12 col-md-12 col-12 mb-5 mb-xl-0">
-                    <div class="card h-100">
-                        <!-- card header  -->
+                <div class="col-xl-8 mb-5 ">
+
+                    <div class=" card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">My Task </h4>
-                            <div class="dropdown">
-                                <a class="btn btn-outline-white btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Task
-                                </a>
-
-                                <ul class="dropdown-menu dropdown-menu-end ">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
+                            <h4 class="mb-0">Sales Revenue</h4>
                         </div>
-                        <!-- table  -->
-                        <div class="card-body">
-                            <div class="table-responsive table-card">
-                                <table class="table text-nowrap mb-0 table-centered table-hover">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Deadline</th>
-                                            <th>Status</th>
+                        <div class="card-body pb-0">
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckOne">
-                                                    <label class="form-check-label" for="flexCheckOne">
-                                                        Design a FreshCart Home page
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Today</td>
-                                            <td>
-                                                <span class="badge badge-success-soft">Approved</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckTwo">
-                                                    <label class="form-check-label" for="flexCheckTwo">
-                                                        Dash UI Dark Version Design
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Yesterday</td>
-                                            <td>
-                                                <span class="badge badge-danger-soft">Pending</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckThree">
-                                                    <label class="form-check-label" for="flexCheckThree">
-                                                        Dash UI landing page design
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>16 Sept, 2023</td>
-                                            <td>
-                                                <span class="badge badge-warning-soft">In Progress</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckFour">
-                                                    <label class="form-check-label" for="flexCheckFour">
-                                                        Next.js Dash UI version
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>23 Sept, 2023
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-success-soft">Approved</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckFive">
-                                                    <label class="form-check-label" for="flexCheckFive">
-                                                        Develop a Dash UI Laravel
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>20 Sept, 2023
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-danger-soft">Pending</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckSix">
-                                                    <label class="form-check-label" for="flexCheckSix">
-                                                        Coach home page design
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>12 Sept, 2023
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-success-soft">Approved</span>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckSeven">
-                                                    <label class="form-check-label" for="flexCheckSeven">
-                                                        Develop a Dash UI Laravel
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>11 Sept, 2023
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-danger-soft">Pending</span>
-                                            </td>
-
-                                        </tr>
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div id="salesForecastChart"></div>
                         </div>
                     </div>
                 </div>
                 <!-- card  -->
-                <div class="col-xl-6 col-lg-12 col-md-12 col-12 mb-5 mb-xl-0">
+                <div class="col-xl-4 mb-5">
                     <div class="card h-100">
-                        <!-- card header  -->
-                        <div class="card-header">
-                            <h4 class="mb-0">Teams </h4>
-                        </div>
-                        <!-- table  -->
-                        <div class="card-body">
-                            <div class="table-responsive table-card" data-simplebar="" style="max-height: 380px;">
-                                <table class="table text-nowrap mb-0 table-centered table-hover">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Role</th>
-                                            <th>Last Activity</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <a href="#!"><img src="../assets/images/avatar/avatar-2.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Anita Parmar</a></h5>
-                                                        <p class="mb-0">anita@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Front End Developer</td>
-                                            <td>3 May, 2023</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamOne" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamOne">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <a href="#!"> <img src="../assets/images/avatar/avatar-11.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Jitu Chauhan</a></h5>
-                                                        <p class="mb-0">jituchauhan@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Project Director </td>
-                                            <td>Today</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamTwo" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamTwo">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <a href="#!"><img src="../assets/images/avatar/avatar-3.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Sandeep Chauhan</a></h5>
-                                                        <p class="mb-0">sandeepchauhan@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Full- Stack Developer</td>
-                                            <td>Yesterday</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamThree" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamThree">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-
-                                                    <div>
-                                                        <a href="#!"> <img src="../assets/images/avatar/avatar-4.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Amanda Darnell</a></h5>
-                                                        <p class="mb-0">amandadarnell@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Digital Marketer</td>
-                                            <td>3 May, 2023</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamFour" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamFour">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="d-flex align-items-center">
-
-                                                    <div>
-                                                        <a href="#!"> <img src="../assets/images/avatar/avatar-5.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Patricia Murrill</a></h5>
-                                                        <p class="mb-0">patriciamurrill@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Account Manager</td>
-                                            <td>3 May, 2023</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamFive" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamFive">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <a href="#!"><img src="../assets/images/avatar/avatar-6.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Darshini Nair</a></h5>
-                                                        <p class="mb-0">darshininair@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Front End Developer</td>
-                                            <td>3 May, 2023</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamSix" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamSix">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>
-                                                <div class="d-flex align-items-center">
-
-                                                    <div>
-                                                        <a href="#!"> <img src="../assets/images/avatar/avatar-5.jpg" alt="Image" class="avatar-md avatar rounded-circle"></a>
-                                                    </div>
-
-                                                    <div class="ms-3 lh-1">
-                                                        <h5 class=" mb-1"> <a href="#!" class="text-inherit">Patricia Murrill</a></h5>
-                                                        <p class="mb-0">patriciamurrill@example.com</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Account Manager</td>
-                                            <td>3 May, 2023</td>
-                                            <td>
-                                                <div class="dropdown dropstart">
-                                                    <a class="btn btn-icon btn-ghost btn-sm rounded-circle" href="#!" role="button" id="dropdownTeamFive" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-xs" data-feather="more-vertical"></i>
-                                                    </a>
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownTeamFive">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Another action</a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#!">Something else
-                                                            here</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Campaign Email Sent</h4>
+                            <div class="dropdown dropstart">
+                                <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i data-feather="more-vertical" class="icon-xs"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Action</a></li>
+                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Another action</a></li>
+                                    <li><a class="dropdown-item d-flex align-items-center" href="#!">Something else here</a></li>
+                                </ul>
                             </div>
                         </div>
+                        <div class="card-body">
+
+                            <div id="chartCampaignEmail" class="d-flex justify-content-center mt-8"></div>
+
+                            <div class="mt-8">
+                                <div class="row row-cols-lg-3 text-center">
+                                    <div class="col">
+                                        <div>
+
+                                            <i class="text-muted mb-3 icon-sm" data-feather="send"></i>
+                                            <h4 class="mb-1">4,567</h4>
+                                            <span><i class="mdi mdi-circle small text-warning me-1"></i>Total Sent</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+
+                                            <i class="text-muted mb-3 icon-sm" data-feather="flag"></i>
+                                            <h4 class="mb-1">2,346</h4>
+                                            <span><i class="mdi mdi-circle small text-success me-1"></i>Reached</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+
+                                            <i class="text-muted mb-3 icon-sm" data-feather="mail"></i>
+                                            <h4 class="mb-1">1,784</h4>
+                                            <span><i class="mdi mdi-circle small text-primary me-1"></i>Opened</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script>
+    // Assuming $salesRevenue contains the revenue data as an array
+    var salesRevenueData = <?php echo json_encode($salesRevenue); ?>;
+    // Function to generate a random color
+    function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    var modifiedData = salesRevenueData.map(item => ({
+        name: item.name,
+        data: item.data,
+        color: getRandomColor() // Generate random colors for each data point
+    }));
+    var e = {
+        series: [{
+            name: "Revenue", // Provide a common name for the series
+            data: salesRevenueData.map(item => item.data), // Extract data only,
+            color: getRandomColor()
+        }],
+        chart: {
+            type: "bar",
+            height: 350,
+        },
+        stroke: {
+            show: !0,
+            width: 5,
+            colors: ["transparent"]
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: "110%"
+            },
+
+        },
+        yaxis: {
+            labels: {
+                formatter: function(e) {
+                    return e + ' B';
+                },
+            },
+            tickAmount: 4,
+            min: 0,
+        },
+        xaxis: {
+            categories: salesRevenueData.map(item => item.name), // Provide full names for X-axis labels
+            axisTicks: {
+                show: false,
+                borderType: "solid",
+                color: "#acb0c3", // Set the axis ticks color directly
+                height: 6,
+                offsetX: 0,
+                offsetY: 0,
+            },
+            axisBorder: {
+                show: true,
+                color: "#acb0c3", // Set the axis border color directly
+                offsetX: 0,
+                offsetY: 0,
+            },
+            colors: ["#624bff", "#198754", "#0ea5e9"],
+        },
+    };
+
+    new ApexCharts(document.querySelector("#salesForecastChart"), e).render();
+</script>
+
+<script>
+    var e = {
+        series: [55, 33, 12],
+        labels: ["Total Sent", "Reached", "Opened"],
+        chart: {
+            width: 350,
+            type: "donut"
+        },
+        colors: ["#f59e0b", "#198754", "#624BFF"],
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: "74%"
+                }
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        legend: {
+            show: !1
+        },
+        stroke: {
+            show: !0,
+            colors: "transparent",
+        },
+        responsive: [{
+            breakpoint: 768,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: "bottom"
+                },
+            },
+        }, ],
+    };
+    new ApexCharts(
+        document.querySelector("#chartCampaignEmail"),
+        e
+    ).render();
+</script>
+<script>
+    e = {
+        series: [{
+                name: "Current Week",
+                data: [31, 40, 28, 51, 42, 109, 100],
+            },
+            {
+                name: "Past Week",
+                data: [11, 32, 45, 32, 34, 52, 41],
+            },
+        ],
+        labels: [
+            "Jan",
+            "Feb",
+            "March",
+            "April",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+        chart: {
+            height: 350,
+            type: "area",
+            toolbar: {
+                show: !1
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        markers: {
+            size: 5,
+            hover: {
+                size: 6,
+                sizeOffset: 3
+            }
+        },
+        colors: ["#624bff", "#0dcaf0"],
+        stroke: {
+            curve: "smooth",
+            width: 2
+        },
+        grid: {
+            borderColor: "#acb0c3"
+        },
+        xaxis: {
+            labels: {
+                show: !0,
+                align: "right",
+                minWidth: 0,
+                maxWidth: 160,
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    colors: ["#acb0c3"],
+                    fontFamily: '"Inter", "sans-serif"',
+                },
+            },
+            axisBorder: {
+                show: !0,
+                color: "#acb0c3",
+                height: 1,
+                width: "100%",
+                offsetX: 0,
+                offsetY: 0,
+            },
+            axisTicks: {
+                show: !0,
+                borderType: "solid",
+                color: "#acb0c3",
+                height: 6,
+                offsetX: 0,
+                offsetY: 0,
+            },
+        },
+        legend: {
+            labels: {
+                colors: "#acb0c6",
+                useSeriesColors: !1,
+            },
+        },
+        yaxis: {
+            labels: {
+                show: !0,
+                align: "right",
+                minWidth: 0,
+                maxWidth: 160,
+                style: {
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    colors: "#acb0c6",
+                    fontFamily: '"Inter", "sans-serif"',
+                },
+            },
+        },
+    };
+    new ApexCharts(
+        document.querySelector("#revenueChart"),
+        e
+    ).render();
+</script>
+
 @endsection

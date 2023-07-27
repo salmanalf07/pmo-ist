@@ -29,6 +29,7 @@ use App\Models\roleEmployee;
 use App\Models\skillLevel;
 use App\Models\specialization;
 use App\Models\topProject;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,7 +75,40 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        function formatAngka($angka)
+        {
+            $satuan = ['', 'K', 'M', 'B', 'T']; // Menambahkan satuan seperti K (ribu), M (juta), B (miliar), dan T (triliun) sesuai kebutuhan
+            $posisi = floor(log($angka, 1000));
+            $nilai = $angka / pow(1000, $posisi);
+            $nilai = number_format($nilai, 2); // Membatasi hanya 2 angka di belakang koma
+            return $nilai . ' ' . $satuan[$posisi];
+        }
+
+        $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
+        $projectThisYear = Project::whereYear('contractStart', '=', date('Y'))->count();
+        $PotensialRevenue = topProject::whereYear('bastDate', '=', date('Y'))->sum('termsValue');
+        $RevenueNewPo = Project::whereYear('contractStart', '=', date('Y'))->sum('projectValue');
+        $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->sum('termsValue');
+        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', date('Y'))->orderByRaw('CONVERT(projectValue, SIGNED) desc')->paginate(10);
+        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('sales')->get();
+        // Inisialisasi array hasil konversi
+        $resultArray = [];
+
+        // Loop setiap hasil dari kueri $salesRevenue
+        foreach ($salesRevenue as $salesData) {
+            // Membuat array dengan format yang diinginkan
+            if ($salesData->saless != null) {
+                $sales = $salesData->saless->name;
+            } else {
+                $sales = '';
+            }
+            $resultArray[] = [
+                'name' => $sales,
+                'data' => formatAngka($salesData->totalRevenue),
+            ];
+        }
+        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray]);
+        //return $resultArray;
     })->name('dashboard');
 });
 

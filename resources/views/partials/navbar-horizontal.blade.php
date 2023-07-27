@@ -25,7 +25,7 @@
 
                             <li>
                                 <a class="dropdown-item" href="/dashboard">
-                                    Management Dashboard
+                                    Executive Dashboard
                                 </a>
                             </li>
                             <li>
