@@ -40,7 +40,7 @@
                                     <tr>
                                         <th style="width: 25%;">Name TOP</th>
                                         <th class="text-center" style="width: 13%;">Value</th>
-                                        <th class="text-center" style="width: 13%;">Plant BAST</th>
+                                        <th class="text-center" style="width: 13%;">Plan BAST</th>
                                         <th class="text-center" style="width: 13%;">Invoice Date</th>
                                         <th class="text-center" style="width: 13%;">Payment Date</th>
                                         <th class="text-center" style="width: 18%;">Remarks</th>

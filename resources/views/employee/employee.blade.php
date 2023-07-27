@@ -396,7 +396,7 @@
                 $('#employee_id').val(data.employee_id);
                 $('#name').val(data.name);
                 $('#level').val(data.level).trigger('change');
-                $('#divisi').val(data.divisi.id).trigger('change');
+                $('#divisi').val(data.divisi == null ? "#" : data.divisi.id).trigger('change');
                 $('#company').val(data.company).trigger('change');
                 $('#department').val(data.department).trigger('change');
                 $('#penempatan').val(data.penempatan).trigger('change');

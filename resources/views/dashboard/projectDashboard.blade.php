@@ -6,88 +6,29 @@
     <div class="app-content-area">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
+                <div class="col-xl-12 col-lg-6 col-md-12 col-12 mb-5">
                     <!-- card -->
-                    <div class="card h-100 card-lift">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <h4 class="mb-0">Pipeline Project</h4>
-                                </div>
-                                <div class="icon-shape icon-md bg-primary-soft text-primary rounded-2">
-                                    <i data-feather="briefcase" height="20" width="20"></i>
-                                </div>
-                            </div>
-                            <!-- project number -->
-                            <div class="lh-1">
-                                <h1 class=" mb-1 fw-bold">18</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
-                    <!-- card -->
-                    <div class="card h-100 card-lift">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <h4 class="mb-0">On Going Project</h4>
-                                </div>
-                                <div class="icon-shape icon-md text-primary rounded-2">
-                                    <img src="/assets/icon/puzzle.svg" width="45" alt="On Going Project">
-                                </div>
-                            </div>
-                            <!-- project number -->
-                            <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">132</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
-                    <!-- card -->
-                    <div class="card h-100 card-lift">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <h4 class="mb-0">Completed</h4>
-                                </div>
-                                <div class="icon-shape icon-md  text-primary rounded-2">
-                                    <img src="/assets/icon/maze.svg" alt="Completed">
-                                </div>
-                            </div>
-                            <!-- project number -->
-                            <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">12</h1>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center ">
 
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-12 col-12 mb-5">
-                    <!-- card -->
-                    <div class="card h-100 card-lift">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <!-- heading -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">Visitors</h4>
+                            <div>
+
                                 <div>
-                                    <h4 class="mb-0">Overdue</h4>
-                                </div>
-                                <div class="icon-shape icon-md  text-primary rounded-2">
-                                    <img src="/assets/icon/hammer.svg" alt="OverDue">
+                                    <select class="form-select form-select-sm">
+                                        <option selected="">Today</option>
+                                        <option value="Yesterday">Yesterday</option>
+                                        <option value="Last 7 Days">Last 7 Days</option>
+                                        <option value="Last 30 Days">Last 30 Days</option>
+                                        <option value="This Month">This Month</option>
+                                        <option value="Last Month">Last Month</option>
+                                    </select>
                                 </div>
                             </div>
-                            <!-- project number -->
-                            <div class="lh-1">
-                                <h1 class="  mb-1 fw-bold">15</h1>
-                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div id="visitorBlog"></div>
                         </div>
                     </div>
                 </div>

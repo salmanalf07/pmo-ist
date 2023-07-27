@@ -119,7 +119,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $PotensialRevenue = topProject::whereYear('bastDate', '=', date('Y'))->sum('termsValue');
         $RevenueNewPo = Project::whereYear('contractStart', '=', date('Y'))->sum('projectValue');
         $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->sum('termsValue');
-        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', date('Y'))->orderByRaw('CONVERT(projectValue, SIGNED) desc')->paginate(10);
+        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', date('Y'))->orderByRaw('CONVERT(projectValue, SIGNED) desc')->get();
         $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('sales')->get();
         // Inisialisasi array hasil konversi
         $resultArray = [];
@@ -134,7 +134,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             }
             $resultArray[] = [
                 'name' => $sales,
-                'data' => formatAngka($salesData->totalRevenue),
+                'data' => round($salesData->totalRevenue / 1000000, 1),
+                'revenue' => $salesData->totalRevenue
             ];
         }
         $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('customerType')->get();
@@ -147,8 +148,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 'totalRevenue' => formatAngka($custTypeRevenuee->totalRevenue),
             ];
         }
-        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue]);
-        //return $custTypeRevenue;
+
+        $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->groupBy(DB::raw('MONTH(invDate)'))->get();
+
+        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $invByMonth]);
+        //return $invByMonth;
     })->name('dashboard');
 });
 

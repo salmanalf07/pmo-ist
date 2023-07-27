@@ -5,10 +5,21 @@
     .col-xl-2 {
         width: 20%;
     }
+
+    .table-card {
+        max-height: 500px;
+        /* Adjust the height as per your requirement */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+    }
+
+    .col {
+        width: 25%;
+    }
 </style>
 <div id="app-content">
     <div class="app-content-area pt-0 ">
-        <div class="bg-primary pt-12 pb-21 "></div>
+        <div class="pt-12 pb-21 "></div>
         <div class="container-fluid mt-n22 ">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12">
@@ -112,20 +123,11 @@
                 <div class="col-xl-5 col-12 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Revenue</h4>
+                            <h4 class="mb-0">Invoice By Month</h4>
                         </div>
                         <div class="card-body">
                             <div id="revenueChart"></div>
-                            <div class="mt-4 px-lg-6 ">
-                                <div class="row bg-light rounded-3 ">
-                                    <div class="col-lg-12 col-md-6">
-                                        <div class="p-4">
-                                            <span><i class="mdi mdi-circle small me-1 text-primary"></i>Current Week</span>
-                                            <h3 class="mb-0  mt-2">$235,965</h3>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div class="mt-4 px-lg-6 " id="invByMonth">
                             </div>
                         </div>
                     </div>
@@ -140,7 +142,7 @@
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table class="table text-nowrap mb-0 table-centered">
-                                    <thead class="table-light">
+                                    <thead class="table-light" style="position: sticky;top: 0;">
                                         <tr>
                                             <th>Customer</th>
                                             <th>Project Name</th>
@@ -177,22 +179,8 @@
             </div>
             <!-- row  -->
             <div class="row ">
-
                 <!-- card  -->
-                <div class="col-xl-7 mb-5 ">
-
-                    <div class=" card h-100">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Sales Revenue</h4>
-                        </div>
-                        <div class="card-body pb-0">
-
-                            <div id="salesForecastChart"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- card  -->
-                <div class="col-xl-5 mb-5">
+                <div class="col-xl-12 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Revenue By Sector</h4>
@@ -213,6 +201,39 @@
 
                     </div>
                 </div>
+                <!-- card  -->
+                <div class="col-xl-12 mb-5 ">
+
+                    <div class=" card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Revenue By Sales</h4>
+                        </div>
+                        <div class="card-body pb-0">
+
+                            <div id="salesForecastChart"></div>
+                            <div class="card-body mb-4" style="width: 70%;margin : 0 auto;border:1px solid black">
+                                <div class="table-responsive table-card">
+                                    <table class="table text-nowrap mb-0 table-centered">
+                                        <thead class="table-light" style="position: sticky;top: 0;">
+                                            <tr>
+                                                <th>Sales Name</th>
+                                                <th>Revenue Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($salesRevenue as $salesRevenues)
+                                            <tr>
+                                                <td>{{$salesRevenues['name']}}</td>
+                                                <td class="text-end text-dark">{{number_format($salesRevenues['revenue'],0,',','.')}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -221,6 +242,7 @@
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script>
     var salesRevenueData = <?php echo json_encode($salesRevenue); ?>;
+    // console.log(salesRevenueData)
 
     function getRandomColor() {
         var letters = "0123456789ABCDEF";
@@ -252,8 +274,12 @@
         },
         plotOptions: {
             bar: {
-                horizontal: !1,
-                columnWidth: "90%"
+                horizontal: false,
+                columnWidth: "90%",
+                dataLabels: {
+                    position: "center",
+                    enabled: false // Menyembunyikan data labels pada chart balok
+                }
             }
         },
         stroke: {
@@ -280,47 +306,21 @@
                 offsetX: 0,
                 offsetY: 0,
             },
-            title: {
-                text: "Total Forecasted Value",
-                offsetX: 0,
-                offsetY: -30,
-                style: {
-                    color: "#acb0d5",
-                    fontSize: "12px",
-                    fontWeight: 400,
-                    fontFamily: '"Inter", "sans-serif"',
-                },
-            },
         },
         yaxis: {
+            show: false,
             labels: {
                 formatter: function(e) {
-                    return e + " B";
+                    return e + " M";
                 },
             },
-            tickAmount: 4,
-            min: 0,
         },
         fill: {
             opacity: 1
         },
         legend: {
-            show: !0,
-            position: "bottom",
-            horizontalAlign: "center",
-            fontWeight: 500,
-            offsetX: 0,
-            offsetY: -14,
-            itemMargin: {
-                horizontal: 8,
-                vertical: 0
-            },
-            markers: {
-                width: 10,
-                height: 10
-            },
+            show: false,
         },
-        // colors: ["#624bff", "#198754", "#0ea5e9"],
     };
     new ApexCharts(
         document.querySelector("#salesForecastChart"),
@@ -402,10 +402,28 @@
     ).render();
 </script>
 <script>
+    var invByMonth = <?php echo json_encode($invByMonth); ?>;
+    var total = 0
+
+    invByMonth.forEach(function(data) {
+        // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
+        total += data["totalRevenue"]
+
+    });
+    // Langkah 1: Dapatkan referensi ke elemen div tujuan
+    var divTujuan = document.getElementById("invByMonth");
+
+    // Langkah 2: Gunakan innerHTML untuk menambahkan elemen div baru beserta kontennya
+    divTujuan.innerHTML += '<div class="row bg-light rounded-3 ">' +
+        '<div class="col-lg-12 col-md-6">' +
+        '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Revenue</span>' +
+        '<h3 class="mb-0  mt-2">Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>';
+
+
     e = {
         series: [{
-            name: "Current Week",
-            data: [31, 40, 28, 51, 42, 109, 100],
+            name: "Total Revenue",
+            data: invByMonth.map(obj => obj.totalRevenue),
         }, ],
         labels: [
             "Jan",
@@ -425,7 +443,7 @@
             height: 350,
             type: "area",
             toolbar: {
-                show: !1
+                show: true
             }
         },
         dataLabels: {
@@ -453,7 +471,7 @@
                 minWidth: 0,
                 maxWidth: 160,
                 style: {
-                    fontSize: "12px",
+                    fontSize: "15px",
                     fontWeight: 400,
                     colors: ["#acb0c3"],
                     fontFamily: '"Inter", "sans-serif"',
@@ -484,7 +502,7 @@
         },
         yaxis: {
             labels: {
-                show: !0,
+                show: false,
                 align: "right",
                 minWidth: 0,
                 maxWidth: 160,
@@ -494,7 +512,12 @@
                     colors: "#acb0c6",
                     fontFamily: '"Inter", "sans-serif"',
                 },
+                formatter: function(value) {
+                    // Format value to display thousands separator
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                },
             },
+
         },
     };
     new ApexCharts(

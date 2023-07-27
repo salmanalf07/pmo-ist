@@ -122,8 +122,8 @@
         });
 
         flatpickr("#availableAt", {
-            dateFormat: "d-m-Y",
-            defaultDate: "01-01-1900",
+            dateFormat: "d/m/Y",
+            defaultDate: new Date(),
             allowInput: true, // Mengizinkan input manual
         });
     })
