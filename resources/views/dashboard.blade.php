@@ -407,7 +407,7 @@
 
     invByMonth.forEach(function(data) {
         // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
-        total += data["totalRevenue"];
+        total += parseInt(data["totalRevenue"]);
 
     });
     // Langkah 1: Dapatkan referensi ke elemen div tujuan
