@@ -403,7 +403,7 @@
 </script>
 <script>
     var invByMonth = <?php echo json_encode($invByMonth); ?>;
-    var total = 0
+    var total = 0;
 
     invByMonth.forEach(function(data) {
         // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
