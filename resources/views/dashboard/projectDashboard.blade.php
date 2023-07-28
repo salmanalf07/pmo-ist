@@ -134,6 +134,148 @@
         </div>
     </div>
 </div>
-
+<script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script>
+    e = {
+        series: [{
+            name: "Visitor",
+            data: [
+                4, 8, 12, 18, 33, 24, 21, 28, 92, 42, 88, 36,
+            ],
+        }, ],
+        chart: {
+            toolbar: {
+                show: !1
+            },
+            type: "bar",
+            height: 300,
+            stacked: !0,
+        },
+        legend: {
+            show: !1
+        },
+        colors: ["#624bff", "#637381"],
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                columnWidth: "40%",
+                borderRadius: 4,
+                endingShape: "rounded",
+            },
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            show: !0,
+            width: 1,
+            colors: ["transparent"]
+        },
+        grid: {
+            borderColor: "#637381",
+            strokeDashArray: 2,
+            xaxis: {
+                lines: {
+                    show: !1
+                }
+            },
+        },
+        xaxis: {
+            categories: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+            ],
+            axisBorder: {
+                show: !1
+            },
+            axisTicks: {
+                show: !0,
+                borderType: "solid",
+                color: "#637381",
+                width: 6,
+                offsetX: 0,
+                offsetY: 0,
+            },
+            labels: {
+                offsetX: 0,
+                offsetY: 5,
+                style: {
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    fontFamily: '"Inter", "sans-serif"',
+                    colors: ["#637381"],
+                },
+            },
+        },
+        grid: {
+            borderColor: "#637381",
+            strokeDashArray: 3,
+            xaxis: {
+                lines: {
+                    show: !1
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: !0
+                }
+            },
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: -10
+            },
+        },
+        yaxis: {
+            title: {
+                text: void 0
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: !1,
+                    endingShape: "rounded",
+                    columnWidth: "80%",
+                },
+            },
+            labels: {
+                style: {
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    fontFamily: '"Inter", "sans-serif"',
+                    colors: ["#637381"],
+                },
+                offsetX: -10,
+            },
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function(e) {
+                    return e + " sales ";
+                },
+            },
+            marker: {
+                show: !0
+            },
+        },
+    };
+    new ApexCharts(
+        document.querySelector("#visitorBlog"),
+        e
+    ).render();
+</script>
 
 @endsection

@@ -211,7 +211,7 @@
                         <div class="card-body pb-0">
 
                             <div id="salesForecastChart"></div>
-                            <div class="card-body mb-4" style="width: 70%;margin : 0 auto;border:1px solid black">
+                            <div class="card-body mb-4" style="width: 70%;margin : 0 auto;border:1px solid grey">
                                 <div class="table-responsive table-card">
                                     <table class="table text-nowrap mb-0 table-centered">
                                         <thead class="table-light" style="position: sticky;top: 0;">
@@ -422,7 +422,7 @@
 
     e = {
         series: [{
-            name: "Total Revenue",
+            name: "Total Invoice",
             data: invByMonth.map(obj => obj.totalRevenue),
         }, ],
         labels: [
