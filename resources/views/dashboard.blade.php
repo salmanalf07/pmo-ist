@@ -123,7 +123,7 @@
                 <div class="col-xl-5 col-12 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Invoice By Month</h4>
+                            <h4 class="mb-0">Total Invoice</h4>
                         </div>
                         <div class="card-body">
                             <div id="revenueChart"></div>
@@ -416,8 +416,8 @@
     // Langkah 2: Gunakan innerHTML untuk menambahkan elemen div baru beserta kontennya
     divTujuan.innerHTML += '<div class="row bg-light rounded-3 ">' +
         '<div class="col-lg-12 col-md-6">' +
-        '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Revenue</span>' +
-        '<h3 class="mb-0  mt-2">Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>';
+        '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Invoice</span>' +
+        '<h3 class="mb-0  mt-2">Rp. ' + total + '</h3></div></div></div>';
 
 
     e = {
