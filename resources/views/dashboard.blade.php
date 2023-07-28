@@ -417,7 +417,7 @@
     divTujuan.innerHTML += '<div class="row bg-light rounded-3 ">' +
         '<div class="col-lg-12 col-md-6">' +
         '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Invoice</span>' +
-        '<h3 class="mb-0  mt-2">Rp. ' + total + '</h3></div></div></div>';
+        '<h3 class="mb-0  mt-2">Rp. ' + total.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>';
 
 
     e = {
