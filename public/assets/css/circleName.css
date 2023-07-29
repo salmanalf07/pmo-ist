@@ -38,3 +38,9 @@
     visibility: visible;
     opacity: 1;
 }
+
+.flexCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

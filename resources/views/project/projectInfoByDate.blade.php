@@ -35,8 +35,10 @@
                                             <label class="form-label">Project Manager</label>
                                             <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
-                                                @foreach($employee as $pmName)
-                                                <option value="{{$pmName->id}}">{{$pmName->name}}</option>
+                                                @foreach($pm->unique('pmName') as $pmName)
+                                                @if($pmName->pm != null)
+                                                <option value="{{$pmName->pm->id}}">{{$pmName->pm->name}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -149,9 +151,9 @@
                     data: function(row) {
                         if (row.saless && row.saless.name) {
                             const initials = getInitials(row.saless.name);
-                            return '<span class="avatar avatar-md">' +
+                            return '<span class="avatar avatar-md flexCenter">' +
                                 '<div id="initial-container">' +
-                                '<div class="initial-container" id="initial-circle" data-tooltip="' + row.saless.name + '">' + initials + '</div>' +
+                                '<div class="initial-container" style="font-size:1em" id="initial-circle" data-tooltip="' + row.saless.name + '">' + initials + '</div>' +
                                 '</div>' +
                                 '</span>';
                         } else {

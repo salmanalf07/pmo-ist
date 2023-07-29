@@ -30,8 +30,10 @@
                                             <label class="form-label">Project Manager</label>
                                             <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
-                                                @foreach($employee as $pmName)
-                                                <option value="{{$pmName->id}}">{{$pmName->name}}</option>
+                                                @foreach($pm->unique('pmName') as $pmName)
+                                                @if($pmName->pm != null)
+                                                <option value="{{$pmName->pm->id}}">{{$pmName->pm->name}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>

@@ -16,12 +16,23 @@ class topProjectController extends Controller
     {
         $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
 
-        if ($request->date_st != "#" && $request->date_st) {
-            $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        } else {
-            $dataa->whereMonth('bastDate', '=', date("m"))
-                ->whereYear('bastDate', '=', date("Y"));
+        if ($request->segment(1) == "json_finance") {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('bastDate', '=', date("m"))
+                    ->whereYear('bastDate', '=', date("Y"));
+            }
+        }
+        if ($request->segment(1) == "json_financeByInvoice") {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('invDate', '=', date("m"))
+                    ->whereYear('invDate', '=', date("Y"));
+            }
         }
 
         $data = $dataa->get();

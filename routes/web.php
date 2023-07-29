@@ -49,8 +49,49 @@ Route::get('/', function () {
 //dashboard
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectDashboard', function () {
+        $employeeByDept = employee::with('department')->select('department', DB::raw('COUNT(department) as totalDepartment'))->groupBy('department')->get();
+        $projectMember = Project::with('customer', 'memberProject.roles')->get();
 
-        return view('/dashboard/projectDashboard');
+        // Query untuk mendapatkan data proyek beserta anggota proyek dan peran mereka
+        $projectMember = Project::with('memberProject.roles')->get();
+
+        // Inisialisasi array untuk menyimpan rekap jumlah peran (role) di setiap proyek
+        $projectRoleCounts = array();
+
+        // Loop melalui data proyek dan anggota proyek
+        foreach ($projectMember as $key => $project) {
+            // Inisialisasi array untuk menyimpan rekap jumlah peran (role) di proyek saat ini
+            $projectRoleCount = array();
+
+            foreach ($project->memberProject as  $member) {
+                // Check if the role exists and is an object
+                if ($member->role != "#") {
+                    $roleEmployee = $member->roles->roleEmployee;
+                } else {
+                    $roleEmployee = "#";
+                }
+
+                // Increment the role count for the current project
+                if (isset($projectRoleCount[$roleEmployee])) {
+                    $projectRoleCount[$roleEmployee]++;
+                } else {
+                    $projectRoleCount[$roleEmployee] = 1;
+                }
+            }
+
+            // Menambahkan informasi tambahan ke dalam array $projectRoleCount
+            $projectRoleCount['customerName'] = $project->customer->company;
+            $projectRoleCount['totalMembers'] = count($project->memberProject);
+            $projectRoleCount['projectName'] = $project->projectName;
+
+            // Menambahkan rekap jumlah peran (role) di proyek saat ini ke dalam array $projectRoleCounts
+            $projectRoleCounts[$key] = $projectRoleCount;
+        }
+
+
+
+        //return view('/dashboard/projectDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts]);
+        return $projectRoleCounts;
     })->name('projectDashboard');
 });
 //end Dashboard
@@ -217,21 +258,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/projectInfo', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee,]);
+        $pm = project::with('pm')->select('pmName')->get();
+        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm]);
+        // return $pm;
     })->name('projectInfo');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectInfoByDate', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectInfoByDate', ['judul' => "Project By Date", 'customer' => $customer, 'employee' => $employee,]);
+        $pm = project::with('pm')->select('pmName')->get();
+        return view('project/projectInfoByDate', ['judul' => "Project By Date", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm]);
     })->name('projectInfoByDate');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectByMainCon', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('project/projectByMainCon', ['judul' => "Project By Main Contract", 'customer' => $customer, 'employee' => $employee,]);
+        $pm = project::with('pm')->select('pmName')->get();
+        return view('project/projectByMainCon', ['judul' => "Project By Main Contract", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm]);
     })->name('projectByMainCon');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projMainCon', [projectController::class, 'json']);
@@ -371,7 +416,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('finance/financeTermsStat', ['judul' => "Term Status", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeTermsStat');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/financeByInvoice', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('finance/financeByInvoice', ['judul' => "By Invoice", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('financeByInvoice');
+});
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeByInvoice', [topProjectController::class, 'json']);
 //end Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/pipeline', [pipelineController::class, 'index'])->name('pipeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_pipeline', [pipelineController::class, 'store']);

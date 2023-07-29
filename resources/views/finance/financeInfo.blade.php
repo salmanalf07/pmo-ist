@@ -14,7 +14,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="row col-8">
+                                <div class="row col-7">
                                     <div class="mb-3 col-6">
                                         <label class="form-label">Date Range</label>
                                         <div class="input-group me-3">
@@ -25,8 +25,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row col-4 pt-7 ms-3">
-                                    <div class="mb-3 col-4">
+                                <div class="row col-5 pt-7 ms-3">
+                                    <div class="mb-3 col-3">
                                         <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
                                                 <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
@@ -45,7 +45,7 @@
                                             </button>
                                         </form>
                                     </div>
-                                    <div class="mb-3 col-4">
+                                    <div class="mb-3 col-5">
                                         <p class="p-2 rounded-2 text-center  bg-primary-soft" id="totRecord"></p>
                                     </div>
                                 </div>
@@ -132,6 +132,33 @@
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
             ],
+            footerCallback: function(row, data, start, end, display) {
+                var api = this.api();
+                // Remove the formatting to get integer data for summation
+                var intVal = function(i) {
+
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                        i : 0;
+
+                };
+
+                // Total over all pages
+
+                if (api.column(4).data().length) {
+                    var total = api
+                        .column(4)
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        })
+                } else {
+                    total = 0
+                };
+
+                $('#totRecord').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            },
             ajax: {
                 url: '{{ url("json_finance") }}',
                 data: function(d) {
@@ -174,11 +201,6 @@
                     name: 'bastDate'
                 },
             ],
-            "infoCallback": function(settings, start, end, max, total, pre) {
-                var pageInfo = "Showing " + start + " to " + end + " of " + total + " entries";
-                $('#totRecord').html(total + " Record");
-                return pageInfo;
-            }
         });
 
         $('.col-12').on('click', '#in', function() {

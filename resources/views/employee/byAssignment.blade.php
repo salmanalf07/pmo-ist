@@ -14,7 +14,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="mb-3 col-3">
+                                        <div class="mb-3 col-4">
                                             <label class="form-label" for="selectOne">Employee</label>
                                             <select name="name" id="name" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
@@ -23,7 +23,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 col-3">
+                                        <!-- <div class="mb-3 col-3">
                                             <label class="form-label">Date Range</label>
                                             <div class="input-group me-3">
                                                 <input type="text" class="form-control float-right" id="reservation">
@@ -31,8 +31,8 @@
                                                     <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3 col-2">
+                                        </div> -->
+                                        <div class="mb-3 col-4">
                                             <label class="form-label">Available Date</label>
                                             <div class="input-group me-3 datepicker">
                                                 <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
@@ -215,17 +215,17 @@
             ],
         });
         $('#reservation, #name, #projectId, #availableAt').on('change', function() {
-            var date = $('#reservation').val().split(" - ");
-            if ($(this).attr('id') === 'reservation') {
-                var dateChange = "true";
-            } else {
-                var dateChange = "false";
-            }
-            console.log(dateChange);
+            // var date = $('#reservation').val().split(" - ");
+            // if ($(this).attr('id') === 'reservation') {
+            //     var dateChange = "true";
+            // } else {
+            //     var dateChange = "false";
+            // }
+            // console.log(dateChange);
             $('#example1').data('dt_params', {
-                'dateChange': dateChange,
-                'date_st': date[0],
-                'date_ot': date[1],
+                // 'dateChange': dateChange,
+                // 'date_st': date[0],
+                // 'date_ot': date[1],
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
                 'availableAt': $('#availableAt').val(),

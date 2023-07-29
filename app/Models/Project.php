@@ -56,6 +56,10 @@ class Project extends Model
     {
         return $this->belongsTo(Customer::class, 'partnerId', 'id');
     }
+    public function memberProject()
+    {
+        return $this->hasMany(memberProject::class, 'projectId', 'id');
+    }
 
     /**
      * The "booting" function of model

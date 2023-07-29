@@ -103,6 +103,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="/financeByInvoice">
+                                    Finance By Invoice
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="/financeTermsStat">
                                     Terms Status
                                 </a>

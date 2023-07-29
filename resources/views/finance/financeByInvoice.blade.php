@@ -3,11 +3,6 @@
 @section('konten')
 <!-- custom select2 -->
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
-<style>
-    .icon-green path {
-        fill: green;
-    }
-</style>
 <div id="app-content">
     <!-- Container fluid -->
     <div class="app-content-area">
@@ -80,9 +75,7 @@
                                         <th>No Contract</th>
                                         <th>Terms Name</th>
                                         <th>Terms Value</th>
-                                        <th>BAST</th>
-                                        <th>Invoice</th>
-                                        <th>Payment</th>
+                                        <th>Inv Date</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -114,6 +107,7 @@
 </script>
 <script>
     $(function() {
+        var totalTermsValue = 0; // Variabel untuk menyimpan total termsValue
         var oTable = $('#example1').DataTable({
             processing: true,
             serverSide: true,
@@ -128,10 +122,11 @@
             "columnDefs": [{
                     "className": "text-end",
                     "targets": [4], // table ke 1
-                },
-                {
-                    "className": "text-center",
-                    "targets": [5, 6, 7], // table ke 1
+                }, {
+                    targets: [5],
+                    render: function(oTable) {
+                        return moment(oTable).format('DD-MM-YYYY');
+                    }
                 },
                 {
                     targets: [4],
@@ -166,7 +161,7 @@
                 $('#totRecord').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             },
             ajax: {
-                url: '{{ url("json_finance") }}',
+                url: '{{ url("json_financeByInvoice") }}',
                 data: function(d) {
                     // Retrieve dynamic parameters
                     var dt_params = $('#example1').data('dt_params');
@@ -178,10 +173,7 @@
             },
             columns: [{
                     data: 'project.customer.company',
-                    name: 'project.customer.company',
-                    render: function(data, type, row) {
-                        return type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
-                    }
+                    name: 'project.customer.company'
                 },
                 {
                     data: 'projectNamee',
@@ -198,48 +190,22 @@
                     data: 'termsName',
                     name: 'termsName',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
+                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
                     }
                 },
                 {
                     data: 'termsValue',
-                    name: 'termsValue',
+                    name: 'termsValue'
                 },
                 {
-                    data: 'bastMain',
-                    name: 'bastMain',
-                    render: function(data, type, row) {
-                        var icon = '';
-                        if (data == 1) {
-                            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle icon-green" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/></svg>';
-                        }
-                        return icon;
-                    }
-                },
-                {
-                    data: 'invMain',
-                    name: 'invMain',
-                    render: function(data, type, row) {
-                        var icon = '';
-                        if (data == 1) {
-                            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle icon-green" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/></svg>';
-                        }
-                        return icon;
-                    }
-                },
-                {
-                    data: 'payMain',
-                    name: 'payMain',
-                    render: function(data, type, row) {
-                        var icon = '';
-                        if (data == 1) {
-                            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle icon-green" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/></svg>';
-                        }
-                        return icon;
-                    }
+                    data: 'invDate',
+                    name: 'invDate'
                 },
             ],
+
+
         });
+
         $('.col-12').on('click', '#in', function() {
             var date = $('#reservation').val().split(" - ");
             $('#example1').data('dt_params', {
@@ -263,6 +229,7 @@
             $('#example1').DataTable().draw();
             // console.log(date)
         });
+
     })
 </script>
 @endsection

@@ -37,6 +37,10 @@ class memberProject extends Model
     {
         return $this->belongsTo(employee::class, 'employee', 'id');
     }
+    public function roles()
+    {
+        return $this->belongsTo(roleEmployee::class, 'role', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

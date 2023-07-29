@@ -11,24 +11,55 @@
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center ">
 
-                            <h4 class="mb-0">Visitors</h4>
-                            <div>
-
-                                <div>
-                                    <select class="form-select form-select-sm">
-                                        <option selected="">Today</option>
-                                        <option value="Yesterday">Yesterday</option>
-                                        <option value="Last 7 Days">Last 7 Days</option>
-                                        <option value="Last 30 Days">Last 30 Days</option>
-                                        <option value="This Month">This Month</option>
-                                        <option value="Last Month">Last Month</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <h4 class="mb-0">Employee By Department</h4>
 
                         </div>
                         <div class="card-body">
                             <div id="visitorBlog"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-6 mb-5">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center ">
+
+                            <h4 class="mb-0">Top Project Value</h4>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card">
+                                <table class="table text-nowrap mb-0 table-centered">
+                                    <thead class="table-light" style="position: sticky;top: 0;">
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Project Name</th>
+                                            <th>Project Value</th>
+                                            <th>Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($projectByValue as $project)
+
+                                        <tr>
+                                            <td>{{substr($project->customer->company, 0, 15)}}</td>
+                                            <td>
+                                                <h4 class="mb-0 fs-5"><a href="/project/summaryProject/{{$project->id}}" class="text-inherit" target="_blank">{{substr($project->projectName, 0, 25)}}</a></h4>
+                                            </td>
+                                            <td class="text-end text-dark">{{number_format($project->projectValue,0,',','.')}}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>{{$project->overAllProg}}%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width:{{$project->overAllProg}}%;" aria-valuenow="{{$project->overAllProg}}" aria-valuemin="0" aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,12 +167,12 @@
 </div>
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script>
+    var employeeByDept = <?php echo json_encode($employeeByDept); ?>;
+
     e = {
         series: [{
-            name: "Visitor",
-            data: [
-                4, 8, 12, 18, 33, 24, 21, 28, 92, 42, 88, 36,
-            ],
+            name: "Department",
+            data: employeeByDept.map(obj => obj.totalDepartment),
         }, ],
         chart: {
             toolbar: {
@@ -158,7 +189,7 @@
         plotOptions: {
             bar: {
                 horizontal: !1,
-                columnWidth: "40%",
+                columnWidth: "90%",
                 borderRadius: 4,
                 endingShape: "rounded",
             },
@@ -181,20 +212,13 @@
             },
         },
         xaxis: {
-            categories: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-            ],
+            categories: employeeByDept.map(obj => {
+                if (obj.department != null) {
+                    return obj.department.department;
+                } else {
+                    return "";
+                }
+            }),
             axisBorder: {
                 show: !1
             },
@@ -264,7 +288,7 @@
         tooltip: {
             y: {
                 formatter: function(e) {
-                    return e + " sales ";
+                    return e + " person ";
                 },
             },
             marker: {
