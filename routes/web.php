@@ -90,8 +90,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
 
-        //return view('/dashboard/projectDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts]);
-        return $projectRoleCounts;
+        return view('/dashboard/projectDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts]);
+        //return $projectRoleCounts;
     })->name('projectDashboard');
 });
 //end Dashboard
