@@ -19,50 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-xl-7 col-lg-6 mb-5">
-                    <div class="card h-100">
-                        <div class="card-header d-flex justify-content-between align-items-center ">
 
-                            <h4 class="mb-0">Top Project Value</h4>
-
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table-card">
-                                <table class="table text-nowrap mb-0 table-centered">
-                                    <thead class="table-light" style="position: sticky;top: 0;">
-                                        <tr>
-                                            <th>Customer</th>
-                                            <th>Project Name</th>
-                                            <th>Project Value</th>
-                                            <th>Progress</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($projectByValue as $project)
-
-                                        <tr>
-                                            <td>{{substr($project->customer->company, 0, 15)}}</td>
-                                            <td>
-                                                <h4 class="mb-0 fs-5"><a href="/project/summaryProject/{{$project->id}}" class="text-inherit" target="_blank">{{substr($project->projectName, 0, 25)}}</a></h4>
-                                            </td>
-                                            <td class="text-end text-dark">{{number_format($project->projectValue,0,',','.')}}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="me-2"> <span>{{$project->overAllProg}}%</span></div>
-                                                    <div class="progress flex-auto" style="height: 6px;">
-                                                        <div class="progress-bar bg-primary " role="progressbar" style="width:{{$project->overAllProg}}%;" aria-valuenow="{{$project->overAllProg}}" aria-valuemin="0" aria-valuemax="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
 
 
