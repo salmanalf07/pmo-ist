@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-7 col-lg-6 mb-5">
+                <!-- <div class="col-xl-7 col-lg-6 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center ">
 
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
 
