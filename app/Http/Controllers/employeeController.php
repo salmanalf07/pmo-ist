@@ -14,6 +14,7 @@ class employeeController extends Controller
     public function json(Request $request)
     {
         $dataa = employee::with('divisi', 'manager', 'department')->orderBy('created_at', 'DESC');
+        $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
@@ -54,12 +55,10 @@ class employeeController extends Controller
         }
         if ($request->availableAt != "01-01-1900" && $request->availableAt) {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
-        }
-        // else {
+        } else {
 
-        //     $dataa->whereMonth('endDate', '=', date("m"))
-        //         ->whereYear('endDate', '=', date("Y"));
-        // }
+            $dataa->where('endDate', '>=', date("Y-m-d"));
+        }
         $data = $dataa->get();
         return DataTables::of($data)
             ->toJson();

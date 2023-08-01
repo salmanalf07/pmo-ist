@@ -122,7 +122,7 @@
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Company</label>
-                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" value="PT Infosys Solusi Terpadu" readonly>
+                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" value="PT. Infosys Solusi Terpadu" readonly>
                         </div>
                         <div class="mb-3 col-6"></div>
                         <div class="mb-3 col-12">
@@ -322,9 +322,9 @@
                 }
             ],
             order: [
-                [3, 'asc'],
-                [4, 'asc'],
-                [2, 'asc'],
+                [3, 'desc'],
+                [4, 'desc'],
+                [2, 'desc'],
             ]
         });
         $('#divisii, #departmentt, #directManager').on('change', function() {
@@ -474,7 +474,7 @@
             // console.log(button.value);
         } else {
             button.value = 0;
-            $('#company').val('PT Infosys Solusi Terpadu');
+            $('#company').val('PT. Infosys Solusi Terpadu');
             document.getElementById("company").readOnly = true;
             // console.log(button.value);
         }

@@ -53,6 +53,14 @@ class employee extends Model
     {
         return $this->hasMany(memberProject::class, 'employee', 'id');
     }
+    public function levels()
+    {
+        return $this->belongsTo(skillLevel::class, 'level', 'id');
+    }
+    public function roles()
+    {
+        return $this->belongsTo(roleEmployee::class, 'role', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

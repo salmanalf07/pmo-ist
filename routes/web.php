@@ -48,7 +48,7 @@ Route::get('/', function () {
 });
 //dashboard
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/projectDashboard', function () {
+    Route::get('/resourcesDashboard', function () {
         $employeeByDept = employee::with('department')->select('department', DB::raw('COUNT(department) as totalDepartment'))->groupBy('department')->get();
         $projectMember = Project::with('customer', 'memberProject.roles')->get();
 
@@ -83,16 +83,52 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             $projectRoleCount['customerName'] = $project->customer->company;
             $projectRoleCount['totalMembers'] = count($project->memberProject);
             $projectRoleCount['projectName'] = $project->projectName;
+            $projectRoleCount['projectId'] = $project->id;
 
             // Menambahkan rekap jumlah peran (role) di proyek saat ini ke dalam array $projectRoleCounts
             $projectRoleCounts[$key] = $projectRoleCount;
         }
 
+        $totalLevel = employee::with('levels')->select('level', DB::raw('count(*) as totalLevel'))->groupBy('level')->get();
 
+        $resultArray = [];
 
-        return view('/dashboard/projectDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts]);
-        //return $projectRoleCounts;
-    })->name('projectDashboard');
+        // Loop setiap hasil dari kueri $salesRevenue
+        foreach ($totalLevel as $totalLevell) {
+            // Membuat array dengan format yang diinginkan
+            if ($totalLevell->levels != null) {
+                if ($totalLevell->levels->skillLevel == "Junior" || $totalLevell->levels->skillLevel == "Middle" || $totalLevell->levels->skillLevel == "Senior") {
+                    //$level = $totalLevell->levels->skillLevel;
+                    $resultArray[] = [
+                        'name' => $totalLevell->levels->skillLevel,
+                        'data' => $totalLevell->totalLevel,
+                    ];
+                }
+            }
+        }
+
+        $role = employee::with('roles');
+        $countRole = $role->count();
+        $totalRole = $role->select('role', DB::raw('count(*) as totalRole'))->groupBy('role')->get();
+
+        $resultRole = [];
+
+        // Loop setiap hasil dari kueri $salesRevenue
+        foreach ($totalRole as $totalRoles) {
+            // Membuat array dengan format yang diinginkan
+            if ($totalRoles->roles != null) {
+                //$level = $totalLevell->levels->skillLevel;
+                $resultRole[] = [
+                    'name' => $totalRoles->roles->roleEmployee,
+                    'persen' => round(($totalRoles->totalRole / $countRole) * 100, 1),
+                    'data' => $totalRoles->totalRole,
+                    'color' => randomHexColor(),
+                ];
+            }
+        }
+        return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => $resultArray, 'totalRole' => $resultRole]);
+        //return $resultRole;
+    })->name('resourcesDashboard');
 });
 //end Dashboard
 Route::middleware([

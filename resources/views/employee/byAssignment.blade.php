@@ -235,8 +235,8 @@
             // console.log(date)
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#name').val('#').trigger('change');
-            $('#projectId').val('#').trigger('change');
+            $('#name').val('#').trigger('click');
+            $('#projectId').val('#').trigger('click');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

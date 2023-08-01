@@ -34,7 +34,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../horizontal/starter.html">
+                                <a class="dropdown-item" href="/resourcesDashboard">
                                     Resources Dashboard
                                 </a>
                             </li>
