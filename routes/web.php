@@ -126,8 +126,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 ];
             }
         }
-        return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => $resultArray, 'totalRole' => $resultRole]);
-        //return $resultRole;
+
+        $totalRegion = employee::with('region')->select('penempatan', DB::raw('count(*) as totalregion'))->groupBy('penempatan')->get();
+        return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => $resultArray, 'totalRole' => $resultRole, 'totalRegion' => $totalRegion]);
+        //return $totalRegion;
     })->name('resourcesDashboard');
 });
 //end Dashboard

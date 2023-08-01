@@ -85,6 +85,33 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-6 col-lg-6 mb-5">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center ">
+                            <h4>Employee By Region</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card">
+                                <table class="table text-nowrap mb-0 table-centered">
+                                    <thead class="table-light" style="position: sticky;top: 0;">
+                                        <tr>
+                                            <th>City</th>
+                                            <th class="text-center">Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($totalRegion as $region)
+                                        <tr>
+                                            <td>{{$region->region != ""?$region->region->location:"Undefined"}}</td>
+                                            <td class="text-center">{{$region->totalregion}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xl-12 col-md-12 col-12 mb-5">
                     <div class="card">
                         <div class="card-body">

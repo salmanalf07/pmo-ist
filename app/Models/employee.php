@@ -61,6 +61,10 @@ class employee extends Model
     {
         return $this->belongsTo(roleEmployee::class, 'role', 'id');
     }
+    public function region()
+    {
+        return $this->belongsTo(locationEmployee::class, 'penempatan', 'id');
+    }
     protected static function boot()
     {
         parent::boot();
