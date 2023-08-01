@@ -113,7 +113,13 @@
                 url: '/json_documentation/{{$id}}'
             },
             columns: [{
-                    data: 'document.docType',
+                    data: function(row) {
+                        if (row.document && row.document.docType) {
+                            return row.document.docType; // Mengembalikan nilai properti name jika ada
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
                     name: 'document.docType'
                 },
                 {
