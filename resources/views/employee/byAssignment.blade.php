@@ -214,7 +214,7 @@
                 },
             ],
         });
-        $('#reservation, #name, #projectId, #availableAt').on('change', function() {
+        $('#availableAt').on('change', function() {
             // var date = $('#reservation').val().split(" - ");
             // if ($(this).attr('id') === 'reservation') {
             //     var dateChange = "true";
@@ -234,12 +234,26 @@
             $('#example1').DataTable().draw();
             // console.log(date)
         });
+        $('#name, #projectId').on('change', function() {
+            $('#example1').data('dt_params', {
+                // 'dateChange': dateChange,
+                // 'date_st': date[0],
+                // 'date_ot': date[1],
+                'name': $('#name').val(),
+                'projectId': $('#projectId').val(),
+
+            });
+            $('#example1').DataTable().draw();
+            // console.log(date)
+        });
         $('.col-12').on('click', '#clear', function() {
-            $('#name').val('#').trigger('click');
-            $('#projectId').val('#').trigger('click');
+            $('#name').val('#').trigger('change');
+            $('#projectId').val('#').trigger('change');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
+
+
         });
     });
 </script>

@@ -53,7 +53,7 @@ class employeeController extends Controller
         if ($request->projectId != "#" && $request->projectId) {
             $dataa->where('projectId', '=', $request->projectId);
         }
-        if ($request->availableAt != "01-01-1900" && $request->availableAt) {
+        if ($request->availableAt != "01/01/1900" && $request->availableAt) {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
         } else {
 
