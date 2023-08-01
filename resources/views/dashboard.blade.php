@@ -180,7 +180,50 @@
             <!-- row  -->
             <div class="row ">
                 <!-- card  -->
-                <div class="col-xl-12 mb-5">
+                <div class="col-xl-6 mb-5 ">
+
+                    <div class=" card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Revenue By Sales</h4>
+                        </div>
+                        <div class="card-body pb-0">
+
+                            <div id="salesForecastChart"></div>
+                            <div class="card-body mb-4">
+                                <div class="table-responsive table-card">
+                                    <table class="table text-nowrap mb-0 table-centered">
+                                        <thead class="table-light" style="position: sticky;top: 0;">
+                                            <tr>
+                                                <th></th>
+                                                <th>Sales Name</th>
+                                                <th>Revenue Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($salesRevenue as $salesRevenues)
+                                            <tr>
+                                                <td>
+                                                    <span class="avatar avatar-md flexCenter">
+                                                        <div id="initial-container">
+                                                            <div class="initial-container" style="font-size:1em" id="initial-circle" data-tooltip="{{$salesRevenues['name']}}">{{$salesRevenues['initial']}}</div>
+                                                        </div>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {{$salesRevenues['name']}}
+                                                </td>
+                                                <td class="text-end text-dark">{{number_format($salesRevenues['revenue'],0,',','.')}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- card  -->
+                <div class="col-xl-6 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Revenue By Sector</h4>
@@ -199,39 +242,6 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
-                <!-- card  -->
-                <div class="col-xl-12 mb-5 ">
-
-                    <div class=" card h-100">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Revenue By Sales</h4>
-                        </div>
-                        <div class="card-body pb-0">
-
-                            <div id="salesForecastChart"></div>
-                            <div class="card-body mb-4" style="width: 70%;margin : 0 auto;border:1px solid grey">
-                                <div class="table-responsive table-card">
-                                    <table class="table text-nowrap mb-0 table-centered">
-                                        <thead class="table-light" style="position: sticky;top: 0;">
-                                            <tr>
-                                                <th>Sales Name</th>
-                                                <th>Revenue Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($salesRevenue as $salesRevenues)
-                                            <tr>
-                                                <td>{{$salesRevenues['name']}}</td>
-                                                <td class="text-end text-dark">{{number_format($salesRevenues['revenue'],0,',','.')}}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -322,10 +332,10 @@
             show: false,
         },
     };
-    new ApexCharts(
-        document.querySelector("#salesForecastChart"),
-        e
-    ).render();
+    // new ApexCharts(
+    //     document.querySelector("#salesForecastChart"),
+    //     e
+    // ).render();
 </script>
 
 <script>
@@ -357,7 +367,12 @@
             type: "donut"
         },
 
-        colors: custTypeRevenue.map(obj => obj.color),
+        colors: [
+            "#624bff",
+            "#f59e0b",
+            "#0ea5e9",
+            "#20c997",
+        ],
         plotOptions: {
             pie: {
                 donut: {
@@ -403,11 +418,19 @@
 </script>
 <script>
     var invByMonth = <?php echo json_encode($invByMonth); ?>;
+    var payByMonth = <?php echo json_encode($payByMonth); ?>;
     var total = 0;
 
     invByMonth.forEach(function(data) {
         // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
         total += parseInt(data["totalRevenue"]);
+
+    });
+    var totalpay = 0;
+
+    payByMonth.forEach(function(data) {
+        // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
+        totalpay += parseInt(data["totalpayRevenue"]);
 
     });
     // Langkah 1: Dapatkan referensi ke elemen div tujuan
@@ -417,14 +440,23 @@
     divTujuan.innerHTML += '<div class="row bg-light rounded-3 ">' +
         '<div class="col-lg-12 col-md-6">' +
         '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Invoice</span>' +
-        '<h3 class="mb-0  mt-2">Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>';
+        '<h3 class="mb-0  mt-2">Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>' +
+        '<div class="row bg-light rounded-3 ">' +
+        '<div class="col-lg-12 col-md-6">' +
+        '<div class="p-4"><span><i class="mdi mdi-circle small me-1 text-primary"></i>Total Payment</span>' +
+        '<h3 class="mb-0  mt-2">Rp. ' + totalpay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '</h3></div></div></div>';
 
 
     e = {
         series: [{
-            name: "Total Invoice",
-            data: invByMonth.map(obj => obj.totalRevenue),
-        }, ],
+                name: "Total Invoice",
+                data: invByMonth.map(obj => obj.totalRevenue),
+            },
+            {
+                name: "Total Payment",
+                data: payByMonth.map(obj => obj.totalpayRevenue),
+            }
+        ],
         labels: [
             "Jan",
             "Feb",

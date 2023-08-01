@@ -194,6 +194,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             return $nilai . ' ' . $satuan[$posisi];
         }
 
+        function getInitials($name)
+        {
+            $words = explode(' ', $name);
+            $initials = '';
+
+            for ($i = 0; $i < min(count($words), 2); $i++) {
+                $initials .= strtoupper(substr($words[$i], 0, 1));
+            }
+
+            return $initials;
+        }
+
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
         $projectThisYear = Project::whereYear('contractStart', '=', date('Y'))->count();
         $PotensialRevenue = topProject::whereYear('bastDate', '=', date('Y'))->sum('termsValue');
@@ -214,6 +226,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             }
             $resultArray[] = [
                 'name' => $sales,
+                'initial' => getInitials($sales),
                 'data' => round($salesData->totalRevenue / 1000000, 1),
                 'revenue' => $salesData->totalRevenue
             ];
@@ -230,8 +243,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         }
 
         $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->groupBy(DB::raw('MONTH(invDate)'))->get();
+        $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValue) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', date('Y'))->groupBy(DB::raw('MONTH(payDate)'))->get();
 
-        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $invByMonth]);
+        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $invByMonth, 'payByMonth' => $payByMonth]);
         //return $invByMonth;
     })->name('dashboard');
 });
