@@ -146,7 +146,7 @@
                                         <tr>
                                             <th>Customer</th>
                                             <th>Project Name</th>
-                                            <th>Project Value</th>
+                                            <th class="text-end">Project Value</th>
                                             <th>Progress</th>
                                         </tr>
                                     </thead>
@@ -194,23 +194,28 @@
                                     <table class="table text-nowrap mb-0 table-centered">
                                         <thead class="table-light" style="position: sticky;top: 0;">
                                             <tr>
-                                                <th></th>
                                                 <th>Sales Name</th>
-                                                <th>Revenue Value</th>
+                                                <th class="text-end">Revenue Value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($salesRevenue as $salesRevenues)
+                                            @foreach(collect($salesRevenue)->sortByDesc('revenue') as $salesRevenues)
                                             <tr>
                                                 <td>
-                                                    <span class="avatar avatar-md flexCenter">
-                                                        <div id="initial-container">
-                                                            <div class="initial-container" style="font-size:1em" id="initial-circle" data-tooltip="{{$salesRevenues['name']}}">{{$salesRevenues['initial']}}</div>
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <span class="avatar avatar-md flexCenter">
+                                                                <div id="initial-container">
+                                                                    <div class="initial-container" style="font-size:1em;background-color: {{randomHexColor() }}" id="initial-circle" data-tooltip="{{$salesRevenues['name']}}">{{$salesRevenues['initial']}}</div>
+                                                                </div>
+
+                                                            </span>
                                                         </div>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    {{$salesRevenues['name']}}
+                                                        <div class="col-10 flexCenter" style="justify-content:left;">
+                                                            {{$salesRevenues['name']}}
+                                                        </div>
+
+                                                    </div>
                                                 </td>
                                                 <td class="text-end text-dark">{{number_format($salesRevenues['revenue'],0,',','.')}}</td>
                                             </tr>
@@ -340,12 +345,18 @@
 
 <script>
     var custTypeRevenue = <?php echo json_encode($custTypeRevenue); ?>;
-
+    var color = [
+        "#624bff",
+        "#f59e0b",
+        "#0ea5e9",
+        "#20c997",
+    ];
+    var count = 0;
     // Menggunakan perulangan untuk menambahkan data dengan key baru ke custTypeRevenue
     custTypeRevenue.forEach(function(data) {
         // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek data
-        data["color"] = getRandomColor();
-
+        data["color"] = color[count];
+        count += 1;
         // Langkah 1: Dapatkan referensi ke elemen div tujuan
         var divTujuan = document.getElementById("chartSecRevenue");
 
@@ -362,17 +373,11 @@
             return parseFloat(obj.totalRevenue.replace(" B", ""));
         }),
         labels: custTypeRevenue.map(obj => obj.customerType),
+        colors: custTypeRevenue.map(obj => obj.color),
         chart: {
             width: 350,
             type: "donut"
         },
-
-        colors: [
-            "#624bff",
-            "#f59e0b",
-            "#0ea5e9",
-            "#20c997",
-        ],
         plotOptions: {
             pie: {
                 donut: {
