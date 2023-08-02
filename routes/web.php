@@ -29,6 +29,7 @@ use App\Models\roleEmployee;
 use App\Models\skillLevel;
 use App\Models\specialization;
 use App\Models\topProject;
+use Google\Service\Docs\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\Facades\DataTables;
@@ -248,47 +249,71 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         //return $projectDetail;
     })->name('projectDashboard');
 });
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/json_projectDetail', function () {
-        $project = Project::with('customer', 'pm')->get();
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projectDetail', function (Request $request) {
+    $projects = Project::with('customer', 'pm');
+    if ($request->pmName != "#" && $request->pmName) {
+        $projects->where('pmName', '=', $request->pmName);
+    }
+    $project = $projects->get();
 
-        $projectDetail = [];
+    $projectDetail = [];
 
-        foreach ($project as $data) {
-            $sumInv = topProject::where([
-                ['projectId', '=', $data->id],
-                ['invMain', '=', 1]
-            ])->sum('termsValue');
-            if ($sumInv > 0) {
-                $invoiced = ($sumInv / $data->projectValue) * 100;
-            } else {
-                $invoiced = 0;
-            }
-
-            $sumPay = topProject::where([
-                ['projectId', '=', $data->id],
-                ['payMain', '=', 1]
-            ])->sum('termsValue');
-            if ($sumPay > 0) {
-                $payment = ($sumPay / $data->projectValue) * 100;
-            } else {
-                $payment = 0;
-            }
-            $member = memberProject::where('projectId', '=', $data->id)->count();
-
-            $projectDetail[] = [
-                'customer' => $data->customer->company,
-                'projectName' => $data->projectName,
-                'progress' => $data->overAllProg == null ? "0" : $data->overAllProg,
-                'invoiced' => round($invoiced, 1),
-                'payment' => round($payment, 1),
-                'team' => $member
-
-            ];
+    foreach ($project as $data) {
+        $sumInv = topProject::where([
+            ['projectId', '=', $data->id],
+            ['invMain', '=', 1]
+        ])->sum('termsValue');
+        if ($sumInv > 0) {
+            $invoiced = ($sumInv / $data->projectValue) * 100;
+        } else {
+            $invoiced = 0;
         }
-        return DataTables::of($projectDetail)->toJson();
-    })->name('projectDetail');
-});
+
+        $sumPay = topProject::where([
+            ['projectId', '=', $data->id],
+            ['payMain', '=', 1]
+        ])->sum('termsValue');
+        if ($sumPay > 0) {
+            $payment = ($sumPay / $data->projectValue) * 100;
+        } else {
+            $payment = 0;
+        }
+        $member = memberProject::where('projectId', '=', $data->id)->count();
+
+        $projectDetail[] = [
+            'customer' => $data->customer->company,
+            'projectId' => $data->id,
+            'projectName' => $data->projectName,
+            'contractEnd' => $data->contractEnd,
+            'progres' => $data->overAllProg == null ? "0" : $data->overAllProg,
+            'invoiced' => round($invoiced, 0),
+            'payment' => round($payment, 0),
+            'team' => $member
+
+        ];
+    }
+    return DataTables::of($projectDetail)
+        ->addColumn('projectNamee', function ($projectDetail) {
+            return
+                '<div class="d-flex align-items-center">
+                    <div>
+                        <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $projectDetail['projectId'] . '" class="text-inherit" target="_blank">' . substr($projectDetail['projectName'], 0, 25) . '...</a></h4>
+                    </div>
+                </div>';
+        })
+        ->addColumn('progress', function ($projectDetail) {
+            return
+                '<div class="d-flex align-items-center">
+                        <div class="me-2"> <span>' . $projectDetail['progres'] . '%</span></div>
+                            <div class="progress flex-auto" style="height: 6px;">
+                                <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $projectDetail['progres'] . '%;" aria-valuenow="' . $projectDetail['progres'] . '" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>';
+        })
+        ->rawColumns(['projectNamee', 'progress'])
+        ->toJson();
+})->name('projectDetail');
 //customer
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/customers', function () {

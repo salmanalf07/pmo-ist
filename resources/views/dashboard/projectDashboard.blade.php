@@ -2,6 +2,18 @@
 
 @section('konten')
 <style>
+    .icon-red path {
+        fill: red;
+    }
+
+    .icon-green path {
+        fill: green;
+    }
+
+    .icon-yellow path {
+        fill: yellow;
+    }
+
     .col-xl-2 {
         width: 20%;
     }
@@ -17,6 +29,7 @@
         width: 25%;
     }
 </style>
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div id="app-content">
     <div class="app-content-area pt-0 ">
         <div class="pt-12 pb-21 "></div>
@@ -69,7 +82,7 @@
                 <div class="col-xl-12 mb-5">
                     <div class="card h-100">
                         <div class="card-header d-md-flex border-bottom-0">
-                            <div class="row col-12">
+                            <div class="row col-4">
                                 <div>
                                     <label class="form-label">Project Manager</label>
                                     <br>
@@ -91,11 +104,11 @@
                                         <tr>
                                             <th>Customer</th>
                                             <th>ProjectName</th>
-                                            <!-- <th>Contract Status</th> -->
-                                            <th>% Progress</th>
-                                            <th>% invoiced</th>
-                                            <th>% Payment</th>
-                                            <th># Team</th>
+                                            <th>Contract Status</th>
+                                            <th>Progress</th>
+                                            <th>invoiced</th>
+                                            <th>Payment</th>
+                                            <th>Team</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -129,7 +142,7 @@
                 "autoWidth": false,
                 "columnDefs": [{
                     "className": "text-center",
-                    "targets": [2, 3, 4, 5], // table ke 1
+                    "targets": [2, 3, 4, 5, 6], // table ke 1
                 }, ],
                 ajax: {
                     url: '{{ url("json_projectDetail") }}',
@@ -147,10 +160,32 @@
                         name: 'customer'
                     },
                     {
-                        data: 'projectName',
-                        name: 'projectName',
+                        data: 'projectNamee',
+                        name: 'projectNamee',
+                    },
+                    {
+                        data: 'contractEnd',
+                        name: 'contractEnd',
                         render: function(data, type, row) {
-                            return type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
+                            var contractEnd = moment(data); // Pastikan Anda sudah mengimpor moment.js jika belum dilakukan sebelumnya.
+                            var today = moment();
+                            var icon = '';
+
+                            // Hitung selisih antara tanggal kontrak berakhir dengan tanggal hari ini dalam satuan hari.
+                            var diffInDays = contractEnd.diff(today, 'days');
+
+                            if (diffInDays > 0) {
+                                // Jika selisih lebih dari 0, maka tampilkan ikon hijau.
+                                icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle icon-green" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm2.97 5.97l-4.267 4.268L5.03 7.636a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5-5a.75.75 0 1 0-1.06-1.06z"/> </svg>';
+                            } else if (diffInDays >= -30) {
+                                // Jika selisih kurang dari atau sama dengan 30 hari, tampilkan ikon kuning.
+                                icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle icon-yellow" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm2.97 5.97l-4.267 4.268L5.03 7.636a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5-5a.75.75 0 1 0-1.06-1.06z"/> </svg>';
+                            } else {
+                                // Selain dari dua kondisi di atas, tampilkan ikon merah.
+                                icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle icon-red" viewBox="0 0 16 16"> <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm2.97 5.97l-4.267 4.268L5.03 7.636a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5-5a.75.75 0 1 0-1.06-1.06z"/> </svg>';
+                            }
+
+                            return icon;
                         }
                     },
                     {
@@ -159,11 +194,17 @@
                     },
                     {
                         data: 'invoiced',
-                        name: 'invoiced'
+                        name: 'invoiced',
+                        render: function(data, type, row) {
+                            return data + "%";
+                        }
                     },
                     {
                         data: 'payment',
-                        name: 'payment'
+                        name: 'payment',
+                        render: function(data, type, row) {
+                            return data + "%";
+                        }
                     },
                     {
                         data: 'team',
@@ -171,9 +212,9 @@
                     },
                 ],
             });
-            $('#company').on('change', function() {
+            $('#pmName').on('change', function() {
                 $('#example1').data('dt_params', {
-                    'company': $('#company').val(),
+                    'pmName': $('#pmName').val(),
                 });
                 $('#example1').DataTable().draw();
                 // console.log(date)
