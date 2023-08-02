@@ -7,7 +7,7 @@
     }
 
     .table-card {
-        max-height: 500px;
+        max-height: 43em;
         /* Adjust the height as per your requirement */
         overflow-y: auto;
         /* Enable vertical scrolling */

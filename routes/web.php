@@ -155,6 +155,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
+
         $kamus = [
             [
                 "key" => "BankingNFinancialServicesIndustry",
@@ -173,38 +174,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 "value" => "Swasta",
             ],
         ];
-
-        function vlookupInKamus($record, $kamus)
-        {
-            foreach ($kamus as $item) {
-                if ($item['key'] === $record) {
-                    return $item['value'];
-                }
-            }
-            // Jika tidak ditemukan, kembalikan nilai record asli
-            return $record;
-        }
-
-        function formatAngka($angka)
-        {
-            $satuan = ['', 'K', 'M', 'B', 'T']; // Menambahkan satuan seperti K (ribu), M (juta), B (miliar), dan T (triliun) sesuai kebutuhan
-            $posisi = floor(log($angka, 1000));
-            $nilai = $angka / pow(1000, $posisi);
-            $nilai = number_format($nilai, 2); // Membatasi hanya 2 angka di belakang koma
-            return $nilai . ' ' . $satuan[$posisi];
-        }
-
-        function getInitials($name)
-        {
-            $words = explode(' ', $name);
-            $initials = '';
-
-            for ($i = 0; $i < min(count($words), 2); $i++) {
-                $initials .= strtoupper(substr($words[$i], 0, 1));
-            }
-
-            return $initials;
-        }
 
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
         $projectThisYear = Project::whereYear('contractStart', '=', date('Y'))->count();
@@ -248,6 +217,33 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $invByMonth, 'payByMonth' => $payByMonth]);
         //return $invByMonth;
     })->name('dashboard');
+});
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/projectDashboard', function () {
+        $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
+        $salesRevenue = Project::with('pm')->select('pmName', DB::raw('count(*) as totalProject'), DB::raw('SUM(projectValue) as totalRevenue'))->where('overAllProg', '<', 100)->groupBy('pmName')->get();
+
+        $numberOfProject = [];
+
+        // Loop setiap hasil dari kueri $salesRevenue
+        foreach ($salesRevenue as $salesData) {
+            // Membuat array dengan format yang diinginkan
+            if ($salesData->pm != null) {
+                $sales = $salesData->pm->name;
+            } else {
+                $sales = '';
+            }
+            $numberOfProject[] = [
+                'name' => $sales,
+                'numberOfProject' => $salesData->totalProject,
+                'persen' => round(($salesData->totalProject / $projectOnGoing) * 100, 1),
+                'revenue' => $salesData->totalRevenue
+            ];
+        }
+        return view('/dashboard/projectDashboard', ['numberOfProject' => $numberOfProject]);
+        //return $numberOfProject;
+    })->name('projectDashboard');
 });
 
 //customer
