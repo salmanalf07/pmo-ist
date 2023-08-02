@@ -34,6 +34,15 @@ class topProjectController extends Controller
                     ->whereYear('invDate', '=', date("Y"));
             }
         }
+        if ($request->segment(1) == "json_financeByPayment") {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('payDate', '=', date("m"))
+                    ->whereYear('payDate', '=', date("Y"));
+            }
+        }
 
         $data = $dataa->get();
         return DataTables::of($data)

@@ -215,10 +215,38 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         }
 
         $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->groupBy(DB::raw('MONTH(invDate)'))->get();
+        $resultInvByMonth = [];
+        for ($i = 0; $i <= (date('m') - 1); $i++) {
+            if (isset($invByMonth[$i]['MONTH(invDate)']) && $invByMonth[$i]['MONTH(invDate)'] == $i + 1) {
+                $resultInvByMonth[] = [
+                    'MONTH(invDate)' => $i + 1,
+                    'totalRevenue' => $invByMonth[$i]['totalRevenue'],
+                ];
+            } else {
+                $resultInvByMonth[] = [
+                    'MONTH(invDate)' => $i + 1,
+                    'totalRevenue' => 0,
+                ];
+            }
+        }
         $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValue) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', date('Y'))->groupBy(DB::raw('MONTH(payDate)'))->get();
+        $resultPayByMonth = [];
+        for ($i = 0; $i <= (date('m') - 1); $i++) {
+            if (isset($payByMonth[$i]['MONTH(payDate)']) && $payByMonth[$i]['MONTH(payDate)'] == $i + 1) {
+                $resultPayByMonth[] = [
+                    'MONTH(payDate)' => $i + 1,
+                    'totalpayRevenue' => $payByMonth[$i]['totalpayRevenue'],
+                ];
+            } else {
+                $resultPayByMonth[] = [
+                    'MONTH(payDate)' => $i + 1,
+                    'totalpayRevenue' => 0,
+                ];
+            }
+        }
 
-        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $invByMonth, 'payByMonth' => $payByMonth]);
-        //return $invByMonth;
+        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $resultInvByMonth, 'payByMonth' => $resultPayByMonth]);
+        //return $resultPayByMonth;
     })->name('dashboard');
 });
 
@@ -477,8 +505,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('finance/financeByInvoice', ['judul' => "By Invoice", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeByInvoice');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/financeByPayment', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('finance/financeByPayment', ['judul' => "By Payment", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('financeByPayment');
+});
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeByInvoice', [topProjectController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeByPayment', [topProjectController::class, 'json']);
 //end Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/pipeline', [pipelineController::class, 'index'])->name('pipeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_pipeline', [pipelineController::class, 'store']);
