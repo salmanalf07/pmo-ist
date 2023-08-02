@@ -31,6 +31,7 @@ use App\Models\specialization;
 use App\Models\topProject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Facades\DataTables;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,11 +242,53 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 'revenue' => $salesData->totalRevenue
             ];
         }
-        return view('/dashboard/projectDashboard', ['numberOfProject' => $numberOfProject]);
-        //return $numberOfProject;
+        $pm = project::with('pm')->select('pmName')->get();
+
+        return view('/dashboard/projectDashboard', ['numberOfProject' => $numberOfProject, 'pm' => $pm]);
+        //return $projectDetail;
     })->name('projectDashboard');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/json_projectDetail', function () {
+        $project = Project::with('customer', 'pm')->get();
 
+        $projectDetail = [];
+
+        foreach ($project as $data) {
+            $sumInv = topProject::where([
+                ['projectId', '=', $data->id],
+                ['invMain', '=', 1]
+            ])->sum('termsValue');
+            if ($sumInv > 0) {
+                $invoiced = ($sumInv / $data->projectValue) * 100;
+            } else {
+                $invoiced = 0;
+            }
+
+            $sumPay = topProject::where([
+                ['projectId', '=', $data->id],
+                ['payMain', '=', 1]
+            ])->sum('termsValue');
+            if ($sumPay > 0) {
+                $payment = ($sumPay / $data->projectValue) * 100;
+            } else {
+                $payment = 0;
+            }
+            $member = memberProject::where('projectId', '=', $data->id)->count();
+
+            $projectDetail[] = [
+                'customer' => $data->customer->company,
+                'projectName' => $data->projectName,
+                'progress' => $data->overAllProg == null ? "0" : $data->overAllProg,
+                'invoiced' => round($invoiced, 1),
+                'payment' => round($payment, 1),
+                'team' => $member
+
+            ];
+        }
+        return DataTables::of($projectDetail)->toJson();
+    })->name('projectDetail');
+});
 //customer
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/customers', function () {
