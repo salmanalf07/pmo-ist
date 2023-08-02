@@ -250,7 +250,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('projectDashboard');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projectDetail', function (Request $request) {
-    $projects = Project::with('customer', 'pm');
+    $projects = Project::with('customer', 'pm')->where('overAllProg', '!=', 100);
     if ($request->pmName != "#" && $request->pmName) {
         $projects->where('pmName', '=', $request->pmName);
     }
