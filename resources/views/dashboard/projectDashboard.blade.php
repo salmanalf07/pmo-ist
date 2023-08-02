@@ -46,7 +46,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($numberOfProject as $data)
+                                        @foreach(collect($numberOfProject)->sortByDesc('revenue') as $data)
                                         <tr>
                                             <td>{{$data['name']}}</td>
                                             <td class="text-center">{{$data['numberOfProject']}}</td>
