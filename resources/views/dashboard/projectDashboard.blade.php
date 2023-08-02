@@ -85,7 +85,6 @@
                             <div class="row col-4">
                                 <div>
                                     <label class="form-label">Project Manager</label>
-                                    <br>
                                     <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
                                         <option value="#" selected>Open this select menu</option>
                                         @foreach($pm->unique('pmName') as $pmName)
@@ -94,6 +93,15 @@
                                         @endif
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row col-2 pt-7 ms-3">
+                                <div class="mb-3 col-12">
+                                    <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                            <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -150,6 +158,7 @@
                         // Retrieve dynamic parameters
                         var dt_params = $('#example1').data('dt_params');
                         // Add dynamic parameters to the data object sent to the server
+                        console.log(dt_params);
                         if (dt_params) {
                             $.extend(d, dt_params);
                         }
