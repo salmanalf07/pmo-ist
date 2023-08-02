@@ -183,7 +183,7 @@ class projectController extends Controller
     }
     function closeProjectExport(Request $request)
     {
-        $dataa = scopeProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+        $dataa = topProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
 
         $data = $dataa
             ->orderBy('projectId')
@@ -198,6 +198,11 @@ class projectController extends Controller
     {
         $dataa = topProject::with('project');
 
+        if ($request->date_st != null && $request->date_st) {
+            $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
+
         $data = $dataa
             ->orderBy('projectId')
             ->orderBy('noRef')
@@ -210,6 +215,11 @@ class projectController extends Controller
     function statPaymentExport(Request $request)
     {
         $dataa = topProject::with('project');
+
+        if ($request->date_st != null && $request->date_st) {
+            $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
 
         $data = $dataa
             ->orderBy('projectId')
