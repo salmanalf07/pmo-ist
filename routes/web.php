@@ -27,6 +27,7 @@ use App\Models\pipeline;
 use App\Models\Project;
 use App\Models\roleEmployee;
 use App\Models\skillLevel;
+use App\Models\solution;
 use App\Models\specialization;
 use App\Models\topProject;
 use Google\Service\Docs\Request;
@@ -401,7 +402,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $customer = Customer::where('type', 'customer')->get();
         $partner = Customer::where('type', 'partner')->get();
         $employee = employee::get();
-        return view('project/inputProject', ['judul' => "Project", 'customer' => $customer, 'partner' => $partner, 'employee' => $employee, 'noProject' => $noProject]);
+        $solution = solution::get();
+        return view('project/inputProject', ['judul' => "Project", 'customer' => $customer, 'partner' => $partner, 'employee' => $employee, 'noProject' => $noProject, 'solution' => $solution]);
     })->name('inputProject');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_project', [projectController::class, 'store']);

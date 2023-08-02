@@ -16,6 +16,7 @@ use App\Models\partnerProject;
 use App\Models\Project;
 use App\Models\riskProject;
 use App\Models\scopeProject;
+use App\Models\solution;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -102,6 +103,7 @@ class projectController extends Controller
             $post->cust_id = $request->cust_id;
             $post->customerType = $request->customerType;
             $post->projectName = $request->projectName;
+            $post->solution = $request->solution;
             $post->noContract = $request->noContract;
             $post->contractDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractDate)));
             $post->po = $request->po;
@@ -138,7 +140,8 @@ class projectController extends Controller
         $customer = Customer::where('type', 'customer')->get();
         $partner = Customer::where('type', 'partner')->get();
         $employee = employee::get();
-        return view('project/inputProject', ['id' => $id, 'aksi' => "EditData", 'customer' => $customer, 'partner' => $partner, 'employee' => $employee, 'data' => $get]);
+        $solution = solution::get();
+        return view('project/inputProject', ['id' => $id, 'aksi' => "EditData", 'customer' => $customer, 'partner' => $partner, 'employee' => $employee, 'data' => $get, 'solution' => $solution]);
     }
     public function destroy($id)
     {

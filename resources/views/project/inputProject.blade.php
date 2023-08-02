@@ -34,6 +34,16 @@
                                         <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">
+                                        <label class="form-label" for="selectOne">Solution</label>
+                                        <select name="solution" id="solution" class="select2" aria-label="Default select example">
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach(collect($solution)->sortBy('name') as $solution)
+                                            <option value="{{$solution->id}}">{{$solution->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="mb-3 col-6">
                                         <label class="form-label" for="selectOne">Customer</label>
                                         <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
                                             <option value="#" selected>Open this select menu</option>
@@ -318,6 +328,7 @@
             $('#cust_id').val('{!! isset($data) ? $data->cust_id : "" !!}').trigger('change');
             $('#customerType').val('{!! isset($data) ? $data->customerType : "" !!}').trigger('change');
             $('#projectName').val('{!! isset($data) ? $data->projectName : "" !!}');
+            $('#solution').val('{!! isset($data) ? $data->solution : "" !!}').trigger('change');
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
             $('#noContract').val(`{!! isset($data) ? $data->noContract : "" !!}`);
             $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
