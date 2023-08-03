@@ -188,7 +188,24 @@ class projectController extends Controller
     {
         $dataa = topProject::with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
 
+        if ($request->pmNamee != "#" && $request->pmNamee) {
+            $dataa->whereHas('project', function ($query) use ($request) {
+                return $query->where('pmName', $request->pmNamee);
+            });
+        }
+        if ($request->cust_idd != "#" && $request->cust_idd) {
+            $dataa->whereHas('project', function ($query) use ($request) {
+                return $query->where('cust_id', $request->cust_idd);
+            });
+        }
+        if ($request->date_st != null && $request->date_st) {
+            $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
         $data = $dataa
+            ->whereHas('project', function ($query) {
+                return $query->where('overAllProg', 100);
+            })
             ->orderBy('projectId')
             ->orderBy('noRef')
             ->get();

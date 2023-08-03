@@ -544,8 +544,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/r_projectClose', function () {
         $customer = Customer::where('type', 'customer')->get();
+        $pm = Project::with('pm')->select('pmName')->get();
         $employee = employee::get();
-        return view('report/r_projectClose', ['judul' => "Report Close Project", 'customer' => $customer, 'employee' => $employee,]);
+        return view('report/r_projectClose', ['judul' => "Report Close Project", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm]);
     })->name('r_projectClose');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/closeProjectExport', [projectController::class, 'closeProjectExport']);
