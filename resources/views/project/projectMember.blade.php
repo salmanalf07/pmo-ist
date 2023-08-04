@@ -19,6 +19,7 @@
 </style>
 <!-- custom select2 -->
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div>
     <!-- row -->
     <form method="post" role="form" id="form-add" enctype="multipart/form-data">
@@ -303,6 +304,33 @@
                 $('#planManPartner' + i).val(dataa[i].planManPartner);
             }
         }
+
+        $(document).on('change', '[name="employee[]"],[name="role[]"],[name="accesType[]"],[name="startDate[]"],[name="endDate[]"],[name="planMandays[]"]', function(event) {
+            var matches = $(this).attr('id').match(/(\d+)/);
+            var id = $('#employee' + matches[0]).val();
+            console.log(id);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/store_autoMember/{{$id}}',
+                data: {
+                    'idMember': $('#idMember' + matches[0]).val(),
+                    'employee': $('#employee' + matches[0]).val(),
+                    'role': $('#role' + matches[0]).val(),
+                    'accesType': $('#accesType' + matches[0]).val(),
+                    'startDate': $('#startDate' + matches[0]).val(),
+                    'endDate': $('#endDate' + matches[0]).val(),
+                    'planMandays': $('#planMandays' + matches[0]).val(),
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#idMember' + matches[0]).val(data)
+
+                },
+            });
+        });
     })
 </script>
 <script>

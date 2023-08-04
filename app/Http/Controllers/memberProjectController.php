@@ -112,4 +112,20 @@ class memberProjectController extends Controller
 
         return response()->json($post);
     }
+
+    function autoSave(Request $request, $id)
+    {
+        $postt = memberProject::findOrNew($request->idMember);
+        $postt->ProjectId = $id;
+        $postt->employee = $request->employee;
+        $postt->role = $request->role;
+        $postt->accesType = $request->accesType;
+        $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->startDate)));
+        $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->endDate)));
+        $postt->planMandays = $request->planMandays;
+
+        $postt->save();
+
+        return response()->json($postt->id);
+    }
 }

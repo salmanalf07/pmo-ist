@@ -447,6 +447,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //Project Member
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', [memberProjectController::class, 'edit'])->name('projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_autoMember/{id}', [memberProjectController::class, 'autoSave'])->name('storeAutoMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_projectPartner/{id}', [memberProjectController::class, 'destroyPartner'])->name('deletePartner');
 //TimeLine
