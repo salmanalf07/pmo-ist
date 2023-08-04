@@ -33,7 +33,7 @@ class DocProjectController extends Controller
                     </div>';
             })
             ->addColumn('linkFile', function ($data) {
-                return '<a href="' . $data->link . '" class="btn btn-ghost btn-icon btn-sm rounded-circle ms-3 texttooltip" data-template="six">
+                return '<a target="_blank" href="' . $data->link . '" class="btn btn-ghost btn-icon btn-sm rounded-circle ms-3 texttooltip" data-template="six">
                             <i class="bi bi-link-45deg icon-lg"></i>
                         </a>';
             })
