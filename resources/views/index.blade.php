@@ -118,6 +118,26 @@
 
             return initials.substring(0, 2);
         }
+
+        function moveRowUp(event) {
+            event.preventDefault();
+            var link = event.target;
+            var row = link.parentElement.parentElement;
+            var previousRow = row.previousElementSibling;
+            if (previousRow && previousRow.tagName === "TR") {
+                row.parentElement.insertBefore(row, previousRow);
+            }
+        }
+
+        function moveRowDown(event) {
+            event.preventDefault();
+            var link = event.target;
+            var row = link.parentElement.parentElement;
+            var nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.tagName === "TR") {
+                row.parentElement.insertBefore(nextRow, row);
+            }
+        }
     </script>
 
 

@@ -86,7 +86,9 @@
                                             <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
-                                            <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                            <a href="#" onclick="moveRowUp(event)">↑</a>
+                                            <a href="#" onclick="moveRowDown(event)">↓</a>
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
@@ -263,12 +265,12 @@
             }
         }
 
-        newCell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
-        cell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
+        // newCell5.addEventListener("click", function() {
+        //     deleteRow(this);
+        // });
+        // cell5.addEventListener("click", function() {
+        //     deleteRow(this);
+        // });
 
         $(".number-input").on("input", function() {
             formatNumber(this);
