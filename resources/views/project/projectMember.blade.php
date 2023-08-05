@@ -274,7 +274,7 @@
             var data = <?php echo json_encode($data); ?>;
             $('#id').val('{{ isset($data) ? $id : "" }}');
             for (let j = 0; j < ('{{count($data)}}' - 1); j++) {
-                addRow();
+                setTimeout(addRow(), 500)
             }
 
             for (var i = 0; i < '{{count($data)}}'; i++) {
@@ -336,53 +336,40 @@
 <script>
     function addRow() {
         var table = document.getElementById("detailOrder");
-        var tableRange = table.rows.length
+        var tableRange = table.rows.length;
         var lastRow = table.rows[table.rows.length - 1];
-
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
+        // Code for cloning elements in the first column (index 0)
         for (let j = 0; j < 1; j++) {
-            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var cell5 = lastRow.cells[j];
             var selectElement = cell5.querySelector('input');
             var newCell5 = row.insertCell(j);
-            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
             var clonedContent = cell5.cloneNode(true);
-            var childNodes = clonedContent.childNodes;
             clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             newCell5.style.display = "none";
-            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
-            for (var k = 0; k < childNodes.length; k++) {
-                var clonedNode = childNodes[k].cloneNode(true);
+            for (var k = 0; k < clonedContent.childNodes.length; k++) {
+                var clonedNode = clonedContent.childNodes[k].cloneNode(true);
                 newCell5.appendChild(clonedNode);
-
                 if (clonedNode.tagName === "INPUT") {
-                    clonedNode.value = ""; // Reset input value
+                    clonedNode.value = "";
                 }
             }
         }
 
+        // Code for cloning elements in columns 1 to 3 (indexes 1 to 3)
         for (let j = 1; j <= 3; j++) {
-            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var cell5 = lastRow.cells[j];
             var newCell5 = row.insertCell(j);
-
-            // Mengklon elemen select dari sel keempat (cell 4) pada row sebelumnya
             var selectElement = cell5.querySelector('select');
             var clonedSelect = selectElement.cloneNode(true);
             clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
-
-            // Menambahkan elemen select yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             newCell5.appendChild(clonedSelect);
-
-            // Menghapus Select2 dari elemen select yang dikloning (jika sudah ada)
             if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
                 $(clonedSelect).select2('destroy');
             }
-
-            // Mengaktifkan kembali Select2 pada elemen select yang baru
             $(clonedSelect).select2();
-
-            // Menyalin nilai yang dipilih dari elemen asli ke elemen yang dikloning
             var selectedOptions = Array.from(selectElement.selectedOptions);
             selectedOptions.forEach(option => {
                 $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
@@ -392,50 +379,39 @@
             });
         }
 
-        // Mengaktifkan kembali Select2 pada semua elemen select setelah pengklonan
-        $('.select2').select2();
-
+        // Code for cloning elements in columns 4 to 8 (indexes 4 to 8)
         for (let j = 4; j <= 8; j++) {
-            var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
+            var cell5 = lastRow.cells[j];
             var newCell5 = row.insertCell(j);
-            // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
             var selectElement = cell5.querySelector('input');
             var clonedContent = cell5.cloneNode(true);
             var childNodes = clonedContent.childNodes;
-
-            // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
             if (j == 4 || j == 5 || j == 6 || j == 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
-
             }
             for (var k = 0; k < childNodes.length; k++) {
                 var clonedNode = childNodes[k].cloneNode(true);
                 newCell5.appendChild(clonedNode);
-
                 if (clonedNode.tagName === "INPUT") {
-                    clonedNode.value = ""; // Reset input value
+                    clonedNode.value = "";
                     clonedNode.addEventListener("change", function() {
                         compareDates(this);
                     });
                 }
             }
-            if (j == 8) {
-                // cell5.addEventListener("click", function() {
-                //     deleteRow(this);
-                // });
-                // newCell5.addEventListener("click", function() {
-                //     deleteRow(this);
-                // });
-            }
             if (clonedContent.querySelector('input.datepicker')) {
                 flatpickr("#" + clonedContent.querySelector('input.datepicker').id, {
                     dateFormat: "d-m-Y",
                     defaultDate: "01-01-1900",
-                    allowInput: true, // Mengizinkan input manual
+                    allowInput: true,
                 });
             }
         }
+
+        // Re-enable Select2 for all elements with class 'select2'
+        $('.select2').select2();
     }
+
 
     function addRowPartner() {
         var table = document.getElementById("detailPartner");
