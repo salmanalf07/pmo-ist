@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\allProjectExport;
 use App\Exports\closeProjectExport;
+use App\Exports\ExportProjByMain;
 use App\Exports\invByMonthExport;
 use App\Exports\statPaymentExport;
 use App\Models\Customer;
@@ -316,5 +317,20 @@ class projectController extends Controller
             })
             ->rawColumns(['projectNamee', 'progress'])
             ->toJson();
+    }
+
+    function ExportProjByMain(Request $request)
+    {
+        $dataa = Project::with('pm', 'customer');
+
+        if ($request->cust_idd != "#" && $request->cust_idd) {
+            $dataa->where('cust_id', $request->cust_idd);
+        }
+        if ($request->pmNamee != "#" && $request->pmNamee) {
+            $dataa->where('pmName', $request->pmNamee);
+        }
+
+        $data = $dataa->get();
+        return Excel::download(new ExportProjByMain($data), 'Project_By_Main_Contract.xlsx');
     }
 }

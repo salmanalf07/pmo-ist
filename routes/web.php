@@ -363,6 +363,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projMainCon', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_project/{id}', [projectController::class, 'destroy']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportProjByMain', [projectController::class, 'ExportProjByMain']);
 //summarry
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/summaryProject/{id}', function ($id) {
