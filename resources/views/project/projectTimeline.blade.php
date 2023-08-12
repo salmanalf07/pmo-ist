@@ -24,18 +24,39 @@
 </style>
 <div>
     <!-- row -->
+    <form method="post" role="form" id="form-add" enctype="multipart/form-data">
+        @csrf
+        <span id="peringatan"></span>
+        <input class="form-control" type="text" name="id" id="id" hidden>
+        <div class="row">
+            <div class="col-xxl-12 col-12">
+                <div class="card  mb-4">
+                    <div class="card-header">
+                        <h4 class="mb-0">Documentation</h4>
 
-    <div class="row">
-        <div class="col-xxl-12 col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Scope High Level</h4>
-                    <span id="error-message"></span>
+                    </div>
+                    <div class="card-body">
+                        <div id="inputfile" class="row">
+                            <input type="hidden" name="idfile" id="idfile">
+                            <div class="mb-3 col-6">
+                                <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Name File Here">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <input name="link" id="link" type="text" class="form-control" placeholder="Enter Link Here">
+                            </div>
+                        </div>
+                        <div style="display: none;" id="linkDirect" class="row">
+                        </div>
+                    </div>
                 </div>
-                <form method="post" role="form" id="form-add" enctype="multipart/form-data">
-                    @csrf
-                    <span id="peringatan"></span>
-                    <input class="form-control" type="text" name="id" id="id" hidden>
+            </div>
+            <div class="col-xxl-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Scope High Level</h4>
+                        <span id="error-message"></span>
+                    </div>
+
                     <div class="card-body">
                         <div class="table-responsive table-card">
                             <table class="table table-centered text-nowrap mb-0">
@@ -119,10 +140,11 @@
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
                         @endcan
                     </div>
-                </form>
+
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
@@ -202,6 +224,25 @@
                 $('#remaks' + i).val(data[i].remaks);
                 $('#overAllProg').val('{{$overAllProg->overAllProg}}' + '%');
             }
+        }
+
+        if ('{{isset($aksiFile) && $aksiFile == "EditData"}}') {
+            var data = <?php echo json_encode($file); ?>;
+            $('#idFile').val(data.id);
+            $('#nameFile').val(data.nameFile);
+            $('#link').val(data.link);
+            $('#linkDirect').html('<div class="mb-3 col-9">' +
+                '<a href="' + data.link + '" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">' +
+                '<i class="bi bi-link-45deg icon-lg me-1"></i>' + data.nameFile +
+                '</a></div>' +
+                '<div class="mb-3 col-3">' +
+                '<div class="justify-content-between text-end">' +
+                '@can("bisa-ubah")' +
+                '<button type="button" id="buttonUpdateLink" class="btn btn-warning-soft">Update</button>' +
+                '@endcan' +
+                '</div');
+            $('#linkDirect').show();
+            $('#inputfile').hide();
         }
 
         //hitung overAll

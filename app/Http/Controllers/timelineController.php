@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\documentationProject;
 use App\Models\Project;
 use App\Models\scopeProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class timelineController extends Controller
@@ -12,6 +14,7 @@ class timelineController extends Controller
     public function edit(Request $request, $id)
     {
         $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
+        $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
         $overAllProg = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
@@ -20,7 +23,12 @@ class timelineController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg]);
+        if ($file) {
+            $aksiFile = 'EditData';
+        } else {
+            $aksiFile = 'Add';
+        }
+        return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg, 'aksiFile' => $aksiFile, 'file' => $file]);
         //return $get;
     }
 
@@ -59,6 +67,15 @@ class timelineController extends Controller
 
                 $postt->save();
             }
+            //documentation
+            $file = documentationProject::findOrNew($request->idFile);
+            $file->ProjectId = $id;
+            $file->nameFile = $request->nameFile;
+            $file->type = "TIMELINE";
+            $file->link = $request->link;
+            $file->userId = Auth::user()->id;
+            $file->save();
+
             $data = [$id];
             return response()->json($data);
         } catch (ValidationException $error) {
