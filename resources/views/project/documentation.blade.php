@@ -11,9 +11,11 @@
         <div class="card">
             <!-- card header -->
             <div class="card-header d-md-flex border-bottom-0">
+                @can('bisa-tambah')
                 <div class="flex-grow-1">
                     <button id="adddata" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">+ Add {{$judul}}</button>
                 </div>
+                @endcan
             </div>
             <!-- table -->
             <div class="card-body">

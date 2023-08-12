@@ -79,9 +79,11 @@
                             </table>
                         </div>
                     </div>
+                    @can('bisa-tambah')
                     <div class="card-footer  justify-content-between">
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
                     </div>
+                    @endcan
                 </form>
             </div>
         </div>

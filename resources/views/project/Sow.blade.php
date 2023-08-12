@@ -80,12 +80,14 @@
                                             <input id="remaksIn0" name="remaksIn[]" type="text">
                                         </td>
                                         <td>
+                                            @can('bisa-hapus')
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 </tbody>
@@ -93,7 +95,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
+                        @can('bisa-tambah')
                         <button type="button" onclick="addRowInScope()" class="btn btn-warning-soft">Add Row In Scope</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -129,12 +133,14 @@
                                             <input id="remaksOut0" name="remaksOut[]" type="text">
                                         </td>
                                         <td>
+                                            @can('bisa-hapus')
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 </tbody>
@@ -142,7 +148,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
+                        @can('bisa-tambah')
                         <button type="button" onclick="addRowOutScope()" class="btn btn-warning-soft">Add Row Out Of Scope</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -150,7 +158,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="justify-content-between">
+                            @can('bisa-tambah')
                             <button type="button" class="btn btn-primary-soft add">Save</button>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -235,7 +245,9 @@
                 '</a></div>' +
                 '<div class="mb-3 col-3">' +
                 '<div class="justify-content-between text-end">' +
+                '@can("bisa-ubah")' +
                 '<button type="button" id="buttonUpdateLink" class="btn btn-warning-soft">Update</button>' +
+                '@endcan' +
                 '</div');
             $('#linkDirect').show();
             $('#inputfile').hide();

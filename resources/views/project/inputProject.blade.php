@@ -235,10 +235,11 @@
 
 
 
-
+                    @can('bisa-tambah')
                     <div class="mb-3 col-3">
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
                     </div>
+                    @endcan
                 </div>
             </form>
         </div>

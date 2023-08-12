@@ -121,6 +121,13 @@
       'Sheets' => 'Revolution\\Google\\Sheets\\Facades\\Sheets',
     ),
   ),
+  'spatie/laravel-permission' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+    ),
+  ),
   'yajra/laravel-datatables-oracle' => 
   array (
     'providers' => 

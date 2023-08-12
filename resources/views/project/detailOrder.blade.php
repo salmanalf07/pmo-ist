@@ -84,10 +84,12 @@
                             </table>
                         </div>
                     </div>
+                    @can('bisa-tambah')
                     <div class="card-footer  justify-content-between">
                         <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
                     </div>
+                    @endcan
                 </div>
             </div>
             <div class="col-xxl-3 col-12">

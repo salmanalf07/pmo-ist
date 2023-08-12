@@ -79,12 +79,14 @@
                                             <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
+                                            @can('bisa-hapus')
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endcan
                                         </td>
                                     </tr>
 
@@ -97,8 +99,10 @@
                     <div class="card-footer  justify-content-between">
                         <div class="row input-100">
                             <div class="col-6">
+                                @can('bisa-tambah')
                                 <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
                                 <button type="button" class="btn btn-primary-soft add"> Save</button>
+                                @endcan
                             </div>
                             <div class="col-3">
                                 <input class="text-end" id="totInvoiced" type="text" placeholder="Total Invoiced" readonly>

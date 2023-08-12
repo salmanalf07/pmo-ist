@@ -93,12 +93,14 @@
                                             <input id="planMandays0" name="planMandays[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
                                         </td>
                                         <td>
+                                            @can('bisa-hapus')
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endcan
                                         </td>
                                     </tr>
 
@@ -109,7 +111,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
+                        @can('bisa-tambah')
                         <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row Member</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -175,12 +179,14 @@
                                             <input id="planManPartner0" name="planManPartner[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
                                         </td>
                                         <td>
+                                            @can('bisa-hapus')
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endcan
                                         </td>
                                     </tr>
 
@@ -191,7 +197,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
+                        @can('bisa-tambah')
                         <button type="button" onclick="addRowPartner()" class="btn btn-warning-soft">Add Row Partner</button>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -199,7 +207,9 @@
                 <div class="card mb-4">
                     <div class="card-footer">
                         <div class="justify-content-between">
+                            @can('bisa-tambah')
                             <button type="button" class="btn btn-primary-soft add">Save</button>
+                            @endcan
                         </div>
                     </div>
                 </div>

@@ -38,16 +38,16 @@ class DocProjectController extends Controller
                         </a>';
             })
             ->addColumn('aksi', function ($data) {
-                return
+                return auth()->user()->can('bisa-hapus') ?
                     ' <span class="dropdown dropstart">
                     <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#!" id="DropdownOne" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
                     </a>
-                    <span class="dropdown-menu" aria-labelledby="DropdownOne">
-                        <button id="edit" data-id="' . $data->id . '" class="dropdown-item d-flex align-items-center">Edit</button>
-                        <button id="delete" data-id="' . $data->id . '" class="dropdown-item d-flex align-items-center">Delete</button>
-                    </span>
-                    </span>';
+                    <span class="dropdown-menu" aria-labelledby="DropdownOne">' .
+                    '<button id="edit" data-id="' . $data->id . '" class="dropdown-item d-flex align-items-center">Edit</button>' .
+                    '<button id="delete" data-id="' . $data->id . '" class="dropdown-item d-flex align-items-center">Delete</button>'
+                    . '</span>
+                    </span>' : "";
             })
             ->rawColumns(['namaFile', 'linkFile', 'aksi'])
             ->toJson();

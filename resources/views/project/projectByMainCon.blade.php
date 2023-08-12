@@ -69,7 +69,9 @@
                     <div class="card">
                         <div class="card-header d-md-flex border-bottom-0">
                             <div class="flex-grow-1">
+                                @can('bisa-tambah')
                                 <a href="project/inputProject" class="btn btn-primary">Add New</a>
+                                @endcan
                             </div>
                             <div class="justify-content-end">
                                 <p>Project - {{$judul}}</p>

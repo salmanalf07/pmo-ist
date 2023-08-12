@@ -77,9 +77,9 @@ class projectController extends Controller
                     </div>';
             })
             ->addColumn('aksi', function ($data) {
-                return
+                return auth()->user()->can('bisa-hapus') ?
                     '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
-                <i class="bi bi-trash"></i></button>';
+                <i class="bi bi-trash"></i></button>' : "";
             })
             ->rawColumns(['projectNamee', 'progress', 'aksi'])
             ->toJson();
