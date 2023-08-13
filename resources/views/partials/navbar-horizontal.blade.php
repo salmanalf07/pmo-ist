@@ -154,7 +154,52 @@
                     <a class="nav-link pe-5 {{ str_contains(request()->url(), 'profile') ? 'active' : '' }}" href="/profile">
                         PMO
                     </a>
+                    @role('Manage')
+                    <li class="nav-item dropdown">
+                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Master Data
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarPages">
+
+                            <li>
+                                <a class="dropdown-item" href="/customers">
+                                    Customer
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/departments">
+                                    Department
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/divisions">
+                                    Division
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/doctypes">
+                                    Document Type
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/skilllevels">
+                                    Skill Level
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/solutions">
+                                    Solution
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/specializations">
+                                    Specialization
+                                </a>
+                            </li>
+
+                        </ul>
                     </li>
+                    @endrole
                 </ul>
             </div>
 

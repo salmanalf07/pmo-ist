@@ -5,14 +5,6 @@
     <!-- Container fluid -->
     <div class="app-content-area">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <!-- Page header -->
-                    <div class="mb-5">
-                        <h3 class="mb-0">{{$judul}}</h3>
-                    </div>
-                </div>
-            </div>
             <div>
                 <!-- row -->
                 <div class="row">
@@ -31,11 +23,8 @@
                                                 <th>
                                                     No
                                                 </th>
-                                                <th style="width: 20%;">Company</th>
-                                                <th>Category</th>
-                                                <th>City</th>
-                                                <th>Industry</th>
-                                                <th>PIC</th>
+                                                <th>Division</th>
+                                                <th>Keterangan</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -69,50 +58,13 @@
                         @csrf
                         <span id="peringatan"></span>
                         <input class="form-control" type="text" name="id" id="id" hidden>
-                        <div class="mb-3 mt-3 col-6">
-                            <input class="form-cek-input" type="radio" name="radio" value="customer" id="customer" checked>
-                            <label class="form-label" for="customer">
-                                Customer
-                            </label>
-                        </div>
-                        <div class="mb-3 mt-3 col-6">
-                            <input class="form-cek-input" type="radio" name="radio" value="vendor" id="vendor">
-                            <label class="form-label" for="vendor">
-                                Vendor
-                            </label>
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Company <span class="text-danger">*</span></label>
-                            <input name="company" id="company" type="text" class="form-control" placeholder="Enter Here" required>
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Address</label>
-                            <input name="addres" id="addres" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">City</label>
-                            <input name="city" id="city" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">No NPWP</label>
-                            <input name="npwp" id="npwp" type="text" class="form-control" placeholder="Enter Here">
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Divison <span class="text-danger">*</span></label>
+                            <input name="division" id="division" type="text" class="form-control" placeholder="Enter Here" required>
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">PIC</label>
-                            <input name="pic" id="pic" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">No Telp. PIC</label>
-                            <input name="telppic" id="telppic" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="selectOne">Industri</label>
-                            <select name="industry" id="industry" class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="banking">Bangking</option>
-                                <option value="goverment">goverment</option>
-                                <option value="bumn">BUMN</option>
-                            </select>
+                            <label class="form-label">Keterangan</label>
+                            <input name="keterangan" id="keterangan" type="text" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
@@ -145,10 +97,10 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 2, 6], // table ke 1
+                "targets": [0, 3], // table ke 1
             }, ],
             ajax: {
-                url: '{{ url("json_customer") }}'
+                url: '{{ url("json_division") }}'
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
@@ -158,24 +110,12 @@
                     name: 'id'
                 },
                 {
-                    data: 'company',
-                    name: 'company'
+                    data: 'division',
+                    name: 'division'
                 },
                 {
-                    data: 'type',
-                    name: 'type'
-                },
-                {
-                    data: 'city',
-                    name: 'city'
-                },
-                {
-                    data: 'industry',
-                    name: 'industry'
-                },
-                {
-                    data: 'pic',
-                    name: 'pic'
+                    data: 'keterangan',
+                    name: 'keterangan'
                 },
                 {
                     data: 'aksi',
@@ -197,7 +137,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '{{ url("store_customer") }}',
+            url: '{{ url("store_division") }}',
             data: fd,
             processData: false,
             contentType: false,
@@ -224,7 +164,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'edit_customer',
+            url: 'edit_division',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'id': uid,
@@ -234,19 +174,8 @@
 
                 //isi form
                 $('#id').val(data.id);
-                $('#company').val(data.company);
-                $('#addres').val(data.addres);
-                $('#city').val(data.city);
-                $('#npwp').val(data.npwp);
-                $('#pic').val(data.pic);
-                $('#telppic').val(data.telppic);
-                $('#industry').val(data.industry).trigger('change');
-                if (data.type === "customer") {
-                    $("#customer").prop('checked', true);
-                }
-                if (data.type === "vendor") {
-                    $("#vendor").prop('checked', true);
-                }
+                $('#division').val(data.division);
+                $('#keterangan').val(data.keterangan);
 
                 id = $('#id').val();
 
@@ -266,7 +195,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: 'update_customer/' + id,
+            url: 'update_division/' + id,
             data: fd,
             processData: false,
             contentType: false,
@@ -294,7 +223,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: 'delete_customer/' + $(this).data('id'),
+                url: 'delete_division/' + $(this).data('id'),
                 data: {
                     '_token': "{{ csrf_token() }}",
                 },

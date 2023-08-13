@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\customerController;
+use App\Http\Controllers\departmentController;
+use App\Http\Controllers\divisionController;
 use App\Http\Controllers\DocProjectController;
+use App\Http\Controllers\doctypeController;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
@@ -10,7 +13,10 @@ use App\Http\Controllers\projBonus;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\riskIssuestController;
 use App\Http\Controllers\scopeProjectController;
+use App\Http\Controllers\skillLevelController;
+use App\Http\Controllers\solutionController;
 use App\Http\Controllers\sowController;
+use App\Http\Controllers\specializationController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Models\Customer;
@@ -279,17 +285,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('projectDashboard');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_projectDetail', [projectController::class, 'json_projectDetail']);
-//customer
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/customers', function () {
-        return view('project/customers', ['judul' => "Customers"]);
-    })->name('customers');
-});
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_customer', [customerController::class, 'json']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_customer', [customerController::class, 'store']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_customer', [customerController::class, 'edit']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_customer/{id}', [customerController::class, 'update']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_customer/{id}', [customerController::class, 'destroy']);
 //employe
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/employee', function () {
@@ -571,6 +566,90 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/statPaymentExport', [projectController::class, 'statPaymentExport']);
 //end Report
+
+
+
+//MASTER DATA
+//customer
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/customers', function () {
+        return view('masterData/customers', ['judul' => "Customers"]);
+    })->name('customers');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_customer', [customerController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_customer', [customerController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_customer', [customerController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_customer/{id}', [customerController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_customer/{id}', [customerController::class, 'destroy']);
+//department
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/departments', function () {
+        return view('masterData/departments', ['judul' => "Department"]);
+    })->name('departments');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_department', [departmentController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_department', [departmentController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_department', [departmentController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_department/{id}', [departmentController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_department/{id}', [departmentController::class, 'destroy']);
+//division
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/divisions', function () {
+        return view('masterData/divisions', ['judul' => "Division"]);
+    })->name('divisions');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_division', [divisionController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_division', [divisionController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_division', [divisionController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_division/{id}', [divisionController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_division/{id}', [divisionController::class, 'destroy']);
+//Document Type
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/doctypes', function () {
+        return view('masterData/doctypes', ['judul' => "Document Type"]);
+    })->name('doctypes');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_doctypes', [doctypeController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_doctypes', [doctypeController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_doctypes', [doctypeController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_doctypes/{id}', [doctypeController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_doctypes/{id}', [doctypeController::class, 'destroy']);
+//Skill Level
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/skilllevels', function () {
+        return view('masterData/skilllevels', ['judul' => "Skill Level"]);
+    })->name('skilllevels');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_skilllevels', [skillLevelController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_skilllevels', [skillLevelController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_skilllevels', [skillLevelController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_skilllevels/{id}', [skillLevelController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_skilllevels/{id}', [skillLevelController::class, 'destroy']);
+//Solution
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/solutions', function () {
+        return view('masterData/solutions', ['judul' => "Solution"]);
+    })->name('solutions');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_solutions', [solutionController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_solutions', [solutionController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_solutions', [solutionController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_solutions/{id}', [solutionController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_solutions/{id}', [solutionController::class, 'destroy']);
+//Specialization
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/specializations', function () {
+        return view('masterData/specializations', ['judul' => "Specialization"]);
+    })->name('specializations');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_specializations', [specializationController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_specializations', [specializationController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_specializations', [specializationController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_specializations/{id}', [specializationController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_specializations/{id}', [specializationController::class, 'destroy']);
+//END MASTER DATA
+
+
 
 //test google sheet
 Route::get('/google/auth', [employeeController::class, 'auth']);
