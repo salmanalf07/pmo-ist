@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\employByAsignExport;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use App\Models\memberProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class employeeController extends Controller
@@ -179,5 +181,32 @@ class employeeController extends Controller
 
         //return response()->json($data);
         return view('sheets', compact('data'));
+    }
+
+    function exportByAssignment(Request $request)
+    {
+        $dataa = memberProject::with('project', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization');
+        $dataa->whereHas('employee', function ($q) {
+            $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
+        });
+        // if ($request->dateChange == "true") {
+        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        // }
+        if ($request->namee != "#" && $request->namee) {
+            $dataa->where('employee', '=', $request->namee);
+        }
+        if ($request->projectIdd != "#" && $request->projectIdd) {
+            $dataa->where('projectId', '=', $request->projectIdd);
+        }
+        if ($request->availableAtt != "01/01/1900" && $request->availableAtt) {
+            $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
+        } else {
+            $dataa->where('endDate', '>=', date("Y-m-d"));
+        }
+        $data = $dataa->get();
+
+        //return $data;
+        return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
     }
 }

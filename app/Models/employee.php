@@ -41,7 +41,15 @@ class employee extends Model
     {
         return $this->belongsTo(division::class, 'divisi', 'id');
     }
+    public function divisis()
+    {
+        return $this->belongsTo(division::class, 'divisi', 'id');
+    }
     public function department()
+    {
+        return $this->belongsTo(department::class, 'department', 'id');
+    }
+    public function departments()
     {
         return $this->belongsTo(department::class, 'department', 'id');
     }
@@ -64,6 +72,10 @@ class employee extends Model
     public function region()
     {
         return $this->belongsTo(locationEmployee::class, 'penempatan', 'id');
+    }
+    public function specialization()
+    {
+        return $this->belongsTo(specialization::class, 'spesialisasi', 'id');
     }
     protected static function boot()
     {

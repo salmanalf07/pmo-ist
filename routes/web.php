@@ -305,6 +305,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project]);
     })->name('empByAssignment');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empExtResources', function () {
         $employee = employee::get();
