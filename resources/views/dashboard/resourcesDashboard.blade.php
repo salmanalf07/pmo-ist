@@ -49,7 +49,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($projectMember as $projectMember)
+                                        @foreach(collect($projectMember)->sortBy('customerName') as $projectMember)
                                         <tr>
                                             <td>{{substr($projectMember['customerName'], 0, 25)}}</td>
                                             <td><a href="/project/summaryProject/{{$projectMember['projectId']}}" class="text-inherit" target="_blank">{{substr($projectMember['projectName'], 0, 25)}}</a></td>
