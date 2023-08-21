@@ -28,8 +28,8 @@ class memberProjectController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
-        //return $get;
+        //return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
+        return $get;
     }
 
     public function store(Request $request, $id)
@@ -115,7 +115,7 @@ class memberProjectController extends Controller
 
     function autoSave(Request $request, $id)
     {
-        $postt = memberProject::findOrNew($request->idMember);
+        $postt = memberProject::with('employees.divisis')->findOrNew($request->idMember);
         $postt->ProjectId = $id;
         $postt->employee = $request->employee;
         $postt->role = $request->role;
@@ -126,6 +126,6 @@ class memberProjectController extends Controller
 
         $postt->save();
 
-        return response()->json($postt->id);
+        return response()->json(['idMember' => $postt->id, 'division' => $postt->employees->divisis->division]);
     }
 }

@@ -392,7 +392,8 @@
                 },
                 success: function(data) {
                     // console.log(data);
-                    $('#idMember' + matches[0]).val(data)
+                    $('#idMember' + matches[0]).val(data.idMember)
+                    $('#divisi' + matches[0]).val(data.division);
 
                 },
             });
