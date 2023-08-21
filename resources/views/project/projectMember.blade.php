@@ -292,6 +292,7 @@
                 $('#employee' + i).val(data[i].employee).trigger('change');
                 $('#role' + i).val(data[i].role).trigger('change');
                 $('#accesType' + i).val(data[i].accesType).trigger('change');
+                $('#divisi' + i).val(data[i].employees.divisis.division);
                 $('#startDate' + i).val((data[i].startDate).split("-").reverse().join("-"));
                 $('#endDate' + i).val((data[i].endDate).split("-").reverse().join("-"));
                 $('#planMandays' + i).val(data[i].planMandays);
@@ -316,6 +317,7 @@
         }
 
         $(document).on('change', '[name="employee[]"],[name="role[]"],[name="accesType[]"],[name="startDate[]"],[name="endDate[]"],[name="planMandays[]"]', function(event) {
+
             var matches = $(this).attr('id').match(/(\d+)/);
             var id = $('#employee' + matches[0]).val();
             console.log(id);
@@ -577,20 +579,22 @@
 
     function search_div(i) {
         //console.log(i.id);
-        var matches = i.id.match(/\d+/);
-        var employee = $('#employee' + matches[0]).val();
-        $.ajax({
-            type: 'POST',
-            url: '/search_employee',
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': employee,
+        if ('{{isset($aksi) && $aksi != "EditData"}}') {
+            var matches = i.id.match(/\d+/);
+            var employee = $('#employee' + matches[0]).val();
+            $.ajax({
+                type: 'POST',
+                url: '/search_employee',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': employee,
 
-            },
-            success: function(data) {
-                $('#divisi' + matches).val(data.divisi['division']);
-            },
-        });
+                },
+                success: function(data) {
+                    $('#divisi' + matches).val(data.divisi['division']);
+                },
+            });
+        }
     };
 </script>
 @endsection
