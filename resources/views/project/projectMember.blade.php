@@ -49,6 +49,66 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detailOrder">
+                                    @if (isset($aksi) && $aksi == "EditData")
+                                    <?php $ref  = 0 ?>
+                                    @foreach ( $data as $dataa )
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idMember[]" id="idMember{{$ref}}">
+                                        </td>
+                                        <td>
+                                            <select name="employee[]" id="employee{{$ref}}" class="select2" aria-label="Default select example" onchange="search_div(this)">
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($employee as $employees)
+                                                <option value="{{$employees->id}}">{{$employees->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="role[]" id="role{{$ref}}" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($role as $roles)
+                                                <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="accesType[]" id="accesType{{$ref}}" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="Remote">Remote</option>
+                                                <option value="Onsite">Onsite</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="divisi{{$ref}}" name="divisi[]" type="text" readonly>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="startDate{{$ref}}" name="startDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="endDate{{$ref}}" name="endDate[]" type="text" onchange="compareDates(this)" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input id="planMandays{{$ref}}" name="planMandays[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
+                                        </td>
+                                        <td>
+                                            @can('bisa-hapus')
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    <?php $ref++ ?>
+                                    @endforeach
+                                    @else
                                     <tr class="input-100">
                                         <td hidden>
                                             <input type="text" name="idMember[]" id="idMember0">
@@ -104,7 +164,7 @@
                                         </td>
                                     </tr>
 
-
+                                    @endif
 
                                 </tbody>
                             </table>
@@ -139,6 +199,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detailPartner">
+
                                     <tr class="input-100">
                                         <td hidden>
                                             <input type="text" name="idPartner[]" id="idPartner0">
@@ -189,7 +250,6 @@
                                             @endcan
                                         </td>
                                     </tr>
-
 
 
                                 </tbody>
@@ -283,9 +343,6 @@
         if ('{{isset($aksi) && $aksi == "EditData"}}') {
             var data = <?php echo json_encode($data); ?>;
             $('#id').val('{{ isset($data) ? $id : "" }}');
-            for (let j = 0; j < ('{{count($data)}}' - 1); j++) {
-                setTimeout(addRow(), 500)
-            }
 
             for (var i = 0; i < '{{count($data)}}'; i++) {
                 $('#idMember' + i).val(data[i].id);
@@ -300,9 +357,6 @@
 
             var dataa = <?php echo json_encode($partner); ?>;
             $('#id').val('{{ isset($partner) ? $id : "" }}');
-            for (let j = 0; j < ('{{count($partner)}}' - 1); j++) {
-                addRowPartner();
-            }
 
             for (var i = 0; i < '{{count($partner)}}'; i++) {
                 $('#idPartner' + i).val(dataa[i].id);
@@ -337,7 +391,7 @@
                     'planMandays': $('#planMandays' + matches[0]).val(),
                 },
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $('#idMember' + matches[0]).val(data)
 
                 },
