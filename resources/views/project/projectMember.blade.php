@@ -49,7 +49,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detailOrder">
-                                    @if (isset($aksi) && $aksi == "EditData")
+                                    @if (isset($aksi) && $aksi == "EditData" && count($data) > 0)
                                     <?php $ref  = 0 ?>
                                     @foreach ( $data as $dataa )
                                     <tr class="input-100">
@@ -199,7 +199,62 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detailPartner">
+                                    @if (isset($aksi) && $aksi == "EditData" && count($partner) > 0)
+                                    <?php $reff  = 0 ?>
+                                    @foreach ( $partner as $partners )
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idPartner[]" id="idPartner{{$reff}}">
+                                        </td>
+                                        <td>
+                                            <input id="partner{{$reff}}" name="partner[]" type="text">
+                                        </td>
+                                        <td>
+                                            <select name="rolePartner[]" id="rolePartner{{$reff}}" class="select2" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                @foreach($roleMember as $roleMembers)
+                                                <option value="{{$roleMembers->id}}">{{$roleMembers->roleEmployee}}</option>
+                                                @endforeach
 
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="accesPartner[]" id="accesPartner{{$reff}}" class="select2" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                <option value="Remote">Remote</option>
+                                                <option value="Onsite">Onsite</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="partnerCorp{{$reff}}" name="partnerCorp[]" type="text">
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="stdatePartner{{$reff}}" name="stdatePartner[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="eddatePartner{{$reff}}" name="eddatePartner[]" type="text" onchange="compareDates(this)" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input id="planManPartner{{$reff}}" name="planManPartner[]" type="text" onchange="compareDates(this)" class="text-center" value="0">
+                                        </td>
+                                        <td>
+                                            @can('bisa-hapus')
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    <?php $reff++ ?>
+                                    @endforeach
+                                    @else
                                     <tr class="input-100">
                                         <td hidden>
                                             <input type="text" name="idPartner[]" id="idPartner0">
@@ -250,6 +305,7 @@
                                             @endcan
                                         </td>
                                     </tr>
+                                    @endif
 
 
                                 </tbody>
