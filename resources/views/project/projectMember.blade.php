@@ -430,29 +430,31 @@
 
             var matches = $(this).attr('id').match(/(\d+)/);
             var id = $('#employee' + matches[0]).val();
-            console.log(id);
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: '/store_autoMember/{{$id}}',
-                data: {
-                    'idMember': $('#idMember' + matches[0]).val(),
-                    'employee': $('#employee' + matches[0]).val(),
-                    'role': $('#role' + matches[0]).val(),
-                    'accesType': $('#accesType' + matches[0]).val(),
-                    'startDate': $('#startDate' + matches[0]).val(),
-                    'endDate': $('#endDate' + matches[0]).val(),
-                    'planMandays': $('#planMandays' + matches[0]).val(),
-                },
-                success: function(data) {
-                    // console.log(data);
-                    $('#idMember' + matches[0]).val(data.idMember)
-                    $('#divisi' + matches[0]).val(data.division);
+            // console.log(id);
+            if (id != "#") {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: '/store_autoMember/{{$id}}',
+                    data: {
+                        'idMember': $('#idMember' + matches[0]).val(),
+                        'employee': $('#employee' + matches[0]).val(),
+                        'role': $('#role' + matches[0]).val(),
+                        'accesType': $('#accesType' + matches[0]).val(),
+                        'startDate': $('#startDate' + matches[0]).val(),
+                        'endDate': $('#endDate' + matches[0]).val(),
+                        'planMandays': $('#planMandays' + matches[0]).val(),
+                    },
+                    success: function(data) {
+                        // console.log(data);
+                        $('#idMember' + matches[0]).val(data.idMember)
+                        $('#divisi' + matches[0]).val(data.division);
 
-                },
-            });
+                    },
+                });
+            }
         });
     })
 </script>
