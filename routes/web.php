@@ -478,9 +478,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/edit_documentation/{id}', [DocProjectController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/update_documentation/{id}', [DocProjectController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_documentation/{id}', [DocProjectController::class, 'destroy']);
-//Project Bonus
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/bonus/{id}', [projBonus::class, 'edit'])->name('projectBonus');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_bonus/{id}', [projBonus::class, 'store'])->name('storeBonus');
+//Project Costing
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/costing/{id}', [projBonus::class, 'edit'])->name('projectCosting');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_costing/{id}', [projBonus::class, 'store'])->name('storeCosting');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectCosting/{id}', [projBonus::class, 'destroy_costing']);
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {
