@@ -76,6 +76,7 @@
                                         <th>Terms Name</th>
                                         <th>Terms Value</th>
                                         <th>Inv Date</th>
+                                        <th>To Payment</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -122,7 +123,12 @@
             "columnDefs": [{
                     "className": "text-end",
                     "targets": [4], // table ke 1
-                }, {
+                },
+                {
+                    "className": "text-center",
+                    "targets": [6], // table ke 1
+                },
+                {
                     targets: [5],
                     render: function(oTable) {
                         return moment(oTable).format('DD-MM-YYYY');
@@ -201,6 +207,20 @@
                     data: 'invDate',
                     name: 'invDate'
                 },
+                {
+                    data: 'invDate',
+                    render: function(data, type, row) {
+                        // Menghitung selisih tanggal
+                        var currentDate = new Date();
+                        var dateColumn = new Date(data); // Ubah data menjadi objek tanggal
+
+                        var timeDiff = Math.abs(currentDate.getTime() - dateColumn.getTime());
+                        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                        return diffDays;
+                    }
+                },
+
             ],
 
 
