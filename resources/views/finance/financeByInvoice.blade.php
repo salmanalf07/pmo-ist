@@ -3,6 +3,12 @@
 @section('konten')
 <!-- custom select2 -->
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
+<style>
+    th {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+</style>
 <div id="app-content">
     <!-- Container fluid -->
     <div class="app-content-area">
@@ -196,7 +202,7 @@
                     data: 'termsName',
                     name: 'termsName',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
+                        return type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
                     }
                 },
                 {
