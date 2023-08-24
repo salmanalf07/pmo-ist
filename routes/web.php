@@ -12,6 +12,7 @@ use App\Http\Controllers\pipelineController;
 use App\Http\Controllers\projBonus;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\riskIssuestController;
+use App\Http\Controllers\roleEmployee as ControllersRoleEmployee;
 use App\Http\Controllers\scopeProjectController;
 use App\Http\Controllers\skillLevelController;
 use App\Http\Controllers\solutionController;
@@ -649,6 +650,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_specializations', [specializationController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_specializations/{id}', [specializationController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_specializations/{id}', [specializationController::class, 'destroy']);
+//Role
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/roles', function () {
+        return view('masterData/roles', ['judul' => "Role"]);
+    })->name('roles');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_roles', [ControllersRoleEmployee::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_roles', [ControllersRoleEmployee::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_roles', [ControllersRoleEmployee::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_roles/{id}', [ControllersRoleEmployee::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_roles/{id}', [ControllersRoleEmployee::class, 'destroy']);
 //END MASTER DATA
 
 
