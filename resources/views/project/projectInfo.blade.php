@@ -117,10 +117,6 @@
                 [10, 25, 50, "All"]
             ],
             "autoWidth": false,
-            "columnDefs": [{
-                "className": "text-center",
-                "targets": [3], // table ke 1
-            }],
             ajax: {
                 url: '{{ url("json_project") }}',
                 data: function(d) {
