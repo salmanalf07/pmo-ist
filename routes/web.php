@@ -6,6 +6,7 @@ use App\Http\Controllers\divisionController;
 use App\Http\Controllers\DocProjectController;
 use App\Http\Controllers\doctypeController;
 use App\Http\Controllers\employeeController;
+use App\Http\Controllers\highAndNotesController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\pipelineController;
@@ -483,6 +484,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/costing/{id}', [projBonus::class, 'edit'])->name('projectCosting');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_costing/{id}', [projBonus::class, 'store'])->name('storeCosting');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectCosting/{id}', [projBonus::class, 'destroy_costing']);
+//Project Highlight And Notes
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/highAndNotes/{id}', function ($id) {
+    $project = Project::with('customer')->find($id);
+    return view('project/highAndNotes', ['id' => $id, 'judul' => "Highlight And Notes", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
+})->name('highAndNotes');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_highAndNotes', [highAndNotesController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_highAndNotes', [highAndNotesController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_highAndNotes', [highAndNotesController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_highAndNotes/{id}', [highAndNotesController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_highAndNotes/{id}', [highAndNotesController::class, 'destroy']);
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {
