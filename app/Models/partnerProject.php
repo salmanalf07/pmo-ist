@@ -21,6 +21,11 @@ class partnerProject extends Model
         'eddatePartner',
         'planManPartner',
     ];
+
+    public function roles()
+    {
+        return $this->belongsTo(roleEmployee::class, 'rolePartner', 'id');
+    }
     /**
      * The "booting" function of model
      *

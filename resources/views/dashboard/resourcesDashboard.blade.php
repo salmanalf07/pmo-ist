@@ -39,7 +39,9 @@
                                         <tr>
                                             <th>Customer Name</th>
                                             <th>Project Name</th>
-                                            <th>Total Project Member</th>
+                                            <th>Total Participant</th>
+                                            <th>Member</th>
+                                            <th>Partner</th>
                                             <th>PM</th>
                                             <th>BA</th>
                                             <th>FE</th>
@@ -53,7 +55,9 @@
                                         <tr>
                                             <td>{{substr($projectMember['customerName'], 0, 25)}}</td>
                                             <td><a href="/project/summaryProject/{{$projectMember['projectId']}}" class="text-inherit" target="_blank">{{substr($projectMember['projectName'], 0, 25)}}</a></td>
+                                            <td class="text-center">{{$projectMember['totalMembers'] + $projectMember['totalPartner']}}</td>
                                             <td class="text-center">{{$projectMember['totalMembers']}}</td>
+                                            <td class="text-center">{{$projectMember['totalPartner']}}</td>
                                             <td class="text-center">{{isset($projectMember['Project manager'])?$projectMember['Project manager']:""}}</td>
                                             <td class="text-center">{{isset($projectMember['Business Analyst'])?$projectMember['Business Analyst']:""}}</td>
                                             <td class="text-center">{{isset($projectMember['Front End Developer'])?$projectMember['Front End Developer']:""}}</td>

@@ -60,6 +60,11 @@ class Project extends Model
     {
         return $this->hasMany(memberProject::class, 'projectId', 'id');
     }
+    public function partnerProject()
+    {
+        return $this->hasMany(partnerProject::class, 'projectId', 'id');
+    }
+
 
     /**
      * The "booting" function of model

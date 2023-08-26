@@ -61,10 +61,10 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/resourcesDashboard', function () {
         $employeeByDept = employee::with('department')->select('department', DB::raw('COUNT(department) as totalDepartment'))->groupBy('department')->get();
-        $projectMember = Project::with('customer', 'memberProject.roles')->get();
+        $projectMember = Project::with('customer', 'memberProject.roles', 'partnerProject.roles')->get();
 
         // Query untuk mendapatkan data proyek beserta anggota proyek dan peran mereka
-        $projectMember = Project::with('memberProject.roles')->get();
+        // $projectMember = Project::with('memberProject.roles', 'partnerProject.roles')->get();
 
         // Inisialisasi array untuk menyimpan rekap jumlah peran (role) di setiap proyek
         $projectRoleCounts = array();
@@ -90,9 +90,26 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 }
             }
 
+            foreach ($project->partnerProject as  $partner) {
+                // Check if the role exists and is an object
+                if ($partner->rolePartner != "#") {
+                    $roleEmployee = $partner->roles->roleEmployee;
+                } else {
+                    $roleEmployee = "#";
+                }
+
+                // Increment the role count for the current project
+                if (isset($projectRoleCount[$roleEmployee])) {
+                    $projectRoleCount[$roleEmployee]++;
+                } else {
+                    $projectRoleCount[$roleEmployee] = 1;
+                }
+            }
+
             // Menambahkan informasi tambahan ke dalam array $projectRoleCount
             $projectRoleCount['customerName'] = $project->customer->company;
             $projectRoleCount['totalMembers'] = count($project->memberProject);
+            $projectRoleCount['totalPartner'] = count($project->partnerProject);
             $projectRoleCount['projectName'] = $project->projectName;
             $projectRoleCount['projectId'] = $project->id;
 
@@ -140,7 +157,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         $totalRegion = employee::with('region')->select('penempatan', DB::raw('count(*) as totalregion'))->groupBy('penempatan')->get();
         return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => $resultArray, 'totalRole' => $resultRole, 'totalRegion' => $totalRegion]);
-        //return $totalRegion;
+        //return $projectRoleCounts;
     })->name('resourcesDashboard');
 });
 //end Dashboard

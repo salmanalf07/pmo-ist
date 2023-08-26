@@ -20,6 +20,7 @@
                                 </th>
                                 <th>Highlight And Notes</th>
                                 <th>User</th>
+                                <th>Created At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -85,9 +86,16 @@
             ],
             "autoWidth": false,
             "columnDefs": [{
-                "className": "text-center",
-                "targets": [0, 3], // table ke 1
-            }, ],
+                    "className": "text-center",
+                    "targets": [0, 3], // table ke 1
+                },
+                {
+                    targets: 3,
+                    render: function(oTable) {
+                        return moment(oTable).format('DD-MM-YYYY HH:mm');
+                    },
+                },
+            ],
             ajax: {
                 url: '{{ url("json_highAndNotes") }}'
             },
@@ -105,6 +113,10 @@
                 {
                     data: 'users.name',
                     name: 'users.name'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
                 },
                 {
                     data: 'aksi',
