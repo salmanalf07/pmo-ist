@@ -211,7 +211,7 @@
                                         </td>
                                         <td>
                                             <select name="rolePartner[]" id="rolePartner{{$reff}}" class="select2" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
+                                                <option value="#" selected>Open this select menu</option>
                                                 @foreach($roleMember as $roleMembers)
                                                 <option value="{{$roleMembers->id}}">{{$roleMembers->roleEmployee}}</option>
                                                 @endforeach
@@ -220,7 +220,7 @@
                                         </td>
                                         <td>
                                             <select name="accesPartner[]" id="accesPartner{{$reff}}" class="select2" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
+                                                <option value="#" selected>Open this select menu</option>
                                                 <option value="Remote">Remote</option>
                                                 <option value="Onsite">Onsite</option>
                                             </select>
@@ -264,7 +264,7 @@
                                         </td>
                                         <td>
                                             <select name="rolePartner[]" id="rolePartner0" class="select2" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
+                                                <option value="#" selected>Open this select menu</option>
                                                 @foreach($roleMember as $roleMember)
                                                 <option value="{{$roleMember->id}}">{{$roleMember->roleEmployee}}</option>
                                                 @endforeach

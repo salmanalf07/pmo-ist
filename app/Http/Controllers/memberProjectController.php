@@ -77,17 +77,20 @@ class memberProjectController extends Controller
 
 
             for ($count = 0; $count < count($partner); $count++) {
-                $postt = partnerProject::findOrNew($idPartner[$count]);
-                $postt->ProjectId = $id;
-                $postt->partner = $partner[$count];
-                $postt->rolePartner = $rolePartner[$count];
-                $postt->accesPartner = $accesPartner[$count];
-                $postt->partnerCorp = $partnerCorp[$count];
-                $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $stdatePartner[$count])));
-                $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $eddatePartner[$count])));
-                $postt->planManPartner = $planManPartner[$count];
+                if ($partner[$count] != "#") {
+                    $postt = partnerProject::findOrNew($idPartner[$count]);
+                    $postt->ProjectId = $id;
+                    $postt->partner = $partner[$count];
+                    $postt->rolePartner = $rolePartner[$count];
+                    $postt->accesPartner = $accesPartner[$count];
+                    $postt->partnerCorp = $partnerCorp[$count];
+                    $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $stdatePartner[$count])));
+                    $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $eddatePartner[$count])));
+                    $postt->planManPartner = $planManPartner[$count];
 
-                $postt->save();
+
+                    $postt->save();
+                }
             }
             $data = [$id];
             return response()->json($data);
@@ -123,7 +126,7 @@ class memberProjectController extends Controller
             $postt->accesType = $request->accesType;
             $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->startDate)));
             $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->endDate)));
-            $postt->planMandays = $request->planMandays;
+            $postt->planMandays = $request->planMandays == null ? 0 : $request->planMandays;
 
             $postt->save();
 
@@ -137,7 +140,7 @@ class memberProjectController extends Controller
             $postt->partnerCorp = $request->partnerCorp;
             $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $request->stdatePartner)));
             $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $request->eddatePartner)));
-            $postt->planManPartner = $request->planManPartner;
+            $postt->planManPartner = $request->planManPartner == null ? 0 : $request->planManPartner;
             $postt->save();
 
             return response()->json(['message' => "succes", 'idPartner' => $postt->id]);
