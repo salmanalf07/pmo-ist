@@ -89,13 +89,11 @@
                                     <table id="example1" class="table text-nowrap table-centered mt-0" style="width: 100%">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>
-                                                    No
-                                                </th>
                                                 <th>Nama Karyawan</th>
                                                 <th>Department</th>
                                                 <th>Division</th>
                                                 <th>Project Name</th>
+                                                <th>customer</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                             </tr>
@@ -156,7 +154,7 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 5, 6], // table ke 1
+                "targets": [5, 6], // table ke 1
             }, {
                 targets: [5, 6],
                 render: function(oTable) {
@@ -174,14 +172,7 @@
                     }
                 }
             },
-            "fnCreatedRow": function(row, data, index) {
-                $('td', row).eq(0).html(index + 1);
-            },
             columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
                     data: 'employee.name',
                     name: 'employee.name'
                 },
@@ -209,12 +200,23 @@
                     data: function(row, type) {
                         if (row.project && row.project.projectName) {
                             var data = row.project.projectName;
-                            return type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
+                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
                     },
                     name: 'project.projectName',
+                },
+                {
+                    data: function(row, type) {
+                        if (row.project && row.project.customer.company) {
+                            var data = row.project.customer.company;
+                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'project.customer.company',
                 },
                 {
                     data: 'startDate',

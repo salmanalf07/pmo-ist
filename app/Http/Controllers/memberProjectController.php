@@ -115,17 +115,32 @@ class memberProjectController extends Controller
 
     function autoSave(Request $request, $id)
     {
-        $postt = memberProject::with('employees.divisis')->findOrNew($request->idMember);
-        $postt->ProjectId = $id;
-        $postt->employee = $request->employee;
-        $postt->role = $request->role;
-        $postt->accesType = $request->accesType;
-        $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->startDate)));
-        $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->endDate)));
-        $postt->planMandays = $request->planMandays;
+        if ($request->type == "employee") {
+            $postt = memberProject::with('employees.divisis')->findOrNew($request->idMember);
+            $postt->ProjectId = $id;
+            $postt->employee = $request->employee;
+            $postt->role = $request->role;
+            $postt->accesType = $request->accesType;
+            $postt->startDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->startDate)));
+            $postt->endDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->endDate)));
+            $postt->planMandays = $request->planMandays;
 
-        $postt->save();
+            $postt->save();
 
-        return response()->json(['idMember' => $postt->id, 'division' => $postt->employees->divisis->division]);
+            return response()->json(['idMember' => $postt->id, 'division' => $postt->employees->divisis->division]);
+        } else if ($request->type == "partner") {
+            $postt = partnerProject::findOrNew($request->idPartner);
+            $postt->ProjectId = $id;
+            $postt->partner = $request->partner;
+            $postt->rolePartner = $request->rolePartner;
+            $postt->accesPartner = $request->accesPartner;
+            $postt->partnerCorp = $request->partnerCorp;
+            $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $request->stdatePartner)));
+            $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $request->eddatePartner)));
+            $postt->planManPartner = $request->planManPartner;
+            $postt->save();
+
+            return response()->json(['message' => "succes", 'idPartner' => $postt->id]);
+        }
     }
 }

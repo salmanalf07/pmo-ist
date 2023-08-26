@@ -41,7 +41,7 @@ class employeeController extends Controller
 
     function jsonByAssignment(Request $request)
     {
-        $dataa = memberProject::with('project', 'employee.divisi', 'employee.department');
+        $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department');
         $dataa->whereHas('employee', function ($q) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
         });

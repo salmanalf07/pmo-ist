@@ -425,7 +425,7 @@
                 $('#planManPartner' + i).val(dataa[i].planManPartner);
             }
         }
-
+        //autosave member
         $(document).on('change', '[name="employee[]"],[name="role[]"],[name="accesType[]"],[name="startDate[]"],[name="endDate[]"],[name="planMandays[]"]', function(event) {
 
             var matches = $(this).attr('id').match(/(\d+)/);
@@ -439,6 +439,7 @@
                     type: 'POST',
                     url: '/store_autoMember/{{$id}}',
                     data: {
+                        'type': "employee",
                         'idMember': $('#idMember' + matches[0]).val(),
                         'employee': $('#employee' + matches[0]).val(),
                         'role': $('#role' + matches[0]).val(),
@@ -451,6 +452,38 @@
                         // console.log(data);
                         $('#idMember' + matches[0]).val(data.idMember)
                         $('#divisi' + matches[0]).val(data.division);
+
+                    },
+                });
+            }
+        });
+        //autosave partner
+        $(document).on('change', '[name="partner[]"],[name="rolePartner[]"],[name="accesPartner[]"],[name="partnerCorp[]"],[name="stdatePartner[]"],[name="eddatePartner[]"],[name="planManPartner[]"]', function(event) {
+
+            var matches = $(this).attr('id').match(/(\d+)/);
+            var id = $('#partner' + matches[0]).val();
+            // console.log(id);
+            if (id != "#") {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: '/store_autoMember/{{$id}}',
+                    data: {
+                        'type': "partner",
+                        'idPartner': $('#idPartner' + matches[0]).val(),
+                        'partner': $('#partner' + matches[0]).val(),
+                        'rolePartner': $('#rolePartner' + matches[0]).val(),
+                        'accesPartner': $('#accesPartner' + matches[0]).val(),
+                        'partnerCorp': $('#partnerCorp' + matches[0]).val(),
+                        'stdatePartner': $('#stdatePartner' + matches[0]).val(),
+                        'eddatePartner': $('#eddatePartner' + matches[0]).val(),
+                        'planManPartner': $('#planManPartner' + matches[0]).val(),
+                    },
+                    success: function(data) {
+                        $('#idPartner' + matches[0]).val(data.idPartner)
+                        // console.log(data);
 
                     },
                 });
