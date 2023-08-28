@@ -51,7 +51,7 @@ class topProjectController extends Controller
                 return
                     '<div class="d-flex align-items-center">
                         <div>
-                            <h4 class="mb-0 fs-5"><a href="/project/top/' . $data->project['id'] . '" class="text-inherit">' . substr($data->project['projectName'], 0, 20) . '</a></h4>
+                            <h4 class="mb-0 fs-5"><a target="_blank" href="/project/top/' . $data->project['id'] . '" class="text-inherit">' . substr($data->project['projectName'], 0, 20) . '</a></h4>
                         </div>
                     </div>';
             })
