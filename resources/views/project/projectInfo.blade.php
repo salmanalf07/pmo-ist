@@ -129,11 +129,14 @@
                 }
             },
             columns: [{
-                    data: 'customer.company',
+                    data: function(row, type) {
+                        if (row.cust_id != "#") {
+                            return type === 'display' && row.customer.company.length > 23 ? row.customer.company.substring(0, 23) + '..' : row.customer.company;
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
                     name: 'customer.company',
-                    render: function(data, type, row) {
-                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
-                    }
                 }, {
                     data: 'projectNamee',
                     name: 'projectNamee',
