@@ -294,15 +294,12 @@
 <script>
     var salesRevenueData = <?php echo json_encode($totalLevel); ?>;
     // console.log(salesRevenueData)
-
-    function getRandomColor() {
-        var letters = "0123456789ABCDEF";
-        var color = "#";
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
+    var color = [
+        "#624bff",
+        "#f59e0b",
+        "#0ea5e9",
+    ];
+    var count = 0;
 
     var data = [];
 
@@ -311,8 +308,9 @@
         data.push({
             name: value.name,
             data: [value.data],
-            color: getRandomColor()
+            color: color[count],
         });
+        count += 1
     }
     e = {
         series: data,

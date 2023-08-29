@@ -157,8 +157,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         }
 
         $totalRegion = employee::with('region')->select('penempatan', DB::raw('count(*) as totalregion'))->groupBy('penempatan')->get();
-        return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => $resultArray, 'totalRole' => $resultRole, 'totalRegion' => $totalRegion]);
-        //return $projectRoleCounts;
+        return view('/dashboard/resourcesDashboard', ['employeeByDept' => $employeeByDept, 'projectMember' => $projectRoleCounts, 'totalLevel' => collect($resultArray)->sortBy('name')->values(), 'totalRole' => $resultRole, 'totalRegion' => $totalRegion]);
+        //return collect($resultArray)->sortBy('name')->values();
     })->name('resourcesDashboard');
 });
 //end Dashboard
