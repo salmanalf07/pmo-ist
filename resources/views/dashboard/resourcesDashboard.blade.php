@@ -297,7 +297,7 @@
     var color = [
         "#624bff",
         "#f59e0b",
-        "#0ea5e9",
+        "#20c997",
     ];
     var count = 0;
 
