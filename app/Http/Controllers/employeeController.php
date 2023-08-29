@@ -8,6 +8,7 @@ use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use App\Models\memberProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -238,5 +239,35 @@ class employeeController extends Controller
 
         //return $data;
         return Excel::download(new allEmployeeExport($data), 'Employee_All_Export.xlsx');
+    }
+
+    function chartResource(Request $request)
+    {
+        $role = employee::with('roles');
+        $countRole = $role->count();
+        $totalRole = $role->select('role', DB::raw('count(*) as totalRole'))->groupBy('role')->get();
+
+        $resultRole = [];
+
+        // Loop setiap hasil dari kueri $salesRevenue
+        if ($request->filter == "#" || $request->filter == "asc") {
+            $sort = collect($totalRole)->sortBy('totalRole');
+        } else {
+            $sort = collect($totalRole)->sortByDesc('totalRole');
+        }
+        foreach ($sort as $totalRoles) {
+            // Membuat array dengan format yang diinginkan
+            if ($totalRoles->roles != null) {
+                //$level = $totalLevell->levels->skillLevel;
+                $resultRole[] = [
+                    'name' => $totalRoles->roles->roleEmployee,
+                    'persen' => round(($totalRoles->totalRole / $countRole) * 100, 1),
+                    'data' => $totalRoles->totalRole,
+                    'color' => randomHexColor(),
+                ];
+            }
+        }
+
+        return response()->json($resultRole);
     }
 }

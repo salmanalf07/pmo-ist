@@ -110,27 +110,28 @@
                 </div>
                 <div class="col-xl-12 col-md-12 col-12 mb-5">
                     <div class="card">
-                        <div class="card-body">
-                            <h3 class="mb-0">Resource By Role</h3>
-                            <div class="row row-cols-lg-4  my-8">
-                                @foreach($totalRole as $totalRoles)
-                                <div class="col">
-                                    <div>
-                                        <h4 class="mb-3">{{$totalRoles['name']}}</h4>
-                                        <div class="lh-1">
-                                            <h4 class="fs-2 fw-bold mb-0 " style="color: {{$totalRoles['color']}};">{{$totalRoles['persen']}}%</h4>
-                                            <span style="color: {{$totalRoles['color']}};">{{$totalRoles['data']}}</span>
-                                        </div>
+                        <div class="card-header d-flex justify-content-between align-items-center ">
 
-                                    </div>
+                            <h3 class="mb-0">Resource By Role</h3>
+                            <div class="d-flex align-items-center">
+                                <div class="col">
+                                    <span>Sort By Value:</span>
                                 </div>
-                                @endforeach
+                                <div class="col-auto ms-2">
+                                    <select id="filter" class="form-select form-select-sm" onchange="get_chart()">
+                                        <option selected value="#">Default</option>
+                                        <option value="asc">Small To Large</option>
+                                        <option value="dsc">Large To Small</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row row-cols-lg-4  my-8" id="presentase">
                             </div>
                             <div class="mt-6 mb-3">
-                                <div class="progress" style="height: 40px;">
-                                    @foreach($totalRole as $barRoles)
-                                    <div class="progress-bar" style="background-color: {{$barRoles['color']}};width: {{$barRoles['persen']}}%" role="progressbar" aria-label="Segment one" aria-valuenow="{{$barRoles['persen']}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    @endforeach
+                                <div class="progress" style="height: 40px;" id="chartBar">
                                 </div>
                             </div>
                         </div>
@@ -143,6 +144,9 @@
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
+    $(document).ready(function() {
+        $("#filter").val("#").trigger('change');
+    })
     $(function() {
         var oTable = $('#resource').DataTable({
             "responsive": true,
@@ -153,7 +157,42 @@
             ],
             "autoWidth": false,
         });
+
     });
+
+    function get_chart() {
+        var value = $("#filter").val();
+        console.log(value);
+
+        $.ajax({
+            type: 'POST',
+            url: '/get_chart_resource',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'filter': value
+            },
+            success: function(data) {
+                $('#presentase').empty();
+                $('#chartBar').empty();
+
+                let text = "";
+                let textt = "";
+                var dataa = Object.assign({}, data)
+                for (let x in dataa) {
+                    text += '<div class="col">' +
+                        '<div><h4 class="mb-3">' + dataa[x].name + '</h4>' +
+                        '<div class="lh-1">' +
+                        '<h4 class="fs-2 fw-bold mb-0 " style="color:' + dataa[x].color + ';">' + dataa[x].persen + '%</h4>' +
+                        '<span style="color:' + dataa[x].color + ';">' + dataa[x].data + '</span>' +
+                        '</div></div></div>';
+                    textt += '<div class="progress-bar" style="background-color: ' + dataa[x].color + ';width: ' + dataa[x].persen + '%" role="progressbar" aria-label="Segment one" aria-valuenow="' + dataa[x].persen + '" aria-valuemin="0" aria-valuemax="100"></div>';
+                }
+                $('#presentase').append(text);
+                $('#chartBar').append(textt);
+
+            }
+        });
+    };
 </script>
 <script>
     var employeeByDept = <?php echo json_encode($employeeByDept); ?>;

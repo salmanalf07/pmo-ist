@@ -161,6 +161,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         //return collect($resultArray)->sortBy('name')->values();
     })->name('resourcesDashboard');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/get_chart_resource', [employeeController::class, 'chartResource']);
 //end Dashboard
 Route::middleware([
     'auth:sanctum',
