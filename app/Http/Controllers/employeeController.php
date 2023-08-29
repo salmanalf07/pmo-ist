@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\allEmployeeExport;
 use App\Exports\employByAsignExport;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
@@ -42,8 +43,11 @@ class employeeController extends Controller
     function jsonByAssignment(Request $request)
     {
         $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department');
-        $dataa->whereHas('employee', function ($q) {
+        $dataa->whereHas('employee', function ($q) use ($request) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
+            if ($request->role != "#" && $request->role) {
+                $q->where('role', '=', $request->role);
+            }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -52,6 +56,7 @@ class employeeController extends Controller
         if ($request->name != "#" && $request->name) {
             $dataa->where('employee', '=', $request->name);
         }
+
         if ($request->projectId != "#" && $request->projectId) {
             $dataa->where('projectId', '=', $request->projectId);
         }
@@ -74,6 +79,9 @@ class employeeController extends Controller
                     ['company', '!=', 'PT. Infosys Solusi Terpadu'],
                     ['company', '=', $request->company]
                 ]);
+                if ($request->role != "#" && $request->role) {
+                    $q->where('role', '=', $request->role);
+                }
             });
         } else {
             $dataa->whereHas('employee', function ($q) {
@@ -88,6 +96,9 @@ class employeeController extends Controller
     function jsonByUnassigned(Request $request)
     {
         $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager');
+        if ($request->role != "#" && $request->role) {
+            $dataa->where('role', '=', $request->role);
+        }
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
@@ -208,5 +219,24 @@ class employeeController extends Controller
 
         //return $data;
         return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+    }
+
+    function exportAllEmployee(Request $request)
+    {
+        $dataa = employee::with('divisis', 'departments', 'manager', 'levels', 'roles', 'region', 'specialization');
+
+        if ($request->divisiii != "#" && $request->divisiii) {
+            $dataa->where('divisi', '=', $request->divisiii);
+        }
+        if ($request->departmenttt != "#" && $request->departmenttt) {
+            $dataa->where('department', '=', $request->departmenttt);
+        }
+        if ($request->directManagerr != "#" && $request->directManagerr) {
+            $dataa->where('direct_manager', '=', $request->directManagerr);
+        }
+        $data = $dataa->get();
+
+        //return $data;
+        return Excel::download(new allEmployeeExport($data), 'Employee_All_Export.xlsx');
     }
 }

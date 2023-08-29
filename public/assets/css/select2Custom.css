@@ -41,6 +41,22 @@
     background-color: #eee;
 }
 
+.select2-selection--multiple{
+    height: 2.8em !important;   
+    padding: .3rem .1rem;
+    border: var(--dashui-border-width) solid var(--dashui-input-border);
+    border-radius: 4px;
+    background-color: #fff;
+    color: var(--dashui-body-color);
+    font-size: 14px;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple{
+    border: var(--dashui-border-width) solid var(--dashui-input-border);
+}
+.select2-container--default .select2-selection--multiple{
+    border: var(--dashui-border-width) solid var(--dashui-input-border);
+}
+
 .custom-picker{
     margin-left: -3rem !important;
     border: var(--dashui-border-width) solid var(--dashui-input-border);

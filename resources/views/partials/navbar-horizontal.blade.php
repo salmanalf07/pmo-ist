@@ -156,7 +156,7 @@
                     </a>
                     @role('Manage')
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Master Data
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -201,7 +201,11 @@
                                     Role
                                 </a>
                             </li>
-
+                            <li>
+                                <a class="dropdown-item" href="/users">
+                                    User
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @endrole

@@ -21,6 +21,7 @@ use App\Http\Controllers\sowController;
 use App\Http\Controllers\specializationController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
+use App\Http\Controllers\userController;
 use App\Models\Customer;
 use App\Models\department;
 use App\Models\division;
@@ -41,7 +42,7 @@ use App\Models\topProject;
 use Google\Service\Docs\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Yajra\DataTables\Facades\DataTables;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -317,11 +318,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('employee/employee', ['judul' => "All Employee", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
     })->name('employees');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportAllEmpl', [employeeController::class, 'exportAllEmployee']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empByAssignment', function () {
         $employee = employee::get();
         $project = Project::get();
-        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project]);
+        $role = roleEmployee::get();
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
@@ -337,7 +340,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $divisi = division::get();
         $department = department::get();
         $employee = employee::get();
-        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
+        $role = roleEmployee::get();
+        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'role' => $role]);
     })->name('empByUnassigned');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
@@ -690,6 +694,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_roles', [ControllersRoleEmployee::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_roles/{id}', [ControllersRoleEmployee::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_roles/{id}', [ControllersRoleEmployee::class, 'destroy']);
+//User
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::get('/users', function () {
+        $role = Role::all();
+        return view('masterData/users', ['judul' => "User", 'role' => $role]);
+    })->name('users');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_users', [userController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_users', [userController::class, 'store']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_users', [userController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_users/{id}', [userController::class, 'update']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_users/{id}', [userController::class, 'destroy']);
 //END MASTER DATA
 
 

@@ -1,14 +1,6 @@
 @extends('index')
 
 @section('konten')
-<style>
-    .table-card {
-        max-height: 320px;
-        /* Adjust the height as per your requirement */
-        overflow-y: auto;
-        /* Enable vertical scrolling */
-    }
-</style>
 <div id="app-content">
     <!-- Container fluid -->
     <div class="app-content-area">
@@ -34,7 +26,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table-card">
-                                <table class="table text-nowrap mb-0 table-centered">
+                                <table id="resource" class="table text-nowrap mb-0 table-centered">
                                     <thead class="table-light" style="position: sticky;top: 0;">
                                         <tr>
                                             <th>Customer Name</th>
@@ -149,6 +141,20 @@
     </div>
 </div>
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function() {
+        var oTable = $('#resource').DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "autoWidth": false,
+        });
+    });
+</script>
 <script>
     var employeeByDept = <?php echo json_encode($employeeByDept); ?>;
 

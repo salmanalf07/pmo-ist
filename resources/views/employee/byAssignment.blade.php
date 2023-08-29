@@ -13,7 +13,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-4">
+                                    <div class="mb-3 col-3">
                                         <label class="form-label" for="selectOne">Employee</label>
                                         <select name="name" id="name" class="select2" aria-label="Default select example" required>
                                             <option value="#" selected>Open this select menu</option>
@@ -22,16 +22,16 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- <div class="mb-3 col-3">
-                                            <label class="form-label">Date Range</label>
-                                            <div class="input-group me-3">
-                                                <input type="text" class="form-control float-right" id="reservation">
-                                                <div class="input-group-append custom-picker">
-                                                    <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                    <div class="mb-3 col-3">
+                                    <div class="mb-3 col-2">
+                                        <label class="form-label" for="selectOne">Role</label>
+                                        <select name="role" id="role" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($role as $roles)
+                                            <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-2">
                                         <label class="form-label">Available Date</label>
                                         <div class="input-group me-3 datepicker">
                                             <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
@@ -53,6 +53,7 @@
                                         <form method="post" role="form" id="form-print" action="/ExportEmpByAsign" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="namee" name="namee" hidden>
+                                            <input type="text" id="rolee" name="rolee" hidden>
                                             <input type="text" id="availableAtt" name="availableAtt" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" hidden>
                                             <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
@@ -232,6 +233,7 @@
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#availableAtt').val($('#availableAt').val());
+            $('#roles').val($('#role').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -239,15 +241,17 @@
                 // 'date_ot': date[1],
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
+                'role': $('#role').val(),
                 'availableAt': $('#availableAt').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId').on('change', function() {
+        $('#name, #projectId, #role').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
+            $('#roles').val($('#role').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -255,6 +259,7 @@
                 // 'date_ot': date[1],
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
+                'role': $('#role').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -263,6 +268,7 @@
         $('.col-12').on('click', '#clear', function() {
             $('#name').val('#').trigger('change');
             $('#projectId').val('#').trigger('change');
+            $('#role').val('#').trigger('change');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

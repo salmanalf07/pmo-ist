@@ -14,7 +14,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="mb-3 col-3">
+                                        <div class="mb-3 col-2">
                                             <label class="form-label" for="selectOne">Division</label>
                                             <select name="divisii" id="divisii" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
@@ -23,12 +23,21 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-3 col-3">
+                                        <div class="mb-3 col-2">
                                             <label class="form-label" for="selectOne">Department </label>
                                             <select name="departmentt" id="departmentt" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
                                                 @foreach($department as $depart)
                                                 <option value="{{$depart->id}}">{{$depart->department}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 col-2">
+                                            <label class="form-label" for="selectOne">Role</label>
+                                            <select name="role" id="role" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($role as $roles)
+                                                <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -187,10 +196,11 @@
                 [2, 'asc'],
             ]
         });
-        $('#divisii, #departmentt, #directManager').on('change', function() {
+        $('#divisii, #departmentt, #directManager,#role').on('change', function() {
             $('#example1').data('dt_params', {
                 'divisii': $('#divisii').val(),
                 'departmentt': $('#departmentt').val(),
+                'role': $('#role').val(),
                 'directManager': $('#directManager').val(),
             });
             $('#example1').DataTable().draw();
@@ -200,6 +210,7 @@
         $('#divisii').val('#').trigger('change');
         $('#departmentt').val('#').trigger('change');
         $('#directManager').val('#').trigger('change');
+        $('#role').val('#').trigger('change');
         $('#example1').data('dt_params', {});
         $('#example1').DataTable().draw();
     });
