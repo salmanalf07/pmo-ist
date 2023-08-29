@@ -130,7 +130,7 @@ class memberProjectController extends Controller
 
             $postt->save();
 
-            return response()->json(['idMember' => $postt->id, 'division' => $postt->employees->divisis->division]);
+            return response()->json(['idMember' => $postt->id, 'division' => $postt->employees->divisi == "#" ? null : $postt->employees->divisis->division]);
         } else if ($request->type == "partner") {
             $postt = partnerProject::findOrNew($request->idPartner);
             $postt->ProjectId = $id;
