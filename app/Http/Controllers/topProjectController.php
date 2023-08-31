@@ -33,7 +33,7 @@ class topProjectController extends Controller
                 $dataa->whereMonth('invDate', '=', date("m"))
                     ->whereYear('invDate', '=', date("Y"));
             }
-            $dataa->where('payMain', '=', 0);
+            // $dataa->where('payMain', '=', 0);
         }
         if ($request->segment(1) == "json_financeByPayment") {
             if ($request->date_st != "#" && $request->date_st) {
