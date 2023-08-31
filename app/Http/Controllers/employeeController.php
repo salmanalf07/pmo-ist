@@ -50,6 +50,9 @@ class employeeController extends Controller
                 $q->where('role', '=', $request->role);
             }
         });
+        $dataa->whereHas('project', function ($q) use ($request) {
+            $q->where('overAllProg', '<', 100);
+        });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
         //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
