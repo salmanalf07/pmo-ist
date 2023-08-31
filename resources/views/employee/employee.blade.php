@@ -224,6 +224,14 @@
                             <label class="form-label">Rate</label>
                             <input name="rate" id="rate" type="text" class="form-control" placeholder="Enter Here">
                         </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Status</label>
+                            <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="RESIGN">RESIGN</option>
+                            </select>
+                        </div>
                         <div class="mb-5 col-12"></div>
                         <!-- button -->
                         <div class="col-12">
@@ -423,6 +431,7 @@
                 $('#direct_manager').val(data.direct_manager).trigger('change');
                 $('#role').val(data.role).trigger('change');
                 $('#spesialisasi').val(data.spesialisasi).trigger('change');
+                $('#status').val(data.status).trigger('change');
 
                 id = $('#id').val();
 

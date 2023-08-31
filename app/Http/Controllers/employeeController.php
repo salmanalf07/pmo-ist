@@ -28,6 +28,7 @@ class employeeController extends Controller
         if ($request->directManager && $request->directManager != '#') {
             $dataa->where('direct_manager', '=', $request->directManager);
         }
+        $dataa->where('status', '=', "ACTIVE");
         $data = $dataa->get();
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
@@ -135,6 +136,7 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
+            $post->status = $request->status;
             $post->save();
 
             $data = [$post];
@@ -171,6 +173,7 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
+            $post->status = $request->status;
             $post->save();
 
             $data = [$post];
