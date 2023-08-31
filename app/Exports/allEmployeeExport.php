@@ -67,6 +67,7 @@ class allEmployeeExport implements FromCollection, WithHeadings, ShouldAutoSize,
             'manager.name' => 'Direct Manager',
             'roles.roleEmployee' => 'Role',
             'specialization.specialization' => 'Specialization',
+            'status' => 'status',
 
         ];
     }
