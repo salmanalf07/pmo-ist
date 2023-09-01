@@ -17,7 +17,7 @@ class employeeController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = employee::with('divisi', 'manager', 'department')->orderBy('created_at', 'DESC');
+        $dataa = employee::with('divisi', 'manager', 'department', 'roles')->orderBy('created_at', 'DESC');
         $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
@@ -27,6 +27,9 @@ class employeeController extends Controller
         }
         if ($request->directManager && $request->directManager != '#') {
             $dataa->where('direct_manager', '=', $request->directManager);
+        }
+        if ($request->roleFilter && $request->roleFilter != '#') {
+            $dataa->where('role', '=', $request->roleFilter);
         }
         $dataa->where('status', '=', "ACTIVE");
         $data = $dataa->get();
@@ -240,6 +243,9 @@ class employeeController extends Controller
         }
         if ($request->directManagerr != "#" && $request->directManagerr) {
             $dataa->where('direct_manager', '=', $request->directManagerr);
+        }
+        if ($request->roleFilterr && $request->roleFilterr != '#') {
+            $dataa->where('role', '=', $request->roleFilterr);
         }
         $data = $dataa->get();
 

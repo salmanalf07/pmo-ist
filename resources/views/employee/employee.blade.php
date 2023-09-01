@@ -40,12 +40,22 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3 pt-7 col-2">
+                                    <div class="mb-3 col-2">
+                                        <label class="form-label">Role</label>
+                                        <select name="roleFilter" id="roleFilter" class="select2" aria-label="Default select example">
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($role as $roles)
+                                            <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 pt-7 col-1">
                                         <form method="post" role="form" id="form-print" action="/exportAllEmpl" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="divisiii" name="divisiii" hidden>
                                             <input type="text" id="departmenttt" name="departmenttt" hidden>
                                             <input type="text" id="directManagerr" name="directManagerr" hidden>
+                                            <input type="text" id="roleFilterr" name="roleFilterr" hidden>
                                             <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
                                                     <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
@@ -54,7 +64,7 @@
                                         </form>
 
                                     </div>
-                                    <div class="mb-3 pt-7 col-2">
+                                    <div class="mb-3 pt-7 col-1">
                                         <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
                                                 <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
@@ -81,13 +91,11 @@
                                     <table id="example1" class="table text-nowrap table-centered mt-0" style="width: 100%">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>
-                                                    No
-                                                </th>
                                                 <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Department</th>
                                                 <th>Division</th>
+                                                <th>Role</th>
                                                 <th>Direct Manager</th>
                                                 <th>Action</th>
                                             </tr>
@@ -206,8 +214,8 @@
                             <label class="form-label">Role</label>
                             <select name="role" id="role" class="select2" aria-label="Default select example" required>
                                 <option value="#" selected>Open this select menu</option>
-                                @foreach($role as $role)
-                                <option value="{{$role->id}}">{{$role->roleEmployee}}</option>
+                                @foreach($role as $roles)
+                                <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -278,7 +286,7 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 5], // table ke 1
+                "targets": [6], // table ke 1
             }, ],
             ajax: {
                 url: '{{ url("json_employee") }}',
@@ -291,14 +299,7 @@
                     }
                 }
             },
-            "fnCreatedRow": function(row, data, index) {
-                $('td', row).eq(0).html(index + 1);
-            },
             columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
                     data: 'employee_id',
                     name: 'employee_id'
                 },
@@ -328,8 +329,19 @@
                 },
                 {
                     data: function(row) {
+                        if (row.roles && row.roles.roleEmployee) {
+
+                            return row.roles.roleEmployee.length > 15 ? row.roles.roleEmployee.substring(0, 10) + '..' : row.roles.roleEmployee;
+                        } else {
+                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                        }
+                    },
+                    name: 'roles.roleEmployee'
+                },
+                {
+                    data: function(row) {
                         if (row.manager && row.manager.name) {
-                            return row.manager.name; // Mengembalikan nilai properti name jika ada
+                            return row.manager.name.length > 15 ? row.manager.name.substring(0, 15) + '..' : row.manager.name;
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -342,20 +354,22 @@
                 }
             ],
             order: [
-                [3, 'desc'],
-                [4, 'desc'],
                 [2, 'desc'],
+                [3, 'desc'],
+                [1, 'desc'],
             ]
         });
-        $('#divisii, #departmentt, #directManager').on('change', function() {
+        $('#divisii, #departmentt, #directManager, #roleFilter').on('change', function() {
             $('#divisiii').val($('#divisii').val());
             $('#departmenttt').val($('#departmentt').val());
             $('#directManagerr').val($('#directManager').val());
+            $('#roleFilterr').val($('#roleFilter').val());
 
             $('#example1').data('dt_params', {
                 'divisii': $('#divisii').val(),
                 'departmentt': $('#departmentt').val(),
                 'directManager': $('#directManager').val(),
+                'roleFilter': $('#roleFilter').val(),
             });
             $('#example1').DataTable().draw();
         });
@@ -370,10 +384,12 @@
         $('#divisiii').val('#');
         $('#departmenttt').val('#');
         $('#directManagerr').val('#');
+        $('#roleFilterr').val('#');
 
         $('#divisii').val('#').trigger('change');
         $('#departmentt').val('#').trigger('change');
         $('#directManager').val('#').trigger('change');
+        $('#roleFilter').val('#').trigger('change');
         $('#example1').data('dt_params', {});
         $('#example1').DataTable().draw();
     });
