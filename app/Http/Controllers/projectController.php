@@ -52,6 +52,10 @@ class projectController extends Controller
                 $dataa->where('noContract', '=', null);
             }
         }
+        if ($request->mainContract != "#" && $request->mainContract) {
+            $dataa->where('noContract', $request->mainContract);
+        }
+
         if ($request->segment(1) == "json_projMainCon") {
             $dataa->where('po', '!=', null);
         }
@@ -329,6 +333,10 @@ class projectController extends Controller
         if ($request->pmNamee != "#" && $request->pmNamee) {
             $dataa->where('pmName', $request->pmNamee);
         }
+        if ($request->mainContractt != "#" && $request->mainContractt) {
+            $dataa->where('noContract', $request->mainContractt);
+        }
+        $dataa->where('noContract', '!=', null);
 
         $data = $dataa->get();
         return Excel::download(new ExportProjByMain($data), 'Project_By_Main_Contract.xlsx');
