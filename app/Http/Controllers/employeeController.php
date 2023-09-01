@@ -31,6 +31,9 @@ class employeeController extends Controller
         if ($request->roleFilter && $request->roleFilter != '#') {
             $dataa->where('role', '=', $request->roleFilter);
         }
+        if ($request->special != "#" && $request->special) {
+            $dataa->where('spesialisasi', '=', $request->special);
+        }
         $dataa->where('status', '=', "ACTIVE");
         $data = $dataa->get();
         return DataTables::of($data)
@@ -246,6 +249,9 @@ class employeeController extends Controller
         }
         if ($request->roleFilterr && $request->roleFilterr != '#') {
             $dataa->where('role', '=', $request->roleFilterr);
+        }
+        if ($request->speciall != "#" && $request->speciall) {
+            $dataa->where('spesialisasi', '=', $request->speciall);
         }
         $data = $dataa->get();
 
