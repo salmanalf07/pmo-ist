@@ -270,6 +270,10 @@
             $('#projectId').val('#').trigger('change');
             $('#role').val('#').trigger('change');
 
+            $('#namee').val('#');
+            $('#projectIdd').val('#');
+            $('#roles').val('#');
+
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
 

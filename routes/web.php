@@ -377,7 +377,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
         $pm = project::with('pm')->select('pmName')->get();
-        $mainContract = project::select('noContract')->where('noContract', '!=', null)->get();
+        $mainContract = project::select('noPo')->where('noPo', '!=', null)->get();
         return view('project/projectByMainCon', ['judul' => "Project By Main Contract", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm, 'mainContract' => $mainContract]);
     })->name('projectByMainCon');
 });

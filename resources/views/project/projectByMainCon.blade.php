@@ -40,8 +40,8 @@
                                         <label class="form-label">Main Contract</label>
                                         <select name="mainContract" id="mainContract" class="select2" aria-label="Default select example" required>
                                             <option value="#" selected>Open this select menu</option>
-                                            @foreach($mainContract as $mainContracts)
-                                            <option value="{{$mainContracts->noContract}}">{{$mainContracts->noContract}}</option>
+                                            @foreach($mainContract->unique('noPo') as $mainContracts)
+                                            <option value="{{$mainContracts->noPo}}">{{$mainContracts->noPo}}</option>
                                             @endforeach
                                         </select>
                                     </div>

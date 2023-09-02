@@ -53,7 +53,7 @@ class projectController extends Controller
             }
         }
         if ($request->mainContract != "#" && $request->mainContract) {
-            $dataa->where('noContract', $request->mainContract);
+            $dataa->where('noPo', $request->mainContract);
         }
 
         if ($request->segment(1) == "json_projMainCon") {
@@ -118,6 +118,7 @@ class projectController extends Controller
             $post->dateEdPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateEdPo)));
             $post->poValue = str_replace(".", "", $request->poValue);
             $post->projectValue = str_replace(".", "", $request->projectValue);
+            $post->overAllProg = 0;
             $post->projectType = $request->projectType;
             $post->partnerId = $request->partnerId;
             $post->sales = $request->sales;
@@ -334,9 +335,9 @@ class projectController extends Controller
             $dataa->where('pmName', $request->pmNamee);
         }
         if ($request->mainContractt != "#" && $request->mainContractt) {
-            $dataa->where('noContract', $request->mainContractt);
+            $dataa->where('noPo', $request->mainContractt);
         }
-        $dataa->where('noContract', '!=', null);
+        $dataa->where('noPo', '!=', null);
 
         $data = $dataa->get();
         return Excel::download(new ExportProjByMain($data), 'Project_By_Main_Contract.xlsx');
