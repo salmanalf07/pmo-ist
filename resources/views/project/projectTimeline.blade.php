@@ -222,11 +222,11 @@
                 $('#actEnd' + i).val((data[i].actEnd).split("-").reverse().join("-"));
                 $('#progProject' + i).val(data[i].progProject + '%');
                 $('#remaks' + i).val(data[i].remaks);
-                $('#overAllProg').val('{{$overAllProg->overAllProg}}' + '%');
+                hitung2();
             }
         }
 
-        if ('{{isset($aksiFile) && $aksiFile == "EditData"}}') {
+        if ('{{isset($file) && $aksiFile == "EditData"}}') {
             var data = <?php echo json_encode($file); ?>;
             $('#idFile').val(data.id);
             $('#nameFile').val(data.nameFile);

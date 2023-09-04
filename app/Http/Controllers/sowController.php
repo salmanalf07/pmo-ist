@@ -77,13 +77,15 @@ class sowController extends Controller
                 $postt->save();
             }
             //documentation
-            $file = documentationProject::findOrNew($request->idFile);
-            $file->ProjectId = $id;
-            $file->nameFile = $request->nameFile;
-            $file->type = "SOW";
-            $file->link = $request->link;
-            $file->userId = Auth::user()->id;
-            $file->save();
+            if ($request->idFile != null) {
+                $file = documentationProject::findOrNew($request->idFile);
+                $file->ProjectId = $id;
+                $file->nameFile = $request->nameFile;
+                $file->type = "SOW";
+                $file->link = $request->link;
+                $file->userId = Auth::user()->id;
+                $file->save();
+            }
 
 
             $data = [$id];
