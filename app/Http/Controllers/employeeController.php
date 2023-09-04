@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exports\allEmployeeExport;
 use App\Exports\employByAsignExport;
+use App\Exports\partnerByAsignExport;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use App\Models\memberProject;
+use App\Models\partnerProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -48,6 +50,34 @@ class employeeController extends Controller
             ->toJson();
     }
 
+    function jsonPartByAssignment(Request $request)
+    {
+        $dataa = partnerProject::with('project.customer');
+        $dataa->whereHas('project', function ($q) use ($request) {
+            $q->where('overAllProg', '<', 100);
+        });
+        if ($request->name != "#" && $request->name) {
+            $dataa->where('partner', '=', $request->name);
+        }
+
+        if ($request->projectId != "#" && $request->projectId) {
+            $dataa->where('projectId', '=', $request->projectId);
+        }
+
+        if ($request->role != "#" && $request->role) {
+            $dataa->where('rolePartner', '=', $request->role);
+        }
+
+        if ($request->availableAt != "01/01/1900" && $request->availableAt) {
+            $dataa->where('eddatePartner', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
+        } // } else {
+
+        //     $dataa->where('endDate', '>=', date("Y-m-d"));
+        // }
+        $data = $dataa->get();
+        return DataTables::of($data)
+            ->toJson();
+    }
     function jsonByAssignment(Request $request)
     {
         $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department');
@@ -236,6 +266,34 @@ class employeeController extends Controller
 
         //return $data;
         return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+    }
+
+    function exportPartByAssignment(Request $request)
+    {
+        $dataa = partnerProject::with('project', 'roles');
+        // if ($request->dateChange == "true") {
+        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        // }
+        $dataa->whereHas('project', function ($q) use ($request) {
+            $q->where('overAllProg', '<', 100);
+        });
+        if ($request->namee != "#" && $request->namee) {
+            $dataa->where('partner', '=', $request->namee);
+        }
+        if ($request->projectIdd != "#" && $request->projectIdd) {
+            $dataa->where('projectId', '=', $request->projectIdd);
+        }
+        if ($request->availableAtt != "01/01/1900" && $request->availableAtt) {
+            $dataa->where('eddatePartner', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
+        }
+        // } else {
+        //     $dataa->where('endDate', '>=', date("Y-m-d"));
+        // }
+        $data = $dataa->get();
+
+        //return $data;
+        return Excel::download(new partnerByAsignExport($data), 'Partner_By_Assign.xlsx');
     }
 
     function exportAllEmployee(Request $request)

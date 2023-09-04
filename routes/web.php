@@ -32,6 +32,7 @@ use App\Models\issuesProject;
 use App\Models\locationEmployee;
 use App\Models\memberProject;
 use App\Models\Order;
+use App\Models\partnerProject;
 use App\Models\pipeline;
 use App\Models\Project;
 use App\Models\roleEmployee;
@@ -330,6 +331,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/partByAssignment', function () {
+        $employee = partnerProject::get();
+        $project = Project::get();
+        $role = roleEmployee::get();
+        return view('employee/partnerByAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role]);
+    })->name('partByAssignment');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportPartByAsign', [employeeController::class, 'exportPartByAssignment']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empExtResources', function () {
         $employee = employee::get();
         $company = employee::get();
@@ -347,6 +357,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAssignment', [employeeController::class, 'jsonByAssignment']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_partByAssignment', [employeeController::class, 'jsonPartByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ExtResources', [employeeController::class, 'jsonExtResources']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByUnassigned', [employeeController::class, 'jsonByUnassigned']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_employee', [employeeController::class, 'store']);

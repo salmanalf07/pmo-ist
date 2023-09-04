@@ -22,6 +22,10 @@ class partnerProject extends Model
         'planManPartner',
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
     public function roles()
     {
         return $this->belongsTo(roleEmployee::class, 'rolePartner', 'id');

@@ -120,7 +120,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('employee','empByAssignment','empExtResources','empByUnassigned') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('employee','empByAssignment','empExtResources','empByUnassigned','partByAssignment') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Resources
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -133,6 +133,11 @@
                             <li>
                                 <a class="dropdown-item" href="/empByAssignment">
                                     By Assignment
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/partByAssignment">
+                                    Partner By Assignment
                                 </a>
                             </li>
                             <li>
