@@ -217,6 +217,9 @@ class employeeController extends Controller
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
         //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         // }
+        $dataa->whereHas('project', function ($q) use ($request) {
+            $q->where('overAllProg', '<', 100);
+        });
         if ($request->namee != "#" && $request->namee) {
             $dataa->where('employee', '=', $request->namee);
         }
