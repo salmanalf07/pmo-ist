@@ -225,9 +225,10 @@ class employeeController extends Controller
         }
         if ($request->availableAtt != "01/01/1900" && $request->availableAtt) {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
-        } else {
-            $dataa->where('endDate', '>=', date("Y-m-d"));
         }
+        // } else {
+        //     $dataa->where('endDate', '>=', date("Y-m-d"));
+        // }
         $data = $dataa->get();
 
         //return $data;
