@@ -55,7 +55,7 @@
             <td class="border-top border-left border-right">
                 <h1 style="margin-bottom: -0.3em;">Plan BAST - {{$title}}</h1>
             </td>
-            <td class="text-right border-top border-left border-right"><img style="margin-bottom: 0.3em;" src="assets/images/logo-ist.png" width="80" alt="img-ist"></td>
+            <td class="text-right border-top border-left border-right"><img style="margin-bottom: 0.3em;" src="/assets/images/logo-ist.png" width="80" alt="img-ist"></td>
         </tr>
         <tr class="no-border">
             <td colspan="2" class="no-border">Printed: {{date("l, d F Y H:i:s", time())}}</td>
