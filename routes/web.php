@@ -614,6 +614,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('r_statPayment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/statPaymentExport', [projectController::class, 'statPaymentExport']);
+//r_planBast
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/r_planBast', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_planBast', ['judul' => "Report Plan BAST", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_planBast');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/pdfPlanBAST', [topProjectController::class, 'pdfPlanBAST']);
 //end Report
 
 
@@ -720,7 +729,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_users/{id}', [userController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_users/{id}', [userController::class, 'destroy']);
 //END MASTER DATA
-
 
 
 //test google sheet

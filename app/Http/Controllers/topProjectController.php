@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class topProjectController extends Controller
 {
@@ -137,5 +138,38 @@ class topProjectController extends Controller
 
         $data = $dataa->get();
         return Excel::download(new financeExport($data), 'Finance_Report.xlsx');
+    }
+
+    public function pdfPlanBAST(Request $request)
+    {
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        $title = $namaBulan[$request->monthh] . ' ' . $request->yearr;
+        $dataa = topProject::with('project.customer');
+        if ($request->monthh && $request->monthh != "#") {
+            $dataa->whereMonth('bastDate', '=', date($request->monthh));
+        }
+        if ($request->yearr && $request->yearr != "#") {
+            $dataa->whereYear('bastDate', '=', date($request->yearr));
+        }
+
+        $data = $dataa->get();
+
+        $pdf = PDF::loadView('pdf.planBAST', compact('title', 'data'));
+
+        return $pdf->download('By Plan BAST Monthly.pdf');
     }
 }

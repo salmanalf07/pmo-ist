@@ -18,7 +18,7 @@
                         Pipeline
                     </a> -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -63,6 +63,12 @@
                                             Status Payment
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/r_planBast">
+                                            By Plan BAST Monthly
+                                        </a>
+                                    </li>
+
                                 </ul>
 
                             </li>
