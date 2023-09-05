@@ -20,7 +20,7 @@ class employeeController extends Controller
     public function json(Request $request)
     {
         $dataa = employee::with('divisi', 'manager', 'department', 'roles')->orderBy('created_at', 'DESC');
-        $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
+        // $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
