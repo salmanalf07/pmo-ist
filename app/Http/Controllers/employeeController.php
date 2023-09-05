@@ -36,7 +36,7 @@ class employeeController extends Controller
         if ($request->special != "#" && $request->special) {
             $dataa->where('spesialisasi', '=', $request->special);
         }
-        $dataa->where('status', '=', "ACTIVE");
+        // $dataa->where('status', '=', "ACTIVE");
         $data = $dataa->get();
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
