@@ -143,6 +143,7 @@ class topProjectController extends Controller
     public function pdfPlanBAST(Request $request)
     {
         $namaBulan = [
+            '#' => '',
             1 => 'Januari',
             2 => 'Februari',
             3 => 'Maret',
@@ -157,7 +158,7 @@ class topProjectController extends Controller
             12 => 'Desember',
         ];
 
-        $title = $namaBulan[$request->monthh] . ' ' . $request->yearr;
+        $title = $namaBulan[$request->monthh] . ' ' . $request->yearr != "#" ? $request->yearr : '';
         $dataa = topProject::with('project.customer');
         if ($request->monthh && $request->monthh != "#") {
             $dataa->whereMonth('bastDate', '=', date($request->monthh));
