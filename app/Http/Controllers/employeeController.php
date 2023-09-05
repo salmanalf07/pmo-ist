@@ -160,7 +160,11 @@ class employeeController extends Controller
                 'employee_id' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
             ]);
-
+            $record = employee::where('employee_id', $request->employee_id)->first();
+            if ($record) {
+                $data = [["Employee Id has been registered"], "error"];
+                return response($data);
+            }
             $post = new employee();
             $post->employee_id = $request->employee_id;
             $post->name = $request->name;
