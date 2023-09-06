@@ -168,13 +168,13 @@ class topProjectController extends Controller
         }
 
         $data = $dataa->get();
-        $totalPlan = $dataa->where('invMain', '!=', 1)->sum('termsValue');
-        $totalInv = $dataa->where('invMain', 1)->sum('termsValue');
+        $totalPlan = $data->where('invMain', '!=', 1)->sum('termsValue');
+        $totalInv = $data->where('invMain', 1)->sum('termsValue');
 
         $pdf = PDF::loadView('pdf.planBAST', compact('title', 'data', 'totalPlan', 'totalInv'));
         // Mengubah orientasi menjadi lanskap
         $pdf->setPaper('a4', 'landscape');
 
-        return $pdf->download('By Plan BAST Monthly.pdf');
+        return $pdf->stream('By Plan BAST Monthly.pdf');
     }
 }

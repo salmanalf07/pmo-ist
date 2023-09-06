@@ -81,12 +81,12 @@
         <thead>
             <tr>
                 <th style="width: 5%;">No</th>
-                <th style="width: 10%;">Customer</th>
+                <th style="width: 11%;">Customer</th>
                 <th style="width: 30%;">Project Name</th>
                 <th style="width: 10%;">Target Date</th>
                 <th style="width: 10%;">Value</th>
                 <th style="width: 25%;">Remaks</th>
-                <th style="width: 10%;">Status</th>
+                <th style="width: 9%;">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -99,7 +99,7 @@
                 <td class="text-center">{{date("d-m-Y",strtotime($bast->bastDate))}}</td>
                 <td class="text-right">{{number_format($bast->termsValue,0,'.','.')}}</td>
                 <td>{{$bast->remaks}}</td>
-                <td>{{$bast->invMain == 1 ? 'Invoiced':''}}</td>
+                <td class="text-center">{{$bast->invMain == 1 ? 'Invoiced':''}}</td>
             </tr>
             @endforeach
         </tbody>
