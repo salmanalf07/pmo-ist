@@ -158,7 +158,7 @@ class topProjectController extends Controller
             12 => 'Desember',
         ];
 
-        $title = $namaBulan[$request->monthh] . ' ' . $request->yearr != "#" ? $request->yearr : '';
+        $title = $namaBulan[$request->monthh] . ' ' . ($request->yearr != "#" ? $request->yearr : '');
         $dataa = topProject::with('project.customer');
         if ($request->monthh && $request->monthh != "#") {
             $dataa->whereMonth('bastDate', '=', date($request->monthh));
@@ -169,12 +169,12 @@ class topProjectController extends Controller
 
         $data = $dataa->get();
         $totalPlan = $data->where('invMain', '!=', 1)->sum('termsValue');
-        $totalInv = $data->where('invMain', 1)->sum('termsValue');
+        $totalInv = $data->sum('termsValue');
 
         $pdf = PDF::loadView('pdf.planBAST', compact('title', 'data', 'totalPlan', 'totalInv'));
         // Mengubah orientasi menjadi lanskap
         $pdf->setPaper('a4', 'landscape');
 
-        return $pdf->download('By Plan BAST Monthly.pdf');
+        return $pdf->stream('By Plan BAST Monthly.pdf');
     }
 }
