@@ -175,6 +175,6 @@ class topProjectController extends Controller
         // Mengubah orientasi menjadi lanskap
         $pdf->setPaper('a4', 'landscape');
 
-        return $pdf->stream('By Plan BAST Monthly.pdf');
+        return $pdf->download('By Plan BAST Monthly.pdf');
     }
 }
