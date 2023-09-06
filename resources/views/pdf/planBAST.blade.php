@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        @page {
+            size: landscape;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -70,7 +74,7 @@
                 <th>Customer</th>
                 <th>Project Name</th>
                 <th>Target Date</th>
-                <th>BAST Value</th>
+                <th>Value</th>
                 <th>Remaks</th>
                 <th>Status</th>
             </tr>
@@ -85,7 +89,7 @@
                 <td>{{date("d-m-Y",strtotime($bast->bastDate))}}</td>
                 <td class="text-right">{{number_format($bast->termsValue,0,'.','.')}}</td>
                 <td>{{$bast->remaks}}</td>
-                <td></td>
+                <td>{{$bast->invMain == 1 ? 'INVOICED':''}}</td>
             </tr>
             @endforeach
         </tbody>

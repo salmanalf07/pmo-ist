@@ -170,6 +170,8 @@ class topProjectController extends Controller
         $data = $dataa->get();
 
         $pdf = PDF::loadView('pdf.planBAST', compact('title', 'data'));
+        // Mengubah orientasi menjadi lanskap
+        $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('By Plan BAST Monthly.pdf');
     }
