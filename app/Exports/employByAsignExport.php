@@ -68,6 +68,7 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'employees.roles.roleEmployee' => 'Role',
             'employees.specialization.specialization' => 'Specialization',
             'project.projectName' => 'Project Name',
+            'project.customer.company' => 'Customer',
             'startDate' => 'Start Date',
             'endDate' => 'End Date'
 

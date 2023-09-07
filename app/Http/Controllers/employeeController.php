@@ -243,7 +243,7 @@ class employeeController extends Controller
 
     function exportByAssignment(Request $request)
     {
-        $dataa = memberProject::with('project', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization');
+        $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization');
         $dataa->whereHas('employee', function ($q) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
         });
