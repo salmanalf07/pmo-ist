@@ -176,7 +176,11 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
-            $post->status = $request->status;
+            if ($request->status != "#") {
+                $post->status = $request->status;
+            } else {
+                $post->status = "ACTIVE";
+            }
             $post->save();
 
             $data = [$post];

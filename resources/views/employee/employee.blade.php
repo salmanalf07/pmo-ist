@@ -428,7 +428,7 @@
                     $('#peringatan').append(text);
                 } else {
                     $('#taskModal').modal('hide');
-                    document.getElementById("form-add").reset();
+                    reset_form()
                     $('#example1').DataTable().ajax.reload();
                 }
 
@@ -496,7 +496,7 @@
                     $('#peringatan').append(text);
                 } else {
                     $('#taskModal').modal('hide');
-                    document.getElementById("form-add").reset();
+                    reset_form()
                     $('#example1').DataTable().ajax.reload();
                 }
             }
