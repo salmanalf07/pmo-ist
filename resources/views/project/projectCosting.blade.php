@@ -236,7 +236,7 @@
             $('#SubDate').val('{!! isset($data) ? $data->SubDate : "" !!}'.split("-").reverse().join("-"));
             $('#pic').val('{!! isset($data) ? $data->pic : "" !!}');
             $('#mandays').val('{!! isset($data) ? $data->mandays : "" !!}');
-            $('#valueBonus').val(formatNumberr('{!! isset($data) ? $data->valueBonus : "" !!}'));
+            $('#valueBonus').val(formatNumberr('{!! isset($data) && $data->valueBonus > 0 ? $data->valueBonus : "0" !!}'));
 
             var costing = <?php echo json_encode($costing); ?>;
             for (let j = 0; j < ('{{count($costing)}}' - 1); j++) {
@@ -248,7 +248,11 @@
                 $('#orderDate' + i).val((costing[i].orderDate).split("-").reverse().join("-"));
                 $('#poNumber' + i).val(costing[i].poNumber);
                 $('#picCosting' + i).val(costing[i].pic);
-                $('#amount' + i).val(formatNumberr(costing[i].amount));
+                if (costing[i].amount > 0) {
+                    $('#amount' + i).val(formatNumberr(costing[i].amount));
+                } else {
+                    $('#amount' + i).val(formatNumberr(0));
+                }
                 hitung2();
             }
             // console.log(data)
@@ -345,9 +349,7 @@
             console.log("Tidak ada input yang ditemukan.");
         }
 
-        if (valueBonus > 0) {
-            $('#totAllCosting').val(formatNumberr(valueBonus + total))
-        }
+        $('#totAllCosting').val(formatNumberr(valueBonus + total))
     }
 </script>
 @endsection

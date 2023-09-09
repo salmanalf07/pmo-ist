@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\allEmployeeExport;
 use App\Exports\employByAsignExport;
+use App\Exports\employByUnasignExport;
 use App\Exports\partnerByAsignExport;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
@@ -146,6 +147,9 @@ class employeeController extends Controller
         if ($request->departmentt && $request->departmentt != '#') {
             $dataa->where('department', '=', $request->departmentt);
         }
+        if ($request->directManager && $request->directManager != '#') {
+            $dataa->where('direct_manager', '=', $request->directManager);
+        }
 
         $data = $dataa->get();
 
@@ -278,6 +282,27 @@ class employeeController extends Controller
 
         //return $data;
         return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+    }
+
+    function exportEmpUnassigned(Request $request)
+    {
+        $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager', 'levels', 'roles', 'region', 'specialization');
+        if ($request->rolee != "#" && $request->rolee) {
+            $dataa->where('role', '=', $request->rolee);
+        }
+        if ($request->divisi && $request->divisi != '#') {
+            $dataa->where('divisi', '=', $request->divisi);
+        }
+        if ($request->department && $request->department != '#') {
+            $dataa->where('department', '=', $request->department);
+        }
+        if ($request->directManagerr && $request->directManagerr != '#') {
+            $dataa->where('direct_manager', '=', $request->directManagerr);
+        }
+        $data = $dataa->get();
+
+        //return $data;
+        return Excel::download(new employByUnasignExport($data), 'Employee_Unassign.xlsx');
     }
 
     function exportPartByAssignment(Request $request)

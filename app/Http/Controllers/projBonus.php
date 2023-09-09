@@ -58,16 +58,17 @@ class projBonus extends Controller
 
                 $projCosting->save();
             }
-
-            $data = bonusProject::findOrNew($request->idBonus);
-            $data->projectId = $id;
-            $data->status = $request->status;
-            $data->Subdate = date("Y-m-d", strtotime(str_replace('-', '-', $request->SubDate)));
-            $data->status = $request->status;
-            $data->pic = $request->pic;
-            $data->mandays = $request->mandays;
-            $data->valueBonus = str_replace('.', '', $request->valueBonus);
-            $data->save();
+            if ($request->idBonus != null) {
+                $data = bonusProject::findOrNew($request->idBonus);
+                $data->projectId = $id;
+                $data->status = $request->status;
+                $data->Subdate = date("Y-m-d", strtotime(str_replace('-', '-', $request->SubDate)));
+                $data->status = $request->status;
+                $data->pic = $request->pic;
+                $data->mandays = $request->mandays;
+                $data->valueBonus = str_replace('.', '', $request->valueBonus);
+                $data->save();
+            }
 
 
             DB::commit();
