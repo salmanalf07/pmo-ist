@@ -167,7 +167,7 @@ class topProjectController extends Controller
             $dataa->whereYear('bastDate', '=', date($request->yearr));
         }
 
-        $data = $dataa->get();
+        $data = $dataa->orderBy('bastDate')->get();
         $totalPlan = $data->sum('termsValue');
         $totalInv = $data->where('invMain', 1)->sum('termsValue');
 
