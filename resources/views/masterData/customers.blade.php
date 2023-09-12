@@ -61,16 +61,22 @@
                         @csrf
                         <span id="peringatan"></span>
                         <input class="form-control" type="text" name="id" id="id" hidden>
-                        <div class="mb-3 mt-3 col-6">
+                        <div class="mb-3 mt-3 col-4">
                             <input class="form-cek-input" type="radio" name="radio" value="customer" id="customer" checked>
                             <label class="form-label" for="customer">
                                 Customer
                             </label>
                         </div>
-                        <div class="mb-3 mt-3 col-6">
+                        <div class="mb-3 mt-3 col-4">
                             <input class="form-cek-input" type="radio" name="radio" value="vendor" id="vendor">
                             <label class="form-label" for="vendor">
                                 Vendor
+                            </label>
+                        </div>
+                        <div class="mb-3 mt-3 col-4">
+                            <input class="form-cek-input" type="radio" name="radio" value="partner" id="partner">
+                            <label class="form-label" for="partner">
+                                Partner
                             </label>
                         </div>
                         <div class="mb-3 col-12">
@@ -100,7 +106,7 @@
                         <div class="mb-3">
                             <label class="form-label" for="selectOne">Industri</label>
                             <select name="industry" id="industry" class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
+                                <option value="#" selected>Open this select menu</option>
                                 <option value="banking">Bangking</option>
                                 <option value="goverment">goverment</option>
                                 <option value="bumn">BUMN</option>
@@ -238,6 +244,9 @@
                 }
                 if (data.type === "vendor") {
                     $("#vendor").prop('checked', true);
+                }
+                if (data.type === "partner") {
+                    $("#partner").prop('checked', true);
                 }
 
                 id = $('#id').val();

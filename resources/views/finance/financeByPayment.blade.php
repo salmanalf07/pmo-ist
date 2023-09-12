@@ -183,7 +183,10 @@
                     data: 'project.noContract',
                     name: 'project.noContract',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                        if (data != null) {
+                            return type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                        }
+                        return '';
                     }
                 },
                 {
