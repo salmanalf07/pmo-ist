@@ -31,7 +31,7 @@ class userController extends Controller
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255', 'not_equal_to:#'],
-                'username' => ['required', 'string', 'max:255'],
+                'username' => ['required', 'string', 'max:255', 'unique:users'],
                 'password' => ['required', 'digits:8'],
                 'role.*' => ['required', 'string'],
                 'role' => ['required', 'array'],
