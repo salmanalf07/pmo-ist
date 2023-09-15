@@ -74,7 +74,7 @@
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Password <span class="text-danger">*</span></label>
-                            <input type="password" name="password" id="password" type="text" class="form-control" placeholder="Enter Here">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Role</label>
