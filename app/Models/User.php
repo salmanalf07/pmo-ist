@@ -35,6 +35,11 @@ class User extends Authenticatable
         'status',
     ];
 
+    public function employee()
+    {
+        return $this->belongsTo(employee::class, 'name', 'id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

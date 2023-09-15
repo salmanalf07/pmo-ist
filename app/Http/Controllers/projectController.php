@@ -20,6 +20,7 @@ use App\Models\scopeProject;
 use App\Models\solution;
 use App\Models\topProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -58,6 +59,10 @@ class projectController extends Controller
 
         if ($request->segment(1) == "json_projMainCon") {
             $dataa->where('po', '!=', null);
+        }
+
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->where('pmName', Auth::user()->name);
         }
 
         $data = $dataa->get();

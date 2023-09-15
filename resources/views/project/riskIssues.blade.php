@@ -76,14 +76,14 @@
                                             </select>
                                         </td>
                                         <td>
-                                            @can('bisa-hapus')
+                                            @canany(['bisa-hapus','riskIssue-editor'])
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne" onclick="deleteRow(this);">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
-                                            @endcan
+                                            @endcanany
                                         </td>
                                     </tr>
                                 </tbody>
@@ -91,9 +91,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @can('bisa-tambah')
+                        @canany(['bisa-tambah','riskIssue-editor'])
                         <button type="button" onclick="addRowRisk()" class="btn btn-warning-soft">Add Row Risk</button>
-                        @endcan
+                        @endcanany
                     </div>
                 </div>
             </div>
@@ -151,14 +151,14 @@
                                             </select>
                                         </td>
                                         <td>
-                                            @can('bisa-hapus')
+                                            @canany(['bisa-hapus','riskIssue-editor'])
                                             <a href="#!" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne" onclick="deleteRow(this);">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
-                                            @endcan
+                                            @endcanany
                                         </td>
                                     </tr>
                                 </tbody>
@@ -168,9 +168,9 @@
                     <div class="card-footer  justify-content-between">
                         <div class="row input-100">
                             <div class="col-6">
-                                @can('bisa-tambah')
+                                @canany(['bisa-tambah','riskIssue-editor'])
                                 <button type="button" onclick="addRowIssues()" class="btn btn-warning-soft">Add Row Issues</button>
-                                @endcan
+                                @endcanany
                             </div>
                             <div class="col-1 text-end">
                                 Stopper
@@ -192,9 +192,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="justify-content-between">
-                            @can('bisa-tambah')
+                            @canany(['bisa-tambah','riskIssue-editor'])
                             <button type="button" class="btn btn-primary-soft add">Save</button>
-                            @endcan
+                            @endcanany
                         </div>
                     </div>
                 </div>

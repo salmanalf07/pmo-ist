@@ -6,6 +6,7 @@ use App\Exports\financeExport;
 use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -44,6 +45,11 @@ class topProjectController extends Controller
                 $dataa->whereMonth('payDate', '=', date("m"))
                     ->whereYear('payDate', '=', date("Y"));
             }
+        }
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->whereHas('project', function ($query) use ($request) {
+                $query->where('pmName', Auth::user()->name);
+            });
         }
 
         $data = $dataa->get();
@@ -136,6 +142,13 @@ class topProjectController extends Controller
                 ->whereYear('bastDate', '=', date("Y"));
         }
 
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->whereHas('project', function ($query) use ($request) {
+                $query->where('pmName', Auth::user()->name);
+            });
+        }
+
+
         $data = $dataa->get();
         return Excel::download(new financeExport($data), 'Finance_Report.xlsx');
     }
@@ -165,6 +178,12 @@ class topProjectController extends Controller
         }
         if ($request->yearr && $request->yearr != "#") {
             $dataa->whereYear('bastDate', '=', date($request->yearr));
+        }
+
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->whereHas('project', function ($query) use ($request) {
+                $query->where('pmName', Auth::user()->name);
+            });
         }
 
         $data = $dataa->orderBy('bastDate')->get();

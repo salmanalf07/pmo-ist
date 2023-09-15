@@ -15,26 +15,12 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'bisa-lihat']);
-        Permission::create(['name' => 'bisa-tambah']);
-        Permission::create(['name' => 'bisa-ubah']);
-        Permission::create(['name' => 'bisa-hapus']);
-
-
-        Role::create(['name' => 'SuperAdm']);
-        Role::create(['name' => 'Finance']);
-        Role::create(['name' => 'BOD']);
-        Role::create(['name' => 'PM']);
-        Role::create(['name' => 'Sales']);
-        Role::create(['name' => 'Sponsor']);
-
-        $roleSuperAdm = Role::findByName('SuperAdm');
-        $roleSuperAdm->givePermissionTo('bisa-lihat');
-        $roleSuperAdm->givePermissionTo('bisa-tambah');
-        $roleSuperAdm->givePermissionTo('bisa-ubah');
-        $roleSuperAdm->givePermissionTo('bisa-hapus');
-
-        $roleBOD = Role::findByName('BOD');
-        $roleBOD->givePermissionTo('bisa-lihat');
+        Permission::create(['name' => 'detailOrder-editor']);
+        Permission::create(['name' => 'sow-editor']);
+        Permission::create(['name' => 'riskIssue-editor']);
+        Permission::create(['name' => 'timeline-editor']);
+        Permission::create(['name' => 'mandays-editor']);
+        Permission::create(['name' => 'documentation-editor']);
+        Permission::create(['name' => 'highAndNotes-editor']);
     }
 }

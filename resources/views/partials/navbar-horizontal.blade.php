@@ -125,6 +125,7 @@
                             </li>
                         </ul>
                     </li>
+                    @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('employee','empByAssignment','empExtResources','empByUnassigned','partByAssignment') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Resources
@@ -158,6 +159,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endrole
                     <!-- <a class="nav-link pe-5 {{ request()->is('customers') ? 'active' : '' }}" href="/customers">
                         Customers
                     </a> -->

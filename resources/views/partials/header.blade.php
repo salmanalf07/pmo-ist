@@ -1,3 +1,9 @@
+<style>
+  #initial-circle:hover::before {
+    visibility: none;
+    opacity: 0;
+  }
+</style>
 <div class="header">
   <!-- navbar -->
   <div class="navbar-custom navbar navbar-expand-lg">
@@ -59,16 +65,18 @@
       <!-- List -->
       <li class="dropdown ms-2">
         <a class="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <div class="avatar avatar-md avatar-indicators avatar-online">
-            <img alt="avatar" src="/assets/images/avatar/avatar-11.jpg" class="rounded-circle">
-          </div>
+          <span class="avatar avatar-md">
+            <div id="initial-container">
+              <div class="initial-container" id="initial-circle" data-tooltip="{{auth()->user()->employee->name}}"></div>
+            </div>
+          </span>
         </a>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
           <div class="px-4 pb-0 pt-2">
 
 
             <div class="lh-1 ">
-              <h5 class="mb-1">{{auth()->user()->name}}</h5>
+              <h5 class="mb-1">{{auth()->user()->employee->name}}</h5>
             </div>
             <div class=" dropdown-divider mt-3 mb-2"></div>
           </div>

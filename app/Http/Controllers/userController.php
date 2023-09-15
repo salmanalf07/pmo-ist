@@ -12,7 +12,7 @@ class userController extends Controller
 {
     public function json()
     {
-        $data = User::with("roles")->get();
+        $data = User::with("employee", "roles")->get();
 
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
@@ -30,9 +30,11 @@ class userController extends Controller
     {
         try {
             $request->validate([
+                'name' => ['required', 'string', 'max:255', 'not_equal_to:#'],
                 'username' => ['required', 'string', 'max:255'],
                 'password' => ['required', 'digits:8'],
                 'role.*' => ['required', 'string'],
+                'role' => ['required', 'array'],
             ]);
 
             $post = new User();
@@ -70,6 +72,7 @@ class userController extends Controller
         try {
 
             $request->validate([
+                'name' => ['required', 'string', 'max:255', 'not_equal_to:#'],
                 'username' => ['required', 'string', 'max:255'],
                 'role.*' => ['required', 'string'],
             ]);

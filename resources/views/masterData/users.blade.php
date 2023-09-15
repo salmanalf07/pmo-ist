@@ -45,7 +45,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">Add {{$judul}}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="reset_from()" aria-label="Close">
 
                 </button>
             </div>
@@ -61,7 +61,12 @@
                         <input class="form-control" type="text" name="id" id="id" hidden>
                         <div class="mb-3 col-6">
                             <label class="form-label">Full Name</label>
-                            <input name="name" id="name" type="text" class="form-control" placeholder="Enter Here" required>
+                            <select name="name" id="name" class="select2" aria-label="Default select example" required>
+                                <option value="#" selected>Open this select menu</option>
+                                @foreach($employee as $employees)
+                                <option value="{{$employees->id}}">{{$employees->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Username <span class="text-danger">*</span></label>
@@ -83,7 +88,7 @@
                         <!-- button -->
                         <div class="col-12">
                             <button id="in" class="btn btn-primary" type="button">Submit</button>
-                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
+                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="reset_from()">Close</button>
                         </div>
                     </div>
                 </form>
@@ -129,8 +134,8 @@
                     name: 'id'
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'employee.name',
+                    name: 'employee.name'
                 },
                 {
                     data: 'roles',
@@ -179,8 +184,7 @@
                     $('#peringatan').append(text);
                 } else {
                     $('#taskModal').modal('hide');
-                    $('#role').val(null).trigger('change');
-                    document.getElementById("form-add").reset();
+                    reset_from()
                     $('#example1').DataTable().ajax.reload();
                 }
 
@@ -203,7 +207,7 @@
                 $('#role').val(null).trigger('change');
                 //isi form
                 $('#id').val(data.id);
-                $('#name').val(data.name);
+                $('#name').val(data.name).trigger('change');
                 $('#username').val(data.username);
                 var array = Object.keys(data.roles)
                     .map(function(key) {
@@ -246,7 +250,7 @@
                     $('#peringatan').append(text);
                 } else {
                     $('#taskModal').modal('hide');
-                    document.getElementById("form-add").reset();
+                    reset_from()
                     $('#example1').DataTable().ajax.reload();
                 }
             }
@@ -274,6 +278,13 @@
             return false;
         }
     });
+
+    function reset_from() {
+        $('#name').val("#").trigger('change');
+        $('#role').val(null).trigger('change');
+        document.getElementById("form-add").reset();
+        $('.alert-danger').remove();
+    }
 </script>
 
 

@@ -721,7 +721,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
     Route::get('/users', function () {
         $role = Role::all();
-        return view('masterData/users', ['judul' => "User", 'role' => $role]);
+        $employee = employee::all();
+        return view('masterData/users', ['judul' => "User", 'role' => $role, 'employee' => $employee]);
     })->name('users');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_users', [userController::class, 'json']);

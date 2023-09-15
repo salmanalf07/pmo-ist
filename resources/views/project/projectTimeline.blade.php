@@ -107,18 +107,18 @@
                                             <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
-                                            @can('bisa-ubah')
+                                            @canany(['bisa-ubah','timeline-editor'])
                                             <a href="#" onclick="moveRowUp(event)">↑</a>
                                             <a href="#" onclick="moveRowDown(event)">↓</a>
-                                            @endcan
-                                            @can('bisa-hapus')
+                                            @endcanany
+                                            @canany(['bisa-hapus','timeline-editor'])
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
-                                            @endcan
+                                            @endcanany
                                         </td>
                                     </tr>
 
@@ -135,10 +135,10 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @can('bisa-tambah')
+                        @canany(['bisa-tambah','timeline-editor'])
                         <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
                         <button type="button" class="btn btn-primary-soft add"> Save</button>
-                        @endcan
+                        @endcanany
                     </div>
 
                 </div>

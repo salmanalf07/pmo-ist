@@ -155,16 +155,4 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const initialContainers = document.getElementsByClassName('initial-container');
-        for (let i = 0; i < initialContainers.length; i++) {
-            const div = initialContainers[i];
-            const name = div.dataset.tooltip;
-            const initials = getInitials(name);
-            div.setAttribute('id', 'initial-circle');
-            div.innerHTML = initials;
-        }
-    });
-</script>
 @endsection

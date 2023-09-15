@@ -80,14 +80,14 @@
                                             <input id="remaksIn0" name="remaksIn[]" type="text">
                                         </td>
                                         <td>
-                                            @can('bisa-hapus')
+                                            @canany(['bisa-hapus','detailOrder-editor'])
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
-                                            @endcan
+                                            @endcanany
                                         </td>
                                     </tr>
                                 </tbody>
@@ -95,9 +95,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @can('bisa-tambah')
+                        @canany(['bisa-tambah','detailOrder-editor'])
                         <button type="button" onclick="addRowInScope()" class="btn btn-warning-soft">Add Row In Scope</button>
-                        @endcan
+                        @endcanany
                     </div>
                 </div>
             </div>
@@ -133,14 +133,14 @@
                                             <input id="remaksOut0" name="remaksOut[]" type="text">
                                         </td>
                                         <td>
-                                            @can('bisa-hapus')
+                                            @canany(['bisa-hapus','detailOrder-editor'])
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
-                                            @endcan
+                                            @endcanany
                                         </td>
                                     </tr>
                                 </tbody>
@@ -148,9 +148,9 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @can('bisa-tambah')
+                        @canany(['bisa-tambah','detailOrder-editor'])
                         <button type="button" onclick="addRowOutScope()" class="btn btn-warning-soft">Add Row Out Of Scope</button>
-                        @endcan
+                        @endcanany
                     </div>
                 </div>
             </div>
@@ -158,9 +158,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="justify-content-between">
-                            @can('bisa-tambah')
+                            @canany(['bisa-tambah','detailOrder-editor'])
                             <button type="button" class="btn btn-primary-soft add">Save</button>
-                            @endcan
+                            @endcanany
                         </div>
                     </div>
                 </div>
