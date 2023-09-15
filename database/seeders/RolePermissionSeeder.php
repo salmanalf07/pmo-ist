@@ -15,7 +15,6 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'detailOrder-editor']);
         Permission::create(['name' => 'sow-editor']);
         Permission::create(['name' => 'riskIssue-editor']);
         Permission::create(['name' => 'timeline-editor']);
