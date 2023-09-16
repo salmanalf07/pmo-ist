@@ -17,6 +17,7 @@
                     <!-- <a class="nav-link {{ request()->is('pipeline') ? 'active' : '' }} pe-5" href="/pipeline">
                         Pipeline
                     </a> -->
+                    @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
@@ -74,6 +75,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endrole
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('projectInfo','projectInfoByDate','projectByMainCon','project/*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Project
