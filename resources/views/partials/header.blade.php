@@ -67,7 +67,7 @@
         <a class="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="avatar avatar-md">
             <div id="initial-container">
-              <div class="initial-container" id="initial-circle" data-tooltip="{{auth()->user()->employee->name}}"></div>
+              <div class="initial-container" id="initial-circle" data-tooltip="{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}}"></div>
             </div>
           </span>
         </a>
