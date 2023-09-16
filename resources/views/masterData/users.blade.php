@@ -134,7 +134,13 @@
                     name: 'id'
                 },
                 {
-                    data: 'employee.name',
+                    data: function(row, type) {
+                        if (row.employee) {
+                            return row.employee.name;
+                        } else {
+                            return row.name;
+                        }
+                    },
                     name: 'employee.name'
                 },
                 {
@@ -207,7 +213,7 @@
                 $('#role').val(null).trigger('change');
                 //isi form
                 $('#id').val(data.id);
-                $('#name').val(data.name).trigger('change');
+                $('#name').val(data.name).trigger('change').prop("disabled", true);
                 $('#username').val(data.username);
                 var array = Object.keys(data.roles)
                     .map(function(key) {
@@ -280,7 +286,7 @@
     });
 
     function reset_from() {
-        $('#name').val("#").trigger('change');
+        $('#name').val("#").trigger('change').prop("disabled", false);
         $('#role').val(null).trigger('change');
         document.getElementById("form-add").reset();
         $('.alert-danger').remove();

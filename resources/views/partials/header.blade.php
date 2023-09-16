@@ -76,7 +76,7 @@
 
 
             <div class="lh-1 ">
-              <h5 class="mb-1">{{auth()->user()->employee->name}}</h5>
+              <h5 class="mb-1">{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}}</h5>
             </div>
             <div class=" dropdown-divider mt-3 mb-2"></div>
           </div>
