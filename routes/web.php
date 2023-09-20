@@ -164,24 +164,26 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/get_chart_resource', [employeeController::class, 'chartResource']);
 //end Dashboard
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
         return view('/profiles/profile');
     })->name('profile');
-});
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/projectMethod', function () {
         return view('/profiles/projectMethod');
     })->name('projectMethod');
-});
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/tempGuide', function () {
         return view('/profiles/tempGuide');
     })->name('tempGuide');
+    Route::get('/meeting', function () {
+        return view('/profiles/meeting');
+    })->name('meeting');
+    Route::get('/lessonLearned', function () {
+        return view('/profiles/lessonLearned');
+    })->name('lessonLearned');
+    Route::get('/linkComunity', function () {
+        return view('/profiles/linkComunity');
+    })->name('linkComunity');
 });
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {

@@ -46,13 +46,13 @@
                                 <a class="nav-link {{ str_contains(request()->url(), '/tempGuide') ? 'active' : '' }}" href="/tempGuide">Template & Guidelines</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-team.html">Meeting</a>
+                                <a class="nav-link {{ str_contains(request()->url(), '/meeting') ? 'active' : '' }}" href="/meeting">Meeting</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="profile-followers.html">Lesson Learned</a>
+                                <a class="nav-link {{ str_contains(request()->url(), '/lessonLearned') ? 'active' : '' }}" href="/lessonLearned">Lesson Learned</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), '/kanban') ? 'active' : '' }}" href="/kanban">Link Comunity</a>
+                                <a class="nav-link {{ str_contains(request()->url(), '/linkComunity') ? 'active' : '' }}" href="/linkComunity">Link Comunity</a>
                             </li>
                         </ul>
                     </div>

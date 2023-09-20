@@ -166,7 +166,7 @@
                         Customers
                     </a> -->
 
-                    <a class="nav-link pe-5 {{ str_contains(request()->url(), 'profile') ? 'active' : '' }}" href="/profile">
+                    <a class="nav-link pe-5 {{ request()->is('profile','projectMethod','tempGuide','meeting','lessonLearned','linkComunity') ? 'active' : '' }}" href="/profile">
                         PMO
                     </a>
                     @role('Manage')
