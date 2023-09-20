@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-body">
                         <div id="inputfile" class="row">
-                            <input type="hidden" name="idfile" id="idfile">
+                            <input type="hidden" name="idFile" id="idFile" value="#">
                             <div class="mb-3 col-6">
                                 <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Name File Here">
                             </div>
@@ -201,6 +201,10 @@
 
                 },
             });
+        });
+        $(document).on('click', '#buttonUpdateLink', function() {
+            $('#linkDirect').hide();
+            $('#inputfile').show();
         });
     })
 </script>
