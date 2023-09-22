@@ -68,7 +68,6 @@ class employeeController extends Controller
         if ($request->role != "#" && $request->role) {
             $dataa->where('rolePartner', '=', $request->role);
         }
-
         if ($request->availableAt != "01/01/1900" && $request->availableAt) {
             $dataa->where('eddatePartner', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
         } // } else {
@@ -84,12 +83,15 @@ class employeeController extends Controller
         $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department');
         $dataa->whereHas('employee', function ($q) use ($request) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
-            if ($request->role != "#" && $request->role) {
-                $q->where('role', '=', $request->role);
+            if ($request->directManager && $request->directManager !== '#') {
+                $q->where('direct_manager', $request->directManager);
             }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
+            if ($request->role != "#" && $request->role) {
+                $q->where('role', '=', $request->role);
+            }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -256,8 +258,11 @@ class employeeController extends Controller
     function exportByAssignment(Request $request)
     {
         $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization');
-        $dataa->whereHas('employee', function ($q) {
+        $dataa->whereHas('employee', function ($q) use ($request) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
+            if ($request->directManagerr && $request->directManagerr != '#') {
+                $q->where('direct_manager', $request->directManagerr);
+            }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))

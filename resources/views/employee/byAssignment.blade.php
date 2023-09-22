@@ -56,6 +56,7 @@
                                             <input type="text" id="rolee" name="rolee" hidden>
                                             <input type="text" id="availableAtt" name="availableAtt" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" hidden>
+                                            <input type="text" id="directManagerr" name="directManagerr" hidden>
                                             <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
                                                     <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
@@ -70,6 +71,15 @@
                                                 <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
                                             </svg>
                                         </button>
+                                    </div>
+                                    <div class="mb-3 col-3">
+                                        <label class="form-label" for="selectOne">Direct Manager</label>
+                                        <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($employee as $directManager)
+                                            <option value="{{$directManager->id}}">{{$directManager->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -234,6 +244,7 @@
             $('#projectIdd').val($('#projectId').val());
             $('#availableAtt').val($('#availableAt').val());
             $('#roles').val($('#role').val());
+            $('#directManagerr').val($('#directManager').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -243,15 +254,17 @@
                 'projectId': $('#projectId').val(),
                 'role': $('#role').val(),
                 'availableAt': $('#availableAt').val(),
+                'directManager': $('#directManager').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId, #role').on('change', function() {
+        $('#name, #projectId, #role, #directManager').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#roles').val($('#role').val());
+            $('#directManagerr').val($('#directManager').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -260,6 +273,7 @@
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
                 'role': $('#role').val(),
+                'directManager': $('#directManager').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -269,10 +283,12 @@
             $('#name').val('#').trigger('change');
             $('#projectId').val('#').trigger('change');
             $('#role').val('#').trigger('change');
+            $('#directManager').val('#').trigger('change');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
             $('#roles').val('#');
+            $('#directManagerr').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
