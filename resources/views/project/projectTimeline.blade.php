@@ -247,6 +247,8 @@
                 '</div');
             $('#linkDirect').show();
             $('#inputfile').hide();
+        } else {
+            $('#idFile').val("#");
         }
 
         //hitung overAll

@@ -68,7 +68,7 @@ class timelineController extends Controller
                 $postt->save();
             }
             //documentation
-            if ($request->idFile != null) {
+            if ($request->idFile != '#') {
                 $file = documentationProject::findOrNew($request->idFile);
                 $file->ProjectId = $id;
                 $file->nameFile = $request->nameFile;
