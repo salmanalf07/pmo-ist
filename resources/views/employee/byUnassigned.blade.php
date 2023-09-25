@@ -101,6 +101,7 @@
                                                 <th>Department</th>
                                                 <th>Division</th>
                                                 <th>Direct Manager</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -204,6 +205,10 @@
                     },
                     name: 'manager.name'
                 },
+                {
+                    data: 'status',
+                    name: 'status'
+                }
             ],
             order: [
                 [3, 'asc'],

@@ -67,6 +67,7 @@ class employByUnasignExport implements FromCollection, WithHeadings, ShouldAutoS
             'manager.name' => 'Direct Manager',
             'roles.roleEmployee' => 'Role',
             'specialization.specialization' => 'Specialization',
+            'status' => 'Status'
         ];
     }
 
