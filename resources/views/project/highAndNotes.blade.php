@@ -7,11 +7,10 @@
         <div class="card">
             <div class="card-header d-md-flex border-bottom-0">
                 @canany(['bisa-tambah','highAndNotes-editor'])
-
-                @endcanany
                 <div class="flex-grow-1">
                     <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Add New</button>
                 </div>
+                @endcanany
             </div>
             <div class="card-body">
                 <div class="table-responsive table-card">
@@ -114,8 +113,8 @@
                     name: 'highAndNote'
                 },
                 {
-                    data: 'users.name',
-                    name: 'users.name'
+                    data: 'users.employee.name',
+                    name: 'users.employee.name'
                 },
                 {
                     data: 'created_at',

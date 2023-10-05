@@ -60,14 +60,13 @@
         <label class="form-check-label" for="flexSwitchCheckDefault"></label>
 
       </a>
-      </li>
 
       <!-- List -->
       <li class="dropdown ms-2">
         <a class="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="avatar avatar-md">
             <div id="initial-container">
-              <div class="initial-container" id="initial-circle" data-tooltip="{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}}"></div>
+              <div class="initial-container" id="initial-circle" data-name="{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}}"></div>
             </div>
           </span>
         </a>
@@ -106,5 +105,4 @@
       </li>
     </ul>
   </div>
-</div>
 </div>

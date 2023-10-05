@@ -11,15 +11,21 @@ class highAndNotesController extends Controller
 {
     public function json()
     {
-        $data = highAndNote::with('users')->orderBy('created_at', 'DESC');
+        $data = highAndNote::with('users.employee')->orderBy('created_at', 'DESC');
 
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
-                return
+                $editButton = auth()->user()->canany(['bisa-edit', 'highAndNotes-editor']) ?
                     '<button id="edit" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
-                <i class="bi bi-pencil-square"></i></button>
-                <button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
-                <i class="bi bi-trash"></i></button>';
+                    <i class="bi bi-pencil-square"></i>
+                </button>' : '';
+
+                $deleteButton = auth()->user()->canany(['bisa-hapus', 'highAndNotes-editor']) ?
+                    '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </button>' : '';
+
+                return $editButton . $deleteButton;
             })
             ->rawColumns(['aksi'])
             ->toJson();
