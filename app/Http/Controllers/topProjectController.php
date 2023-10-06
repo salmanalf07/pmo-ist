@@ -104,8 +104,12 @@ class topProjectController extends Controller
                 $postt->noRef = $count + 1;
                 $postt->termsName = $termsName[$count];
                 $postt->termsValue = str_replace(".", "", $termsValue[$count]);
-                $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
-                $postt->bastMain = isset($bastMain[$count]) ? $bastMain[$count] : 0;
+                if ($bastDate) {
+                    $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
+                }
+                if (!Auth::user()->hasRole("Finance")) {
+                    $postt->bastMain = isset($bastMain[$count]) ? $bastMain[$count] : 0;
+                }
                 $postt->invDate = date("Y-m-d", strtotime(str_replace('-', '-', $invDate[$count])));
                 $postt->invMain = isset($invMain[$count]) ? $invMain[$count] : 0;
                 $postt->payDate = date("Y-m-d", strtotime(str_replace('-', '-', $payDate[$count])));

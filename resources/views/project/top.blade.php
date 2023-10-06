@@ -100,7 +100,9 @@
                         <div class="row input-100">
                             <div class="col-6">
                                 @canany(['bisa-tambah','top-editor'])
+                                @if (!Auth::user()->hasRole("Finance"))
                                 <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
+                                @endif
                                 <button type="button" class="btn btn-primary-soft add"> Save</button>
                                 @endcanany
                             </div>
@@ -186,6 +188,12 @@
                 $('#bastDate' + i).val((data[i].bastDate).split("-").reverse().join("-"));
                 if (data[i].bastMain != 0) {
                     $(".form-check-inputt#bastMain" + i).trigger('click');
+                }
+                if ('{{Auth::user()->hasRole("Finance")}}') {
+                    $('#termsName' + i).attr('readonly', true);
+                    $('#termsValue' + i).attr('readonly', true);
+                    $('#bastDate' + i).attr('disabled', true);
+                    $('.form-check-inputt#bastMain' + i).attr('disabled', true);
                 }
                 $('#invDate' + i).val((data[i].invDate).split("-").reverse().join("-"));
                 if (data[i].invMain != 0) {
