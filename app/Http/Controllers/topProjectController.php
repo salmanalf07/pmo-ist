@@ -71,7 +71,7 @@ class topProjectController extends Controller
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
-        if ($get) {
+        if (count($get) > 0) {
             $aksi = 'EditData';
         } else {
             $aksi = 'Add';

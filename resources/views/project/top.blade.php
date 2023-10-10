@@ -174,6 +174,7 @@
 </script>
 <script>
     $(document).ready(function() {
+        console.log('{{$aksi}}')
         if ('{{isset($aksi) && $aksi == "EditData"}}') {
             var data = <?php echo json_encode($data); ?>;
             $('#id').val('{{ isset($data) ? $id : "" }}');
@@ -204,6 +205,13 @@
                     $(".form-check-inputt#payMain" + i).trigger('click');
                 }
                 $('#remaks' + i).val(data[i].remaks);
+            }
+        } else {
+            if ('{{Auth::user()->hasRole("Finance")}}') {
+                $('#termsName0').attr('readonly', true);
+                $('#termsValue0').attr('readonly', true);
+                $('#bastDate0').attr('disabled', true);
+                $('.form-check-inputt#bastMain0').attr('disabled', true);
             }
         }
     })
