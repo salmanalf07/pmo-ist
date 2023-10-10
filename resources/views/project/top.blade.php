@@ -103,7 +103,9 @@
                                 @if (!Auth::user()->hasRole("Finance"))
                                 <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
                                 @endif
+                                @if ($aksi != "Add" && Auth::user()->hasRole("Finance"))
                                 <button type="button" class="btn btn-primary-soft add"> Save</button>
+                                @endif
                                 @endcanany
                             </div>
                             <div class="col-3">
