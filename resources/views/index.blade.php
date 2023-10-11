@@ -145,7 +145,11 @@
                 const div = initialContainers[i];
                 const name = div.dataset.name ? div.dataset.name : div.dataset.tooltip;
                 const initials = getInitials(name);
-                div.setAttribute('id', 'initial-circle');
+                if (div.dataset.name) {
+                    div.setAttribute('id', 'initial-circlee');
+                } else {
+                    div.setAttribute('id', 'initial-circle');
+                }
                 div.innerHTML = initials;
             }
         });

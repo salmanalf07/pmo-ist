@@ -46,9 +46,6 @@
                                 <a class="nav-link {{ str_contains(request()->url(), '/tempGuide') ? 'active' : '' }}" href="/tempGuide">Template & Guidelines</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), '/meeting') ? 'active' : '' }}" href="/meeting">Meeting</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), '/lessonLearned') ? 'active' : '' }}" href="/lessonLearned">Lesson Learned</a>
                             </li>
                             <li class="nav-item">

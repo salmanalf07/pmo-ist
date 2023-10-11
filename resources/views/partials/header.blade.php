@@ -1,9 +1,3 @@
-<style>
-  #initial-circle:hover::before {
-    visibility: none;
-    opacity: 0;
-  }
-</style>
 <div class="header">
   <!-- navbar -->
   <div class="navbar-custom navbar navbar-expand-lg">
@@ -66,7 +60,7 @@
         <a class="rounded-circle" href="#!" role="button" id="dropdownUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="avatar avatar-md">
             <div id="initial-container">
-              <div class="initial-container" id="initial-circle" data-name="{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}}"></div>
+              <div class="initial-container" id="initial-circle" data-name="{{auth()->user()->employee ?auth()->user()->employee->name:auth()->user()->name}} e"></div>
             </div>
           </span>
         </a>
