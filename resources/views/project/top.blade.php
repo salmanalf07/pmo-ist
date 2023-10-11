@@ -102,6 +102,7 @@
                                 @canany(['bisa-tambah','top-editor'])
                                 @if (!Auth::user()->hasRole("Finance"))
                                 <button type="button" onclick="addRow()" class="btn btn-warning-soft">Add Row</button>
+                                <button type="button" class="btn btn-primary-soft add"> Save</button>
                                 @endif
                                 @if ($aksi != "Add" && Auth::user()->hasRole("Finance"))
                                 <button type="button" class="btn btn-primary-soft add"> Save</button>
