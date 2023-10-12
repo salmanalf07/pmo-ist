@@ -350,7 +350,7 @@ class projectController extends Controller
 
     function detail_pm(Request $request)
     {
-        $data = Project::with('pm')->where('pmName', $request->id)->get();
+        $data = Project::with('pm', 'customer')->where('pmName', $request->id)->get();
 
         return response()->json($data);
     }

@@ -214,7 +214,13 @@
                                 '<div class="row mb-2 border-bottom pb-2 g-0">' + '<div class="col-lg-12">' + '<div class="d-flex">' +
                                 '<div class="me-2"><i class="mdi mdi-drag"></i></div>' +
                                 '<label class="form-check-label" for="customCheck1">' +
-                                '<span class="h5">' + data[i]['projectName'] + '</span>' +
+                                '<span class="h5">' + data[i]['projectName'] + '  -  ' + data[i]['customer']['company'] +
+                                '<div class="d-flex align-items-center">' +
+                                '<div class="me-2"> <span>Progress ' + data[i]['overAllProg'] + '%</span></div>' +
+                                '<div class="progress" style="height: 6px;width:10em">' +
+                                '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + data[i]['overAllProg'] + '%;" aria-valuenow="' + data[i]['overAllProg'] + '" aria-valuemin="0" aria-valuemax="100">' +
+                                '</div></div></div>' +
+                                '</span>' +
                                 '</label>' + '</div></div></div>';
                         }
                         $('#project').append(text);
