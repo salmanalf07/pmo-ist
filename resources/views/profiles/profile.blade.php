@@ -207,7 +207,6 @@
                         'id': uid,
                     },
                     success: function(data) {
-                        console.log(data);
                         $('#project').text('');
                         let text = "";
                         for (let i = 0; i < data.length; i++) {
