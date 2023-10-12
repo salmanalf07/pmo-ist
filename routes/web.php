@@ -8,6 +8,7 @@ use App\Http\Controllers\doctypeController;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\highAndNotesController;
 use App\Http\Controllers\memberProjectController;
+use App\Http\Controllers\momController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\pipelineController;
 use App\Http\Controllers\projBonus;
@@ -40,6 +41,7 @@ use App\Models\skillLevel;
 use App\Models\solution;
 use App\Models\specialization;
 use App\Models\topProject;
+use App\Models\typeProject;
 use Google\Service\Docs\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -164,11 +166,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/get_chart_resource', [employeeController::class, 'chartResource']);
 //end Dashboard
-
+//PMO
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
-        return view('/profiles/profile');
+        $project = Project::with('pm')->get()->groupBy('pm.name');
+        //return $projects;
+        return view('/profiles/profile', ['project' => $project]);
     })->name('profile');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/detail_pm', [projectController::class, 'detail_pm']);
     Route::get('/projectMethod', function () {
         return view('/profiles/projectMethod');
     })->name('projectMethod');
@@ -316,7 +321,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $specialization = specialization::get();
         $role = roleEmployee::get();
         $skill = skillLevel::get();
-        return view('employee/employee', ['judul' => "All Employee", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee]);
+        $typeProject = typeProject::get();
+        return view('employee/employee', ['judul' => "All Employee", 'skill' => $skill, 'role' => $role, 'specialization' => $specialization, 'location' => $location, 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'typeProject' => $typeProject]);
     })->name('employees');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportAllEmpl', [employeeController::class, 'exportAllEmployee']);
@@ -325,7 +331,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $employee = employee::get();
         $project = Project::get();
         $role = roleEmployee::get();
-        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role]);
+        $typeProject = typeProject::get();
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
@@ -351,7 +358,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $department = department::get();
         $employee = employee::get();
         $role = roleEmployee::get();
-        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'role' => $role]);
+        $typeProject = typeProject::get();
+        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'role' => $role, 'typeProject' => $typeProject]);
     })->name('empByUnassigned');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpUnassigned', [employeeController::class, 'exportEmpUnassigned']);
@@ -524,11 +532,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     $project = Project::with('customer')->find($id);
     return view('project/highAndNotes', ['id' => $id, 'judul' => "Highlight And Notes", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
 })->name('highAndNotes');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_highAndNotes', [highAndNotesController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_highAndNotes/{id}', [highAndNotesController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_highAndNotes', [highAndNotesController::class, 'store']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/edit_highAndNotes', [highAndNotesController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/update_highAndNotes/{id}', [highAndNotesController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_highAndNotes/{id}', [highAndNotesController::class, 'destroy']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/moms/{id}', function ($id) {
+    $project = Project::with('customer')->find($id);
+    return view('project/moms', ['id' => $id, 'judul' => "MOM", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
+})->name('moms');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/formMoms/{id}', function ($id) {
+    $project = Project::with('customer')->find($id);
+    return view('project/formMoms', ['id' => $id, 'judul' => "MOM", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
+})->name('formMoms');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_moms/{id}', [momController::class, 'json']);
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_highAndNotes', [momController::class, 'store']);
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/edit_highAndNotes', [momController::class, 'edit']);
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/update_highAndNotes/{id}', [momController::class, 'update']);
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_highAndNotes/{id}', [momController::class, 'destroy']);
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {

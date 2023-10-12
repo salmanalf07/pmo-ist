@@ -54,6 +54,7 @@
     <script src="/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
     <!-- quill js -->
     <script src="/assets/libs/quill/dist/quill.min.js"></script>
+    <script src="/assets/libs/@yaireo/tagify/dist/tagify.min.js"></script>
     <!-- daterangepicker -->
     <script src="/assets/css/moment/moment.min.js"></script>
     <script src="/assets/css/daterangepicker/daterangepicker.js"></script>
@@ -111,7 +112,8 @@
 
             for (let i = 0; i < words.length; i++) {
                 const word = words[i];
-                if (word[0] === word[0].toUpperCase()) {
+                // if (word[0] === word[0].toUpperCase()) {
+                if (word[0]) {
                     initials += word[0];
                 }
             }

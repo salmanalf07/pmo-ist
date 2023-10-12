@@ -6,6 +6,7 @@
     <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-5">
         <!-- card -->
         <div class="row">
+            @foreach ($project as $pmName => $projects)
             <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-5">
                 <!-- card -->
                 <div class="card">
@@ -14,10 +15,10 @@
                             <div>
                                 <span class="avatar avatar-md me-3">
                                     <div id="initial-container">
-                                        <div class="initial-container" id="initial-circle" data-tooltip="Mayang Laily Yusron"></div>
+                                        <div class="initial-container" id="initial-circle" data-tooltip="{{$pmName}}"></div>
                                     </div>
                                 </span>
-                                <a href="#" id="detailModals" data-id="1"><span class="h5">Mayang Laily Yusron</span></a>
+                                <a href="#" id="detailModals" data-id="{{$projects[0]->pm?$projects[0]->pm->id:'#'}}"><span class="h5">{{$pmName}}</span></a>
                                 <br>
                                 <!-- <span class="badge badge-danger-soft">High</span> -->
                             </div>
@@ -36,7 +37,7 @@
                                         <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
                                     </svg>
                                     <span class="
-                                        fs-6">2</span>
+                                        fs-6">{{count($projects)}}</span>
                                 </span>
                                 <span class="align-middle" data-bs-toggle="tooltip" data-placement="top" title="courses">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
@@ -50,7 +51,7 @@
                     </div>
                 </div>
             </div>
-
+            @endforeach
         </div>
     </div>
 </div>
@@ -67,104 +68,65 @@
 
             <!-- card body -->
             <div class="modal-body">
-                <!-- form -->
-                <form method="post" role="form" id="form-add" enctype="multipart/form-data">
-                    <div class="row">
-                        <!-- form group -->
-                        @csrf
-                        <div class="col-12">
-                            <div class="card mb-6">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a class="text-dark fs-4" data-bs-toggle="collapse" href="#taskCard1" aria-expanded="true" aria-controls="taskCard1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down icon-xs">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg> Project <span class="text-muted">(3)</span>
-                                        </a>
-                                    </div>
-                                    <div class="collapse" id="taskCard1">
-                                        <div id="project" class="p-2 mt-4">
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck1">
-                                                            <span class="h5">Initial setup your design </span>
-
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck2">
-                                                            <span class="h5">Invite your teammates and start
-                                                                collaborating </span>
-
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck3">
-                                                            <span class="h5">Start manage projects on the go </span>
-
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-6">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a class="text-dark fs-4" data-bs-toggle="collapse" href="#taskCard1" aria-expanded="true" aria-controls="taskCard1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down icon-xs">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg> Project <span id="countProject" class="text-muted">(3)</span>
+                                    </a>
+                                </div>
+                                <div class="collapse" id="taskCard1">
+                                    <div id="project" class="p-2 mt-4">
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-6">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a class="text-dark fs-4" data-bs-toggle="collapse" href="#taskCard2" aria-expanded="true" aria-controls="taskCard2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down icon-xs">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg> Courses <span class="text-muted">(3)</span>
-                                        </a>
-                                    </div>
-                                    <div class="collapse" id="taskCard2">
-                                        <div id="courses" class="p-2 mt-4">
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck4">
-                                                            <span class="h5">Initial setup your design </span>
+                        </div>
+                        <div class="card mb-6">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a class="text-dark fs-4" data-bs-toggle="collapse" href="#taskCard2" aria-expanded="true" aria-controls="taskCard2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down icon-xs">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg> Courses <span class="text-muted">(3)</span>
+                                    </a>
+                                </div>
+                                <div class="collapse" id="taskCard2">
+                                    <div id="courses" class="p-2 mt-4">
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck4">
+                                                        <span class="h5">Initial setup your design </span>
 
-                                                        </label>
-                                                    </div>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck5">
-                                                            <span class="h5">Invite your teammates and start
-                                                                collaborating </span>
+                                        </div>
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck5">
+                                                        <span class="h5">Invite your teammates and start
+                                                            collaborating </span>
 
-                                                        </label>
-                                                    </div>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="row mb-2 border-bottom pb-2 g-0">
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex">
-                                                        <div class="me-2"><i class="mdi mdi-drag"></i></div>
-                                                        <label class="form-check-label" for="customCheck6">
-                                                            <span class="h5">Start manage projects on the go </span>
+                                        </div>
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck6">
+                                                        <span class="h5">Start manage projects on the go </span>
 
-                                                        </label>
-                                                    </div>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,28 +134,102 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card mb-6">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a class="text-dark fs-4" data-bs-toggle="collapse" href="#taskCard3" aria-expanded="true" aria-controls="taskCard3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down icon-xs">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg> Certifiction <span class="text-muted">(3)</span>
+                                    </a>
+                                </div>
+                                <div class="collapse" id="taskCard3">
+                                    <div id="courses" class="p-2 mt-4">
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck4">
+                                                        <span class="h5">Initial setup your design </span>
 
-                        <!-- button -->
-                        <div class="col-12">
-                            <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck5">
+                                                        <span class="h5">Invite your teammates and start
+                                                            collaborating </span>
+
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2 border-bottom pb-2 g-0">
+                                            <div class="col-lg-6">
+                                                <div class="d-flex">
+                                                    <div class="me-2"><i class="mdi mdi-drag"></i></div>
+                                                    <label class="form-check-label" for="customCheck6">
+                                                        <span class="h5">Start manage projects on the go </span>
+
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
 
+                    <!-- button -->
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="/assets/libs/jquery/dist/jquery.min.js"></script>
-<script>
-    $(function() {
-        $(document).on('click', '#detailModals', function(e) {
-            e.preventDefault();
-            $("#in").removeClass("btn btn-primary update");
-            $("#in").addClass("btn btn-primary add");
-            $('#taskModal').modal('show');
-        });
-    });
-</script>
+    <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $(document).on('click', '#detailModals', function(e) {
+                e.preventDefault();
+                var uid = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '/detail_pm',
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id': uid,
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        $('#project').text('');
+                        let text = "";
+                        for (let i = 0; i < data.length; i++) {
+                            text +=
+                                '<div class="row mb-2 border-bottom pb-2 g-0">' + '<div class="col-lg-12">' + '<div class="d-flex">' +
+                                '<div class="me-2"><i class="mdi mdi-drag"></i></div>' +
+                                '<label class="form-check-label" for="customCheck1">' +
+                                '<span class="h5">' + data[i]['projectName'] + '</span>' +
+                                '</label>' + '</div></div></div>';
+                        }
+                        $('#project').append(text);
+                        $('#countProject').text('(' + data.length + ')');
+                        $('.modal-title').text('Detail PM' + ' - ' + data[0]['pm']['name']);
+                        $('#taskModal').modal('show');
 
-@endsection
+                    },
+                    error: function(data) {
+                        alert('Gagal Mengeksekusi');
+                    }
+                });
+            });
+        });
+    </script>
+
+    @endsection

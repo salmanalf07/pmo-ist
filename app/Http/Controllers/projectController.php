@@ -347,4 +347,11 @@ class projectController extends Controller
         $data = $dataa->get();
         return Excel::download(new ExportProjByMain($data), 'Project_By_Main_Contract.xlsx');
     }
+
+    function detail_pm(Request $request)
+    {
+        $data = Project::with('pm')->where('pmName', $request->id)->get();
+
+        return response()->json($data);
+    }
 }
