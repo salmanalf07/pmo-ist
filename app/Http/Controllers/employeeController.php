@@ -330,8 +330,14 @@ class employeeController extends Controller
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
         });
-        if ($request->namee != "#" && $request->namee) {
-            $dataa->where('employee', '=', $request->namee);
+        // Periksa apakah request memiliki data untuk name
+        if ($request->has('namee')) {
+            $names = explode(',', $request->namee);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('employee', $names);
+            }
         }
         if ($request->projectIdd != "#" && $request->projectIdd) {
             $dataa->where('projectId', '=', $request->projectIdd);
