@@ -28,7 +28,7 @@ class employee extends Model
         'pkwt_start',
         'pkwt_end',
         'email_ist',
-        'email',
+        'typeProject',
         'status',
         'keterangan',
     ];
@@ -76,6 +76,10 @@ class employee extends Model
     public function specialization()
     {
         return $this->belongsTo(specialization::class, 'spesialisasi', 'id');
+    }
+    public function typeProjects()
+    {
+        return $this->belongsTo(typeProject::class, 'typeProject', 'id');
     }
     protected static function boot()
     {
