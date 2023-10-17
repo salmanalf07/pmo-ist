@@ -42,7 +42,8 @@
 }
 
 .select2-selection--multiple{
-    height: 2.8em !important;   
+    /* height: 2.8em !important;    */
+    min-height: 2.8em;
     padding: .3rem .1rem;
     border: var(--dashui-border-width) solid var(--dashui-input-border);
     border-radius: 4px;

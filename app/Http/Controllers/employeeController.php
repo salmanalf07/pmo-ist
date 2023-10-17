@@ -20,8 +20,15 @@ class employeeController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = employee::with('divisi', 'manager', 'department', 'roles')->orderBy('created_at', 'DESC');
+        $dataa = employee::with('divisi', 'manager', 'department', 'roles', 'typeProjects')->orderBy('created_at', 'DESC');
         // $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
+        if ($request->typeProject != "#" && $request->typeProject) {
+            $dataa->where('typeProject', $request->typeProject);
+        }
+        //blum bisa rilis karena data orangnya belum di revisi
+        // else {
+        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+        // }
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
@@ -86,6 +93,19 @@ class employeeController extends Controller
             if ($request->directManager && $request->directManager !== '#') {
                 $q->where('direct_manager', $request->directManager);
             }
+            if ($request->typeProject != "#" && $request->typeProject) {
+                $q->where('typeProject', $request->typeProject);
+            }
+            //blum bisa rilis karena data orangnya belum di revisi
+            // else {
+            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+            // }
+            if ($request->status != "#" && $request->status) {
+                $q->where('status', $request->status);
+            }
+            // else {
+            //     $q->where('status', "ACTIVE");
+            // }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
@@ -97,8 +117,14 @@ class employeeController extends Controller
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
         //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         // }
-        if ($request->name != "#" && $request->name) {
-            $dataa->where('employee', '=', $request->name);
+        // Periksa apakah request memiliki data untuk name
+        if ($request->has('name')) {
+            $names = $request->name;
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('employee', $names);
+            }
         }
 
         if ($request->projectId != "#" && $request->projectId) {
@@ -140,6 +166,16 @@ class employeeController extends Controller
     function jsonByUnassigned(Request $request)
     {
         $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager');
+        if ($request->typeProject != "#" && $request->typeProject) {
+            $dataa->where('typeProject', $request->typeProject);
+        }
+        //blum bisa rilis karena data orangnya belum di revisi
+        // else {
+        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+        // }
+        if ($request->status != "#" && $request->status) {
+            $dataa->where('status', $request->status);
+        }
         if ($request->role != "#" && $request->role) {
             $dataa->where('role', '=', $request->role);
         }
@@ -182,6 +218,11 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
+            if ($request->typeProject != "#") {
+                $post->typeProject = $request->typeProject;
+            } else {
+                $post->typeProject = "789ab3ca-7ee5-4504-ad26-cb3290ff77c1";
+            }
             if ($request->status != "#") {
                 $post->status = $request->status;
             } else {
@@ -223,6 +264,11 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
+            if ($request->typeProject != "#") {
+                $post->typeProject = $request->typeProject;
+            } else {
+                $post->typeProject = "789ab3ca-7ee5-4504-ad26-cb3290ff77c1";
+            }
             if ($request->status != "#") {
                 $post->status = $request->status;
             } else {
@@ -263,6 +309,19 @@ class employeeController extends Controller
             if ($request->directManagerr && $request->directManagerr != '#') {
                 $q->where('direct_manager', $request->directManagerr);
             }
+            if ($request->typeProjectt != "#" && $request->typeProjectt) {
+                $q->where('typeProject', $request->typeProjectt);
+            }
+            //blum bisa rilis karena data orangnya belum di revisi
+            // else {
+            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+            // }
+            if ($request->statuss != "#" && $request->statuss) {
+                $q->where('status', $request->statuss);
+            }
+            // else {
+            //     $q->where('status', "ACTIVE");
+            // }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -292,6 +351,16 @@ class employeeController extends Controller
     function exportEmpUnassigned(Request $request)
     {
         $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager', 'levels', 'roles', 'region', 'specialization');
+        if ($request->typeProjectt != "#" && $request->typeProjectt) {
+            $dataa->where('typeProject', $request->typeProjectt);
+        }
+        //blum bisa rilis karena data orangnya belum di revisi
+        // else {
+        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+        // }
+        if ($request->statuss != "#" && $request->statuss) {
+            $dataa->where('status', $request->statuss);
+        }
         if ($request->rolee != "#" && $request->rolee) {
             $dataa->where('role', '=', $request->rolee);
         }
@@ -340,8 +409,13 @@ class employeeController extends Controller
 
     function exportAllEmployee(Request $request)
     {
-        $dataa = employee::with('divisis', 'departments', 'manager', 'levels', 'roles', 'region', 'specialization');
+        $dataa = employee::with('divisis', 'departments', 'manager', 'levels', 'roles', 'region', 'specialization', 'typeProjects');
 
+        if ($request->typeProjectt != "#" && $request->typeProjectt) {
+            $dataa->where('typeProject', $request->typeProjectt);
+        } else {
+            $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+        }
         if ($request->divisiii != "#" && $request->divisiii) {
             $dataa->where('divisi', '=', $request->divisiii);
         }

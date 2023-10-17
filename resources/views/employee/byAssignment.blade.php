@@ -15,9 +15,8 @@
                                 <div class="row">
                                     <div class="mb-3 col-3">
                                         <label class="form-label" for="selectOne">Employee</label>
-                                        <select name="name" id="name" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($employee as $employees)
+                                        <select name="name[]" id="name" multiple="multiple" class="select2" aria-label="Default select example">
+                                            @foreach(collect($employee)->sortBy('name') as $employees)
                                             <option value="{{$employees->id}}">{{$employees->name}}</option>
                                             @endforeach
                                         </select>
@@ -57,6 +56,8 @@
                                             <input type="text" id="availableAtt" name="availableAtt" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" hidden>
                                             <input type="text" id="directManagerr" name="directManagerr" hidden>
+                                            <input type="text" id="typeProjectt" name="typeProjectt" hidden>
+                                            <input type="text" id="statuss" name="statuss" hidden>
                                             <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
                                                     <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
@@ -76,9 +77,26 @@
                                         <label class="form-label" for="selectOne">Direct Manager</label>
                                         <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
                                             <option value="#" selected>Open this select menu</option>
-                                            @foreach($employee as $directManager)
+                                            @foreach(collect($employee)->sortBy('name') as $directManager)
                                             <option value="{{$directManager->id}}">{{$directManager->name}}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label class="form-label">Type Project</label>
+                                        <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
+                                            <option value="#" selected>Open this select menu</option>
+                                            @foreach($typeProject as $typeProjects)
+                                            <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-2">
+                                        <label class="form-label">Status</label>
+                                        <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            <option value="ACTIVE">ACTIVE</option>
+                                            <option value="RESIGN">RESIGN</option>
                                         </select>
                                     </div>
                                 </div>
@@ -137,9 +155,20 @@
         });
 
         $('select.select2:not(.normal)').each(function() {
-            $(this).select2({
-                dropdownParent: $(this).parent().parent()
-            });
+            var elementId = $(this).attr('id'); // Get the ID of the current select element
+
+            // Check if the ID matches a specific condition
+            if (elementId === 'name') {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent(),
+                    placeholder: 'Select multiple options...'
+                });
+            } else {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent()
+                });
+            }
+
         });
 
         flatpickr("#availableAt", {
@@ -245,6 +274,8 @@
             $('#availableAtt').val($('#availableAt').val());
             $('#roles').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
+            $('#statuss').val($('#status').val());
+            $('#typeProjectt').val($('#typeProject').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -255,16 +286,20 @@
                 'role': $('#role').val(),
                 'availableAt': $('#availableAt').val(),
                 'directManager': $('#directManager').val(),
+                'typeProject': $('#typeProject').val(),
+                'status': $('#status').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId, #role, #directManager').on('change', function() {
+        $('#name, #projectId, #role, #directManager, #typeProject, #status').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#roles').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
+            $('#statuss').val($('#status').val());
+            $('#typeProjectt').val($('#typeProject').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -274,6 +309,8 @@
                 'projectId': $('#projectId').val(),
                 'role': $('#role').val(),
                 'directManager': $('#directManager').val(),
+                'typeProject': $('#typeProject').val(),
+                'status': $('#status').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -284,11 +321,15 @@
             $('#projectId').val('#').trigger('change');
             $('#role').val('#').trigger('change');
             $('#directManager').val('#').trigger('change');
+            $('#typeProject').val('#').trigger('change');
+            $('#status').val('#').trigger('change');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
             $('#roles').val('#');
             $('#directManagerr').val('#');
+            $('#typeProjectt').val('#');
+            $('#statuss').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
