@@ -45,7 +45,19 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
                         $rowData[$heading] = $relatedData;
                     }
                 } else {
-                    $rowData[$heading] = $item->{$column};
+                    // Cek apakah kolom adalah tanggal
+                    $isDateColumn = false; // Tambahkan variabel untuk menandai kolom tanggal
+                    // Misal, jika kolom memiliki format 'YYYY-MM-DD'
+                    if ($column === 'startDate' || $column === 'endDate') {
+                        $isDateColumn = true;
+                    }
+
+                    if ($isDateColumn) {
+                        // Ubah format tanggal sesuai kebutuhan (misal: 'd-m-Y')
+                        $rowData[$heading] = \Carbon\Carbon::parse($item->{$column})->format('d-M-Y');
+                    } else {
+                        $rowData[$heading] = $item->{$column};
+                    }
                 }
             }
             return $rowData;
