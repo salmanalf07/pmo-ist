@@ -15,7 +15,7 @@ class highAndNotesController extends Controller
 
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
-                $editButton = auth()->user()->canany(['bisa-edit', 'highAndNotes-editor']) ?
+                $editButton = auth()->user()->canany(['bisa-ubah', 'highAndNotes-editor']) ?
                     '<button id="edit" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                 </button>' : '';
