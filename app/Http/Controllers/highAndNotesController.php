@@ -9,9 +9,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class highAndNotesController extends Controller
 {
-    public function json()
+    public function json($id)
     {
-        $data = highAndNote::with('users.employee')->orderBy('created_at', 'DESC');
+        $data = highAndNote::where('projectId', $id)->with('users.employee')->orderBy('created_at', 'DESC');
 
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
