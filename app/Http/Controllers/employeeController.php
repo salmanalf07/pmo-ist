@@ -331,7 +331,7 @@ class employeeController extends Controller
             $q->where('overAllProg', '<', 100);
         });
         // Periksa apakah request memiliki data untuk name
-        if ($request->has('namee')) {
+        if ($request->namee != "#" && $request->namee) {
             $names = explode(',', $request->namee);
             // Periksa apakah 'name' adalah string '#' atau array kosong
             if (is_array($names) && count($names) > 0) {
