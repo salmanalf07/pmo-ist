@@ -99,7 +99,7 @@
                 },
             ],
             ajax: {
-                url: '{{ url("json_highAndNotes") }}'
+                url: '/json_highAndNotes/{{$id}}'
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
