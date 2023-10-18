@@ -110,7 +110,10 @@
                 },
                 {
                     data: 'highAndNote',
-                    name: 'highAndNote'
+                    name: 'highAndNote',
+                    render: function(data, type, row) {
+                        return type === 'display' && data.length > 35 ? data.substring(0, 35) + '..' : data;
+                    }
                 },
                 {
                     data: 'users.employee.name',
