@@ -24,23 +24,26 @@ class employeeController extends Controller
         // $dataa->where('company', '=', 'PT. Infosys Solusi Terpadu');
         if ($request->typeProject != "#" && $request->typeProject) {
             $dataa->where('typeProject', $request->typeProject);
+        } else {
+            $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
         }
-        //blum bisa rilis karena data orangnya belum di revisi
-        // else {
-        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-        // }
+
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
+
         if ($request->departmentt && $request->departmentt != '#') {
             $dataa->where('department', '=', $request->departmentt);
         }
+
         if ($request->directManager && $request->directManager != '#') {
             $dataa->where('direct_manager', '=', $request->directManager);
         }
+
         if ($request->roleFilter && $request->roleFilter != '#') {
             $dataa->where('role', '=', $request->roleFilter);
         }
+
         if ($request->special != "#" && $request->special) {
             $dataa->where('spesialisasi', '=', $request->special);
         }
@@ -95,17 +98,15 @@ class employeeController extends Controller
             }
             if ($request->typeProject != "#" && $request->typeProject) {
                 $q->where('typeProject', $request->typeProject);
+            } else {
+                $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
             }
-            //blum bisa rilis karena data orangnya belum di revisi
-            // else {
-            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-            // }
+
             if ($request->status != "#" && $request->status) {
                 $q->where('status', $request->status);
+            } else {
+                $q->where('status', "ACTIVE");
             }
-            // else {
-            //     $q->where('status', "ACTIVE");
-            // }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
@@ -168,11 +169,10 @@ class employeeController extends Controller
         $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager');
         if ($request->typeProject != "#" && $request->typeProject) {
             $dataa->where('typeProject', $request->typeProject);
+        } else {
+            $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
         }
-        //blum bisa rilis karena data orangnya belum di revisi
-        // else {
-        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-        // }
+
         if ($request->status != "#" && $request->status) {
             $dataa->where('status', $request->status);
         }
@@ -311,17 +311,15 @@ class employeeController extends Controller
             }
             if ($request->typeProjectt != "#" && $request->typeProjectt) {
                 $q->where('typeProject', $request->typeProjectt);
+            } else {
+                $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
             }
-            //blum bisa rilis karena data orangnya belum di revisi
-            // else {
-            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-            // }
+
             if ($request->statuss != "#" && $request->statuss) {
                 $q->where('status', $request->statuss);
+            } else {
+                $q->where('status', "ACTIVE");
             }
-            // else {
-            //     $q->where('status', "ACTIVE");
-            // }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -359,11 +357,10 @@ class employeeController extends Controller
         $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager', 'levels', 'roles', 'region', 'specialization');
         if ($request->typeProjectt != "#" && $request->typeProjectt) {
             $dataa->where('typeProject', $request->typeProjectt);
+        } else {
+            $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
         }
-        //blum bisa rilis karena data orangnya belum di revisi
-        // else {
-        //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-        // }
+
         if ($request->statuss != "#" && $request->statuss) {
             $dataa->where('status', $request->statuss);
         }
