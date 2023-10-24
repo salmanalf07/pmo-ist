@@ -255,7 +255,12 @@
 <script>
     $(document).ready(function() {
         //datepicker
-        flatpickr("#date,#targetFu0", {
+        flatpickr("#date", {
+            dateFormat: "d-m-Y",
+            defaultDate: "today",
+            allowInput: true, // Mengizinkan input manual
+        });
+        flatpickr("#targetFu0", {
             dateFormat: "d-m-Y",
             defaultDate: "01-01-1900",
             allowInput: true, // Mengizinkan input manual
@@ -265,7 +270,7 @@
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
-            defaultDate: "12:00", // Set your default time here (in 24-hour format)
+            defaultDate: new Date(), // Set your default time here (in 24-hour format)
             time_24hr: true
         });
     })
