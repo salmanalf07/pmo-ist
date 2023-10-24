@@ -1,0 +1,239 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\decisionMom;
+use App\Models\discussionMom;
+use App\Models\followupMom;
+use App\Models\mom;
+use App\Models\partMom;
+use App\Models\Project;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+
+class momController extends Controller
+{
+    public function json($id)
+    {
+        $data = mom::where('projectId', $id)->orderBy('created_at', 'DESC');
+
+        return DataTables::of($data)
+            ->addColumn('aksi', function ($data) {
+                $editButton = auth()->user()->canany(['bisa-ubah', 'mom-editor']) ?
+                    '<a href="/editMom/' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                    <i class="bi bi-pencil-square"></i>
+                </a>' : '';
+
+                $deleteButton = auth()->user()->canany(['bisa-hapus', 'mom-editor']) ?
+                    '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </button>' : '';
+
+                return $editButton . $deleteButton;
+            })
+            ->addColumn('agendaRender', function ($data) {
+                return $data->agenda;
+            })
+            ->rawColumns(['aksi', 'agendaRender'])
+            ->toJson();
+    }
+
+    function edit(Request $request, $id)
+    {
+        $get = mom::with('discussions', 'decisions')->find($id);
+        if ($request->segment(1) == "editMom") {
+            $aksi = 'EditData';
+
+            $project = Project::with('customer')->find($get->projectId);
+            $referensi = $get->projectId;
+            $partCust = partMom::where([
+                ['momId', $get->id],
+                ['typeParticipant', "customer"],
+            ])->get();
+
+            $partMii = partMom::where([
+                ['momId', $get->id],
+                ['typeParticipant', "MII"],
+            ])->get();
+
+            $discussion = discussionMom::where('momId', $get->id)->first();
+            $decisions = decisionMom::where('momId', $get->id)->first();
+            $meetingFu = followupMom::where([
+                ['momId', $get->id],
+            ])->get();
+        } else {
+            $aksi = 'Add';
+
+            $project = Project::with('customer')->find($id);
+            $referensi = $id;
+            $partCust = "#";
+
+            $partMii = "#";
+
+            $discussion = discussionMom::where('momId', $id)->first();
+            $decisions = decisionMom::where('momId', $id)->first();
+            $meetingFu = "#";
+        }
+
+
+        return view('project/formMoms', ['id' => $referensi, 'aksi' => $aksi, 'data' => $get, 'project' => $project, 'partCust' => $partCust, 'partMii' => $partMii, 'discussion' => $discussion, 'decisions' => $decisions, 'meetingFu' => $meetingFu]);
+    }
+
+    function store_quill(Request $request)
+    {
+        try {
+            if ($request->key == "discussion") {
+                if ($request->uid != "#") {
+                    $post = discussionMom::find($request->uid);
+                } else {
+                    $post = new discussionMom();
+                }
+                $post->discussion = $request->konten;
+                $post->momId = $request->momId;
+                $post->save();
+            }
+
+            if ($request->key == "decisions") {
+                if ($request->uid != "#") {
+                    $post = decisionMom::find($request->uid);
+                } else {
+                    $post = new decisionMom();
+                }
+                $post->decision = $request->konten;
+                $post->momId = $request->momId;
+                $post->save();
+            }
+
+            return response()->json(['message' => 'Content saved successfully', 'post' => $post->id, 'key' => $request->key]);
+        } catch (QueryException $e) {
+            // Handle any database-related exceptions
+            return response()->json(['error' => 'Database error: ' . $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            // Catch any other exceptions
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
+
+    function meeting_information(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            // Validasi data
+            $validator = Validator::make($request->all(), [
+                'date' => 'required|string|max:255',
+                'time' => 'required|string|max:255',
+                'venue' => 'required|string|max:255',
+                'agendaContent' => 'required|string|max:255',
+                'chaired' => 'required|string|max:255',
+                // ... tambahkan aturan validasi lainnya
+            ]);
+
+            if ($validator->fails()) {
+                throw new \Exception('Data tidak valid'); // Melempar exception jika validasi gagal
+            }
+
+
+            $post = mom::findOrNew($request->momId);
+            $post->projectId = $id;
+            $post->dateMom = date("Y-m-d", strtotime(str_replace('-', '-', $request->date)));
+            $post->timeMom = $request->time;
+            $post->venue = $request->venue;
+            $post->agenda = $request->agendaContent;
+            $post->chairedBy = $request->chaired;
+            $post->save();
+
+            $idCustomer = $request->idCustomer;
+            $customer = collect($request->customer)->filter()->all();
+
+            for ($count = 0; $count < count($customer); $count++) {
+                if ($customer[$count] != null) {
+                    $postCustomer = partMom::findOrNew($idCustomer[$count]);
+                    $postCustomer->momId = $post->id;
+                    $postCustomer->typeParticipant = "customer";
+                    $postCustomer->name = $customer[$count];
+                    $postCustomer->save();
+                }
+            }
+
+            $idMii = $request->idMii;
+            $mii = collect($request->mii)->filter()->all();
+
+            for ($countt = 0; $countt < count($mii); $countt++) {
+                if ($mii[$countt] != null) {
+                    $postMii = partMom::findOrNew($idMii[$countt]);
+                    $postMii->momId = $post->id;
+                    $postMii->typeParticipant = "MII";
+                    $postMii->name = $mii[$countt];
+                    $postMii->save();
+                }
+            }
+
+
+            DB::commit(); // Commit transaksi jika berhasil
+
+            // Berikan respons bahwa operasi berhasil
+            return response()->json(['message' => 'Operasi berhasil', 'id' => $id, 'idMom' => $post->id], 200);
+        } catch (\Exception  $e) {
+            DB::rollback(); // Batalkan transaksi jika terjadi kesalahan
+            // Handle kesalahan atau tindakan lain yang perlu dilakukan jika terjadi kesalahan validasi atau operasi database
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
+
+    function meeting_fu(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $idFu = $request->idFu;
+            $actionFu = collect($request->actionFu)->filter()->all();
+            $picFu = array_map(function ($value) {
+                return $value !== null ? $value : "";
+            }, $request->picFu);;
+            $targetFu = collect($request->targetFu)->filter()->all();
+            $notesFu = array_map(function ($value) {
+                return $value !== null ? $value : "";
+            }, $request->notesFu);
+
+            for ($count = 0; $count < count($actionFu); $count++) {
+                if ($actionFu[$count] != null) {
+                    $fuBase = followupMom::findOrNew($idFu[$count]);
+                    $fuBase->momId = $id;
+                    $fuBase->action = $actionFu[$count];
+                    $fuBase->pic = $picFu[$count];
+                    $fuBase->targetDate = date("Y-m-d", strtotime(str_replace('-', '-', $targetFu[$count])));
+                    $fuBase->notes = $notesFu[$count];
+                    $fuBase->save();
+                }
+            }
+
+            DB::commit(); // Commit transaksi jika berhasil
+
+            // Berikan respons bahwa operasi berhasil
+            return response()->json(['message' => 'Operasi berhasil', 'id' => $id], 200);
+        } catch (\Exception  $e) {
+            DB::rollback(); // Batalkan transaksi jika terjadi kesalahan
+            // Handle kesalahan atau tindakan lain yang perlu dilakukan jika terjadi kesalahan validasi atau operasi database
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
+
+    function deleteParticipant(Request $request, $id)
+    {
+        $post = partMom::find($id);
+        $post->delete();
+
+        return response()->json($post, 200);
+    }
+
+    function deleteMom($id)
+    {
+        $post = mom::find($id);
+        $post->delete();
+
+        return response()->json($post, 200);
+    }
+}

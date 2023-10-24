@@ -32,6 +32,7 @@ use App\Models\employee;
 use App\Models\issuesProject;
 use App\Models\locationEmployee;
 use App\Models\memberProject;
+use App\Models\mom;
 use App\Models\Order;
 use App\Models\partnerProject;
 use App\Models\pipeline;
@@ -541,15 +542,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     $project = Project::with('customer')->find($id);
     return view('project/moms', ['id' => $id, 'judul' => "MOM", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
 })->name('moms');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/formMoms/{id}', function ($id) {
-    $project = Project::with('customer')->find($id);
-    return view('project/formMoms', ['id' => $id, 'judul' => "MOM", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
-})->name('formMoms');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get(
+    '/project/formMoms/{id}',
+    [momController::class, 'edit']
+)->name('formMoms');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_moms/{id}', [momController::class, 'json']);
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_highAndNotes', [momController::class, 'store']);
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/edit_highAndNotes', [momController::class, 'edit']);
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/update_highAndNotes/{id}', [momController::class, 'update']);
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_highAndNotes/{id}', [momController::class, 'destroy']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_quill', [momController::class, 'store_quill']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/meeting_information/{id}', [momController::class, 'meeting_information']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/meeting_fu/{id}', [momController::class, 'meeting_fu']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/editMom/{id}', [momController::class, 'edit']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_participant/{id}', [momController::class, 'deleteParticipant']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_moms/{id}', [momController::class, 'deleteMom']);
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {
