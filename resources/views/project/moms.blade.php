@@ -50,7 +50,7 @@
             "autoWidth": false,
             "columnDefs": [{
                     "className": "text-center",
-                    "targets": [0, 1], // table ke 1
+                    "targets": [0, 1, 4], // table ke 1
                 },
                 {
                     targets: 1,

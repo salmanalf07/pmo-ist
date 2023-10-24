@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class momController extends Controller
 {
@@ -27,12 +28,17 @@ class momController extends Controller
                     <i class="bi bi-pencil-square"></i>
                 </a>' : '';
 
+                $pdfButton = auth()->user()->canany(['bisa-ubah', 'mom-editor']) ?
+                    '<a href="/exportPdf/' . $data->id . '" target="_blank" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Export PDF">
+                    <i class="bi bi-filetype-pdf"></i>
+                </a>' : '';
+
                 $deleteButton = auth()->user()->canany(['bisa-hapus', 'mom-editor']) ?
                     '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
                     <i class="bi bi-trash"></i>
                 </button>' : '';
 
-                return $editButton . $deleteButton;
+                return $pdfButton . $editButton . $deleteButton;
             })
             ->addColumn('agendaRender', function ($data) {
                 return $data->agenda;
@@ -235,5 +241,41 @@ class momController extends Controller
         $post->delete();
 
         return response()->json($post, 200);
+    }
+
+    function exportMom($id)
+    {
+        $data = mom::with('discussions', 'decisions')->find($id);
+        $project = Project::with('customer')->find($data->projectId);
+
+        $partCust = partMom::where([
+            ['momId', $data->id],
+            ['typeParticipant', "customer"],
+        ])->get();
+
+        $partMii = partMom::where([
+            ['momId', $data->id],
+            ['typeParticipant', "MII"],
+        ])->get();
+
+        $discussion = discussionMom::where('momId', $data->id)->first();
+        $decisions = decisionMom::where('momId', $data->id)->first();
+        $meetingFu = followupMom::where([
+            ['momId', $data->id],
+        ])->get();
+
+        if (count($partCust) > count($partMii)) {
+            $for = count($partCust);
+        } else {
+            $for = count($partMii);
+        }
+
+
+        //return view('pdf/exportMom', ['data' => $data, 'project' => $project, 'partCust' => $partCust, 'partMii' => $partMii, 'discussion' => $discussion, 'decisions' => $decisions, 'meetingFu' => $meetingFu, 'for' => $for]);
+        $pdf = PDF::loadView('pdf.exportMom', compact('data', 'project', 'partCust', 'partMii', 'discussion', 'decisions', 'meetingFu', 'for'));
+        // Mengubah orientasi menjadi lanskap
+        $pdf->setPaper('a4');
+
+        return $pdf->stream('MOM.pdf');
     }
 }

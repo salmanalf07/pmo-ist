@@ -15,8 +15,8 @@ class permissionPM extends Seeder
      */
     public function run()
     {
-        $role = Role::findByName('Finance'); // Ganti dengan nama peran yang sesuai
-        $permissions = ['top-editor']; // Ganti dengan nama izin yang sesuai
+        $role = Role::findByName('PM'); // Ganti dengan nama peran yang sesuai
+        $permissions = ['mom-editor']; // Ganti dengan nama izin yang sesuai
 
         $role->syncPermissions($permissions);
     }
