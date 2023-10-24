@@ -113,7 +113,7 @@
                                 <table class="table table-centered text-nowrap mb-0" style="border: 1px solid var(--dashui-table-border-color)">
                                     <thead class="table-light text-center">
                                         <tr>
-                                            <th style="width: 95%;">MII</th>
+                                            <th style="width: 95%;">IST</th>
                                             <th style="width: 5%;"></th>
                                         </tr>
                                     </thead>
