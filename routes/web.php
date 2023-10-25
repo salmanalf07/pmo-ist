@@ -171,8 +171,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
         $project = Project::with('pm')->get()->groupBy('pm.name');
-        //return $projects;
-        return view('/profiles/profile', ['project' => $project]);
+        $data = [];
+        foreach ($project as $pmName => $projects) {
+            $projectValue = 0; // Inisialisasi ulang variabel $projectValue di setiap iterasi
+            foreach ($projects as $projectData) {
+                $projectValue += floatval($projectData->projectValue);
+            }
+            $data[] = [
+                'name' => $pmName,
+                'countProject' => count($projects),
+                'valueProject' => $projectValue,
+            ];
+        }
+
+        //return $data;
+        return view('/profiles/profile', ['project' => $project, 'data' => $data]);
     })->name('profile');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/detail_pm', [projectController::class, 'detail_pm']);
     Route::get('/projectMethod', function () {
@@ -757,6 +770,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_users', [userController::class, 'edit']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_users/{id}', [userController::class, 'update']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_users/{id}', [userController::class, 'destroy']);
+//PMO-MASTER
+Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'pmo'], function () {
+    Route::get('/guideCategory', function () {
+        $role = Role::all();
+        $employee = employee::all();
+        return view('masterData/users', ['judul' => "User", 'role' => $role, 'employee' => $employee]);
+    })->name('guideCategory');
+});
+
 //END MASTER DATA
 
 
