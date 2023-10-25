@@ -188,7 +188,7 @@ class projectController extends Controller
 
         $data = $dataa
             ->orderBy('projectId')
-            ->orderBy('noRef')
+            ->orderByRaw('CONVERT(noRef, SIGNED) asc')
             ->get();
 
         return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
