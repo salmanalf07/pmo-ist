@@ -195,7 +195,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <?php echo $discussion->discussion ?>
+                            <?php echo isset($discussion->discussion) ? $discussion->discussion : '' ?>
                         </td>
                     </tr>
                 </tbody>
@@ -212,7 +212,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <?php echo $decisions->decision ?>
+                            <?php echo isset($decisions->decision) ? $decisions->decision : '' ?>
                         </td>
                     </tr>
                 </tbody>

@@ -136,7 +136,7 @@
                                     <tfoot>
                                         <tr>
                                             <td class="text-end" colspan="2">
-                                                <button type="button" onclick="addMii()" class="btn btn-warning-soft">Add MII</button>
+                                                <button type="button" onclick="addMii()" class="btn btn-warning-soft">Add IST</button>
                                             </td>
                                         </tr>
                                     </tfoot>
