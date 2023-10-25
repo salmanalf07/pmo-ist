@@ -405,7 +405,7 @@
                 $('#employee' + i).val(data[i].employee).trigger('change');
                 $('#role' + i).val(data[i].role).trigger('change');
                 $('#accesType' + i).val(data[i].accesType).trigger('change');
-                $('#divisi' + i).val(data[i].employees.divisi == "#" ? null : data[i].employees.divisis.division);
+                $('#divisi' + i).val(data[i].employees.divisis || data[i].employees.divisi == "#" ? null : data[i].employees.divisis.division);
                 $('#startDate' + i).val((data[i].startDate).split("-").reverse().join("-"));
                 $('#endDate' + i).val((data[i].endDate).split("-").reverse().join("-"));
                 $('#planMandays' + i).val(data[i].planMandays);
