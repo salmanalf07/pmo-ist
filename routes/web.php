@@ -6,6 +6,7 @@ use App\Http\Controllers\divisionController;
 use App\Http\Controllers\DocProjectController;
 use App\Http\Controllers\doctypeController;
 use App\Http\Controllers\employeeController;
+use App\Http\Controllers\guideCategory;
 use App\Http\Controllers\highAndNotesController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\momController;
@@ -170,7 +171,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //PMO
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
-        $project = Project::with('pm')->get()->groupBy('pm.name');
+        $project = Project::with('pm')->where('overAllProg', '<', 100)->get()->groupBy('pm.name');
         $data = [];
         foreach ($project as $pmName => $projects) {
             $projectValue = 0; // Inisialisasi ulang variabel $projectValue di setiap iterasi
@@ -775,8 +776,13 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::get('/guideCategory', function () {
         $role = Role::all();
         $employee = employee::all();
-        return view('masterData/users', ['judul' => "User", 'role' => $role, 'employee' => $employee]);
+        return view('masterData/pmo/guideCategory', ['judul' => "Category", 'role' => $role, 'employee' => $employee]);
     })->name('guideCategory');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_guide', [guideCategory::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_guide', [guideCategory::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_guide', [guideCategory::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_guide/{id}', [guideCategory::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_guide/{id}', [guideCategory::class, 'destroy']);
 });
 
 //END MASTER DATA

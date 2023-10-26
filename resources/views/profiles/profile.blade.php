@@ -1,6 +1,15 @@
 @extends('/profiles/navbarPmo')
 
 @section('pmo')
+<style>
+    table.dataTable td {
+        font-size: 1.1em;
+    }
+
+    table.dataTable tr.dtrg-level-0 td {
+        font-size: 1.1em;
+    }
+</style>
 <!-- row -->
 <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-5">
@@ -21,9 +30,9 @@
                                         <th class="text-center">
                                             No
                                         </th>
-                                        <th class="text-center">Profile Pic</th>
                                         <th>Name</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Number Of Project</th>
+                                        <th>Revenue</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,13 +40,14 @@
                                     @foreach ($project as $pmName => $projects)
                                     <tr>
                                         <td class="text-center">{{$no++}}</td>
-                                        <td class="text-center">
-                                            <span class="avatar avatar-sm">
+                                        <td>
+                                            <span class="avatar avatar-lg" style="margin-right: 0.5em;">
                                                 <img alt="avatar" src="{{asset('assets/images/avatar/avatar-11.jpg')}}" class="rounded-circle">
                                             </span>
+                                            {{$pmName}} <a style="margin-left: 0.5em;" href="#" id="detailModals" data-id="{{$projects[0]->pm?$projects[0]->pm->id:'#'}}" data-bs-toggle="tooltip" data-placement="top" title="Detail Data"><i class="bi bi-info-circle"></i>
                                         </td>
-                                        <td>{{$pmName}}</td>
-                                        <td class="text-center"><a href="#" id="detailModals" data-id="{{$projects[0]->pm?$projects[0]->pm->id:'#'}}" data-bs-toggle="tooltip" data-placement="top" title="Detail Data"><i class="bi bi-info-circle"></i></td>
+                                        <td class="text-center">{{count($projects)}}</td>
+                                        <td>{{number_format($projects->sum('projectValue'), 0, '', '.');}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -249,13 +259,13 @@
     var pmData = <?php echo json_encode($data); ?>;
     var options = {
         series: [{
-            name: 'Revenue',
-            type: 'column',
-            data: pmData.map(obj => obj.valueProject)
-        }, {
             name: 'Number Of Project',
-            type: 'line',
+            type: 'column',
             data: pmData.map(obj => obj.countProject)
+        }, {
+            name: 'Revenue',
+            type: 'line',
+            data: pmData.map(obj => obj.valueProject)
         }],
         chart: {
             height: 350,
@@ -269,7 +279,11 @@
         },
         dataLabels: {
             enabled: true,
-            enabledOnSeries: [1]
+            enabledOnSeries: [1],
+            formatter: function(val, opts) {
+                // Format the data label here
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
         },
         labels: pmData.map(obj => obj.name),
         xaxis: {
@@ -280,7 +294,16 @@
         },
         yaxis: [{
             title: {
-                text: 'Revenue',
+                text: 'Number Of Projects',
+            },
+            labels: {
+                show: false,
+            }
+
+        }, {
+            opposite: true,
+            title: {
+                text: 'Revenue'
             },
             labels: {
                 show: false,
@@ -298,15 +321,6 @@
                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                 },
             },
-
-        }, {
-            opposite: true,
-            title: {
-                text: 'Number Of Projects'
-            },
-            labels: {
-                show: false,
-            }
         }]
     };
 

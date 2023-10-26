@@ -21,17 +21,17 @@
                 </li>
             </ul>
             <div class="tab-content p-4" id="pills-tabTwoContent">
-                <div class="tab-pane tab-example-design fade active show" id="pills-accordions-design" role="tabpanel" aria-labelledby="pills-accordions-design-tab">
-                    <img src="{{asset('assets/images/projectMethod/PRE-PROJECT.png')}}" width="100%" alt="Pre Project">
+                <div class="tab-pane tab-example-design fade active show text-center" id="pills-accordions-design" role="tabpanel" aria-labelledby="pills-accordions-design-tab">
+                    <img src="{{asset('assets/images/projectMethod/PRE-PROJECT.png')}}" width="50%" alt="Pre Project">
                 </div>
-                <div class="tab-pane tab-example-html fade" id="pills-accordions-html" role="tabpanel" aria-labelledby="pills-accordions-html-tab">
-                    <img src="{{asset('assets/images/projectMethod/INITIATION-PLAN.png')}}" width="100%" alt="Pre Project">
+                <div class="tab-pane tab-example-html fade  text-center" id="pills-accordions-html" role="tabpanel" aria-labelledby="pills-accordions-html-tab">
+                    <img src="{{asset('assets/images/projectMethod/INITIATION-PLAN.png')}}" width="50%" alt="Pre Project">
                 </div>
-                <div class="tab-pane tab-example-executing fade" id="pills-accordions-executing" role="tabpanel" aria-labelledby="pills-accordions-executing-tab">
-                    <img src="{{asset('assets/images/projectMethod/EXCECUTING.png')}}" width="100%" alt="Pre Project">
+                <div class="tab-pane tab-example-executing fade  text-center" id="pills-accordions-executing" role="tabpanel" aria-labelledby="pills-accordions-executing-tab">
+                    <img src="{{asset('assets/images/projectMethod/EXCECUTING.png')}}" width="50%" alt="Pre Project">
                 </div>
-                <div class="tab-pane tab-example-closing fade" id="pills-accordions-closing" role="tabpanel" aria-labelledby="pills-accordions-closing-tab">
-                    <img src="{{asset('assets/images/projectMethod/CLOSING.png')}}" width="100%" alt="Pre Project">
+                <div class="tab-pane tab-example-closing fade  text-center" id="pills-accordions-closing" role="tabpanel" aria-labelledby="pills-accordions-closing-tab">
+                    <img src="{{asset('assets/images/projectMethod/CLOSING.png')}}" width="50%" alt="Pre Project">
                 </div>
             </div>
         </div>
