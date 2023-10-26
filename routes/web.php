@@ -7,6 +7,7 @@ use App\Http\Controllers\DocProjectController;
 use App\Http\Controllers\doctypeController;
 use App\Http\Controllers\employeeController;
 use App\Http\Controllers\guideCategory;
+use App\Http\Controllers\guideType;
 use App\Http\Controllers\highAndNotesController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\momController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\skillLevelController;
 use App\Http\Controllers\solutionController;
 use App\Http\Controllers\sowController;
 use App\Http\Controllers\specializationController;
+use App\Http\Controllers\tempGuideController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Http\Controllers\userController;
@@ -30,6 +32,8 @@ use App\Models\division;
 use App\Models\docType;
 use App\Models\documentationProject;
 use App\Models\employee;
+use App\Models\guideCategory as ModelsGuideCategory;
+use App\Models\guideType as ModelsGuideType;
 use App\Models\issuesProject;
 use App\Models\locationEmployee;
 use App\Models\memberProject;
@@ -42,6 +46,7 @@ use App\Models\roleEmployee;
 use App\Models\skillLevel;
 use App\Models\solution;
 use App\Models\specialization;
+use App\Models\tempAndGuide;
 use App\Models\topProject;
 use App\Models\typeProject;
 use Google\Service\Docs\Request;
@@ -171,7 +176,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 //PMO
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
-        $project = Project::with('pm')->where('overAllProg', '<', 100)->get()->groupBy('pm.name');
+        $project = Project::with('pm')->where('overAllProg', '<', 100)->get()->sortBy('pm.name')->groupBy('pm.name');
         $data = [];
         foreach ($project as $pmName => $projects) {
             $projectValue = 0; // Inisialisasi ulang variabel $projectValue di setiap iterasi
@@ -193,7 +198,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('/profiles/projectMethod');
     })->name('projectMethod');
     Route::get('/tempGuide', function () {
-        return view('/profiles/tempGuide');
+        $tempGuide = tempAndGuide::with('categorys', 'types')->get();
+        $category = ModelsGuideCategory::get();
+
+        return view('/profiles/tempGuide', ['tempGuide' => $tempGuide, 'category' => $category]);
     })->name('tempGuide');
     Route::get('/lessonLearned', function () {
         return view('/profiles/lessonLearned');
@@ -773,16 +781,35 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_users/{id}', [userController::class, 'destroy']);
 //PMO-MASTER
 Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'pmo'], function () {
+    //guide category
     Route::get('/guideCategory', function () {
-        $role = Role::all();
-        $employee = employee::all();
-        return view('masterData/pmo/guideCategory', ['judul' => "Category", 'role' => $role, 'employee' => $employee]);
+        return view('masterData/pmo/guideCategory', ['judul' => "Category",]);
     })->name('guideCategory');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_guide', [guideCategory::class, 'json']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_guide', [guideCategory::class, 'store']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_guide', [guideCategory::class, 'edit']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_guide/{id}', [guideCategory::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_guide/{id}', [guideCategory::class, 'destroy']);
+    //guide type
+    Route::get('/guideType', function () {
+        return view('masterData/pmo/guideType', ['judul' => "Type",]);
+    })->name('guideType');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_guideType', [guideType::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_guideType', [guideType::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_guideType', [guideType::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_guideType/{id}', [guideType::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_guideType/{id}', [guideType::class, 'destroy']);
+    //tempAndGuide
+    Route::get('/tempGuide', function () {
+        $category = ModelsGuideCategory::get();
+        $type = ModelsGuideType::get();
+        return view('masterData/pmo/tempGuide', ['judul' => "Template & Guidelines", 'category' => $category, 'type' => $type]);
+    })->name('tempGuide');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_tempGuide', [tempGuideController::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_tempGuide', [tempGuideController::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_tempGuide', [tempGuideController::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_tempGuide/{id}', [tempGuideController::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_tempGuide/{id}', [tempGuideController::class, 'destroy']);
 });
 
 //END MASTER DATA

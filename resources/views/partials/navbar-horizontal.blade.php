@@ -171,7 +171,7 @@
                     </a>
                     @role('Manage')
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users','pmo*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Master Data
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -220,6 +220,75 @@
                                 <a class="dropdown-item" href="/users">
                                     User
                                 </a>
+                            </li>
+                            <li class="dropdown-submenu dropend">
+                                <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                    PMO
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-submenu dropend">
+                                        <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                            Template & Guideline
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/pmo/guideCategory">
+                                                    Category
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/pmo/guideType">
+                                                    type
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/pmo/tempGuide">
+                                                    Data
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu dropend">
+                                        <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                            Lesson Learned
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="../horizontal/project-overview.html">
+                                                    Category
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="../horizontal/project-task.html">
+                                                    Data
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu dropend">
+                                        <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                            Link Community
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="../horizontal/project-overview.html">
+                                                    Category
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="../horizontal/project-task.html">
+                                                    Data
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+
                             </li>
                         </ul>
                     </li>
