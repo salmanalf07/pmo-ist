@@ -127,7 +127,7 @@
                 "targets": [0, 5], // table ke 1
             }, ],
             ajax: {
-                url: '{{ url("/pmo/json_tempGuide") }}'
+                url: '{{ url("/pmo/json_community") }}'
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
@@ -173,7 +173,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '{{ url("/pmo/store_tempGuide") }}',
+            url: '{{ url("/pmo/store_community") }}',
             data: fd,
             processData: false,
             contentType: false,
@@ -203,7 +203,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/pmo/edit_tempGuide',
+            url: '/pmo/edit_community',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'id': uid,
@@ -234,7 +234,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '/pmo/update_tempGuide/' + id,
+            url: '/pmo/update_community/' + id,
             data: fd,
             processData: false,
             contentType: false,
@@ -265,7 +265,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: '/pmo/delete_tempGuide/' + $(this).data('id'),
+                url: '/pmo/delete_community/' + $(this).data('id'),
                 data: {
                     '_token': "{{ csrf_token() }}",
                 },

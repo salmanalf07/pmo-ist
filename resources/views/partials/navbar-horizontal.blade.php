@@ -239,7 +239,7 @@
                                             </li>
                                             <li class="nav-item">
                                                 <a class="dropdown-item " href="/pmo/guideType">
-                                                    type
+                                                    Type
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -274,12 +274,17 @@
                                         <ul class="dropdown-menu">
 
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="../horizontal/project-overview.html">
+                                                <a class="dropdown-item " href="/pmo/communityCategory">
                                                     Category
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="../horizontal/project-task.html">
+                                                <a class="dropdown-item " href="/pmo/communityType">
+                                                    Type
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/pmo/community">
                                                     Data
                                                 </a>
                                             </li>

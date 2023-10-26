@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\communityCategory;
+use App\Http\Controllers\communityController;
+use App\Http\Controllers\communityType;
 use App\Http\Controllers\customerController;
 use App\Http\Controllers\departmentController;
 use App\Http\Controllers\divisionController;
@@ -26,6 +29,9 @@ use App\Http\Controllers\tempGuideController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Http\Controllers\userController;
+use App\Models\community;
+use App\Models\communityCategory as ModelsCommunityCategory;
+use App\Models\communityType as ModelsCommunityType;
 use App\Models\Customer;
 use App\Models\department;
 use App\Models\division;
@@ -207,7 +213,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('/profiles/lessonLearned');
     })->name('lessonLearned');
     Route::get('/linkComunity', function () {
-        return view('/profiles/linkComunity');
+        $community = community::with('categorys', 'types')->get();
+        $category = ModelsCommunityCategory::get();
+
+        return view('/profiles/linkComunity', ['community' => $community, 'category' => $category]);
     })->name('linkComunity');
 });
 //end profile
@@ -810,6 +819,35 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_tempGuide', [tempGuideController::class, 'edit']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_tempGuide/{id}', [tempGuideController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_tempGuide/{id}', [tempGuideController::class, 'destroy']);
+    //community category
+    Route::get('/communityCategory', function () {
+        return view('masterData/pmo/communityCategory', ['judul' => "Category",]);
+    })->name('communityCategory');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_commCategory', [communityCategory::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_commCategory', [communityCategory::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_commCategory', [communityCategory::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_commCategory/{id}', [communityCategory::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_commCategory/{id}', [communityCategory::class, 'destroy']);
+    //community type
+    Route::get('/communityType', function () {
+        return view('masterData/pmo/communityType', ['judul' => "Type",]);
+    })->name('communityType');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_commType', [communityType::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_commType', [communityType::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_commType', [communityType::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_commType/{id}', [communityType::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_commType/{id}', [communityType::class, 'destroy']);
+    //community
+    Route::get('/community', function () {
+        $category = ModelsCommunityCategory::get();
+        $type = ModelsCommunityType::get();
+        return view('masterData/pmo/community', ['judul' => "Template & Guidelines", 'category' => $category, 'type' => $type]);
+    })->name('community');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_community', [communityController::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_community', [communityController::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_community', [communityController::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_community/{id}', [communityController::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_community/{id}', [communityController::class, 'destroy']);
 });
 
 //END MASTER DATA

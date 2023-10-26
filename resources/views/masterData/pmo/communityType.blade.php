@@ -24,10 +24,8 @@
                                                 <th>
                                                     No
                                                 </th>
-                                                <th>Category</th>
                                                 <th>Type</th>
-                                                <th>Document Name</th>
-                                                <th>Link</th>
+                                                <th>Keterangan</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -62,30 +60,12 @@
                         <span id="peringatan"></span>
                         <input class="form-control" type="text" name="id" id="id" hidden>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Category <span class="text-danger">*</span></label>
-                            <select name="categoryId" id="categoryId" class="select2" aria-label="Default select example" required>
-                                <option value="#" selected>Open this select menu</option>
-                                @foreach($category as $categorys)
-                                <option value="{{$categorys->id}}">{{$categorys->categori}}</option>
-                                @endforeach
-                            </select>
+                            <label class="form-label">Type <span class="text-danger">*</span></label>
+                            <input name="type" id="type" type="text" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label">Type <span class="text-danger">*</span></label>
-                            <select name="typeId" id="typeId" class="select2" aria-label="Default select example" required>
-                                <option value="#" selected>Open this select menu</option>
-                                @foreach($type as $types)
-                                <option value="{{$types->id}}">{{$types->type}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Document Name <span class="text-danger">*</span></label>
-                            <input name="documentName" id="documentName" type="text" class="form-control" placeholder="Enter Here">
-                        </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Link Document <span class="text-danger">*</span></label>
-                            <input name="link" id="link" type="text" class="form-control" placeholder="Enter Here">
+                            <label class="form-label">Keterangan</label>
+                            <input name="keterangan" id="keterangan" type="text" class="form-control" placeholder="Enter Here">
                         </div>
                         <div class="col-md-8"></div>
                         <!-- button -->
@@ -124,10 +104,10 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 5], // table ke 1
+                "targets": [0, 3], // table ke 1
             }, ],
             ajax: {
-                url: '{{ url("/pmo/json_tempGuide") }}'
+                url: '{{ url("/pmo/json_commType") }}'
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
@@ -137,20 +117,12 @@
                     name: 'id'
                 },
                 {
-                    data: 'categorys.categori',
-                    name: 'categorys.categori'
+                    data: 'type',
+                    name: 'type'
                 },
                 {
-                    data: 'types.type',
-                    name: 'types.type'
-                },
-                {
-                    data: 'documentName',
-                    name: 'documentName'
-                },
-                {
-                    data: 'link',
-                    name: 'link'
+                    data: 'keterangan',
+                    name: 'keterangan'
                 },
                 {
                     data: 'aksi',
@@ -173,7 +145,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '{{ url("/pmo/store_tempGuide") }}',
+            url: '{{ url("/pmo/store_commType") }}',
             data: fd,
             processData: false,
             contentType: false,
@@ -203,18 +175,17 @@
 
         $.ajax({
             type: 'POST',
-            url: '/pmo/edit_tempGuide',
+            url: '/pmo/edit_commType',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'id': uid,
             },
             success: function(data) {
+                //console.log(data);
                 //isi form
                 $('#id').val(data.id);
-                $('#categoryId').val(data.categoryId).trigger('change');
-                $('#typeId').val(data.typeId).trigger('change');
-                $('#link').val(data.link);
-                $('#documentName').val(data.documentName);
+                $('#type').val(data.type);
+                $('#keterangan').val(data.keterangan);
 
                 id = $('#id').val();
 
@@ -234,7 +205,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '/pmo/update_tempGuide/' + id,
+            url: '/pmo/update_commType/' + id,
             data: fd,
             processData: false,
             contentType: false,
@@ -265,7 +236,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: '/pmo/delete_tempGuide/' + $(this).data('id'),
+                url: '/pmo/delete_commType/' + $(this).data('id'),
                 data: {
                     '_token': "{{ csrf_token() }}",
                 },
@@ -281,8 +252,8 @@
     });
 
     function reset_from() {
-        $('#categoryId').val("#").trigger('change');
-        $('#typeId').val("#").trigger('change');
+        $('#name').val("#").trigger('change').prop("disabled", false);
+        $('#role').val(null).trigger('change');
         document.getElementById("form-add").reset();
         $('.alert-danger').remove();
     }
