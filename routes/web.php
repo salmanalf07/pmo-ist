@@ -12,6 +12,8 @@ use App\Http\Controllers\employeeController;
 use App\Http\Controllers\guideCategory;
 use App\Http\Controllers\guideType;
 use App\Http\Controllers\highAndNotesController;
+use App\Http\Controllers\leesonLearnController;
+use App\Http\Controllers\leesonStatusController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\momController;
 use App\Http\Controllers\orderController;
@@ -41,6 +43,8 @@ use App\Models\employee;
 use App\Models\guideCategory as ModelsGuideCategory;
 use App\Models\guideType as ModelsGuideType;
 use App\Models\issuesProject;
+use App\Models\leesonStatus;
+use App\Models\lessonLearned;
 use App\Models\locationEmployee;
 use App\Models\memberProject;
 use App\Models\mom;
@@ -210,7 +214,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('/profiles/tempGuide', ['tempGuide' => $tempGuide, 'category' => $category]);
     })->name('tempGuide');
     Route::get('/lessonLearned', function () {
-        return view('/profiles/lessonLearned');
+        $leesonLearned = lessonLearned::with('statuss', 'pmNames')->get()->sortBy('pmNames.name');
+
+        return view('/profiles/lessonLearned', ['leesonLearned' => $leesonLearned]);
     })->name('lessonLearned');
     Route::get('/linkComunity', function () {
         $community = community::with('categorys', 'types')->get();
@@ -848,6 +854,27 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_community', [communityController::class, 'edit']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_community/{id}', [communityController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_community/{id}', [communityController::class, 'destroy']);
+    //leeson status
+    Route::get('/statusLeeson', function () {
+        return view('masterData/pmo/statusLeeson', ['judul' => "Status",]);
+    })->name('statusLeeson');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_statsLeeson', [leesonStatusController::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_statsLeeson', [leesonStatusController::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_statsLeeson', [leesonStatusController::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_statsLeeson/{id}', [leesonStatusController::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_statsLeeson/{id}', [leesonStatusController::class, 'destroy']);
+    //leeson learned
+    Route::get('/leesonLearned', function () {
+        $pmName = employee::get();
+        $status = leesonStatus::get();
+
+        return view('masterData/pmo/leesonLearned', ['judul' => "leeson learned", 'pmName' => $pmName, 'status' => $status]);
+    })->name('leesonLearned');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_leesonLearned', [leesonLearnController::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_leesonLearned', [leesonLearnController::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_leesonLearned', [leesonLearnController::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_leesonLearned/{id}', [leesonLearnController::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_leesonLearned/{id}', [leesonLearnController::class, 'destroy']);
 });
 
 //END MASTER DATA

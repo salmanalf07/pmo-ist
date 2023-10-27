@@ -256,12 +256,12 @@
                                         <ul class="dropdown-menu">
 
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="../horizontal/project-overview.html">
-                                                    Category
+                                                <a class="dropdown-item " href="/pmo/statusLeeson">
+                                                    Status
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="../horizontal/project-task.html">
+                                                <a class="dropdown-item " href="/pmo/leesonLearned">
                                                     Data
                                                 </a>
                                             </li>
