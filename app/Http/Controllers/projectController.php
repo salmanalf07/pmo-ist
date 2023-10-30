@@ -184,6 +184,11 @@ class projectController extends Controller
             if ($request->sales != "#" && $request->sales) {
                 $query->where('sales', $request->sales);
             }
+            if ($request->spk != "#" && $request->spk == "noContract") {
+                $query->where('noContract', null);
+            } else if ($request->spk != "#" && $request->spk != "noContract") {
+                $query->where('noContract', $request->spk);
+            }
         })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
 
         $data = $dataa

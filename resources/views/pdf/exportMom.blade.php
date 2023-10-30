@@ -21,12 +21,12 @@
         td,
         th {
             border-collapse: collapse;
-            border: 1px solid #4472C4;
+            border: 1px solid black;
             padding: 5px;
         }
 
         hr {
-            color: #4472C4;
+            color: #F4B083;
         }
 
         div {
@@ -34,7 +34,7 @@
         }
 
         .colorBase {
-            background-color: #4472C4;
+            background-color: #F4B083;
         }
 
         .text-white {
@@ -132,7 +132,7 @@
                         <th class="noBorder" style="width: 26%;"></th>
                     </tr>
                     <tr>
-                        <th class="colorBase text-white" colspan="8">PROJECT MEETING INFORMATION</th>
+                        <th class="colorBase " colspan="8">PROJECT MEETING INFORMATION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -171,8 +171,8 @@
                     <tr>
                         <td class="noright" style="vertical-align: top;" rowspan="{{$for+1}}">Attendees</td>
                         <td class="text-center noleft" style="vertical-align: top;" rowspan="{{$for+1}}">:</td>
-                        <td class="text-center" style="background-color: #DBE5F1;font-weight:bold" colspan="3">Customer</td>
-                        <td class="text-center" style="background-color: #DBE5F1;font-weight:bold" colspan="3">IST</td>
+                        <td class="text-center" style="background-color: #F4B083;font-weight:bold" colspan="3">Customer</td>
+                        <td class="text-center" style="background-color: #F4B083;font-weight:bold" colspan="3">IST</td>
                     </tr>
                     @for ($i=0; $i < $for; $i++) <tr>
                         <td class="text-center">{{$i+1}}.</td>
@@ -189,7 +189,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="colorBase text-white">MEETING DISCUSSION</th>
+                        <th class="colorBase ">MEETING DISCUSSION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -206,7 +206,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class=" colorBase text-white">DECISIONS</th>
+                        <th class=" colorBase ">DECISIONS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -230,9 +230,9 @@
                         <th class="noBorder" style="width: 35%;"></th>
                     </tr>
                     <tr>
-                        <th colspan="5" class="colorBase text-white">MEETING FOLLOW UP</th>
+                        <th colspan="5" class="colorBase">MEETING FOLLOW UP</th>
                     </tr>
-                    <tr style="background-color: #DBE5F1;color:#1F497D;font-weight:bold">
+                    <tr style="background-color: #F4B083;font-weight:bold">
                         <th>No.</th>
                         <th>Action</th>
                         <th>PIC</th>
@@ -251,6 +251,49 @@
                         <td>{{$data->notes}}</td>
                     </tr>
                     @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div style="page-break-inside: avoid !important;">
+            <h3></h3>
+            <table>
+                <thead>
+                    <tr style="background-color: #F4B083;font-weight:bold">
+                        <th style="text-align:left" colspan="3">MINUTE SIGN-OFF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="noright">Issued Date</td>
+                        <td class="noleft" colspan="2">: {{date("d-F-Y",strtotime($data->dateMom))}}</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td class="noright" style="text-align: center;font-weight:bold;width:30%">
+                            Prepared by,
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            ({{$project->pm->name}})
+                        </td>
+                        <td class="noleft noright" style="width: 40%;"></td>
+                        <td class="noleft" style="text-align: center;font-weight:bold;width:30%">
+                            Agreed by,
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            (Project Manager Customer)
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

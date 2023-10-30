@@ -647,7 +647,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/r_allProject', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
-        return view('report/r_allProject', ['judul' => "Report All Project", 'customer' => $customer, 'employee' => $employee,]);
+        $spk = project::select('noContract')->distinct()->get();
+        return view('report/r_allProject', ['judul' => "Report All Project", 'customer' => $customer, 'employee' => $employee, 'spk' => $spk]);
     })->name('r_allProject');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/allProjectExport', [projectController::class, 'allProjectExport']);

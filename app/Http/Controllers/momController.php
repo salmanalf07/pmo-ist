@@ -246,7 +246,7 @@ class momController extends Controller
     function exportMom($id)
     {
         $data = mom::with('discussions', 'decisions')->find($id);
-        $project = Project::with('customer')->find($data->projectId);
+        $project = Project::with('customer', 'pm')->find($data->projectId);
 
         $partCust = partMom::where([
             ['momId', $data->id],
