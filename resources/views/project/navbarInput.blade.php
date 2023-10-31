@@ -56,6 +56,9 @@
                             <li class=" nav-item">
                                 <a class="nav-link {{ request()->is('project/moms*','project/formMoms*','editMom*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/moms/' . $id : '#' }}">MOM</a>
                             </li>
+                            <li class=" nav-item">
+                                <a class="nav-link {{ request()->is('project/gantt_cart/*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/gantt_cart/' . $id : '#' }}">Gantt Cart</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

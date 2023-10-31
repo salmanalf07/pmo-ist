@@ -27,6 +27,11 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="/assets/css/theme.min.css">
     <link rel="stylesheet" href="/assets/css/circleName.css">
+    <!-- gantt Cart -->
+    <script src="{{asset('/assets/libs/gantt/dhtmlxgantt.js?v=8.0.6')}}"></script>
+
+    <link rel="stylesheet" href="{{asset('/assets/libs/gantt/dhtmlxgantt.css?v=8.0.6')}}">
+    <link rel="stylesheet" href="{{asset('/assets/libs/gantt/common/controls_styles.css?v=8.0.6')}}">
     <title>PMO PORTAL</title>
 </head>
 

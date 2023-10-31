@@ -59,6 +59,7 @@ use App\Models\specialization;
 use App\Models\tempAndGuide;
 use App\Models\topProject;
 use App\Models\typeProject;
+use Google\Service\CloudSearch\Member;
 use Google\Service\Docs\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -592,6 +593,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_participant/{id}', [momController::class, 'deleteParticipant']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_moms/{id}', [momController::class, 'deleteMom']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/exportPdf/{id}', [momController::class, 'exportMom']);
+//gantt Cart
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/gantt_cart/{id}', function ($id) {
+    $member = memberProject::with('employees', 'roles')->where('projectId', $id)->get();
+
+    $gantt = [];
+    $idd = 1;
+    foreach ($member as $item) {
+        $gantt[] = [
+            'id' => $idd++,
+            'nama' => $item->employees->name,
+            'text' => $item->roles->roleEmployee,
+            'role' => $item->roles->roleEmployee,
+            'start_date' => date('d-m-Y', strtotime($item->startDate)),
+            'end_date' => date('d-m-Y', strtotime($item->endDate)),
+        ];
+    }
+    return view('project/ganttCart', ['id' => $id, 'gantt' => $gantt]);
+})->name('gantt_cart');
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeInfo', function () {
@@ -882,6 +901,24 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 
 
 //test google sheet
+Route::get('/gantt', function () {
+    $member = memberProject::with('employees', 'roles')->where('projectId', '090bb0f5-dc99-4324-bbab-fe70091b5952')->get();
+
+    $gantt = [];
+    $id = 1;
+    foreach ($member as $item) {
+        $gantt[] = [
+            'id' => $id++,
+            'nama' => $item->employees->name,
+            'text' => $item->roles->roleEmployee,
+            'role' => $item->roles->roleEmployee,
+            'start_date' => date('d-m-Y', strtotime($item->startDate)),
+            'end_date' => date('d-m-Y', strtotime($item->endDate)),
+        ];
+    }
+    return view('/gantt/project', ['gantt' => $gantt]);
+    // return $gantt;
+});
 Route::get('/google/auth', [employeeController::class, 'auth']);
 Route::get('/google/callback', [employeeController::class, 'callback']);
 Route::get('/googleSheet', [employeeController::class, 'getSheetsData']);
