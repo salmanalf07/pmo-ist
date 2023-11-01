@@ -603,8 +603,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $gantt[] = [
             'id' => $idd++,
             'nama' => $item->employees->name,
-            'text' => $item->roles->roleEmployee,
-            'role' => $item->roles->roleEmployee,
+            'text' => $item->roles ? $item->roles->roleEmployee : "",
+            'role' => $item->roles ? $item->roles->roleEmployee : "",
             'start_date' => date('d-m-Y', strtotime($item->startDate)),
             'end_date' => date('d-m-Y', strtotime($item->endDate)),
         ];
