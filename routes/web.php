@@ -595,7 +595,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/exportPdf/{id}', [momController::class, 'exportMom']);
 //gantt Cart
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/gantt_cart/{id}', function ($id) {
-    $member = memberProject::with('employees', 'roles')->where('projectId', $id)->get();
+    $member = memberProject::with('employees.manager', 'roles')->where('projectId', $id)->get();
 
     $gantt = [];
     $idd = 1;
@@ -605,11 +605,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             'nama' => $item->employees->name,
             'text' => $item->roles ? $item->roles->roleEmployee : "",
             'role' => $item->roles ? $item->roles->roleEmployee : "",
+            'direct_manager' => $item->employees->manager ? $item->employees->manager->name : "",
             'start_date' => date('d-m-Y', strtotime($item->startDate)),
             'end_date' => date('d-m-Y', strtotime($item->endDate)),
         ];
     }
     return view('project/ganttCart', ['id' => $id, 'gantt' => $gantt]);
+    // return $gantt;
 })->name('gantt_cart');
 //Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

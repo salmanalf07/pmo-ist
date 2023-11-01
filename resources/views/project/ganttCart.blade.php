@@ -137,6 +137,12 @@
             min_width: 150
         },
         {
+            name: "direct_manager",
+            label: "Manager",
+            align: "center",
+            min_width: 200
+        },
+        {
             name: "start_date",
             label: "Start time",
             align: "center",
