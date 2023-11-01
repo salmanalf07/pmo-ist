@@ -139,7 +139,6 @@
         {
             name: "direct_manager",
             label: "Manager",
-            align: "center",
             min_width: 200
         },
         {
