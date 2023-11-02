@@ -237,6 +237,7 @@
             $('#pic').val('{!! isset($data) ? $data->pic : "" !!}');
             $('#mandays').val('{!! isset($data) ? $data->mandays : "" !!}');
             $('#valueBonus').val(formatNumberr('{!! isset($data) && $data->valueBonus > 0 ? $data->valueBonus : "0" !!}'));
+            hitung2();
 
             var costing = <?php echo json_encode($costing); ?>;
             for (let j = 0; j < ('{{count($costing)}}' - 1); j++) {
