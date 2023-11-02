@@ -32,7 +32,7 @@
                                             <th>Customer Name</th>
                                             <th>Project Name</th>
                                             <th>Participant</th>
-                                            <th>Status</th>
+                                            <th>Progress</th>
                                             <th>Member</th>
                                             <th>Partner</th>
                                             <th>PM</th>
