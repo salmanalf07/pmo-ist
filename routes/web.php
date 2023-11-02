@@ -134,6 +134,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             $projectRoleCount['totalPartner'] = count($project->partnerProject);
             $projectRoleCount['projectName'] = $project->projectName;
             $projectRoleCount['projectId'] = $project->id;
+            $projectRoleCount['overAllProg'] = $project->overAllProg;
 
             // Menambahkan rekap jumlah peran (role) di proyek saat ini ke dalam array $projectRoleCounts
             $projectRoleCounts[$key] = $projectRoleCount;

@@ -31,7 +31,8 @@
                                         <tr>
                                             <th>Customer Name</th>
                                             <th>Project Name</th>
-                                            <th>Total Participant</th>
+                                            <th>Participant</th>
+                                            <th>Status</th>
                                             <th>Member</th>
                                             <th>Partner</th>
                                             <th>PM</th>
@@ -45,9 +46,10 @@
                                     <tbody>
                                         @foreach(collect($projectMember)->sortBy('customerName') as $projectMember)
                                         <tr>
-                                            <td>{{substr($projectMember['customerName'], 0, 25)}}</td>
+                                            <td>{{substr($projectMember['customerName'], 0, 15)}}</td>
                                             <td><a href="/project/summaryProject/{{$projectMember['projectId']}}" class="text-inherit" target="_blank">{{substr($projectMember['projectName'], 0, 25)}}</a></td>
                                             <td class="text-center">{{$projectMember['totalMembers'] + $projectMember['totalPartner']}}</td>
+                                            <td class="text-center">{{$projectMember['overAllProg']}}%</td>
                                             <td class="text-center">{{$projectMember['totalMembers']}}</td>
                                             <td class="text-center">{{$projectMember['totalPartner']}}</td>
                                             <td class="text-center">{{isset($projectMember['Project manager'])?$projectMember['Project manager']:""}}</td>
