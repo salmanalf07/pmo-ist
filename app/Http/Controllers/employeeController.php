@@ -116,6 +116,9 @@ class employeeController extends Controller
             if ($request->role != "#" && $request->role) {
                 $q->where('role', '=', $request->role);
             }
+            if ($request->customer != "#" && $request->customer) {
+                $q->where('cust_id', '=', $request->customer);
+            }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -335,6 +338,12 @@ class employeeController extends Controller
         // }
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
+            if ($request->rolee != "#" && $request->rolee) {
+                $q->where('role', '=', $request->rolee);
+            }
+            if ($request->customerr != "#" && $request->customerr) {
+                $q->where('cust_id', '=', $request->customerr);
+            }
         });
         // Periksa apakah request memiliki data untuk name
         if ($request->namee != "#" && $request->namee) {

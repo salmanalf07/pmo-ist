@@ -372,7 +372,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $project = Project::get();
         $role = roleEmployee::get();
         $typeProject = typeProject::get();
-        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject]);
+        $customer = Customer::get();
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
@@ -603,7 +604,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     foreach ($member as $item) {
         $gantt[] = [
             'id' => $idd++,
-            'nama' => $item->employees->name,
+            'name' => $item->employees->name,
             'text' => $item->roles ? $item->roles->roleEmployee : "",
             'role' => $item->roles ? $item->roles->roleEmployee : "",
             'direct_manager' => $item->employees->manager ? $item->employees->manager->name : "",

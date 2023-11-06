@@ -13,91 +13,119 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Employee</label>
-                                        <select name="name[]" id="name" multiple="multiple" class="select2" aria-label="Default select example">
-                                            @foreach(collect($employee)->sortBy('name') as $employees)
-                                            <option value="{{$employees->id}}">{{$employees->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label" for="selectOne">Role</label>
-                                        <select name="role" id="role" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($role as $roles)
-                                            <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label">Available Date</label>
-                                        <div class="input-group me-3 datepicker">
-                                            <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                            <div class="input-group-append custom-picker">
-                                                <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+
+
+                                    <div class="mb-3 col-10">
+                                        <div class="row">
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Employee</label>
+                                                <select name="name[]" id="name" multiple="multiple" class="select2" aria-label="Default select example">
+                                                    @foreach(collect($employee)->sortBy('name') as $employees)
+                                                    <option value="{{$employees->id}}">{{$employees->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Role</label>
+                                                <select name="role" id="role" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($role as $roles)
+                                                    <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Direct Manager</label>
+                                                <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach(collect($employee)->sortBy('name') as $directManager)
+                                                    <option value="{{$directManager->id}}">{{$directManager->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Type Project</label>
+                                                <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($typeProject as $typeProjects)
+                                                    <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    <option value="ACTIVE">ACTIVE</option>
+                                                    <option value="RESIGN">RESIGN</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-2">
+                                                <label class="form-label">Available Date</label>
+                                                <div class="input-group me-3 datepicker">
+                                                    <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                                    <div class="input-group-append custom-picker">
+                                                        <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Customer</label>
+                                                <select name="customer" id="customer" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($customer as $customers)
+                                                    <option value="{{$customers->id}}">{{$customers->company}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-4">
+                                                <label class="form-label" for="selectOne">Project Name</label>
+                                                <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($project as $projects)
+                                                    <option value="{{$projects->id}}">{{$projects->projectName}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Project Name</label>
-                                        <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($project as $projects)
-                                            <option value="{{$projects->id}}">{{$projects->projectName}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 pt-7 col-1">
-                                        <form method="post" role="form" id="form-print" action="/ExportEmpByAsign" enctype="multipart/form-data" formtarget="_blank" target="_blank">
-                                            @csrf
-                                            <input type="text" id="namee" name="namee" hidden>
-                                            <input type="text" id="rolee" name="rolee" hidden>
-                                            <input type="text" id="availableAtt" name="availableAtt" hidden>
-                                            <input type="text" id="projectIdd" name="projectIdd" hidden>
-                                            <input type="text" id="directManagerr" name="directManagerr" hidden>
-                                            <input type="text" id="typeProjectt" name="typeProjectt" hidden>
-                                            <input type="text" id="statuss" name="statuss" hidden>
-                                            <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
-                                                    <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
-                                                </svg>
-                                            </button>
-                                        </form>
+                                    <div class="mb-3 col-2">
+                                        <div class="row">
+                                            <div class="mb-3 pt-7 col-6">
+                                                <form method="post" role="form" id="form-print" action="/ExportEmpByAsign" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                                    @csrf
+                                                    <input type="text" id="namee" name="namee" hidden>
+                                                    <input type="text" id="rolee" name="rolee" hidden>
+                                                    <input type="text" id="availableAtt" name="availableAtt" hidden>
+                                                    <input type="text" id="projectIdd" name="projectIdd" hidden>
+                                                    <input type="text" id="customerr" name="customerr" hidden>
+                                                    <input type="text" id="directManagerr" name="directManagerr" hidden>
+                                                    <input type="text" id="typeProjectt" name="typeProjectt" hidden>
+                                                    <input type="text" id="statuss" name="statuss" hidden>
+                                                    <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
+                                                            <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
 
-                                    </div>
-                                    <div class="mb-3 pt-7 col-1">
-                                        <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
-                                                <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Direct Manager</label>
-                                        <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach(collect($employee)->sortBy('name') as $directManager)
-                                            <option value="{{$directManager->id}}">{{$directManager->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label">Type Project</label>
-                                        <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($typeProject as $typeProjects)
-                                            <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" id="status" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            <option value="ACTIVE">ACTIVE</option>
-                                            <option value="RESIGN">RESIGN</option>
-                                        </select>
+                                            </div>
+                                            <div class="mb-3 pt-7 col-6">
+                                                <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                        <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <!-- <div class="mb-3 pt-7 col-12">
+                                                <button id="gantt" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gantt Chart" class="btn btn-primary-soft" style="width:100%">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+                                                        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0zM2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5v-1zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1z" />
+                                                    </svg>
+                                                </button>
+                                            </div> -->
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -217,9 +245,10 @@
                     name: 'employee.name'
                 },
                 {
-                    data: function(row) {
+                    data: function(row, type) {
                         if (row.employee.department && row.employee.department.department) {
-                            return row.employee.department.department; // Mengembalikan nilai properti name jika ada
+                            var data = row.employee.department.department; // Mengembalikan nilai properti name jika ada
+                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -227,9 +256,10 @@
                     name: 'employeedepartment.department'
                 },
                 {
-                    data: function(row) {
+                    data: function(row, type) {
                         if (row.employee.divisi && row.employee.divisi.division) {
-                            return row.employee.divisi.division; // Mengembalikan nilai properti name jika ada
+                            var data = row.employee.divisi.division; // Mengembalikan nilai properti name jika ada
+                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -271,6 +301,7 @@
         $('#availableAt').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
+            $('#customerr').val($('#customer').val());
             $('#availableAtt').val($('#availableAt').val());
             $('#roles').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
@@ -283,6 +314,7 @@
                 // 'date_ot': date[1],
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
+                'customer': $('#customer').val(),
                 'role': $('#role').val(),
                 'availableAt': $('#availableAt').val(),
                 'directManager': $('#directManager').val(),
@@ -293,9 +325,10 @@
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId, #role, #directManager, #typeProject, #status').on('change', function() {
+        $('#name, #projectId,#customer , #role, #directManager, #typeProject, #status').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
+            $('#customerr').val($('#customer').val());
             $('#roles').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
@@ -307,6 +340,7 @@
                 // 'date_ot': date[1],
                 'name': $('#name').val(),
                 'projectId': $('#projectId').val(),
+                'customer': $('#customer').val(),
                 'role': $('#role').val(),
                 'directManager': $('#directManager').val(),
                 'typeProject': $('#typeProject').val(),
@@ -319,6 +353,7 @@
         $('.col-12').on('click', '#clear', function() {
             $('#name').val('#').trigger('change');
             $('#projectId').val('#').trigger('change');
+            $('#customer').val('#').trigger('change');
             $('#role').val('#').trigger('change');
             $('#directManager').val('#').trigger('change');
             $('#typeProject').val('#').trigger('change');
@@ -326,6 +361,7 @@
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
+            $('#customerr').val('#');
             $('#roles').val('#');
             $('#directManagerr').val('#');
             $('#typeProjectt').val('#');
