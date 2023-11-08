@@ -366,7 +366,26 @@ class employeeController extends Controller
         $data = $dataa->get();
 
         //return $data;
-        return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+        if ($request->segment(1) == "ExportEmpByAsign") {
+            return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+        }
+        if ($request->segment(1) == "GanttEmpByAsign") {
+            $gantt = [];
+            $id = 1;
+            foreach ($data as $item) {
+                $gantt[] = [
+                    'id' => $id++,
+                    'nama' => $item->employees->name,
+                    'text' => $item->roles->roleEmployee,
+                    'role' => $item->roles->roleEmployee,
+                    'projectName' => $item->project->projectName,
+                    'start_date' => date('d-m-Y', strtotime($item->startDate)),
+                    'end_date' => date('d-m-Y', strtotime($item->endDate)),
+                ];
+            }
+            return view('/gantt/emppProject', ['gantt' => $gantt]);
+            // return $gantt;
+        }
     }
 
     function exportEmpUnassigned(Request $request)

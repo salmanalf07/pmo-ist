@@ -11,6 +11,7 @@
                 <div class="gantt_control">
                     <input value="Export to PDF" type="button" onclick='gantt.exportToPDF()'>
                     <input value="Export to PNG" type="button" onclick='gantt.exportToPNG()'>
+                    <!-- <input value="Export to MS Project" type="button" onclick='gantt.exportToMSProject({skip_circular_links: false})' style='margin:0 15px;'> -->
                 </div>
                 <form class="gantt_control">
                     <input type="button" value="Zoom In" onclick="zoomIn()">
@@ -125,7 +126,7 @@
         ]
     };
     gantt.config.columns = [{
-            name: "nama",
+            name: "name",
             label: "Nama",
             tree: true,
             min_width: 200

@@ -376,7 +376,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer]);
     })->name('empByAssignment');
 });
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/partByAssignment', function () {
         $employee = partnerProject::get();
@@ -405,7 +404,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpUnassigned', [employeeController::class, 'exportEmpUnassigned']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_employee', [employeeController::class, 'json']);
+//byAssign
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAssignment', [employeeController::class, 'jsonByAssignment']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/GanttEmpByAsign', [employeeController::class, 'exportByAssignment']);
+//byAssign
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_partByAssignment', [employeeController::class, 'jsonPartByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ExtResources', [employeeController::class, 'jsonExtResources']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByUnassigned', [employeeController::class, 'jsonByUnassigned']);
