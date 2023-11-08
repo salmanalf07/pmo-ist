@@ -48,6 +48,9 @@ class employeeController extends Controller
         if ($request->special != "#" && $request->special) {
             $dataa->where('spesialisasi', '=', $request->special);
         }
+        if ($request->statusFilter != "#" && $request->statusFilter) {
+            $dataa->where('status', '=', $request->statusFilter);
+        }
         // $dataa->where('status', '=', "ACTIVE");
         $data = $dataa->get();
         return DataTables::of($data)
@@ -67,6 +70,10 @@ class employeeController extends Controller
         $dataa = partnerProject::with('project.customer');
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
+
+            if ($request->customer != "#" && $request->customer) {
+                $q->where('cust_id', '=', $request->customer);
+            }
         });
         if ($request->name != "#" && $request->name) {
             $dataa->where('partner', '=', $request->name);
@@ -428,6 +435,10 @@ class employeeController extends Controller
         // }
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
+
+            if ($request->customerr != "#" && $request->customerr) {
+                $q->where('cust_id', '=', $request->customerr);
+            }
         });
         if ($request->namee != "#" && $request->namee) {
             $dataa->where('partner', '=', $request->namee);
@@ -471,6 +482,9 @@ class employeeController extends Controller
         }
         if ($request->speciall != "#" && $request->speciall) {
             $dataa->where('spesialisasi', '=', $request->speciall);
+        }
+        if ($request->statusFilterr != "#" && $request->statusFilterr) {
+            $dataa->where('status', '=', $request->statusFilterr);
         }
         $data = $dataa->get();
 

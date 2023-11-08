@@ -381,7 +381,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $employee = partnerProject::get();
         $project = Project::get();
         $role = roleEmployee::get();
-        return view('employee/partnerByAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role]);
+        $customer = Customer::get();
+        return view('employee/partnerByAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'customer' => $customer]);
     })->name('partByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportPartByAsign', [employeeController::class, 'exportPartByAssignment']);
