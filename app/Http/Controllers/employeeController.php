@@ -376,8 +376,8 @@ class employeeController extends Controller
                 $gantt[] = [
                     'id' => $id++,
                     'nama' => $item->employees->name,
-                    'text' => $item->roles->roleEmployee,
-                    'role' => $item->roles->roleEmployee,
+                    'text' => $item->roles ? $item->roles->roleEmployee : '',
+                    'role' => $item->roles ? $item->roles->roleEmployee : '',
                     'projectName' => $item->project->projectName,
                     'start_date' => date('d-m-Y', strtotime($item->startDate)),
                     'end_date' => date('d-m-Y', strtotime($item->endDate)),

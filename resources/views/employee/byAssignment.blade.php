@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-2">
-                                        <form method="post" role="form" id="form_export" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form_export" enctype="multipart/form-data">
                                             @csrf
                                             <input type="text" id="namee" name="namee" hidden>
                                             <input type="text" id="rolee" name="rolee" hidden>
@@ -208,8 +208,10 @@
 
 
         $("#export_excel").click(function() {
-            $("#form_export").attr("action", "/ExportEmpByAsign");
-            $("#form_export").submit();
+            $("#form_export").attr("action", "/ExportEmpByAsign")
+                .attr("formtarget", "_blank")
+                .attr("target", "_blank")
+                .submit();
         });
 
         $("#export_gantt").click(function() {

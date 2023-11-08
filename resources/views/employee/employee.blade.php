@@ -91,6 +91,14 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="mb-3 col-2">
+                                        <label class="form-label">Status</label>
+                                        <select name="statusFilter" id="statusFilter" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            <option value="ACTIVE">ACTIVE</option>
+                                            <option value="RESIGN">RESIGN</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
