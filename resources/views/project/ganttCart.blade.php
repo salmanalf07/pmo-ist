@@ -129,17 +129,20 @@
             name: "name",
             label: "Nama",
             tree: true,
+            resize: true,
             min_width: 200
         },
         {
             name: "role",
             label: "Role",
             align: "center",
+            resize: true,
             min_width: 150
         },
         {
             name: "direct_manager",
             label: "Manager",
+            resize: true,
             min_width: 200
         },
         {
@@ -147,6 +150,7 @@
             label: "Start time",
             align: "center",
             min_width: 100,
+            resize: true,
             template: function(task) {
                 var customFormat = gantt.date.date_to_str("%d-%m-%Y"); // Define your custom date format
                 var formattedCustomDate = customFormat(task.start_date);
@@ -158,6 +162,7 @@
             label: "End time",
             align: "center",
             min_width: 100,
+            resize: true,
             template: function(task) {
                 var customFormat = gantt.date.date_to_str("%d-%m-%Y"); // Define your custom date format
                 var formattedCustomDate = customFormat(task.end_date);
