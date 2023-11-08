@@ -151,6 +151,19 @@
                 resize: true
             },
             {
+                name: "level",
+                label: "Skill Level",
+                align: "center",
+                resize: true,
+                min_width: 150
+            },
+            {
+                name: "customer",
+                label: "Customer",
+                min_width: 100,
+                resize: true
+            },
+            {
                 name: "projectName",
                 label: "Project Name",
                 min_width: 200,

@@ -140,6 +140,20 @@
             min_width: 150
         },
         {
+            name: "level",
+            label: "Skill Level",
+            align: "center",
+            resize: true,
+            min_width: 150
+        },
+        {
+            name: "customer",
+            label: "Customer",
+            align: "center",
+            resize: true,
+            min_width: 150
+        },
+        {
             name: "direct_manager",
             label: "Manager",
             resize: true,
