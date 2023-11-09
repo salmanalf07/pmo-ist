@@ -27,8 +27,10 @@
                                     <div class="mb-3 col-6">
                                         <label class="form-label" for="selectOne">Sales</label>
                                         <select name="sales[]" id="sales" multiple="multiple" class="select2" aria-label="Default select example">
-                                            @foreach(collect($employee->unique('sales->name'))->sortBy('sales->name') as $employees)
+                                            @foreach(collect($employee->unique('sales'))->sortBy('sales->name') as $employees)
+                                            @if($employees->saless != null)
                                             <option value="{{$employees->saless['id']}}">{{$employees->saless['name']}}</option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
