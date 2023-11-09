@@ -19,7 +19,7 @@
                     </a> -->
                     @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast','r_sales*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -69,7 +69,24 @@
                                             By Plan BAST Monthly
                                         </a>
                                     </li>
+                                    <li class="dropdown-submenu dropend">
+                                        <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                            Sales
+                                        </a>
+                                        <ul class="dropdown-menu">
 
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/r_sales/detailPoBySales">
+                                                    Detail PO Received
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/r_sales/summaryPoBySales">
+                                                    Summary PO Received
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
 
                             </li>

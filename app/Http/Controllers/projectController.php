@@ -359,4 +359,34 @@ class projectController extends Controller
 
         return response()->json($data);
     }
+
+    function detailPoBySales(Request $request)
+    {
+        $dataa = Project::with('saless', 'customer', 'pm');
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        }
+        if ($request->has('sales')) {
+            $names = $request->sales;
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('sales', $names);
+            }
+        }
+
+        $data = $dataa->get();
+        return DataTables::of($data)
+            ->addColumn('projectNamee', function ($data) {
+                return
+                    '<div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="mb-0 fs-5"><a target="_blank" href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 20) . '</a></h4>
+                        </div>
+                    </div>';
+            })
+            ->rawColumns(['projectNamee'])
+            ->toJson();
+    }
 }

@@ -718,6 +718,22 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('r_planBast');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/pdfPlanBAST', [topProjectController::class, 'pdfPlanBAST']);
+//SALES
+Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'r_sales'], function () {
+    Route::get('/detailPoBySales', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        // $employee = employee::with('roles')
+        //     ->whereHas('roles', function ($q) {
+        //         $q->where('roleEmployee', 'like', '%Sales%');
+        //     })
+        //     ->get();
+        $employee = Project::with('saless')->select('sales')->get();
+        return view('report/sales/detailPoBySales', ['judul' => "PO RECEIVED PER SALES – DETAIL", 'customer' => $customer, 'employee' => $employee,]);
+        //return $employee;
+    })->name('detailPoBySales');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_detailPoBySales', [projectController::class, 'detailPoBySales']);
+});
+//END SALES
 //end Report
 
 
@@ -908,6 +924,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 });
 
 //END MASTER DATA
+
 
 
 //test google sheet
