@@ -367,8 +367,8 @@ class projectController extends Controller
             $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         }
-        if ($request->has('sales')) {
-            $names = $request->sales;
+        if ($request->sales != "#" && $request->sales) {
+            $names = explode(',', $request->sales);
             // Periksa apakah 'name' adalah string '#' atau array kosong
             if (is_array($names) && count($names) > 0) {
                 // Gunakan whereIn untuk mencocokkan multiple values

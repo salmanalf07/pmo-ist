@@ -232,6 +232,8 @@
             ],
         });
         $('.col-12').on('click', '#clear', function() {
+            $('#sales').val('#').trigger('change');
+
             $('#date_st').val("#");
             $('#date_ot').val("#");
             $('#salesId').val("#");
@@ -245,15 +247,17 @@
             $('#example1').data('dt_params', {
                 'date_st': $('#date_st').val(),
                 'date_ot': $('#date_ot').val(),
+                'sales': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
         $('.col-12').on('change', '#sales', function() {
+            $('#salesId').val($('#sales').val());
             $('#example1').data('dt_params', {
                 'date_st': $('#date_st').val(),
                 'date_ot': $('#date_ot').val(),
-                'sales': $('#sales').val(),
+                'sales': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
             // console.log(date)
