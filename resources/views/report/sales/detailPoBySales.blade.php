@@ -103,7 +103,7 @@
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
+
         $('select.select2:not(.normal)').each(function() {
             var elementId = $(this).attr('id'); // Get the ID of the current select element
 
