@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class projectController extends Controller
 {
@@ -367,8 +368,8 @@ class projectController extends Controller
             $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         }
-        if ($request->sales != "#" && $request->sales) {
-            $names = explode(',', $request->sales);
+        if ($request->salesId != "#" && $request->salesId) {
+            $names = explode(',', $request->salesId);
             // Periksa apakah 'name' adalah string '#' atau array kosong
             if (is_array($names) && count($names) > 0) {
                 // Gunakan whereIn untuk mencocokkan multiple values
@@ -377,16 +378,33 @@ class projectController extends Controller
         }
 
         $data = $dataa->get();
-        return DataTables::of($data)
-            ->addColumn('projectNamee', function ($data) {
-                return
-                    '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $data->projectName . '">
+        if ($request->segment(2) == "json_detailPoBySales") {
+            return DataTables::of($data)
+                ->addColumn('projectNamee', function ($data) {
+                    return
+                        '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $data->projectName . '">
                         <div>
                             <h4 class="mb-0 fs-5"><a target="_blank" href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 20) . '</a></h4>
                         </div>
                     </div>';
-            })
-            ->rawColumns(['projectNamee'])
-            ->toJson();
+                })
+                ->rawColumns(['projectNamee'])
+                ->toJson();
+        }
+        if ($request->segment(2) == "exportDetailPoBySales") {
+            $date_st = $request->date_st != "#" ? $request->date_st : "";
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : "";
+
+            $sum = 0;
+            foreach ($data as $number) {
+                $sum += $number->projectValue;
+            }
+
+            $pdf = PDF::loadView('pdf.exportDetailPoBySales', compact('data', 'date_st', 'date_ot', 'sum'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4', 'landscape');
+
+            return $pdf->stream('SALES REPORT – PO RECEIVED PER SALES – DETAIL.pdf');
+        }
     }
 }

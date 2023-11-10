@@ -44,7 +44,7 @@
                                         </button>
                                     </div>
                                     <div class="mb-3 col-3">
-                                        <form method="post" role="form" id="form-print" action="r_sales/exportDetailPoBySales" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form-print" action="/r_sales/exportDetailPoBySales" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="date_st" name="date_st" value="#" hidden>
                                             <input type="text" id="date_ot" name="date_ot" value="#" hidden>
@@ -263,7 +263,7 @@
             $('#example1').data('dt_params', {
                 'date_st': $('#date_st').val(),
                 'date_ot': $('#date_ot').val(),
-                'sales': $('#salesId').val(),
+                'salesId': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
             // console.log(date)
@@ -273,7 +273,7 @@
             $('#example1').data('dt_params', {
                 'date_st': $('#date_st').val(),
                 'date_ot': $('#date_ot').val(),
-                'sales': $('#salesId').val(),
+                'salesId': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
             // console.log(date)

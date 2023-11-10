@@ -732,6 +732,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
         //return $employee;
     })->name('detailPoBySales');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_detailPoBySales', [projectController::class, 'detailPoBySales']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportDetailPoBySales', [projectController::class, 'detailPoBySales']);
 });
 //END SALES
 //end Report
