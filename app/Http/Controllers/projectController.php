@@ -458,7 +458,7 @@ class projectController extends Controller
             // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4', 'landscape');
 
-            return $pdf->download('SALES REPORT – PO RECEIVED PER SALES – SUMMARY');
+            return $pdf->download('SALES REPORT – PO RECEIVED PER SALES – SUMMARY.pdf');
             // return $data;
         }
     }
