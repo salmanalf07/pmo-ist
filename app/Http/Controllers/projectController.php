@@ -21,6 +21,7 @@ use App\Models\solution;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -367,6 +368,9 @@ class projectController extends Controller
         if ($request->date_st != "#" && $request->date_st) {
             $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
                 ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('contractDate', '=', date("m"))
+                ->whereYear('contractDate', '=', date("Y"));
         }
         if ($request->salesId != "#" && $request->salesId) {
             $names = explode(',', $request->salesId);
@@ -405,6 +409,57 @@ class projectController extends Controller
             $pdf->setPaper('a4', 'landscape');
 
             return $pdf->download('SALES REPORT – PO RECEIVED PER SALES – DETAIL.pdf');
+        }
+    }
+
+    function summaryPoBySales(Request $request)
+    {
+        $dataa = Project::with('saless', 'customer', 'pm');
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('contractDate', '=', date("m"))
+                ->whereYear('contractDate', '=', date("Y"));
+        }
+        if ($request->salesId != "#" && $request->salesId) {
+            $names = explode(',', $request->salesId);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('sales', $names);
+            }
+        }
+
+        $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
+        if ($request->segment(2) == "json_summaryPoBySales") {
+            return DataTables::of($data)
+                ->addColumn('projectNamee', function ($data) {
+                    return
+                        '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $data->projectName . '">
+                        <div>
+                            <h4 class="mb-0 fs-5"><a target="_blank" href="/project/summaryProject/' . $data->id . '" class="text-inherit">' . substr($data->projectName, 0, 20) . '</a></h4>
+                        </div>
+                    </div>';
+                })
+                ->rawColumns(['projectNamee'])
+                ->toJson();
+        }
+        if ($request->segment(2) == "exportSummaryPoBySales") {
+            $date_st = $request->date_st != "#" ? $request->date_st : "";
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : "";
+
+            $sum = 0;
+            foreach ($data as $number) {
+                $sum += $number->totalProjectValue;
+            }
+
+            $pdf = PDF::loadView('pdf.exportSummaryPoBySales', compact('data', 'date_st', 'date_ot', 'sum'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4', 'landscape');
+
+            return $pdf->stream('SALES REPORT – PO RECEIVED PER SALES – DETAIL.pdf');
+            // return $data;
         }
     }
 }

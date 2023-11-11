@@ -65,7 +65,7 @@
         </tr>
         <tr class="border-top border-left border-right no-border-bottom">
             <td class="border-top border-left border-right no-border-bottom">
-                <h2 style="margin-bottom: -0.3em; margin-top:-0.3em">SALES REPORT – PO RECEIVED PER SALES – DETAIL</h2>
+                <h2 style="margin-bottom: -0.3em; margin-top:-0.3em">SALES REPORT – PO RECEIVED PER SALES – SUMMARY</h2>
             </td>
         </tr>
         <tr class="no-border">
@@ -84,31 +84,21 @@
     </table>
     <br>
     <br>
-    <table>
+    <table style="width: 70%;">
         <thead>
             <tr>
-                <th style="width: 5%;">No</th>
-                <th style="width: 10%;">Sales</th>
-                <th style="width: 10%;">PO Date</th>
-                <th style="width: 15%;">PO Number</th>
-                <th style="width: 10%;">PO Value</th>
-                <th style="width: 10%;">Customer</th>
-                <th style="width: 25%;">Project Name</th>
-                <th style="width: 15%;">Project Manager</th>
+                <th style="width: 10%;">No</th>
+                <th style="width: 45%;">Sales</th>
+                <th style="width: 45%;">Total PO Value</th>
             </tr>
         </thead>
         <tbody>
             <?php $no = 1; ?>
-            @foreach (collect($data)->sortBy('contractDate') as $sales)
+            @foreach (collect($data)->sortBy('saless.name') as $sales)
             <tr>
                 <td class="text-center">{{$no++}}</td>
                 <td>{{$sales->saless ? $sales->saless->name :""}}</td>
-                <td class="text-center">{{date("d-m-Y",strtotime($sales->contractDate))}}</td>
-                <td>{{$sales->noContract}}</td>
-                <td class="text-right">{{number_format($sales->projectValue,0,'.','.')}}</td>
-                <td>{{$sales->customer->company}}</td>
-                <td>{{$sales->projectName}}</td>
-                <td>{{$sales->pm? $sales->pm->name : ""}}</td>
+                <td class="text-right">{{number_format($sales->totalProjectValue,0,'.','.')}}</td>
             </tr>
             @endforeach
         </tbody>

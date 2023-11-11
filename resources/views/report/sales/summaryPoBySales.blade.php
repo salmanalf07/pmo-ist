@@ -44,7 +44,7 @@
                                         </button>
                                     </div>
                                     <div class="mb-3 col-3">
-                                        <form method="post" role="form" id="form-print" action="/r_sales/exportDetailPoBySales" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form-print" action="/r_sales/exportSummaryPoBySales" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="date_st" name="date_st" value="#" hidden>
                                             <input type="text" id="date_ot" name="date_ot" value="#" hidden>
@@ -82,12 +82,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Sales Name</th>
-                                        <th>PO Date</th>
-                                        <th>PO Number</th>
-                                        <th>PO Value</th>
-                                        <th>Customer</th>
-                                        <th>Project Name</th>
-                                        <th>Project Manager</th>
+                                        <th>Total PO Value</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -149,20 +144,12 @@
             "autoWidth": true,
             "columnDefs": [{
                     "className": "text-end",
-                    "targets": [3], // table ke 1
-                }, {
-                    targets: [1],
-                    render: function(oTable) {
-                        return moment(oTable).format('DD-MM-YYYY');
-                    }
+                    "targets": [1], // table ke 1
                 },
                 {
-                    targets: [3],
+                    targets: [1],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
-            ],
-            order: [
-                [1, 'asc']
             ],
             footerCallback: function(row, data, start, end, display) {
                 var api = this.api();
@@ -178,9 +165,9 @@
 
                 // Total over all pages
 
-                if (api.column(3).data().length) {
+                if (api.column(1).data().length) {
                     var total = api
-                        .column(3)
+                        .column(1)
                         .data()
                         .reduce(function(a, b) {
                             return intVal(a) + intVal(b);
@@ -192,7 +179,7 @@
                 $('#totRecord').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             },
             ajax: {
-                url: '/r_sales/json_detailPoBySales',
+                url: '/r_sales/json_summaryPoBySales',
                 data: function(d) {
                     // Retrieve dynamic parameters
                     var dt_params = $('#example1').data('dt_params');
@@ -209,44 +196,8 @@
                     name: 'saless.name'
                 },
                 {
-                    data: 'contractDate',
-                    name: 'contractDate'
-                },
-                {
-                    data: 'noContract',
-                    name: 'noContract',
-                    render: function(data, type, row) {
-                        if (data != null) {
-                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
-                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
-                        }
-                        return '';
-                    }
-                },
-                {
-                    data: 'projectValue',
-                    name: 'projectValue',
-                },
-                {
-                    data: 'customer.company',
-                    name: 'customer.company',
-                    render: function(data, type, row) {
-                        if (data != null) {
-                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
-                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
-                        }
-                        return '';
-                    }
-                },
-                {
-                    data: 'projectNamee',
-                    name: 'projectNamee'
-                },
-                {
-                    data: function(row, type) {
-                        return row.pm ? row.pm.name : "";
-                    },
-                    name: 'pm.name'
+                    data: 'totalProjectValue',
+                    name: 'totalProjectValue'
                 },
             ],
         });
