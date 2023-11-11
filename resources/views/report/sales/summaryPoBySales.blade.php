@@ -81,8 +81,10 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Sales Name</th>
-                                        <th>Total PO Value</th>
+                                        <th style="width: 10%;">No</th>
+                                        <th style="width: 25%;">Sales Name</th>
+                                        <th style="width: 20%;">Total PO Value</th>
+                                        <th style="width: 45%;"></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -143,11 +145,15 @@
             ],
             "autoWidth": true,
             "columnDefs": [{
-                    "className": "text-end",
-                    "targets": [1], // table ke 1
+                    "className": "text-center",
+                    "targets": [0], // table ke 1
                 },
                 {
-                    targets: [1],
+                    "className": "text-end",
+                    "targets": [2], // table ke 1
+                },
+                {
+                    targets: [2],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
             ],
@@ -165,9 +171,9 @@
 
                 // Total over all pages
 
-                if (api.column(1).data().length) {
+                if (api.column(2).data().length) {
                     var total = api
-                        .column(1)
+                        .column(2)
                         .data()
                         .reduce(function(a, b) {
                             return intVal(a) + intVal(b);
@@ -189,7 +195,14 @@
                     }
                 }
             },
+            "fnCreatedRow": function(row, data, index) {
+                $('td', row).eq(0).html(index + 1);
+            },
             columns: [{
+                    data: 'sales',
+                    name: 'sales'
+                },
+                {
                     data: function(row, type) {
                         return row.saless ? row.saless.name : "";
                     },
@@ -199,6 +212,11 @@
                     data: 'totalProjectValue',
                     name: 'totalProjectValue'
                 },
+                {
+                    data: function(row, type) {
+                        return "";
+                    },
+                }
             ],
         });
         $('.col-12').on('click', '#clear', function() {

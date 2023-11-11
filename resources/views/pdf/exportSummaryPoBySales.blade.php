@@ -84,7 +84,7 @@
     </table>
     <br>
     <br>
-    <table style="width: 70%;">
+    <table style="width: 50%;">
         <thead>
             <tr>
                 <th style="width: 10%;">No</th>
