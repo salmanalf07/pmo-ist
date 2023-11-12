@@ -228,7 +228,7 @@ class topProjectController extends Controller
             return DataTables::of($data)->toJson();
         }
         if ($request->segment(2) == "exportInvoiceStatusSalesAll") {
-            $status = $request->statusId == "#" || $request->statusId == "all" ? "All" : $request->status;
+            $status = $request->statusId == "#" || $request->statusId == "all" ? "All" : $request->statusId == "progress" ? "In Progress" : ucfirst($request->statusId);
 
             $salesData = [];
 
