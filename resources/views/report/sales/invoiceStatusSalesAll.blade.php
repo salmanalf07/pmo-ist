@@ -16,15 +16,6 @@
                             <div class="row">
                                 <div class="row col-7">
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Date Range</label>
-                                        <div class="input-group me-3">
-                                            <input type="text" class="form-control float-right" id="reservation">
-                                            <div class="input-group-append custom-picker">
-                                                <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 col-6">
                                         <label class="form-label" for="selectOne">Sales</label>
                                         <select name="sales[]" id="sales" multiple="multiple" class="select2" aria-label="Default select example">
                                             @foreach(collect($employee->unique('sales'))->sortBy('sales->name') as $employees)
@@ -32,6 +23,15 @@
                                             <option value="{{$employees->saless['id']}}">{{$employees->saless['name']}}</option>
                                             @endif
                                             @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Project Status</label>
+                                        <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                            <option value="#" selected>Open this select menu</option>
+                                            <option value="all">All</option>
+                                            <option value="progress">In Progress</option>
+                                            <option value="completed">Completed</option>
                                         </select>
                                     </div>
                                 </div>
@@ -44,11 +44,10 @@
                                         </button>
                                     </div>
                                     <div class="mb-3 col-3">
-                                        <form method="post" role="form" id="form-print" action="/r_sales/exportSummaryPoBySales" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form-print" action="/r_sales/exportInvoiceStatusSalesAll" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
-                                            <input type="text" id="date_st" name="date_st" value="#" hidden>
-                                            <input type="text" id="date_ot" name="date_ot" value="#" hidden>
                                             <input type="text" id="salesId" name="salesId" value="#" hidden>
+                                            <input type="text" id="statusId" name="statusId" value="#" hidden>
                                             <button id="export" type="submit" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Export" class="btn btn-secondary-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
@@ -81,11 +80,15 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th style="width: 10%;">No</th>
-                                        <th style="width: 25%;">Sales Name</th>
-                                        <th style="width: 25%">Customer</th>
-                                        <th style="width: 20%;">Total PO Value</th>
-                                        <th style="width: 20%;"></th>
+                                        <th style="text-align: center;">Sales Name</th>
+                                        <th style="text-align: center;">PO Date</th>
+                                        <th style="text-align: center;">PO Number</th>
+                                        <th style="text-align: center;">PO Value</th>
+                                        <th style="text-align: center;">Terms Description</th>
+                                        <th style="text-align: center;">Terms Value</th>
+                                        <th style="text-align: center;">BAST Date</th>
+                                        <th style="text-align: center;">Invoice Date</th>
+                                        <th style="text-align: center;">Payment Date</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -118,18 +121,6 @@
             }
 
         });
-
-
-        $('#reservation').daterangepicker({
-            startDate: moment().startOf('month'), // Mengatur tanggal awal ke awal bulan ini
-            endDate: moment().endOf('month'), // Mengatur tanggal akhir ke akhir bulan ini
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        }, function(start, end) {
-            var dateinn = start.format('YYYY-MM-DD');
-            var dateenn = end.format('YYYY-MM-DD');
-        });
     })
 </script>
 <script>
@@ -146,17 +137,21 @@
             ],
             "autoWidth": true,
             "columnDefs": [{
-                    "className": "text-center",
-                    "targets": [0], // table ke 1
-                },
-                {
                     "className": "text-end",
-                    "targets": [3], // table ke 1
+                    "targets": [3, 5], // table ke 1
+                }, {
+                    targets: [1],
+                    render: function(oTable) {
+                        return moment(oTable).format('DD-MM-YYYY');
+                    }
                 },
                 {
-                    targets: [3],
+                    targets: [3, 5],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
+            ],
+            order: [
+                [1, 'asc']
             ],
             footerCallback: function(row, data, start, end, display) {
                 var api = this.api();
@@ -172,9 +167,9 @@
 
                 // Total over all pages
 
-                if (api.column(3).data().length) {
+                if (api.column(5).data().length) {
                     var total = api
-                        .column(3)
+                        .column(5)
                         .data()
                         .reduce(function(a, b) {
                             return intVal(a) + intVal(b);
@@ -186,7 +181,7 @@
                 $('#totRecord').html(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             },
             ajax: {
-                url: '/r_sales/json_summaryPoBySales',
+                url: '/r_sales/json_invoiceStatusSalesAll',
                 data: function(d) {
                     // Retrieve dynamic parameters
                     var dt_params = $('#example1').data('dt_params');
@@ -196,60 +191,89 @@
                     }
                 }
             },
-            "fnCreatedRow": function(row, data, index) {
-                $('td', row).eq(0).html(index + 1);
-            },
             columns: [{
-                    data: 'sales',
-                    name: 'sales'
-                },
-                {
                     data: function(row, type) {
-                        return row.saless ? row.saless.name : "";
+                        return row.project.saless ? row.project.saless.name : "";
                     },
-                    name: 'saless.name'
+                    name: 'project.saless.name'
                 },
                 {
-                    data: 'customer.company',
-                    name: 'customer.company'
+                    data: 'project.contractDate',
+                    name: 'project.contractDate',
                 },
                 {
-                    data: 'totalProjectValue',
-                    name: 'totalProjectValue'
+                    data: 'project.noContract',
+                    name: 'project.noContract',
+                    render: function(data, type, row) {
+                        if (data != null) {
+                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
+                        }
+                        return '';
+                    }
                 },
                 {
-                    data: function(row, type) {
-                        return "";
-                    },
-                }
+                    data: 'project.projectValue',
+                    name: 'project.projectValue',
+                },
+                {
+                    data: 'termsName',
+                    name: 'termsName',
+                    render: function(data, type, row) {
+                        if (data != null) {
+                            var value = type === 'display' && data.length > 18 ? data.substring(0, 18) : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
+                        }
+                        return '';
+                    }
+                },
+                {
+                    data: 'termsValue',
+                    name: 'termsValue'
+                },
+                {
+                    data: 'bastDate',
+                    name: 'bastDate',
+                    render: function(data, type, row) {
+                        if (data != null) {
+                            return data == '1900-01-01' || data == '1990-01-01' ? "" : moment(data).format('DD-MM-YYYY')
+                        }
+                    }
+                },
+                {
+                    data: 'invDate',
+                    name: 'invDate',
+                    render: function(data, type, row) {
+                        if (data != null) {
+                            return data == '1900-01-01' || data == '1990-01-01' ? "" : moment(data).format('DD-MM-YYYY')
+                        }
+                    }
+                },
+                {
+                    data: 'payDate',
+                    name: 'payDate',
+                    render: function(data, type, row) {
+                        if (data != null) {
+                            return data == '1900-01-01' || data == '1990-01-01' ? "" : moment(data).format('DD-MM-YYYY')
+                        }
+                    }
+                },
             ],
         });
         $('.col-12').on('click', '#clear', function() {
             $('#sales').val('#').trigger('change');
+            $('#status').val('#').trigger('change');
 
-            $('#date_st').val("#");
-            $('#date_ot').val("#");
+            $('#statusId').val("#");
             $('#salesId').val("#");
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
-        $('.col-12').on('change', '#reservation', function() {
-            var date = $('#reservation').val().split(" - ");
-            $('#date_st').val(date[0]);
-            $('#date_ot').val(date[1]);
-            $('#example1').data('dt_params', {
-                'date_st': $('#date_st').val(),
-                'date_ot': $('#date_ot').val(),
-                'salesId': $('#salesId').val(),
-            });
-            $('#example1').DataTable().draw();
-            // console.log(date)
-        });
-        $('.col-12').on('change', '#sales', function() {
+        $('.col-12').on('change', '#sales,#status', function() {
             $('#salesId').val($('#sales').val());
+            $('#statusId').val($('#status').val());
             $('#example1').data('dt_params', {
-                'date_st': $('#date_st').val(),
-                'date_ot': $('#date_ot').val(),
+                'statusId': $('#statusId').val(),
                 'salesId': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();

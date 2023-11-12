@@ -73,7 +73,7 @@
                                         <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
                                             Sales
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="min-width: 19rem">
 
                                             <li class="nav-item">
                                                 <a class="dropdown-item " href="/r_sales/detailPoBySales">
@@ -83,6 +83,11 @@
                                             <li class="nav-item">
                                                 <a class="dropdown-item " href="/r_sales/summaryPoBySales">
                                                     Summary PO Received
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/r_sales/invoiceStatusSalesAll">
+                                                    Invoice Status Per PO Per Sales - All
                                                 </a>
                                             </li>
                                         </ul>

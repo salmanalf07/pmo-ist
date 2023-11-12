@@ -4,32 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SALES REPORT – PO RECEIVED PER SALES – DETAIL</title>
+    <title>SALES REPORT – PO RECEIVED PER SALES – SUMMARY</title>
     <style>
-        @page {
-            size: landscape;
-        }
-
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 11pt;
+            font-size: 12px;
         }
 
         tr,
-        td,
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 2px;
+        }
+
+        #content tr,
+        #content th,
+        #content td {
+            padding: 8px;
+            /* Gaya atau properti CSS lainnya bisa ditambahkan di sini */
+        }
+
         th {
-            border-collapse: collapse;
-            border: 1px solid black;
-            padding: 5px;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        .sales-name {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .total-po-value {
+            text-align: right;
+            font-weight: bold;
         }
 
         .text-right {
-            text-align: right !important;
-        }
-
-        .text-center {
-            text-align: center;
+            text-align: right;
         }
 
         .border-top {
@@ -59,13 +73,14 @@
 </head>
 
 <body>
+
     <table>
         <tr class="border-top border-left border-right no-border-bottom">
             <td class="border-top border-left border-right no-border-bottom"><img style="margin-bottom: 0.3em;" src="{{ asset('/assets/images/logo-ist.png') }}" width="80" alt="img-ist"></td>
         </tr>
         <tr class="border-top border-left border-right no-border-bottom">
             <td class="border-top border-left border-right no-border-bottom">
-                <h2 style="margin-bottom: -0.3em; margin-top:-0.3em">SALES REPORT – PO RECEIVED PER SALES – SUMMARY</h2>
+                <h2 style="margin-bottom: -0.2em; margin-top:-0.2em">SALES REPORT – PO RECEIVED PER SALES – SUMMARY</h2>
             </td>
         </tr>
         <tr class="no-border">
@@ -83,25 +98,54 @@
         </tr>
     </table>
     <br>
-    <br>
-    <table style="width: 50%;">
+    <table id="content">
         <thead>
             <tr>
-                <th style="width: 10%;">No</th>
-                <th style="width: 45%;">Sales</th>
-                <th style="width: 45%;">Total PO Value</th>
+                <th>Sales Name</th>
+                <th>Customer</th>
+                <th>Project Value</th>
+                <th>Total Project Value</th>
             </tr>
         </thead>
         <tbody>
-            <?php $no = 1; ?>
-            @foreach (collect($data)->sortBy('saless.name') as $sales)
+            @foreach (collect($salesData)->sortBy('salesName') as $data)
+            @if (count($data['customers']) > 0)
             <tr>
-                <td class="text-center">{{$no++}}</td>
-                <td>{{$sales->saless ? $sales->saless->name :""}}</td>
-                <td class="text-right">{{number_format($sales->totalProjectValue,0,'.','.')}}</td>
+                <td rowspan="{{ count($data['customers']) }}">{{ $data['salesName'] }}</td>
+                <td>{{ $data['customers'][0]['customer'] }}</td>
+                <td class="text-right">{{number_format($data['customers'][0]['totalPOValue'], 0, ',', '.')}}</td>
+                @php
+                $totalPOValueSum = 0;
+                foreach ($data['customers'] as $customer) {
+                $totalPOValueSum += $customer['totalPOValue'];
+                }
+                @endphp
+                <td class="text-right" rowspan="{{ count($data['customers']) }}">{{number_format($totalPOValueSum, 0, ',', '.')}}</td>
             </tr>
-            @endforeach
+            @for ($i = 1; $i < count($data['customers']); $i++) <tr>
+                <td>{{ $data['customers'][$i]['customer'] }}</td>
+                <td class="text-right">{{number_format($data['customers'][$i]['totalPOValue'], 0, ',', '.')}}</td>
+                </tr>
+                @endfor
+                @else
+                <tr>
+                    <td>{{ $data['salesName'] }}</td>
+                    <td></td>
+                    <td class="text-right">
+                        @if (isset($data['totalPOValue']))
+                        {{ $data['totalPOValue'] }}
+                        @else
+                        N/A <!-- or any default value you want to display -->
+                        @endif
+                    </td>
+                </tr>
+                @endif
+                @endforeach
         </tbody>
+
+
+
+
     </table>
 
 </body>

@@ -200,4 +200,72 @@ class topProjectController extends Controller
 
         return $pdf->download('By Plan BAST Monthly.pdf');
     }
+
+    public function json_invoiceStatusSalesAll(Request $request)
+    {
+        $dataa = topProject::with('project.saless')->orderBy('created_at', 'DESC');
+
+        $dataa->whereHas('project', function ($query) use ($request) {
+            if ($request->salesId != "#" && $request->salesId) {
+                $names = explode(',', $request->salesId);
+                // Periksa apakah 'name' adalah string '#' atau array kosong
+                if (is_array($names) && count($names) > 0) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sales', $names);
+                }
+            }
+            if ($request->statusId != "#" && $request->statusId) {
+                if ($request->statusId == "progress") {
+                    $query->where('overAllProg', '<', 100);
+                } elseif ($request->statusId == "completed") {
+                    $query->where('overAllProg', '=', 100);
+                }
+            }
+        });
+        $data = $dataa->get();
+
+        if ($request->segment(2) == "json_invoiceStatusSalesAll") {
+            return DataTables::of($data)->toJson();
+        }
+        if ($request->segment(2) == "exportInvoiceStatusSalesAll") {
+            $status = $request->statusId == "#" || $request->statusId == "all" ? "All" : $request->status;
+
+            $salesData = [];
+
+            // Pengelompokkan berdasarkan sales
+            $groupedData = $data->sortBy('project.saless.name')->groupBy('project.noContract', 'projectId');
+
+            $sum = 0;
+            foreach ($groupedData as $number) {
+                foreach ($number as $terms) {
+                    $sum += $terms->termsValue;
+                }
+            }
+
+            // foreach ($groupedData as $sales => $items) {
+            //     $salesName = $items->first()->saless->name ?? '';
+
+            //     $customerData = [];
+
+            //     foreach ($items as $item) {
+            //         $customer = $item->customer->company ?? '';
+            //         $totalPOValue = $item->totalProjectValue;
+
+            //         $customerData[] = compact('customer', 'totalPOValue');
+            //     }
+
+            //     $salesData[] = [
+            //         'salesName' => $salesName,
+            //         'customers' => $customerData,
+            //     ];
+            // }
+            $pdf = PDF::loadView('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4', 'lanscape');
+
+            //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
+            return $pdf->download('INVOICE STATUS PER PO PER SALES – ALL.pdf');
+            // return $sum;
+        }
+    }
 }

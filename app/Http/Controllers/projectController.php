@@ -396,8 +396,8 @@ class projectController extends Controller
                 ->toJson();
         }
         if ($request->segment(2) == "exportDetailPoBySales") {
-            $date_st = $request->date_st != "#" ? $request->date_st : "";
-            $date_ot = $request->date_ot != "#" ? $request->date_ot : "";
+            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
 
             $sum = 0;
             foreach ($data as $number) {
@@ -431,7 +431,8 @@ class projectController extends Controller
             }
         }
 
-        $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
+        // $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
+        $data = $dataa->select('cust_id', 'sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('cust_id', 'sales')->get();
         if ($request->segment(2) == "json_summaryPoBySales") {
             return DataTables::of($data)
                 ->addColumn('projectNamee', function ($data) {
@@ -446,20 +447,43 @@ class projectController extends Controller
                 ->toJson();
         }
         if ($request->segment(2) == "exportSummaryPoBySales") {
-            $date_st = $request->date_st != "#" ? $request->date_st : "";
-            $date_ot = $request->date_ot != "#" ? $request->date_ot : "";
+            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
 
             $sum = 0;
             foreach ($data as $number) {
                 $sum += $number->totalProjectValue;
             }
 
-            $pdf = PDF::loadView('pdf.exportSummaryPoBySales', compact('data', 'date_st', 'date_ot', 'sum'));
-            // Mengubah orientasi menjadi lanskap
-            $pdf->setPaper('a4', 'landscape');
+            $salesData = [];
 
+            // Pengelompokkan berdasarkan sales
+            $groupedData = $data->groupBy('sales');
+
+            foreach ($groupedData as $sales => $items) {
+                $salesName = $items->first()->saless->name ?? '';
+
+                $customerData = [];
+
+                foreach ($items as $item) {
+                    $customer = $item->customer->company ?? '';
+                    $totalPOValue = $item->totalProjectValue;
+
+                    $customerData[] = compact('customer', 'totalPOValue');
+                }
+
+                $salesData[] = [
+                    'salesName' => $salesName,
+                    'customers' => $customerData,
+                ];
+            }
+            $pdf = PDF::loadView('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4');
+
+            // return view('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
             return $pdf->download('SALES REPORT – PO RECEIVED PER SALES – SUMMARY.pdf');
-            // return $data;
+            // // return $data;
         }
     }
 }
