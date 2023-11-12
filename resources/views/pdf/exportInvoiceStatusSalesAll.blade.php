@@ -124,7 +124,7 @@
             $sales = null;
             ?>
             @foreach ( $groupedData as $data)
-            @foreach ($data as $terms )
+            @foreach (collect($data)->sortBy('noRef') as $terms )
             <tr>
                 @if (!is_null($sales))
                 @if ($sales == $terms->project->sales)
