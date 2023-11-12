@@ -228,7 +228,13 @@ class topProjectController extends Controller
             return DataTables::of($data)->toJson();
         }
         if ($request->segment(2) == "exportInvoiceStatusSalesAll") {
-            $status = $request->statusId == "#" || $request->statusId == "all" ? "All" : $request->statusId == "progress" ? "In Progress" : ucfirst($request->statusId);
+            if ($request->statusId == "#" || $request->statusId == "all") {
+                $status = "All";
+            } elseif ($request->statusId == "progress") {
+                $status = "In Progress";
+            } else {
+                $status = ucwords($request->statusId);
+            }
 
             $salesData = [];
 
@@ -242,23 +248,6 @@ class topProjectController extends Controller
                 }
             }
 
-            // foreach ($groupedData as $sales => $items) {
-            //     $salesName = $items->first()->saless->name ?? '';
-
-            //     $customerData = [];
-
-            //     foreach ($items as $item) {
-            //         $customer = $item->customer->company ?? '';
-            //         $totalPOValue = $item->totalProjectValue;
-
-            //         $customerData[] = compact('customer', 'totalPOValue');
-            //     }
-
-            //     $salesData[] = [
-            //         'salesName' => $salesName,
-            //         'customers' => $customerData,
-            //     ];
-            // }
             $pdf = PDF::loadView('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
             // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4', 'lanscape');
