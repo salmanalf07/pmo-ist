@@ -13,7 +13,7 @@
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 11pt;
+            font-size: 10pt;
         }
 
         tr,
@@ -146,12 +146,12 @@
                 @else
                 <td class="text-center">{{date("d-m-Y", strTotime($terms->project->contractDate))}}</td>
                 <td>{{$terms->project->noContract}}</td>
-                <td class="text-right">{{number_format($terms->project->poValue, 0, ',', '.')}}</td>
+                <td class="text-right">{{number_format($terms->project->projectValue, 0, ',', '.')}}</td>
                 @endif
                 @else
                 <td class="text-center">{{date("d-m-Y", strTotime($terms->project->contractDate))}}</td>
                 <td>{{$terms->project->noContract}}</td>
-                <td class="text-right">{{number_format($terms->project->poValue, 0, ',', '.')}}</td>
+                <td class="text-right">{{number_format($terms->project->projectValue, 0, ',', '.')}}</td>
                 @endif
                 <td>{{$terms->termsName}}</td>
                 <td class="text-right">{{number_format($terms->termsValue, 0, ',', '.')}}</td>
