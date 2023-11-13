@@ -24,6 +24,12 @@
             padding: 2px;
         }
 
+        td {
+            max-width: 120px;
+            word-wrap: break-word;
+            overflow: auto;
+        }
+
         #content tr,
         #content th,
         #content td {
@@ -110,14 +116,14 @@
         <thead>
             <tr>
                 <th style="width: 10%;">Sales</th>
-                <th style="width: 8%;">Po Date</th>
-                <th style="width: 10%;">PO Number</th>
+                <th style="width: 9%;">PO Date</th>
+                <th style="max-width: 10%;">PO Number</th>
                 <th style="width: 10%;">PO Value</th>
                 <th style="width: 20%;">Terms Description</th>
                 <th style="width: 10%;">Terms Value</th>
                 <th style="width: 9%;">BAST Date</th>
                 <th style="width: 9%;">Invoice Date</th>
-                <th style="width: 14%;">Payment Date</th>
+                <th style="width: 13%;">Payment Date</th>
             </tr>
         </thead>
         <tbody>
