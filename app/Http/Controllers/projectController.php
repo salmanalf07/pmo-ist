@@ -458,7 +458,7 @@ class projectController extends Controller
             $salesData = [];
 
             // Pengelompokkan berdasarkan sales
-            $groupedData = $data->groupBy('sales');
+            $groupedData = $data->sortBy('saless.name')->groupBy('sales');
 
             foreach ($groupedData as $sales => $items) {
                 $salesName = $items->first()->saless->name ?? '';
@@ -478,12 +478,12 @@ class projectController extends Controller
                 ];
             }
             $pdf = PDF::loadView('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
-            // Mengubah orientasi menjadi lanskap
+            // // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4');
 
-            // return view('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
+            //return view('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
             return $pdf->download('SALES REPORT – PO RECEIVED PER SALES – SUMMARY.pdf');
-            // // return $data;
+            //return $salesData;
         }
     }
 }

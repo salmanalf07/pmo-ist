@@ -111,7 +111,7 @@
             @foreach (collect($salesData)->sortBy('salesName') as $data)
             @if (count($data['customers']) > 0)
             <tr>
-                <td rowspan="{{ count($data['customers']) }}">{{ $data['salesName'] }}</td>
+                <td>{{ $data['salesName'] }}</td>
                 <td>{{ $data['customers'][0]['customer'] }}</td>
                 <td class="text-right">{{number_format($data['customers'][0]['totalPOValue'], 0, ',', '.')}}</td>
                 @php
@@ -120,11 +120,13 @@
                 $totalPOValueSum += $customer['totalPOValue'];
                 }
                 @endphp
-                <td class="text-right" rowspan="{{ count($data['customers']) }}">{{number_format($totalPOValueSum, 0, ',', '.')}}</td>
+                <td class="text-right">{{number_format($totalPOValueSum, 0, ',', '.')}}</td>
             </tr>
             @for ($i = 1; $i < count($data['customers']); $i++) <tr>
+                <td></td>
                 <td>{{ $data['customers'][$i]['customer'] }}</td>
                 <td class="text-right">{{number_format($data['customers'][$i]['totalPOValue'], 0, ',', '.')}}</td>
+                <td></td>
                 </tr>
                 @endfor
                 @else
