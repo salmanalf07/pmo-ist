@@ -86,8 +86,8 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="/r_sales/invoiceStatusSalesAll">
-                                                    Invoice Status Per PO Per Sales - All
+                                                <a class="dropdown-item " href="/r_sales/invoiceStatusSalesDetail">
+                                                    Invoice Status Per PO Per Sales - Detail
                                                 </a>
                                             </li>
                                         </ul>

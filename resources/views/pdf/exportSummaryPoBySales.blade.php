@@ -9,7 +9,7 @@
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 12px;
+            font-size: 9pt;
         }
 
         tr,

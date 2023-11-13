@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVOICE STATUS PER PO PER SALES – ALL</title>
+    <title>INVOICE STATUS PER PO PER SALES – DETAIL</title>
     <style>
         @page {
             size: landscape;
@@ -13,7 +13,7 @@
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 12px;
+            font-size: 12pt;
         }
 
         tr,
@@ -88,11 +88,13 @@
         </tr>
         <tr class="border-top border-left border-right no-border-bottom">
             <td class="border-top border-left border-right no-border-bottom">
-                <h2 style="margin-bottom: -0.2em; margin-top:-0.2em">INVOICE STATUS PER PO PER SALES – ALL</h2>
+                <h2 style="margin-bottom: -0.2em; margin-top:-0.2em">INVOICE STATUS PER PO PER SALES – DETAIL</h2>
             </td>
         </tr>
         <tr class="no-border">
-            <td class="no-border">Project Status : {{$status}}</td>
+            <td class="no-border">
+                Periode : {{$date_st}} - {{$date_ot}}
+            </td>
         </tr>
         <tr class="no-border">
             <td class="no-border" style="font-weight: bold;">
@@ -153,9 +155,9 @@
                 @endif
                 <td>{{$terms->termsName}}</td>
                 <td class="text-right">{{number_format($terms->termsValue, 0, ',', '.')}}</td>
-                <td class="text-center">{{date("d-m-Y", strTotime($terms->bastDate))}}</td>
-                <td class="text-center">{{date("d-m-Y", strTotime($terms->invDate))}}</td>
-                <td class="text-center">{{date("d-m-Y", strTotime($terms->payDate))}}</td>
+                <td class="text-center">{{$terms->bastDate == "1990-01-01"|| $terms->bastDate == "1900-01-01" ? "" : date("d-m-Y", strTotime($terms->bastDate))}}</td>
+                <td class="text-center">{{$terms->invDate == "1990-01-01"|| $terms->invDate == "1900-01-01" ? "" : date("d-m-Y", strTotime($terms->invDate))}}</td>
+                <td class="text-center">{{$terms->payDate == "1990-01-01"|| $terms->payDate == "1900-01-01" ? "" :date("d-m-Y", strTotime($terms->payDate))}}</td>
             </tr>
             <?php
             $lastItem = $terms->project->noContract;

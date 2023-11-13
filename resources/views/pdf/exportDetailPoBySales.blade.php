@@ -19,9 +19,22 @@
         tr,
         td,
         th {
+            border: 1px solid #dddddd;
             border-collapse: collapse;
             border: 1px solid black;
-            padding: 5px;
+            padding: 2px;
+        }
+
+        th {
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        #content tr,
+        #content th,
+        #content td {
+            padding: 8px;
+            /* Gaya atau properti CSS lainnya bisa ditambahkan di sini */
         }
 
         .text-right {
@@ -83,8 +96,7 @@
         </tr>
     </table>
     <br>
-    <br>
-    <table>
+    <table id="content">
         <thead>
             <tr>
                 <th style="width: 5%;">No</th>

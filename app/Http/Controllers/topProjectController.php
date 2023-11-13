@@ -201,7 +201,7 @@ class topProjectController extends Controller
         return $pdf->download('By Plan BAST Monthly.pdf');
     }
 
-    public function json_invoiceStatusSalesAll(Request $request)
+    public function invoiceStatusSalesDetail(Request $request)
     {
         $dataa = topProject::with('project.saless')->orderBy('created_at', 'DESC');
 
@@ -214,27 +214,22 @@ class topProjectController extends Controller
                     $query->whereIn('sales', $names);
                 }
             }
-            if ($request->statusId != "#" && $request->statusId) {
-                if ($request->statusId == "progress") {
-                    $query->where('overAllProg', '<', 100);
-                } elseif ($request->statusId == "completed") {
-                    $query->where('overAllProg', '=', 100);
-                }
-            }
         });
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('invDate', '=', date("m"))
+                ->whereYear('invDate', '=', date("Y"));
+        }
         $data = $dataa->get();
 
-        if ($request->segment(2) == "json_invoiceStatusSalesAll") {
+        if ($request->segment(2) == "json_invoiceStatusSalesDetail") {
             return DataTables::of($data)->toJson();
         }
-        if ($request->segment(2) == "exportInvoiceStatusSalesAll") {
-            if ($request->statusId == "#" || $request->statusId == "all") {
-                $status = "All";
-            } elseif ($request->statusId == "progress") {
-                $status = "In Progress";
-            } else {
-                $status = ucwords($request->statusId);
-            }
+        if ($request->segment(2) == "exportInvoiceStatusSalesDetail") {
+            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
 
             $salesData = [];
 
@@ -248,12 +243,12 @@ class topProjectController extends Controller
                 }
             }
 
-            $pdf = PDF::loadView('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
+            $pdf = PDF::loadView('pdf.exportInvoiceStatusSalesDetail', compact('groupedData', 'sum',  'date_st', 'date_ot'));
             // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4', 'lanscape');
 
             //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
-            return $pdf->download('INVOICE STATUS PER PO PER SALES – ALL.pdf');
+            return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
             // return $sum;
         }
     }
