@@ -26,6 +26,17 @@ class topProjectController extends Controller
                 $dataa->whereMonth('bastDate', '=', date("m"))
                     ->whereYear('bastDate', '=', date("Y"));
             }
+
+            $dataa->whereHas('project', function ($query) use ($request) {
+                if ($request->salesId != "#" && $request->salesId) {
+                    $names = explode(',', $request->salesId);
+                    // Periksa apakah 'name' adalah string '#' atau array kosong
+                    if (is_array($names) && count($names) > 0) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->whereIn('sales', $names);
+                    }
+                }
+            });
         }
         if ($request->segment(1) == "json_financeByInvoice") {
             if ($request->date_st != "#" && $request->date_st) {

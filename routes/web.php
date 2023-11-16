@@ -632,7 +632,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/financeTermsStat', function () {
         $customer = Customer::where('type', 'customer')->get();
-        $employee = employee::get();
+        $employee = Project::with('saless')->select('sales')->get();
+
         return view('finance/financeTermsStat', ['judul' => "Term Status", 'customer' => $customer, 'employee' => $employee,]);
     })->name('financeTermsStat');
 });

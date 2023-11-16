@@ -29,6 +29,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label" for="selectOne">Sales</label>
+                                        <select name="sales[]" id="sales" multiple="multiple" class="select2" aria-label="Default select example">
+                                            @foreach(collect($employee->unique('sales'))->sortBy('sales->name') as $employees)
+                                            @if($employees->saless != null)
+                                            <option value="{{$employees->saless['id']}}">{{$employees->saless['name']}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row col-5 pt-7 ms-3">
                                     <div class="mb-3 col-3">
@@ -43,6 +53,7 @@
                                             @csrf
                                             <input type="text" id="date_st" name="date_st" hidden>
                                             <input type="text" id="date_ot" name="date_ot" hidden>
+                                            <input type="text" id="salesId" name="salesId" value="#" hidden>
                                             <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
                                                     <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
@@ -98,7 +109,22 @@
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
+        $('select.select2:not(.normal)').each(function() {
+            var elementId = $(this).attr('id'); // Get the ID of the current select element
+
+            // Check if the ID matches a specific condition
+            if (elementId === 'sales') {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent(),
+                    placeholder: 'Select multiple options...'
+                });
+            } else {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent()
+                });
+            }
+
+        });
 
         $('#reservation').daterangepicker({
             startDate: moment().startOf('month'), // Mengatur tanggal awal ke awal bulan ini
@@ -246,15 +272,12 @@
                 },
             ],
         });
-        $('.col-12').on('click', '#in', function() {
-            var date = $('#reservation').val().split(" - ");
-            $('#example1').data('dt_params', {
-                'date_st': date[0],
-                'date_ot': date[1],
-            });
-            $('#example1').DataTable().draw();
-        });
         $('.col-12').on('click', '#clear', function() {
+            $('#sales').val('#').trigger('change');
+
+            $('#date_st').val("#");
+            $('#date_ot').val("#");
+            $('#salesId').val("#");
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
@@ -263,8 +286,19 @@
             $('#date_st').val(date[0])
             $('#date_ot').val(date[1])
             $('#example1').data('dt_params', {
-                'date_st': date[0],
-                'date_ot': date[1],
+                'date_st': $('#date_st').val(),
+                'date_ot': $('#date_ot').val(),
+                'salesId': $('#salesId').val(),
+            });
+            $('#example1').DataTable().draw();
+            // console.log(date)
+        });
+        $('.col-12').on('change', '#sales', function() {
+            $('#salesId').val($('#sales').val());
+            $('#example1').data('dt_params', {
+                'date_st': $('#date_st').val(),
+                'date_ot': $('#date_ot').val(),
+                'salesId': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
             // console.log(date)
