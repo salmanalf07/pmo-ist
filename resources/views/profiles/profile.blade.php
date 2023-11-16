@@ -19,6 +19,7 @@
                 <div class="card">
                     <div class="card-header d-md-flex border-bottom-0">
                         <div class="card-body">
+                            <div id="visitorBlog"></div>
                         </div>
                     </div>
                     <div class="card-body">
