@@ -157,6 +157,17 @@ class topProjectController extends Controller
                 ->whereYear('bastDate', '=', date("Y"));
         }
 
+        $dataa->whereHas('project', function ($query) use ($request) {
+            if ($request->salesId != "#" && $request->salesId) {
+                $names = explode(',', $request->salesId);
+                // Periksa apakah 'name' adalah string '#' atau array kosong
+                if (is_array($names) && count($names) > 0) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sales', $names);
+                }
+            }
+        });
+
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
                 $query->where('pmName', Auth::user()->name);
