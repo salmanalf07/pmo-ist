@@ -46,6 +46,7 @@
                                             </span>
                                             {{$pmName}} <a style="margin-left: 0.5em;" href="#" id="detailModals" data-id="{{$projects[0]->pm?$projects[0]->pm->id:'#'}}" data-bs-toggle="tooltip" data-placement="top" title="Detail Data"><i class="bi bi-info-circle"></i>
                                         </td>
+                                        <td class="text-center">{{count($projects)}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
