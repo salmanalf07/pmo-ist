@@ -189,9 +189,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/profile', function () {
         $project = Project::with('pm')->where('overAllProg', '<', 100)->get()->sortBy('pm.name')->groupBy('pm.name');
+        $data = [];
 
         //return $data;
-        return view('/profiles/profile', ['project' => $project, 'data' => $data]);
+        return view('/profiles/profile', ['project' => $project,]);
     })->name('profile');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/detail_pm', [projectController::class, 'detail_pm']);
     Route::get('/projectMethod', function () {
