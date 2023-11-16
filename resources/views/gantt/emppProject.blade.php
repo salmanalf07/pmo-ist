@@ -7,8 +7,6 @@
 
     <link rel="stylesheet" href="{{asset('/assets/libs/gantt/dhtmlxgantt.css?v=8.0.6')}}">
     <link rel="stylesheet" href="{{asset('/assets/libs/gantt/common/controls_styles.css?v=8.0.6')}}">
-
-    <script src="{{asset('/assets/libs/gantt/common/testdata.js?v=8.0.6')}}"></script>
     <style>
         html,
         body {
@@ -28,6 +26,7 @@
     <div class="gantt_control">
         <input value="Export to PDF" type="button" onclick='gantt.exportToPDF()'>
         <input value="Export to PNG" type="button" onclick='gantt.exportToPNG()'>
+
     </div>
     <form class="gantt_control">
         <input type="button" value="Zoom In" onclick="zoomIn()">
@@ -101,7 +100,7 @@
                 },
                 {
                     name: "quarter",
-                    height: 50,
+                    height: 100,
                     min_column_width: 90,
                     scales: [{
                             unit: "month",
@@ -195,10 +194,11 @@
             },
         ];
         gantt.ext.zoom.init(zoomConfig);
-        gantt.ext.zoom.setLevel("year");
+        gantt.ext.zoom.setLevel("quarter");
         gantt.ext.zoom.attachEvent("onAfterZoom", function(level, config) {
             document.querySelector(".gantt_radio[value='" + config.name + "']").checked = true;
         })
+        gantt.config.scale_height = 50;
 
 
         function zoomIn() {
@@ -227,6 +227,67 @@
         gantt.parse({
             data: ganttData,
             links: []
+        });
+
+        gantt.exportToExcel({
+            name: "Gantt Cart By Name.xlsx",
+            columns: [{
+                    id: "nama",
+                    header: "Nama",
+                    tree: true,
+                    min_width: 200,
+                    resize: true
+                },
+                {
+                    id: "role",
+                    header: "Role",
+                    align: "center",
+                    min_width: 150
+                },
+                {
+                    id: "level",
+                    header: "Skill Level",
+                    align: "center",
+                    min_width: 150
+                },
+                {
+                    id: "customer",
+                    header: "Customer",
+                    min_width: 100
+                },
+                {
+                    id: "projectName",
+                    header: "Project Name",
+                    min_width: 200
+                },
+                {
+                    id: "start_date",
+                    header: "Start time",
+                    align: "center",
+                    min_width: 100,
+                    type: "date",
+                    template: function(task) {
+                        var customFormat = gantt.date.date_to_str("%d-%m-%Y"); // Define your custom date format
+                        var formattedCustomDate = customFormat(task.start_date);
+                        return formattedCustomDate;
+                    }
+                },
+                {
+                    id: "end_date",
+                    header: "End time",
+                    align: "center",
+                    min_width: 100,
+                    type: "date",
+                    template: function(task) {
+                        var customFormat = gantt.date.date_to_str("%d-%m-%Y"); // Define your custom date format
+                        var formattedCustomDate = customFormat(task.end_date);
+                        return formattedCustomDate;
+                    }
+                },
+            ],
+            visual: true,
+            cellColors: true,
+            date_format: "dddd d, mmmm yyyy"
         });
     </script>
 </body>
