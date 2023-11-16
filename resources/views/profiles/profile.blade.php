@@ -36,7 +36,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $no = "1" ?>
+                                    <?php $no = 1 ?>
                                     @foreach ($project as $pmName => $projects)
                                     <tr>
                                         <td class="text-center">{{$no++}}</td>
