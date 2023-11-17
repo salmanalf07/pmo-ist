@@ -131,7 +131,8 @@
             columns: [{
                     data: function(row, type) {
                         if (row.cust_id != "#") {
-                            return type === 'display' && row.customer.company.length > 23 ? row.customer.company.substring(0, 23) + '..' : row.customer.company;
+                            var value = type === 'display' && row.customer.company.length > 23 ? row.customer.company.substring(0, 23) + '..' : row.customer.company;
+                            return '<div data-toggle="tooltip" title="' + row.customer.company + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -151,7 +152,8 @@
                     },
                     name: 'noContract',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        var value = type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
                 {

@@ -71,7 +71,7 @@ class projectController extends Controller
         return DataTables::of($data)
             ->addColumn('projectNamee', function ($data) {
                 return
-                    '<div class="d-flex align-items-center">
+                    '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $data->projectName . '">
                         <div>
                             <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $data->id . '" class="text-inherit" target="_blank">' . mb_substr($data->projectName, 0, 25, 'UTF-8')  . '</a></h4>
                         </div>
