@@ -196,7 +196,8 @@
                     name: 'project.noContract',
                     render: function(data, type, row) {
                         if (data != null) {
-                            return type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         }
                         return '';
                     }
@@ -205,7 +206,8 @@
                     data: 'termsName',
                     name: 'termsName',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
+                        var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '...' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
                 {

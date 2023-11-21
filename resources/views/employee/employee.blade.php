@@ -369,7 +369,8 @@
                     data: function(row) {
                         if (row.roles && row.roles.roleEmployee) {
 
-                            return row.roles.roleEmployee.length > 15 ? row.roles.roleEmployee.substring(0, 10) + '..' : row.roles.roleEmployee;
+                            var value = row.roles.roleEmployee.length > 15 ? row.roles.roleEmployee.substring(0, 10) + '..' : row.roles.roleEmployee;
+                            return '<div data-toggle="tooltip" title="' + row.roles.roleEmployee + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -379,7 +380,8 @@
                 {
                     data: function(row) {
                         if (row.manager && row.manager.name) {
-                            return row.manager.name.length > 15 ? row.manager.name.substring(0, 15) + '..' : row.manager.name;
+                            var value = row.manager.name.length > 15 ? row.manager.name.substring(0, 15) + '..' : row.manager.name;
+                            return '<div data-toggle="tooltip" title="' + row.manager.name + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }

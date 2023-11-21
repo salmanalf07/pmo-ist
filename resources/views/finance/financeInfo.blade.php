@@ -183,7 +183,8 @@
                     name: 'project.noContract',
                     render: function(data, type, row) {
                         if (data != null) {
-                            return type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '...' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         }
                         return '';
                     }
@@ -192,7 +193,8 @@
                     data: 'termsName',
                     name: 'termsName',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
+                        var value = type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
                 {

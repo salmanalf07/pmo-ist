@@ -124,7 +124,8 @@
                     data: 'project.projectName',
                     name: 'project.projectName',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
+                        var value = type === 'display' && data.length > 30 ? data.substring(0, 30) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
                 {

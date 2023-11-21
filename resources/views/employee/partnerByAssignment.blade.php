@@ -202,7 +202,8 @@
                     data: function(row, type) {
                         if (row.project && row.project.projectName) {
                             var data = row.project.projectName;
-                            return type === 'display' && data.length > 25 ? data.substring(0, 25) + '..' : data;
+                            var value = type === 'display' && data.length > 25 ? data.substring(0, 25) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -213,7 +214,8 @@
                     data: function(row, type) {
                         if (row.project && row.project.customer.company) {
                             var data = row.project.customer.company;
-                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }

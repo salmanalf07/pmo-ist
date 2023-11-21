@@ -260,7 +260,8 @@
                     data: function(row, type) {
                         if (row.employee.department && row.employee.department.department) {
                             var data = row.employee.department.department; // Mengembalikan nilai properti name jika ada
-                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -271,7 +272,8 @@
                     data: function(row, type) {
                         if (row.employee.divisi && row.employee.divisi.division) {
                             var data = row.employee.divisi.division; // Mengembalikan nilai properti name jika ada
-                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -282,7 +284,8 @@
                     data: function(row, type) {
                         if (row.project && row.project.projectName) {
                             var data = row.project.projectName;
-                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
@@ -293,7 +296,8 @@
                     data: function(row, type) {
                         if (row.project && row.project.customer.company) {
                             var data = row.project.customer.company;
-                            return type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }

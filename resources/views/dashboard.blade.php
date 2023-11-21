@@ -154,9 +154,9 @@
                                         @foreach($projectByValue as $project)
 
                                         <tr>
-                                            <td>{{substr($project->customer->company, 0, 15)}}</td>
+                                            <td data-toggle="tooltip" title="{{$project->customer->company}}">{{substr($project->customer->company, 0, 15)}}</td>
                                             <td>
-                                                <h4 class="mb-0 fs-5"><a href="/project/summaryProject/{{$project->id}}" class="text-inherit" target="_blank">{{substr($project->projectName, 0, 25)}}</a></h4>
+                                                <h4 class="mb-0 fs-5"><a href="/project/summaryProject/{{$project->id}}" data-toggle="tooltip" title="{{$project->projectName}}" class="text-inherit" target="_blank">{{substr($project->projectName, 0, 25)}}</a></h4>
                                             </td>
                                             <td class="text-end text-dark">{{number_format($project->projectValue,0,',','.')}}</td>
                                             <td>

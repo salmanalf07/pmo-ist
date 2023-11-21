@@ -316,7 +316,7 @@ class projectController extends Controller
         return DataTables::of($projectDetail)
             ->addColumn('projectNamee', function ($projectDetail) {
                 return
-                    '<div class="d-flex align-items-center">
+                    '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $projectDetail['projectName'] . '">
                     <div>
                         <h4 class="mb-0 fs-5"><a href="/project/summaryProject/' . $projectDetail['projectId'] . '" class="text-inherit" target="_blank">' . substr($projectDetail['projectName'], 0, 25) . '...</a></h4>
                     </div>

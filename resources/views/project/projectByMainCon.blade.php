@@ -158,7 +158,8 @@
                     },
                     name: 'noPo',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        var value = type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 }, {
                     data: function(row) {
@@ -170,7 +171,8 @@
                     },
                     name: 'noContract',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        var value = type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
 
@@ -178,7 +180,8 @@
                     data: 'customer.company',
                     name: 'customer.company',
                     render: function(data, type, row) {
-                        return type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
+                        var value = type === 'display' && data.length > 23 ? data.substring(0, 23) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
                 {
