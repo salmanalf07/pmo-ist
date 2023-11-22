@@ -58,6 +58,14 @@ class projectController extends Controller
         if ($request->mainContract != "#" && $request->mainContract) {
             $dataa->where('noPo', $request->mainContract);
         }
+        if ($request->salesId != "#" && $request->salesId) {
+            $names = explode(',', $request->salesId);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('sales', $names);
+            }
+        }
 
         if ($request->segment(1) == "json_projMainCon") {
             $dataa->where('po', '!=', null);

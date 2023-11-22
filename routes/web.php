@@ -424,7 +424,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
         $pm = project::with('pm')->select('pmName')->get();
-        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm]);
+        $sales = Project::with('saless')->select('sales')->get();
+        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm, 'sales' => $sales]);
         // return $pm;
     })->name('projectInfo');
 });

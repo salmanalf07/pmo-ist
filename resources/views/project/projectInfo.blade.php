@@ -46,6 +46,17 @@
                                                 <option value="completed">Completed</option>
                                             </select>
                                         </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label" for="selectOne">Sales</label>
+                                            <input type="text" id="salesId" name="salesId" value="#" hidden>
+                                            <select name="sales[]" id="sales" multiple="multiple" class="select2" aria-label="Default select example">
+                                                @foreach(collect($sales->unique('sales'))->sortBy('sales->name') as $sales)
+                                                @if($sales->saless != null)
+                                                <option value="{{$sales->saless['id']}}">{{$sales->saless['name']}}</option>
+                                                @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row col-2 pt-7 ms-3">
                                         <div class="mb-3 col-12">
@@ -101,7 +112,22 @@
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
+        $('select.select2:not(.normal)').each(function() {
+            var elementId = $(this).attr('id'); // Get the ID of the current select element
+
+            // Check if the ID matches a specific condition
+            if (elementId === 'sales') {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent(),
+                    placeholder: 'Select multiple options...'
+                });
+            } else {
+                $(this).select2({
+                    dropdownParent: $(this).parent().parent()
+                });
+            }
+
+        });
     })
 </script>
 <script>
@@ -177,18 +203,24 @@
             ],
         });
         // $('.col-12').on('click', '#in', function() {
-        $('#cust_id, #pmName, #status').on('change', function() {
+        $('#cust_id, #pmName, #status, #sales').on('change', function() {
+            $('#salesId').val($('#sales').val());
+
             $('#example1').data('dt_params', {
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
                 'status': $('#status').val(),
+                'salesId': $('#salesId').val(),
             });
             $('#example1').DataTable().draw();
         });
         $('.col-12').on('click', '#clear', function() {
+            $('#sales').val('#').trigger('change');
             $('#cust_id').val('#').trigger('change');
             $('#pmName').val('#').trigger('change');
             $('#status').val('#').trigger('change');
+
+            $('#salesId').val("#");
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
