@@ -98,8 +98,9 @@
                                         @if($payment == 0)
                                         <h1 class=" mb-1 fw-bold text-danger">{{$payment}}%</h1>
                                         @elseif($payment > 0 && $payment < 50) <h1 class=" mb-1 fw-bold text-warning">{{$payment}}%</h1>
-                                            @elseif ($payment >= 50 && $payment <= 100) <h1 class=" mb-1 fw-bold">{{$payment}}%</h1>
-                                                @endif
+                                            <!-- @elseif ($payment >= 50 && $payment <= 100) <h1 class=" mb-1 fw-bold">{{$payment}}%</h1> -->
+                                            @elseif ($payment >= 50) <h1 class=" mb-1 fw-bold">{{$payment}}%</h1>
+                                            @endif
                                     </div>
                                 </div>
                             </div>

@@ -110,6 +110,7 @@ class projectController extends Controller
                 $post = Project::find($request->id);
             } else {
                 $post = new Project();
+                $post->overAllProg = 0;
             }
             $post->noProject = $request->noProject;
             $post->cust_id = $request->cust_id;
@@ -125,7 +126,6 @@ class projectController extends Controller
             $post->dateEdPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateEdPo)));
             $post->poValue = str_replace(".", "", $request->poValue);
             $post->projectValue = str_replace(".", "", $request->projectValue);
-            $post->overAllProg = 0;
             $post->projectType = $request->projectType;
             $post->partnerId = $request->partnerId;
             $post->sales = $request->sales;
