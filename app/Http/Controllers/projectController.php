@@ -252,7 +252,7 @@ class projectController extends Controller
     }
     function statPaymentExport(Request $request)
     {
-        $dataa = topProject::with('project');
+        $dataa = topProject::with('project.customer');
 
         if ($request->date_st != null && $request->date_st) {
             $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))

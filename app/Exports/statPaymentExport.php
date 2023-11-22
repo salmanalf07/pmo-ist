@@ -45,7 +45,19 @@ class statPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         $rowData[$heading] = $relatedData;
                     }
                 } else {
-                    $rowData[$heading] = $item->{$column};
+                    // Cek apakah kolom adalah tanggal
+                    $isDateColumn = false; // Tambahkan variabel untuk menandai kolom tanggal
+                    // Misal, jika kolom memiliki format 'YYYY-MM-DD'
+                    if ($column === 'payDate') {
+                        $isDateColumn = true;
+                    }
+
+                    if ($isDateColumn) {
+                        // Ubah format tanggal sesuai kebutuhan (misal: 'd-m-Y')
+                        $rowData[$heading] = \Carbon\Carbon::parse($item->{$column})->format('d-M-Y');
+                    } else {
+                        $rowData[$heading] = $item->{$column};
+                    }
                 }
             }
             return $rowData;
@@ -57,6 +69,7 @@ class statPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize,
     public function headings(): array
     {
         return [
+            'project.customer.company' => 'Customer',
             'project.projectName' => 'Project Name',
             'project.noContract' => 'No Contract',
             'termsName' => 'Terms Name',
