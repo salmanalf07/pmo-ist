@@ -307,6 +307,9 @@
                         compareDates(this);
                     });
                 }
+                if (j == 6) {
+                    clonedNode.value = "0%";
+                }
             }
 
             if (clonedContent.querySelector('input.datepicker')) {

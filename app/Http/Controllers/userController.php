@@ -72,13 +72,12 @@ class userController extends Controller
         try {
 
             $request->validate([
-                'name' => ['required', 'string', 'max:255', 'not_equal_to:#'],
                 'username' => ['required', 'string', 'max:255'],
                 'role.*' => ['required', 'string'],
             ]);
 
             $post = User::find($id);
-            $post->name = $request->name;
+            // $post->name = $request->name;
             $post->username = $request->username;
             if ($request->password != null && $post->password != Hash::make($request->password)) {
                 $post->password = Hash::make($request->password);

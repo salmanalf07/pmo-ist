@@ -159,7 +159,7 @@
                     <div class="card-header">
                         <div class="justify-content-between">
                             @canany(['bisa-tambah','detailOrder-editor'])
-                            <button type="button" class="btn btn-primary-soft add">Save</button>
+                            <button type="button" id="submitButton" class="btn btn-primary-soft add">Save</button>
                             @endcanany
                         </div>
                     </div>
@@ -181,6 +181,10 @@
                 data: fd,
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    // Menonaktifkan tombol sebelum pengiriman AJAX
+                    $('#submitButton').prop('disabled', true);
+                },
                 success: function(data) {
                     if (data[1]) {
                         let text = "";
@@ -195,7 +199,7 @@
                         window.location.href = "/project/sow/" + data;
                     }
 
-                },
+                }
             });
         });
 
