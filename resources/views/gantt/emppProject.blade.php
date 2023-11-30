@@ -13,7 +13,7 @@
             height: 100%;
             padding: 0px;
             margin: 0px;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
 
         /* .gantt_task_content {
@@ -42,14 +42,14 @@
         <input type="radio" id="scale3" class="gantt_radio" name="scale" value="month">
         <label for="scale3">Month scale</label>
 
-        <input type="radio" id="scale4" class="gantt_radio" name="scale" value="quarter">
+        <input type="radio" id="scale4" class="gantt_radio" name="scale" value="quarter" checked>
         <label for="scale4">Quarter scale</label>
 
-        <input type="radio" id="scale5" class="gantt_radio" name="scale" value="year" checked>
+        <input type="radio" id="scale5" class="gantt_radio" name="scale" value="year">
         <label for="scale5">Year scale</label>
 
     </form>
-    <div id="gantt_here" style='width:100%; height:calc(100vh - 52px);'></div>
+    <div id="gantt_here" style='width:100%; height:85%;'></div>
 
     <script>
         var ganttData = <?php echo json_encode($gantt); ?>;
@@ -220,14 +220,12 @@
         gantt.plugins({
             export_api: true,
         });
-        gantt.config.grid_width = 400;
         //end export
 
         gantt.config.readonly = true;
         gantt.init("gantt_here");
         gantt.parse({
             data: ganttData,
-            links: []
         });
         // Tambahkan tombol export
         var button = document.getElementById("exportExcel");
@@ -288,7 +286,7 @@
                         }
                     },
                 ],
-                visual: true,
+                visual: "base-colors",
                 cellColors: true,
                 date_format: "dddd d, mmmm yyyy"
             });

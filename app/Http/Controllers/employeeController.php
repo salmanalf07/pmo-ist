@@ -383,7 +383,7 @@ class employeeController extends Controller
                 $gantt[] = [
                     'id' => $id++,
                     'nama' => $item->employees->name,
-                    'text' => $item->roles ? $item->roles->roleEmployee : '',
+                    'text' => '',
                     'role' => $item->roles ? $item->roles->roleEmployee : '',
                     'level' => $item->employees->levels ? $item->employees->levels->skillLevel : "",
                     'direct_manager' => $item->employees->manager ? $item->employees->manager->name : "",
