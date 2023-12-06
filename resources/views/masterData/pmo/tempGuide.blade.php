@@ -124,7 +124,7 @@
             "autoWidth": false,
             "columnDefs": [{
                 "className": "text-center",
-                "targets": [0, 5], // table ke 1
+                "targets": [0, 4, 5], // table ke 1
             }, ],
             ajax: {
                 url: '{{ url("/pmo/json_tempGuide") }}'
@@ -149,8 +149,8 @@
                     name: 'documentName'
                 },
                 {
-                    data: 'link',
-                    name: 'link'
+                    data: 'linkFile',
+                    name: 'linkFile'
                 },
                 {
                     data: 'aksi',

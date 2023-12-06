@@ -14,6 +14,11 @@ class tempGuideController extends Controller
         $data = tempAndGuide::with('categorys', 'types')->orderBy('created_at', 'DESC')->get();
 
         return DataTables::of($data)
+            ->addColumn('linkFile', function ($data) {
+                return '<a target="_blank" href="' . $data->link . '" class="btn btn-ghost btn-icon btn-sm rounded-circle ms-3 texttooltip" data-template="six">
+                    <i class="bi bi-link-45deg icon-lg"></i>
+                </a>';
+            })
             ->addColumn('aksi', function ($data) {
                 return
                     '<button id="edit" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
@@ -21,7 +26,7 @@ class tempGuideController extends Controller
                 <button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
                 <i class="bi bi-trash"></i></button>';
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'linkFile'])
             ->toJson();
     }
 
