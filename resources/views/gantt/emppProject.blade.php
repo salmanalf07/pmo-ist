@@ -291,5 +291,14 @@
                 date_format: "dddd d, mmmm yyyy"
             });
         });
+        gantt.batchUpdate(function() {
+            gantt.eachTask(function(task) {
+                if (task.duration < 0) {
+                    task.duration = 0;
+                    task.end_date = task.start_date;
+                    gantt.updateTask(task.id)
+                }
+            })
+        })
     </script>
 </body>
