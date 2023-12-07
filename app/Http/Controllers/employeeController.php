@@ -98,7 +98,7 @@ class employeeController extends Controller
     }
     function jsonByAssignment(Request $request)
     {
-        $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department');
+        $dataa = memberProject::with('project.customer', 'employee.divisi', 'employee.department', 'roles');
         $dataa->whereHas('employee', function ($q) use ($request) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
             if ($request->directManager && $request->directManager !== '#') {
@@ -120,20 +120,20 @@ class employeeController extends Controller
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
-            if ($request->role != "#" && $request->role) {
-                $q->where('role', '=', $request->role);
-            }
             if ($request->customer != "#" && $request->customer) {
                 $q->where('cust_id', '=', $request->customer);
             }
         });
+        if ($request->role != "#" && $request->role) {
+            $dataa->where('role', '=', $request->role);
+        }
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
         //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         // }
         // Periksa apakah request memiliki data untuk name
-        if ($request->has('name')) {
-            $names = $request->name;
+        if ($request->name != "#" && $request->name != null) {
+            $names = explode(',', $request->name);
             // Periksa apakah 'name' adalah string '#' atau array kosong
             if (is_array($names) && count($names) > 0) {
                 // Gunakan whereIn untuk mencocokkan multiple values
@@ -345,15 +345,15 @@ class employeeController extends Controller
         // }
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
-            if ($request->rolee != "#" && $request->rolee) {
-                $q->where('role', '=', $request->rolee);
-            }
             if ($request->customerr != "#" && $request->customerr) {
                 $q->where('cust_id', '=', $request->customerr);
             }
         });
+        if ($request->rolee != "#" && $request->rolee) {
+            $dataa->where('role', '=', $request->rolee);
+        }
         // Periksa apakah request memiliki data untuk name
-        if ($request->namee != "#" && $request->namee) {
+        if ($request->namee != "#" && $request->namee != null) {
             $names = explode(',', $request->namee);
             // Periksa apakah 'name' adalah string '#' atau array kosong
             if (is_array($names) && count($names) > 0) {
@@ -364,7 +364,7 @@ class employeeController extends Controller
         if ($request->projectIdd != "#" && $request->projectIdd) {
             $dataa->where('projectId', '=', $request->projectIdd);
         }
-        if ($request->availableAtt != "01/01/1900" && $request->availableAtt) {
+        if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#") {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
         }
         // } else {
@@ -379,7 +379,7 @@ class employeeController extends Controller
         if ($request->segment(1) == "GanttEmpByAsign") {
             $gantt = [];
             $id = 1;
-            foreach ($data as $item) {
+            foreach (collect($data)->sortBy('employees.name') as $item) {
                 $gantt[] = [
                     'id' => $id++,
                     'nama' => $item->employees->name,
@@ -395,6 +395,7 @@ class employeeController extends Controller
             }
             return view('/gantt/emppProject', ['gantt' => $gantt]);
             // return $gantt;
+            // return $request->all();
         }
     }
 

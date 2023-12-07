@@ -92,14 +92,14 @@
                                     <div class="mb-3 col-2">
                                         <form method="post" role="form" id="form_export" enctype="multipart/form-data" target="_blank">
                                             @csrf
-                                            <input type="text" id="namee" name="namee" hidden>
-                                            <input type="text" id="rolee" name="rolee" hidden>
-                                            <input type="text" id="availableAtt" name="availableAtt" hidden>
-                                            <input type="text" id="projectIdd" name="projectIdd" hidden>
-                                            <input type="text" id="customerr" name="customerr" hidden>
-                                            <input type="text" id="directManagerr" name="directManagerr" hidden>
-                                            <input type="text" id="typeProjectt" name="typeProjectt" hidden>
-                                            <input type="text" id="statuss" name="statuss" hidden>
+                                            <input type="text" id="namee" name="namee" value="#" hidden>
+                                            <input type="text" id="rolee" name="rolee" value="#" hidden>
+                                            <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
+                                            <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
+                                            <input type="text" id="customerr" name="customerr" value="#" hidden>
+                                            <input type="text" id="directManagerr" name="directManagerr" value="#" hidden>
+                                            <input type="text" id="typeProjectt" name="typeProjectt" value="#" hidden>
+                                            <input type="text" id="statuss" name="statuss" value="#" hidden>
                                             <div class="row">
                                                 <div class="mb-3 pt-7 col-6">
                                                     <button id="export_excel" type="submit" class="btn btn-success-soft" style="width:100%">
@@ -319,7 +319,7 @@
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
             $('#availableAtt').val($('#availableAt').val());
-            $('#roles').val($('#role').val());
+            $('#rolee').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
             $('#typeProjectt').val($('#typeProject').val());
@@ -328,24 +328,24 @@
                 // 'dateChange': dateChange,
                 // 'date_st': date[0],
                 // 'date_ot': date[1],
-                'name': $('#name').val(),
-                'projectId': $('#projectId').val(),
-                'customer': $('#customer').val(),
-                'role': $('#role').val(),
-                'availableAt': $('#availableAt').val(),
-                'directManager': $('#directManager').val(),
-                'typeProject': $('#typeProject').val(),
-                'status': $('#status').val(),
+                'availableAt': $('#availableAtt').val(),
+                'name': $('#namee').val(),
+                'projectId': $('#projectIdd').val(),
+                'customer': $('#customerr').val(),
+                'role': $('#rolee').val(),
+                'directManager': $('#directManagerr').val(),
+                'typeProject': $('#typeProjectt').val(),
+                'status': $('#statuss').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId,#customer , #role, #directManager, #typeProject, #status').on('change', function() {
+        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
-            $('#roles').val($('#role').val());
+            $('#rolee').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
             $('#typeProjectt').val($('#typeProject').val());
@@ -354,13 +354,13 @@
                 // 'dateChange': dateChange,
                 // 'date_st': date[0],
                 // 'date_ot': date[1],
-                'name': $('#name').val(),
-                'projectId': $('#projectId').val(),
-                'customer': $('#customer').val(),
-                'role': $('#role').val(),
-                'directManager': $('#directManager').val(),
-                'typeProject': $('#typeProject').val(),
-                'status': $('#status').val(),
+                'name': $('#namee').val(),
+                'projectId': $('#projectIdd').val(),
+                'customer': $('#customerr').val(),
+                'role': $('#rolee').val(),
+                'directManager': $('#directManagerr').val(),
+                'typeProject': $('#typeProjectt').val(),
+                'status': $('#statuss').val(),
 
             });
             $('#example1').DataTable().draw();
