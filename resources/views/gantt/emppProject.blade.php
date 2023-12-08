@@ -299,6 +299,16 @@
                     gantt.updateTask(task.id)
                 }
             })
+            gantt.eachTask(function(task) {
+                var customFormat = gantt.date.date_to_str("%d-%m-%Y");
+                var dateUp = new Date("2020-12-01");
+                if (customFormat(task.start_date) == "01-01-1900") {
+                    task.end_date = dateUp;
+                    task.start_date = dateUp;
+                    task.duration = 0;
+                    gantt.updateTask(task.id);
+                }
+            });
         })
     </script>
 </body>

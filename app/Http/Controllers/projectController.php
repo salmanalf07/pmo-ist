@@ -199,6 +199,13 @@ class projectController extends Controller
             } else if ($request->spk != "#" && $request->spk != "noContract") {
                 $query->where('noContract', $request->spk);
             }
+            if ($request->statusId != "#" && $request->statusId) {
+                if ($request->statusId == "progress") {
+                    $query->where('overAllProg', '<', 100);
+                } elseif ($request->statusId == "completed") {
+                    $query->where('overAllProg', '=', 100);
+                }
+            }
         })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
 
         $data = $dataa
