@@ -494,4 +494,69 @@ class projectController extends Controller
             //return $salesData;
         }
     }
+    function summaryPoByPM(Request $request)
+    {
+        $dataa = Project::with('saless', 'customer', 'pm');
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('contractDate', '=', date("m"))
+                ->whereYear('contractDate', '=', date("Y"));
+        }
+        if ($request->pmId != "#" && $request->pmId) {
+            $names = explode(',', $request->pmId);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('pmName', $names);
+            }
+        }
+
+        // $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
+        $data = $dataa->select('pmName', 'cust_id', 'projectName', 'projectValue')->get();
+        if ($request->segment(2) == "json_summaryPoByPM") {
+            return DataTables::of($data->sortBy('cust_id'))
+                ->toJson();
+        }
+        if ($request->segment(2) == "exportSummaryPoByPM") {
+            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
+
+            $sum = 0;
+            foreach ($data as $number) {
+                $sum += $number->totalProjectValue;
+            }
+
+            $pmData = [];
+
+            // Pengelompokkan berdasarkan sales
+            $groupedData = $data->sortBy('pm.name')->groupBy('pm');
+
+            foreach ($groupedData as $sales => $items) {
+                $pmName = $items->first()->pm->name ?? '';
+
+                $customerData = [];
+
+                foreach ($items as $item) {
+                    $customer = $item->customer->company ?? '';
+                    $totalPOValue = $item->totalProjectValue;
+
+                    $customerData[] = compact('customer', 'totalPOValue');
+                }
+
+                $pmData[] = [
+                    'pmName' => $pmName,
+                    'customers' => $customerData,
+                ];
+            }
+            $pdf = PDF::loadView('pdf.exportSummaryPoByPM', compact('pmData', 'date_st', 'date_ot', 'sum'));
+            // // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4');
+
+            //return view('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
+            return $pdf->download('SALES REPORT – PO RECEIVED PER PM – SUMMARY.pdf');
+            //return $salesData;
+        }
+    }
 }

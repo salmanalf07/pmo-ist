@@ -745,6 +745,17 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
 });
 //END SALES
+//PM
+Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'r_pm'], function () {
+    Route::get('/summaryPoByPM', function () {
+        $employee = Project::with('pm')->select('pmName')->get();
+        return view('report/pm/summaryPoByPM', ['judul' => "PO RECEIVED PER PM – SUMMARY", 'employee' => $employee,]);
+        //return $employee;
+    })->name('summaryPoByPM');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_summaryPoByPM', [projectController::class, 'summaryPoByPM']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportSummaryPoByPM', [projectController::class, 'summaryPoByPM']);
+});
+//END PM
 //end Report
 
 

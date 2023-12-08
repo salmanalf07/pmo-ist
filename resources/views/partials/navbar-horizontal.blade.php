@@ -19,7 +19,7 @@
                     </a> -->
                     @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast','r_sales*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast','r_sales*','r_pm*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -88,6 +88,18 @@
                                             <li class="nav-item">
                                                 <a class="dropdown-item " href="/r_sales/invoiceStatusSalesDetail">
                                                     Invoice Status Per PO Per Sales - Detail
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu dropend">
+                                        <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
+                                            Project Manager
+                                        </a>
+                                        <ul class="dropdown-menu" style="min-width: 19rem">
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/r_pm/summaryPoByPM">
+                                                    Summary PO Received
                                                 </a>
                                             </li>
                                         </ul>
