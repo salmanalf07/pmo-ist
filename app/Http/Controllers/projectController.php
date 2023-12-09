@@ -501,16 +501,9 @@ class projectController extends Controller
             //return $salesData;
         }
     }
-    function summaryPoByPM(Request $request)
+    function pmAssigment(Request $request)
     {
         $dataa = Project::with('saless', 'customer', 'pm');
-        if ($request->date_st != "#" && $request->date_st) {
-            $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        } else {
-            $dataa->whereMonth('contractDate', '=', date("m"))
-                ->whereYear('contractDate', '=', date("Y"));
-        }
         if ($request->pmId != "#" && $request->pmId) {
             $names = explode(',', $request->pmId);
             // Periksa apakah 'name' adalah string '#' atau array kosong
@@ -519,26 +512,42 @@ class projectController extends Controller
                 $dataa->whereIn('pmName', $names);
             }
         }
+        if ($request->statuss != "#" && $request->statuss) {
+            if ($request->statuss == "progress") {
+                $dataa->where('overAllProg', '<', 100);
+            } elseif ($request->statuss == "completed") {
+                $dataa->where('overAllProg', '=', 100);
+            }
+        }
 
         // $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
-        $data = $dataa->select('pmName', 'cust_id', 'projectName', 'projectValue')->get();
-        if ($request->segment(2) == "json_summaryPoByPM") {
-            return DataTables::of($data->sortBy('cust_id'))
+        $data = $dataa->select('pmName', 'cust_id', 'projectName', 'projectValue', 'overAllProg')->get();
+        if ($request->segment(2) == "json_pmAssigment") {
+            return DataTables::of($data)
+                ->addColumn('progress', function ($data) {
+                    return
+                        '<div class="d-flex align-items-center">
+                        <div class="me-2"> <span>' . $data->overAllProg . '%</span></div>
+                            <div class="progress flex-auto" style="height: 6px;">
+                                <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $data->overAllProg . '%;" aria-valuenow="' . $data->overAllProg . '" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>';
+                })
+                ->rawColumns(['progress'])
                 ->toJson();
         }
-        if ($request->segment(2) == "exportSummaryPoByPM") {
-            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
-            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
+        if ($request->segment(2) == "exportpmAssigment") {
 
             $sum = 0;
             foreach ($data as $number) {
-                $sum += $number->totalProjectValue;
+                $sum += $number->projectValue;
             }
 
             $pmData = [];
 
             // Pengelompokkan berdasarkan sales
-            $groupedData = $data->sortBy('pm.name')->groupBy('pm');
+            $groupedData = $data->sortBy(['pm.name', 'cust_id'])->groupBy('pmName');
 
             foreach ($groupedData as $sales => $items) {
                 $pmName = $items->first()->pm->name ?? '';
@@ -547,9 +556,18 @@ class projectController extends Controller
 
                 foreach ($items as $item) {
                     $customer = $item->customer->company ?? '';
-                    $totalPOValue = $item->totalProjectValue;
+                    $projectName = $item->projectName ?? '';
+                    $progress =
+                        '<div class="d-flex align-items-center">
+                    <div class="me-2"> <span>' . $item->overAllProg . '%</span></div>
+                        <div class="progress flex-auto" style="height: 6px;">
+                            <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $item->overAllProg . '%;" aria-valuenow="' . $item->overAllProg . '" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>';
+                    $totalPOValue = $item->projectValue;
 
-                    $customerData[] = compact('customer', 'totalPOValue');
+                    $customerData[] = compact('customer', 'projectName', 'progress', 'totalPOValue');
                 }
 
                 $pmData[] = [
@@ -557,13 +575,13 @@ class projectController extends Controller
                     'customers' => $customerData,
                 ];
             }
-            $pdf = PDF::loadView('pdf.exportSummaryPoByPM', compact('pmData', 'date_st', 'date_ot', 'sum'));
-            // // Mengubah orientasi menjadi lanskap
+            $pdf = PDF::loadView('pdf.exportPMAssign', compact('pmData', 'sum'));
+            // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4');
 
-            //return view('pdf.exportSummaryPoBySales', compact('salesData', 'date_st', 'date_ot', 'sum'));
-            return $pdf->download('SALES REPORT – PO RECEIVED PER PM – SUMMARY.pdf');
-            //return $salesData;
+            //return view('pdf.exportPMAssign', compact('pmData', 'sum'));
+            return $pdf->download('PM REPORT – PM ASSIGNMENT – SUMMARY.pdf');
+            // return $pmData;
         }
     }
 }

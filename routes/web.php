@@ -747,13 +747,13 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 //END SALES
 //PM
 Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'r_pm'], function () {
-    Route::get('/summaryPoByPM', function () {
+    Route::get('/pmAssigment', function () {
         $employee = Project::with('pm')->select('pmName')->get();
-        return view('report/pm/summaryPoByPM', ['judul' => "PO RECEIVED PER PM – SUMMARY", 'employee' => $employee,]);
+        return view('report/pm/pmAssigment', ['judul' => "PM Assignment – SUMMARY", 'employee' => $employee,]);
         //return $employee;
-    })->name('summaryPoByPM');
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_summaryPoByPM', [projectController::class, 'summaryPoByPM']);
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportSummaryPoByPM', [projectController::class, 'summaryPoByPM']);
+    })->name('pmAssigment');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_pmAssigment', [projectController::class, 'pmAssigment']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportpmAssigment', [projectController::class, 'pmAssigment']);
 });
 //END PM
 //end Report
