@@ -98,8 +98,8 @@
                                         </a>
                                         <ul class="dropdown-menu" style="min-width: 19rem">
                                             <li class="nav-item">
-                                                <a class="dropdown-item " href="/r_pm/summaryPoByPM">
-                                                    Summary PO Received
+                                                <a class="dropdown-item " href="/r_pm/pmAssigment">
+                                                    Summary PM Assigment
                                                 </a>
                                             </li>
                                         </ul>
