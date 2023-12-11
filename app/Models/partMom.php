@@ -15,6 +15,7 @@ class partMom extends Model
         'momId',
         'typeParticipant',
         'name',
+        'email'
     ];
 
     public function moms()

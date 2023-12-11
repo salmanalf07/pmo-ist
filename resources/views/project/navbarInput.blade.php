@@ -41,24 +41,26 @@
                             <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/projectTimeline') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '#' }}">Timeline</a>
                             </li>
-                            <li class=" nav-item">
+                            <!-- <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/mandays') ? 'active' : '' }}" href="{{ isset($id) ? '/project/mandays/' . $id : '#' }}">Mandays</a>
-                            </li>
+                            </li> -->
                             <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/documentation') ? 'active' : '' }}" href="{{ isset($id) ? '/project/documentation/' . $id : '#' }}">Documentation</a>
                             </li>
+                            @if(!auth()->user()->hasRole('PM'))
                             <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/costing') ? 'active' : '' }}" href="{{ isset($id) ? '/project/costing/' . $id : '#' }}">Project Costing</a>
                             </li>
-                            <li class=" nav-item">
+                            @endif
+                            <!-- <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/highAndNotes') ? 'active' : '' }}" href="{{ isset($id) ? '/project/highAndNotes/' . $id : '#' }}">Highlight And Notes</a>
-                            </li>
+                            </li> -->
                             <li class=" nav-item">
                                 <a class="nav-link {{ request()->is('project/moms*','project/formMoms*','editMom*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/moms/' . $id : '#' }}">MOM</a>
                             </li>
-                            <li class=" nav-item">
+                            <!-- <li class=" nav-item">
                                 <a class="nav-link {{ request()->is('project/gantt_cart/*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/gantt_cart/' . $id : '#' }}">Gantt Cart</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>

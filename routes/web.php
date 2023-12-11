@@ -211,9 +211,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('projectMethod');
     Route::get('/tempGuide', function () {
         $tempGuide = tempAndGuide::with('categorys', 'types')->get();
+        $typeId = ModelsGuideType::get();
         $category = ModelsGuideCategory::get();
 
-        return view('/profiles/tempGuide', ['tempGuide' => $tempGuide, 'category' => $category]);
+        return view('/profiles/tempGuide', ['tempGuide' => $tempGuide, 'category' => $category, 'typeId' => $typeId]);
     })->name('tempGuide');
     Route::get('/lessonLearned', function () {
         $leesonLearned = lessonLearned::with('statuss', 'pmNames')->get()->sortBy('pmNames.name');

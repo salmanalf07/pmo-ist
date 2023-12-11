@@ -70,7 +70,7 @@
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Username <span class="text-danger">*</span></label>
-                            <input name="username" id="username" type="text" class="form-control" placeholder="Enter Here">
+                            <input name="username" id="username" type="text" class="form-control" placeholder="Enter Here" pattern="^\S*$" title="Tidak boleh mengandung spasi">
                         </div>
                         <div class="mb-3 col-6">
                             <label class="form-label">Password <span class="text-danger">*</span></label>

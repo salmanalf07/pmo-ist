@@ -8,9 +8,11 @@ use App\Models\followupMom;
 use App\Models\mom;
 use App\Models\partMom;
 use App\Models\Project;
+use DOMDocument;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use PDF;
@@ -41,7 +43,11 @@ class momController extends Controller
                 return $pdfButton . $editButton . $deleteButton;
             })
             ->addColumn('agendaRender', function ($data) {
-                return $data->agenda;
+                // Mengganti tag <p> dengan string kosong
+                $agendaWithoutP = str_replace('<p>', '', $data->agenda);
+                $agendaWithoutP = str_replace('</p>', '', $agendaWithoutP);
+
+                return $agendaWithoutP;
             })
             ->rawColumns(['aksi', 'agendaRender'])
             ->toJson();
@@ -99,17 +105,7 @@ class momController extends Controller
                 }
                 $post->discussion = $request->konten;
                 $post->momId = $request->momId;
-                $post->save();
-            }
 
-            if ($request->key == "decisions") {
-                if ($request->uid != "#") {
-                    $post = decisionMom::find($request->uid);
-                } else {
-                    $post = new decisionMom();
-                }
-                $post->decision = $request->konten;
-                $post->momId = $request->momId;
                 $post->save();
             }
 
@@ -134,6 +130,7 @@ class momController extends Controller
                 'venue' => 'required|string|max:255',
                 'agendaContent' => 'required|string|max:255',
                 'chaired' => 'required|string|max:255',
+                'pmCust' => 'required|string|max:255',
                 // ... tambahkan aturan validasi lainnya
             ]);
 
@@ -149,10 +146,14 @@ class momController extends Controller
             $post->venue = $request->venue;
             $post->agenda = $request->agendaContent;
             $post->chairedBy = $request->chaired;
+            $post->pmCust = $request->pmCust;
             $post->save();
 
             $idCustomer = $request->idCustomer;
             $customer = collect($request->customer)->filter()->all();
+            $mailCustomer = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->mailCustomer);
 
             for ($count = 0; $count < count($customer); $count++) {
                 if ($customer[$count] != null) {
@@ -160,12 +161,16 @@ class momController extends Controller
                     $postCustomer->momId = $post->id;
                     $postCustomer->typeParticipant = "customer";
                     $postCustomer->name = $customer[$count];
+                    $postCustomer->email = $mailCustomer[$count];
                     $postCustomer->save();
                 }
             }
 
             $idMii = $request->idMii;
             $mii = collect($request->mii)->filter()->all();
+            $mailMii = array_map(function ($value) {
+                return $value !== null ? $value : null;
+            }, $request->mailMii);
 
             for ($countt = 0; $countt < count($mii); $countt++) {
                 if ($mii[$countt] != null) {
@@ -173,6 +178,7 @@ class momController extends Controller
                     $postMii->momId = $post->id;
                     $postMii->typeParticipant = "MII";
                     $postMii->name = $mii[$countt];
+                    $postMii->email = $mailMii[$countt];
                     $postMii->save();
                 }
             }

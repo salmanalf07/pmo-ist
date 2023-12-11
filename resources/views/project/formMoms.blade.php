@@ -32,7 +32,7 @@
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <h4 class="mb-4">1. Project Meeting Information</h4>
+                        <h4 class="mb-4">Project Meeting Information</h4>
                         <input type="hidden" name="momId" id="momId" value="#">
                         <div class="mb-3 col-12">
                             <label class="form-label">Customer Name</label>
@@ -66,9 +66,13 @@
                             <div class="pb-5" id="agenda" name="agenda"></div>
                             <textarea name="agendaContent" id="agendaContent" style="display:none;"></textarea>
                         </div>
-                        <div class="mb-3 col-12">
-                            <label class="form-label">Chaired by</label>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Lead By</label>
                             <input type="text" id="chaired" name="chaired" class="form-control" placeholder="Enter Chaired by">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label class="form-label">PM {{$project->customer->company}}</label>
+                            <input type="text" id="pmCust" name="pmCust" class="form-control" placeholder="Enter PM {{$project->customer->company}}">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Attendees</label>
@@ -78,7 +82,7 @@
                                 <table class="table table-centered text-nowrap mb-0" style="border: 1px solid var(--dashui-table-border-color)">
                                     <thead class="table-light text-center">
                                         <tr>
-                                            <th style="width: 95%;">Customer</th>
+                                            <th style="width: 95%;" colspan="2">{{$project->customer->company}}</th>
                                             <th style="width: 5%;"></th>
                                         </tr>
                                     </thead>
@@ -87,7 +91,8 @@
                                             <td hidden>
                                                 <input type="text" name="idCustomer[]" id="idCustomer0">
                                             </td>
-                                            <td><input type="text" name="customer[]" id="customer0"></td>
+                                            <td><input type="text" name="customer[]" id="customer0" placeholder="Name"></td>
+                                            <td><input type="email" name="mailCustomer[]" id="mailCustomer0" placeholder="Email"></td>
                                             <td>
                                                 <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashCust">
                                                     <i data-feather="trash-2" class="icon-xs"></i>
@@ -100,7 +105,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td class="text-end" colspan="2">
+                                            <td class="text-end" colspan="3">
                                                 <button type="button" onclick="addCustomer()" class="btn btn-warning-soft">Add Customer</button>
                                             </td>
                                         </tr>
@@ -113,7 +118,7 @@
                                 <table class="table table-centered text-nowrap mb-0" style="border: 1px solid var(--dashui-table-border-color)">
                                     <thead class="table-light text-center">
                                         <tr>
-                                            <th style="width: 95%;">IST</th>
+                                            <th style="width: 95%;" colspan="2">IST</th>
                                             <th style="width: 5%;"></th>
                                         </tr>
                                     </thead>
@@ -122,7 +127,8 @@
                                             <td hidden>
                                                 <input type="text" name="idMii[]" id="idMii0">
                                             </td>
-                                            <td><input type="text" name="mii[]" id="mii0"></td>
+                                            <td><input type="text" name="mii[]" id="mii0" placeholder="Name"></td>
+                                            <td><input type="email" name="mailMii[]" id="mailMii0" placeholder="Email"></td>
                                             <td>
                                                 <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashMii">
                                                     <i data-feather="trash-2" class="icon-xs"></i>
@@ -135,7 +141,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td class="text-end" colspan="2">
+                                            <td class="text-end" colspan="3">
                                                 <button type="button" onclick="addMii()" class="btn btn-warning-soft">Add IST</button>
                                             </td>
                                         </tr>
@@ -158,32 +164,12 @@
                 <div>
                     <!-- input -->
                     <div class="mb-3">
-                        <h4><label class="form-label">1. Meeting Discussion</label></h4>
+                        <h4><label class="form-label">Minutes Of Meeting</label></h4>
                         <input type="hidden" id="idDiscussion" value="#">
-                        <div class="pb-10" id="discussion"></div>
-                        <textarea name="discussionContent" id="discussionContent" style="display:none;"></textarea>
+                        <textarea name="discussionContent" id="discussionContent"></textarea>
                     </div>
                     <div class="mb-3 text-end">
-                        <button type="button" id="saveQuill" data-form="discussion" class="btn btn-primary-soft">Save Meeting Discussion</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="card mb-4">
-            <!-- card body -->
-            <div class="card-body">
-                <div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <h4><label class="form-label">2. Decisions</label></h4>
-                        <div class="pb-10" id="decisions"></div>
-                        <input type="hidden" id="idDecisions" value="#">
-                        <textarea name="decisionsContent" id="decisionsContent" style="display:none;"></textarea>
-                    </div>
-                    <div class="mb-3 text-end">
-                        <button type="button" id="saveQuill" data-form="decisions" class="btn btn-primary-soft">Save Decisions</button>
+                        <button type="button" id="saveQuill" data-form="discussion" class="btn btn-primary-soft">Save Minutes Of Meeting</button>
                     </div>
                 </div>
             </div>
@@ -194,7 +180,7 @@
             <!-- card body -->
             <div class="card-body">
                 <div class="row">
-                    <h4><label class="form-label">3. Meeting Follow-Up</label></h4>
+                    <h4><label class="form-label">Meeting Follow-Up</label></h4>
                     <div class="mb-3 col-12">
                         <div class="table-responsive">
                             <form method="post" role="form" id="form-fu" enctype="multipart/form-data">
@@ -262,7 +248,7 @@
         });
         flatpickr("#targetFu0", {
             dateFormat: "d-m-Y",
-            defaultDate: "01-01-1900",
+            defaultDate: "today",
             allowInput: true, // Mengizinkan input manual
         });
         flatpickr("#time", {
@@ -275,68 +261,14 @@
         });
     })
     $(document).ready(function() {
-        var quill = new Quill("#discussion", {
-            modules: {
-                toolbar: [
-                    // [{ header: [1, 2, !1] }],
-                    // [{ font: [] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{
-                        size: ["small", !1, "large", "huge"]
-                    }],
-                    [{
-                        list: "ordered"
-                    }, {
-                        list: "bullet"
-                    }],
-                    [{
-                        color: []
-                    }, {
-                        background: []
-                    }, {
-                        align: []
-                    }],
-                    // ["link", "image", "code-block", "video"],
-                ],
+        var editor = Jodit.make('#discussionContent', {
+            "buttons": "bold,italic,underline,strikethrough,eraser,ul,ol,font,fontsize,lineHeight,image,cut,copy,paste,selectall,table,symbols,indent,outdent",
+            uploader: {
+                insertImageAsBase64URI: true // Menyisipkan gambar sebagai base64 URI
             },
-            theme: "snow",
-        });
-
-        quill.on('text-change', function() {
-            var html = quill.root.innerHTML;
-            document.getElementById('discussionContent').value = html;
-        });
-
-        var quillDec = new Quill("#decisions", {
-            modules: {
-                toolbar: [
-                    // [{ header: [1, 2, !1] }],
-                    // [{ font: [] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{
-                        size: ["small", !1, "large", "huge"]
-                    }],
-                    [{
-                        list: "ordered"
-                    }, {
-                        list: "bullet"
-                    }],
-                    [{
-                        color: []
-                    }, {
-                        background: []
-                    }, {
-                        align: []
-                    }],
-                    // ["link", "image", "code-block", "video"],
-                ],
-            },
-            theme: "snow",
-        });
-
-        quillDec.on('text-change', function() {
-            var html = quillDec.root.innerHTML;
-            document.getElementById('decisionsContent').value = html;
+            table: {
+                // Konfigurasi tabel
+            }
         });
 
 
@@ -380,6 +312,7 @@
             $('#venue').val('{!! isset($data) ? $data->venue : "" !!}');
             agendaDec.clipboard.dangerouslyPasteHTML('{!! isset($data) ? $data->agenda : "" !!}');
             $('#chaired').val('{!! isset($data) ? $data->chairedBy : "" !!}');
+            $('#pmCust').val('{!! isset($data) ? $data->pmCust : "" !!}');
             var dataCust = <?php echo json_encode($partCust); ?>;
             if (dataCust.length > 0) {
                 for (let i = 0; i < (dataCust.length - 1); i++) {
@@ -388,6 +321,7 @@
                 for (let i = 0; i < dataCust.length; i++) {
                     $('#idCustomer' + i).val(dataCust[i].id);
                     $('#customer' + i).val(dataCust[i].name);
+                    $('#mailCustomer' + i).val(dataCust[i].email);
                 }
             }
             var dataMii = <?php echo json_encode($partMii); ?>;
@@ -398,12 +332,12 @@
                 for (let i = 0; i < dataMii.length; i++) {
                     $('#idMii' + i).val(dataMii[i].id);
                     $('#mii' + i).val(dataMii[i].name);
+                    $('#mailMii' + i).val(dataMii[i].email);
                 }
             }
             $('#idDiscussion').val('{!! isset($discussion) ? $discussion->id : "#" !!}');
-            quill.clipboard.dangerouslyPasteHTML('{!! isset($discussion) ? $discussion->discussion : "" !!}');
-            $('#idDecisions').val('{!! isset($decisions) ? $decisions->id : "#" !!}');
-            quillDec.clipboard.dangerouslyPasteHTML('{!! isset($decisions) ? $decisions->decision : "" !!}');
+            var editor = new Jodit('#discussionContent');
+            editor.value = `{!! isset($discussion) ? $discussion->discussion : "" !!}`;
             var meetingFu = <?php echo json_encode($meetingFu); ?>;
             if (meetingFu.length > 0) {
                 for (let i = 0; i < (meetingFu.length - 1); i++) {
@@ -430,7 +364,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 2; j++) {
+        for (let j = 0; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -441,7 +375,7 @@
                 newCell5.style.display = "none";
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
-            if (j > 0 && j <= 1) {
+            if (j > 0 && j <= 2) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -464,7 +398,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 2; j++) {
+        for (let j = 0; j <= 3; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -475,7 +409,7 @@
                 newCell5.style.display = "none";
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
-            if (j > 0 && j <= 1) {
+            if (j > 0 && j <= 2) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
             // Menambahkan semua child node yang telah dikloning ke dalam sel keempat (cell 4) pada row baru
@@ -598,7 +532,7 @@
             if (confirm('Yakin akan menghapus data ini?')) {
                 $.ajax({
                     type: 'DELETE',
-                    url: '/delete_top/' + id,
+                    url: '/delete_participant/' + id,
                     data: {
                         '_token': "{{ csrf_token() }}",
                     },
@@ -626,11 +560,6 @@
                     var content = $('#discussionContent').val();
                 }
 
-                if (key === 'decisions') {
-                    var uid = $('#idDecisions').val();
-                    var content = $('#decisionsContent').val();
-                }
-
                 $.ajax({
                     type: 'POST',
                     url: '/store_quill',
@@ -645,10 +574,6 @@
                         alert(data.message);
                         if (data.key === 'discussion') {
                             $('#idDiscussion').val(data.post);
-                        }
-
-                        if (data.key === 'decisions') {
-                            $('#idDecisions').val(data.post);
                         }
                     },
                     error: function(data) {

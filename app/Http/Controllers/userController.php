@@ -39,7 +39,7 @@ class userController extends Controller
 
             $post = new User();
             $post->name = $request->name;
-            $post->username = $request->username;
+            $post->username = str_replace(' ', '', $request->username);
             $post->password = Hash::make($request->password);
             $post->status = "ACTIV";
 
@@ -78,7 +78,7 @@ class userController extends Controller
 
             $post = User::find($id);
             // $post->name = $request->name;
-            $post->username = $request->username;
+            $post->username = str_replace(' ', '', $request->username);
             if ($request->password != null && $post->password != Hash::make($request->password)) {
                 $post->password = Hash::make($request->password);
             }

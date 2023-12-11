@@ -80,7 +80,7 @@
                                             <input id="remaksIn0" name="remaksIn[]" type="text">
                                         </td>
                                         <td>
-                                            @canany(['bisa-hapus','detailOrder-editor'])
+                                            @canany(['bisa-hapus','detailOrder-editor','sow-editor'])
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @canany(['bisa-tambah','detailOrder-editor'])
+                        @canany(['bisa-tambah','detailOrder-editor','sow-editor'])
                         <button type="button" onclick="addRowInScope()" class="btn btn-warning-soft">Add Row In Scope</button>
                         @endcanany
                     </div>
@@ -133,7 +133,7 @@
                                             <input id="remaksOut0" name="remaksOut[]" type="text">
                                         </td>
                                         <td>
-                                            @canany(['bisa-hapus','detailOrder-editor'])
+                                            @canany(['bisa-hapus','detailOrder-editor','sow-editor'])
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <div class="card-footer  justify-content-between">
-                        @canany(['bisa-tambah','detailOrder-editor'])
+                        @canany(['bisa-tambah','detailOrder-editor','sow-editor'])
                         <button type="button" onclick="addRowOutScope()" class="btn btn-warning-soft">Add Row Out Of Scope</button>
                         @endcanany
                     </div>
@@ -158,7 +158,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="justify-content-between">
-                            @canany(['bisa-tambah','detailOrder-editor'])
+                            @canany(['bisa-tambah','detailOrder-editor','sow-editor'])
                             <button type="button" id="submitButton" class="btn btn-primary-soft add">Save</button>
                             @endcanany
                         </div>

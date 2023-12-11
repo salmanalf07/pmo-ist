@@ -119,17 +119,17 @@
     </div>
     <div class="content">
         <div>
-            <h3>1. Project Meeting Information</h3>
+            <h3>Project Meeting Information</h3>
             <table>
                 <thead>
                     <tr style="display: hidden" class="noBorder">
-                        <th class="noBorder" style="width: 30%;"></th>
+                        <th class="noBorder" style="width: 15%;"></th>
                         <th class="noBorder" style="width: 5%;"></th>
                         <th class="noBorder" style="width: 6%;"></th>
-                        <th class="noBorder" style="width: 16%;"></th>
+                        <th class="noBorder" style="width: 23%;"></th>
                         <th class="noBorder" style="width: 11%;"></th>
                         <th class="noBorder" style="width: 6%;"></th>
-                        <th class="noBorder" style="width: 26%;"></th>
+                        <th class="noBorder" style="width: 34%;"></th>
                     </tr>
                     <tr>
                         <th class="colorBase " colspan="8">PROJECT MEETING INFORMATION</th>
@@ -164,32 +164,32 @@
                         <td class="noleft" colspan="6"><?php echo $data->agenda ?></td>
                     </tr>
                     <tr>
-                        <td class="noright">Chaired by</td>
+                        <td class="noright">Lead by</td>
                         <td class="text-center noleft noright">:</td>
                         <td class="noleft" colspan="6">{{$data->chairedBy}}</td>
                     </tr>
                     <tr>
                         <td class="noright" style="vertical-align: top;" rowspan="{{$for+1}}">Attendees</td>
                         <td class="text-center noleft" style="vertical-align: top;" rowspan="{{$for+1}}">:</td>
-                        <td class="text-center" style="background-color: #F4B083;font-weight:bold" colspan="3">Customer</td>
+                        <td class="text-center" style="background-color: #F4B083;font-weight:bold" colspan="3">{{$project->customer->company}}</td>
                         <td class="text-center" style="background-color: #F4B083;font-weight:bold" colspan="3">IST</td>
                     </tr>
                     @for ($i=0; $i < $for; $i++) <tr>
                         <td class="text-center">{{$i+1}}.</td>
-                        <td colspan="2">{{isset($partCust[$i]->name)?$partCust[$i]->name:""}}</td>
+                        <td colspan="2">{{isset($partCust[$i]->name)?$partCust[$i]->name." - ".$partCust[$i]->email:""}}</td>
                         <td class="text-center">{{$i+1}}.</td>
-                        <td colspan="2">{{isset($partMii[$i]->name)?$partMii[$i]->name:""}}</td>
+                        <td colspan="2">{{isset($partMii[$i]->name)?$partMii[$i]->name." - ".$partMii[$i]->email:""}}</td>
                         </tr>
                         @endfor
                 </tbody>
             </table>
         </div>
         <div style="page-break-inside: avoid !important;">
-            <h3>1. Meeting Discussion</h3>
+            <h3>Minutes Of Meeting</h3>
             <table>
                 <thead>
                     <tr>
-                        <th class="colorBase ">MEETING DISCUSSION</th>
+                        <th class="colorBase ">Minutes Of Meeting</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,24 +202,7 @@
             </table>
         </div>
         <div style="page-break-inside: avoid !important;">
-            <h3>2. Decisions</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th class=" colorBase ">DECISIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <?php echo isset($decisions->decision) ? $decisions->decision : '' ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="page-break-inside: avoid !important;">
-            <h3>3. Meeting Follow-Up</h3>
+            <h3>Meeting Follow-Up</h3>
             <table>
                 <thead>
                     <tr class="noBorder">
@@ -236,19 +219,19 @@
                         <th>No.</th>
                         <th>Action</th>
                         <th>PIC</th>
-                        <th>TargetDate</th>
+                        <th>Target Date</th>
                         <th>Notes</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $no = 1 ?>
-                    @foreach ( $meetingFu as $data )
+                    @foreach ( $meetingFu as $dataa )
                     <tr>
                         <td class="text-center">{{$no++}}</td>
-                        <td>{{$data->action}}</td>
-                        <td>{{$data->pic}}</td>
-                        <td class="text-center">{{date("d-F-Y",strtotime($data->targetDate))}}</td>
-                        <td>{{$data->notes}}</td>
+                        <td>{{$dataa->action}}</td>
+                        <td>{{$dataa->pic}}</td>
+                        <td class="text-center">{{date("d-F-Y",strtotime($dataa->targetDate))}}</td>
+                        <td>{{$dataa->notes}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -291,7 +274,7 @@
                             <br>
                             <br>
                             <br>
-                            (Project Manager Customer)
+                            ({{$data->pmCust}})
                         </td>
                     </tr>
                 </tbody>

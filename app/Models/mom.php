@@ -18,6 +18,7 @@ class mom extends Model
         'venue',
         'agenda',
         'chairedBy',
+        'pmCust'
     ];
 
     public function discussions()
