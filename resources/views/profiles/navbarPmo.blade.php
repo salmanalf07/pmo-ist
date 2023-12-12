@@ -39,11 +39,11 @@
                                 <a class="nav-link {{ str_contains(request()->url(), '/profile') ? 'active' : '' }}" href="/profile">Team</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), '/projectMethod') ? 'active' : '' }}" href="/projectMethod">Project Method</a>
+                                <a class="nav-link {{ str_contains(request()->url(), '/projectMethod') ? 'active' : '' }}" href="/projectMethod">Project Guidelines</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), '/tempGuide') ? 'active' : '' }}" href="/tempGuide">Template & Guidelines</a>
+                                <a class="nav-link {{ str_contains(request()->url(), '/tempGuide') ? 'active' : '' }}" href="/tempGuide">Template</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), '/lessonLearned') ? 'active' : '' }}" href="/lessonLearned">Lesson Learned</a>

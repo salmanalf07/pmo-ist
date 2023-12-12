@@ -195,10 +195,10 @@
                             </li>
                         </ul>
                     </li>
+                    @endrole
                     <a class="nav-link pe-5 {{ request()->is('profile','projectMethod','tempGuide','meeting','lessonLearned','linkComunity') ? 'active' : '' }}" href="/profile">
                         PMO
                     </a>
-                    @endrole
                     <!-- <a class="nav-link pe-5 {{ request()->is('customers') ? 'active' : '' }}" href="/customers">
                         Customers
                     </a> -->
