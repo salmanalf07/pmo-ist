@@ -210,7 +210,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('/profiles/projectMethod');
     })->name('projectMethod');
     Route::get('/tempGuide', function () {
-        $tempGuide = tempAndGuide::with('categorys', 'types')->get();
+        $tempGuide = tempAndGuide::with('categorys', 'types')->get()->sortBy('documentName');
         $typeId = ModelsGuideType::get()->sortBy('type');
         $category = ModelsGuideCategory::get()->sortBy('categori');
 
