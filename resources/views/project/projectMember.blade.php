@@ -390,6 +390,9 @@
                     }
 
                 },
+                error: function() {
+                    alert("Data gagal Disimpan")
+                }
             });
         });
     })

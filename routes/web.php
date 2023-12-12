@@ -533,7 +533,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM|Finance'])->post('/store_top/{id}', [topProjectController::class, 'store'])->name('storeTop');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_top/{id}', [topProjectController::class, 'destroy'])->name('deleteTop');
 //Project Member
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', [memberProjectController::class, 'edit'])->name('projectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', function ($id) {
+    return view('project/projectMemberDashboard', ['judul' => "Project Member", 'id' => $id]);
+})->name('projectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectMember/{id}', [memberProjectController::class, 'edit'])->name('projectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeProjMember/{id}', [memberProjectController::class, 'edit'])->name('changeProjMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_autoMember/{id}', [memberProjectController::class, 'autoSave'])->name('storeAutoMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');

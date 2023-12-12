@@ -12,7 +12,7 @@ class DocProjectController extends Controller
 {
     public function json($id)
     {
-        $data = documentationProject::with('user', 'document')
+        $data = documentationProject::with('user.employee', 'document')
             ->where([
                 ['projectId', $id],
                 ['type', '!=', "SOW"],

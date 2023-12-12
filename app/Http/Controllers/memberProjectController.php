@@ -10,25 +10,40 @@ use App\Models\Project;
 use App\Models\roleEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\DataTables;
 
 class memberProjectController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = memberProject::with('employees.divisis')->where('projectId', $id)->orderBy('created_at')->get();
-        $partner = partnerProject::where('projectId', $id)->orderBy('created_at')->get();
+        $get = memberProject::with('employees.divisis', 'roles')->where('projectId', $id)->orderBy('created_at')->get();
+        $partner = partnerProject::with('roles')->where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         $divisi = division::get();
         $role = roleEmployee::get();
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
-        if ($get) {
-            $aksi = 'EditData';
-        } else {
-            $aksi = 'Add';
+        if ($request->segment(2) == "changeProjMember") {
+            if ($get) {
+                $aksi = 'EditData';
+            } else {
+                $aksi = 'Add';
+            }
+            return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
         }
-        return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
+        if ($request->segment(2) == "json_projectMember") {
+            $dataTable1 = DataTables::of($get)->toJson();
+            $dataTable2 = DataTables::of($partner)->toJson();
+
+            $response = array(
+                'dataTable1' => $dataTable1,
+                'dataTable2' => $dataTable2,
+                // Tambahkan data lain jika diperlukan
+            );
+
+            return json_encode($response);
+        }
         //return $get;
     }
 

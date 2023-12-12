@@ -11,24 +11,25 @@
         <div class="card">
             <!-- card header -->
             <div class="card-header d-md-flex border-bottom-0">
-                @canany(['bisa-tambah','documentation-editor'])
+                @canany(['bisa-tambah'])
                 <div class="flex-grow-1">
-                    <button id="adddata" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">+ Add {{$judul}}</button>
+                    <a href="/project/changeProjMember/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
                 </div>
                 @endcanany
             </div>
             <!-- table -->
+            <div class="card-body mb-10">
+                <div class="table-responsive overflow-y-hidden table-card">
+                    <table id="MemberProject" class="table mb-0 text-nowrap table-hover table-centered">
+                        <thead class="table-light">
+                        </thead>
+                    </table>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="table-responsive overflow-y-hidden table-card">
-                    <table id="example1" class="table mb-0 text-nowrap table-hover table-centered">
+                    <table id="PartnerProject" class="table mb-0 text-nowrap table-hover table-centered">
                         <thead class="table-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>Modified</th>
-                                <th>Uploaded by</th>
-                                <th>Options</th>
-                                <th></th>
-                            </tr>
                         </thead>
                     </table>
                 </div>
@@ -37,113 +38,106 @@
         </div>
     </div>
 </div>
-<!-- Offcanvas -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 600px;">
-
-    <div class="offcanvas-body" data-simplebar>
-        <div class="offcanvas-header px-2 pt-0">
-            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Add {{$judul}}</h3>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-
-        <!-- card body -->
-        <div class="container">
-            <!-- form -->
-            <form method="post" role="form" id="form-add" enctype="multipart/form-data">
-                <div class="row">
-                    <!-- form group -->
-                    @csrf
-                    <span id="peringatan"></span>
-                    <input class="form-control" type="text" name="id" id="id" hidden>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Type File</label>
-                        <select name="type" id="type" class="select2" aria-label="Default select example" required>
-                            <option value="#" selected>Open this select menu</option>
-                            @foreach($doc as $doc)
-                            <option value="{{$doc->id}}">{{$doc->docType}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3 col-12">
-                        <label class="form-label">Link <span class="text-danger">*</span></label>
-                        <input name="link" id="link" type="text" class="form-control" placeholder="Enter Here" required>
-                    </div>
-                    <div class="col-md-8"></div>
-                    <!-- button -->
-                    <div class="col-12">
-                        <button id="in" class="btn btn-primary" type="button">Submit</button>
-                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="offcanvas" aria-label="Close" onclick="document.getElementById('form-add').reset();">Close</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.select2').select2({
-            dropdownParent: $('#offcanvasRight')
+
+        $.ajax({
+            url: '/project/json_projectMember/{{$id}}', // Ganti dengan URL skrip PHP Anda
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Handle DataTable pertama
+                var MemberProject = response.dataTable1.original.data;
+
+                // Misalnya, tampilkan DataTables menggunakan library DataTables
+                $('#MemberProject').DataTable({
+                    data: MemberProject,
+                    "columnDefs": [{
+                        targets: [4, 5],
+                        render: function(oTable) {
+                            return moment(oTable).format('DD-MM-YYYY');
+                        },
+                    }, ],
+                    columns: [{
+                            data: 'employees.name',
+                            title: 'Member Name'
+                        },
+                        {
+                            data: function(row) {
+                                return row.roles ? row.roles.roleEmployee : "";
+                            },
+                            title: 'Role'
+                        },
+                        {
+                            data: function(row) {
+                                return row.accesType != "#" ? row.accesType : "";
+                            },
+                            title: 'Acces Type'
+                        },
+                        {
+                            data: function(row) {
+                                return row.employees.divisis ? row.employees.divisis.division : "";
+                            },
+                            title: 'Dept/Div'
+                        },
+                        {
+                            data: 'startDate',
+                            title: 'Start Date'
+                        },
+                        {
+                            data: 'endDate',
+                            title: 'End Date'
+                        },
+                    ]
+                });
+
+                // Handle DataTable pertama
+                var PartnerProject = response.dataTable2.original.data;
+
+                // Misalnya, tampilkan DataTables menggunakan library DataTables
+                $('#PartnerProject').DataTable({
+                    data: PartnerProject,
+                    "columnDefs": [{
+                        targets: [3, 4],
+                        render: function(oTable) {
+                            return moment(oTable).format('DD-MM-YYYY');
+                        },
+                    }, ],
+                    columns: [{
+                            data: 'partner',
+                            title: 'Partner Name'
+                        },
+                        {
+                            data: function(row) {
+                                return row.roles ? row.roles.roleEmployee : "";
+                            },
+                            title: 'Role'
+                        },
+                        {
+                            data: function(row) {
+                                return row.accesPartner != "#" ? row.accesPartner : "";
+                            },
+                            title: 'Acces Type'
+                        },
+                        {
+                            data: 'stDatePartner',
+                            title: 'Start Date'
+                        },
+                        {
+                            data: 'eddatePartner',
+                            title: 'End Date'
+                        },
+                    ]
+                });
+            },
+            error: function(error) {
+                // Tangani kesalahan
+                console.error('Error:', error);
+            }
         });
     })
     $(function() {
-
-        var oTable = $('#example1').DataTable({
-            processing: true,
-            serverSide: true,
-            dom: '<"row"<"col-md-6"l><"col-md-6"f>>rt<"bottom"pi>',
-            "responsive": true,
-            "lengthChange": true,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            "autoWidth": false,
-            "columnDefs": [{
-                    "className": "text-center",
-                    "targets": [0, 1, 2, 3, 4], // table ke 1
-                },
-                {
-                    targets: 1,
-                    render: function(oTable) {
-                        return moment(oTable).format('DD-MM-YYYY');
-                    },
-                },
-            ],
-            ajax: {
-                url: '/json_documentation/{{$id}}'
-            },
-            columns: [{
-                    data: function(row) {
-                        if (row.document && row.document.docType) {
-                            return row.document.docType; // Mengembalikan nilai properti name jika ada
-                        } else {
-                            return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
-                        }
-                    },
-                    name: 'document.docType'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: function(row) {
-                        return row.user.employee ? row.user.employee.name : row.user.name;
-                    },
-                    name: 'user.name'
-                },
-                {
-                    data: 'linkFile',
-                    name: 'linkFile',
-                },
-                {
-                    data: 'aksi',
-                    name: 'aksi'
-                }
-            ],
-        });
 
         $(document).on('click', '#adddata', function() {
             $("#in").removeClass("btn btn-primary update");
