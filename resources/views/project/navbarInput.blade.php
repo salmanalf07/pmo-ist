@@ -39,7 +39,7 @@
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/riskIssues') ? 'active' : '' }}" href="{{ isset($id) ? '/project/riskIssues/' . $id : '#' }}">Risk/Issues</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/projectTimeline') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '#' }}">Timeline</a>
+                                <a class="nav-link {{ request()->is( 'project/projectTimeline*','project/changeprojectTimeline*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '#' }}">Timeline</a>
                             </li>
                             <!-- <li class=" nav-item">
                                 <a class="nav-link {{ str_contains(request()->url(), 'project/mandays') ? 'active' : '' }}" href="{{ isset($id) ? '/project/mandays/' . $id : '#' }}">Mandays</a>
