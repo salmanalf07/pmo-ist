@@ -29,7 +29,7 @@
             <div class="card">
                 <!-- card header -->
                 <div class="card-header d-md-flex border-bottom-0">
-                    @canany(['bisa-tambah'])
+                    @canany(['bisa-tambah','timeline-editor'])
                     <div class="flex-grow-1">
                         <a href="/project/changeprojectTimeline/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
                     </div>
