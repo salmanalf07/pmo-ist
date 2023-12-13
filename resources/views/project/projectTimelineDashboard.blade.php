@@ -31,7 +31,7 @@
                 <div class="card-header d-md-flex border-bottom-0">
                     @canany(['bisa-tambah'])
                     <div class="flex-grow-1">
-                        <a href="/project/changeProjMember/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
+                        <a href="/project/changeprojectTimeline/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
                     </div>
                     @endcanany
                 </div>
