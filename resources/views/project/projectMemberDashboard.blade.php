@@ -127,7 +127,7 @@
                             title: 'Acces Type'
                         },
                         {
-                            data: 'stDatePartner',
+                            data: 'stdatePartner',
                             title: 'Start Date'
                         },
                         {
