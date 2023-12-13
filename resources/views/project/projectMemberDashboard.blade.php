@@ -19,7 +19,7 @@
             </div>
             <!-- table -->
             <div class="card-body mb-10">
-                <div class="table-responsive overflow-y-hidden table-card">
+                <div class="table-responsive">
                     <table id="MemberProject" class="table mb-0 text-nowrap table-hover table-centered">
                         <thead class="table-light">
                         </thead>
@@ -53,6 +53,9 @@
                 // Misalnya, tampilkan DataTables menggunakan library DataTables
                 $('#MemberProject').DataTable({
                     data: MemberProject,
+                    processing: true,
+                    "autoWidth": false,
+                    "responsive": true,
                     "columnDefs": [{
                         targets: [4, 5],
                         render: function(oTable) {
@@ -98,6 +101,9 @@
                 // Misalnya, tampilkan DataTables menggunakan library DataTables
                 $('#PartnerProject').DataTable({
                     data: PartnerProject,
+                    processing: true,
+                    "autoWidth": false,
+                    "responsive": true,
                     "columnDefs": [{
                         targets: [3, 4],
                         render: function(oTable) {
