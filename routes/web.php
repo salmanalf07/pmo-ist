@@ -536,14 +536,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', function ($id) {
     return view('project/projectMemberDashboard', ['judul' => "Project Member", 'id' => $id]);
 })->name('projectMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectMember/{id}', [memberProjectController::class, 'edit'])->name('projectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectMember/{id}', [memberProjectController::class, 'edit'])->name('json_projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeProjMember/{id}', [memberProjectController::class, 'edit'])->name('changeProjMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_autoMember/{id}', [memberProjectController::class, 'autoSave'])->name('storeAutoMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectPartner/{id}', [memberProjectController::class, 'destroyPartner'])->name('deletePartner');
 //TimeLine
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{id}', [timelineController::class, 'edit'])->name('projectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{id}', function ($id) {
+    $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
+    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file]);
+})->name('projectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectTimeline/{id}', [timelineController::class, 'edit'])->name('json_projectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeprojectTimeline/{id}', [timelineController::class, 'edit'])->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_projectTimeline/{id}', [timelineController::class, 'store'])->name('storeprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
 //riskIssues

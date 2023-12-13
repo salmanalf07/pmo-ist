@@ -8,6 +8,7 @@ use App\Models\scopeProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\DataTables;
 
 class timelineController extends Controller
 {
@@ -18,17 +19,29 @@ class timelineController extends Controller
         $overAllProg = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
-        if ($get) {
-            $aksi = 'EditData';
-        } else {
-            $aksi = 'Add';
+        if ($request->segment(2) == "changeprojectTimeline") {
+            if ($get) {
+                $aksi = 'EditData';
+            } else {
+                $aksi = 'Add';
+            }
+            if ($file) {
+                $aksiFile = 'EditData';
+            } else {
+                $aksiFile = 'Add';
+            }
+            return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg, 'aksiFile' => $aksiFile, 'file' => $file]);
         }
-        if ($file) {
-            $aksiFile = 'EditData';
-        } else {
-            $aksiFile = 'Add';
+        if ($request->segment(2) == "json_projectTimeline") {
+            $dataTable1 = DataTables::of($get)->toJson();
+
+            $response = array(
+                'dataTable1' => $dataTable1,
+                // Tambahkan data lain jika diperlukan
+            );
+
+            return json_encode($response);
         }
-        return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg, 'aksiFile' => $aksiFile, 'file' => $file]);
         //return $get;
     }
 
