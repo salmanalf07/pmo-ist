@@ -34,6 +34,9 @@
                         <a href="/project/changeprojectTimeline/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
                     </div>
                     @endcanany
+                    <div style="width: 15em;">
+                        <p class="p-2 rounded-2 text-center  bg-primary-soft" style="height: 2.8em;" id="totRecord"></p>
+                    </div>
                 </div>
                 <!-- table -->
                 <div class="card-body mb-10">
@@ -67,11 +70,44 @@
                         "autoWidth": false,
                         "responsive": true,
                         "columnDefs": [{
-                            targets: [2, 3, 4, 5],
-                            render: function(oTable) {
-                                return moment(oTable).format('DD-MM-YYYY');
+                                targets: [2, 3, 4, 5],
+                                render: function(oTable) {
+                                    return moment(oTable).format('DD-MM-YYYY');
+                                },
                             },
-                        }, ],
+                            {
+                                "className": "text-end",
+                                "targets": [6], // table ke 1
+                            },
+                        ],
+                        footerCallback: function(row, data, start, end, display) {
+                            var api = this.api();
+                            // Remove the formatting to get integer data for summation
+                            var intVal = function(i) {
+
+                                const regex = /\d+/;
+                                return typeof i === 'string' ?
+                                    i.match(regex) * 1 :
+                                    typeof i === 'number' ?
+                                    i : 0;
+
+                            };
+
+                            // Total over all pages
+
+                            if (api.column(6).data().length) {
+                                var total = api
+                                    .column(6)
+                                    .data()
+                                    .reduce(function(a, b) {
+                                        return intVal(a) + intVal(b);
+                                    })
+                            } else {
+                                total = 0
+                            };
+
+                            $('#totRecord').html("Progress " + Math.round(total / api.column(6).data().length) + "%");
+                        },
                         columns: [{
                                 data: 'noRef',
                                 title: 'No'
@@ -99,12 +135,15 @@
                                 title: 'Act End Date'
                             },
                             {
+                                // data: function(row) {
+                                //     return '<div class="d-flex align-items-center">' +
+                                //         '<div class="me-2"> <span>' + row.progProject + '%</span></div>' +
+                                //         '<div class="progress flex-auto" style="height: 6px;">' +
+                                //         '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + row.progProject + '%;" aria-valuenow="' + row.progProject + '" aria-valuemin="0" aria-valuemax="100">' +
+                                //         '</div></div></div>'
+                                // },
                                 data: function(row) {
-                                    return '<div class="d-flex align-items-center">' +
-                                        '<div class="me-2"> <span>' + row.progProject + '%</span></div>' +
-                                        '<div class="progress flex-auto" style="height: 6px;">' +
-                                        '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + row.progProject + '%;" aria-valuenow="' + row.progProject + '" aria-valuemin="0" aria-valuemax="100">' +
-                                        '</div></div></div>'
+                                    return row.progProject + "%"
                                 },
                                 title: 'Progress %'
                             },
