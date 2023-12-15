@@ -534,7 +534,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_top/{id}', [topProjectController::class, 'destroy'])->name('deleteTop');
 //Project Member
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', function ($id) {
-    return view('project/projectMemberDashboard', ['judul' => "Project Member", 'id' => $id]);
+    $value = Project::with('customer')->find($id);
+    return view('project/projectMemberDashboard', ['judul' => "Project Member", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
 })->name('projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectMember/{id}', [memberProjectController::class, 'edit'])->name('json_projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeProjMember/{id}', [memberProjectController::class, 'edit'])->name('changeProjMember');
@@ -545,7 +546,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 //TimeLine
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{id}', function ($id) {
     $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
-    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file]);
+    $value = Project::with('customer')->find($id);
+    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
 })->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectTimeline/{id}', [timelineController::class, 'edit'])->name('json_projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeprojectTimeline/{id}', [timelineController::class, 'edit'])->name('projectTimeline');
