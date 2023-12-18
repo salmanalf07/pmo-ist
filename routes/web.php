@@ -61,6 +61,7 @@ use App\Models\topProject;
 use App\Models\typeProject;
 use Google\Service\CloudSearch\Member;
 use Google\Service\Docs\Request;
+use Illuminate\Http\Request as RequestData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -773,6 +774,11 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 
 
 //MASTER DATA
+//search data
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/search_project', function (RequestData $request) {
+    $project = Project::where('cust_id', $request->cust_id)->get();
+    return response()->json($project);
+});
 //customer
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
     Route::get('/customers', function () {

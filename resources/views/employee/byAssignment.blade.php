@@ -82,9 +82,6 @@
                                                 <label class="form-label" for="selectOne">Project Name</label>
                                                 <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
-                                                    @foreach($project as $projects)
-                                                    <option value="{{$projects->id}}">{{$projects->projectName}}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -389,6 +386,31 @@
 
         });
     });
+    $(document).ready(function() {
+        $('#customer').change(function() {
+            var value = $(this).val();
+            // console.log(value);
+            $.ajax({
+                type: 'POST',
+                url: '/search_project',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'cust_id': $(this).val(),
+
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('[name="projectId"]').empty();
+                    $('[name="projectId"]').append('<option value="#">Open this select menu</option>');
+                    $.each(data, function(i) {
+                        $('[name="projectId"]').append('<option value="' + data[i].id + '">' + data[i].projectName + '</option>');
+                    })
+
+                },
+            });
+
+        });
+    })
 </script>
 
 
