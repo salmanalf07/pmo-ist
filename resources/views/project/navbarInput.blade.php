@@ -36,7 +36,7 @@
                                 <a class="nav-link {{ request()->is( 'project/projectMember*','project/changeProjMember*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectMember/' . $id : '#' }}">Member</a>
                             </li>
                             <li class=" nav-item">
-                                <a class="nav-link {{ str_contains(request()->url(), 'project/riskIssues') ? 'active' : '' }}" href="{{ isset($id) ? '/project/riskIssues/' . $id : '#' }}">Risk/Issues</a>
+                                <a class="nav-link {{ request()->is( 'project/riskIssues*','project/changeriskIssues*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/riskIssues/' . $id : '#' }}">Risk/Issues</a>
                             </li>
                             <li class=" nav-item">
                                 <a class="nav-link {{ request()->is( 'project/projectTimeline*','project/changeprojectTimeline*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/projectTimeline/' . $id : '#' }}">Timeline</a>

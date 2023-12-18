@@ -555,7 +555,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_projectTimeline/{id}', [timelineController::class, 'store'])->name('storeprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
 //riskIssues
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', [riskIssuestController::class, 'edit'])->name('riskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', function ($id) {
+    $value = Project::with('customer')->find($id);
+    return view('project/riskIssuesDashboard', ['judul' => "Risk/Issues", 'id' => $id,  'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
+})->name('riskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_riskIssues/{id}', [riskIssuestController::class, 'edit'])->name('json_riskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/changeriskIssues/{id}', [riskIssuestController::class, 'edit'])->name('changeriskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_riskIssues/{id}', [riskIssuestController::class, 'store'])->name('storeRiskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectMember/{table}/{id}', [riskIssuestController::class, 'destroy'])->name('deleteIssues');
 //SOW

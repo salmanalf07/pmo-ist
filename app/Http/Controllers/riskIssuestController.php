@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\riskProject;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\DataTables;
 
 class riskIssuestController extends Controller
 {
@@ -17,17 +18,32 @@ class riskIssuestController extends Controller
         $value = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
-        if ($getRisk) {
-            $aksiRisk = 'EditData';
-        } else {
-            $aksiRisk = 'Add';
+
+        if ($request->segment(2) == "changeriskIssues") {
+            if ($getRisk) {
+                $aksiRisk = 'EditData';
+            } else {
+                $aksiRisk = 'Add';
+            }
+            if ($getIssues) {
+                $aksiIssues = 'EditData';
+            } else {
+                $aksiIssues = 'Add';
+            }
+            return view('project/riskIssues', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksiRisk' => $aksiRisk, 'aksiIssues' => $aksiIssues, 'dataRisk' => $getRisk, 'dataIssues' => $getIssues]);
         }
-        if ($getIssues) {
-            $aksiIssues = 'EditData';
-        } else {
-            $aksiIssues = 'Add';
+        if ($request->segment(2) == "json_riskIssues") {
+            $dataTable1 = DataTables::of($getRisk)->toJson();
+            $dataTable2 = DataTables::of($getIssues)->toJson();
+
+            $response = array(
+                'dataTable1' => $dataTable1,
+                'dataTable2' => $dataTable2,
+                // Tambahkan data lain jika diperlukan
+            );
+
+            return json_encode($response);
         }
-        return view('project/riskIssues', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksiRisk' => $aksiRisk, 'aksiIssues' => $aksiIssues, 'dataRisk' => $getRisk, 'dataIssues' => $getIssues]);
         //return $getIssues;
     }
 
