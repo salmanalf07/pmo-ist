@@ -26,6 +26,24 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 col-3">
+                                                <label class="form-label">Location</label>
+                                                <select name="location" id="location" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($location as $locations)
+                                                    <option value="{{$locations->id}}">{{$locations->location}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Level</label>
+                                                <select name="levell" id="levell" class="select2" aria-label="Default select example">
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($skill as $skills)
+                                                    <option value="{{$skills->id}}">{{$skills->skillLevel}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label" for="selectOne">Role</label>
                                                 <select name="role" id="role" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
@@ -60,7 +78,7 @@
                                                     <option value="RESIGN">RESIGN</option>
                                                 </select>
                                             </div>
-                                            <div class="mb-3 col-2">
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label">Available Date</label>
                                                 <div class="input-group me-3 datepicker">
                                                     <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
@@ -90,6 +108,8 @@
                                         <form method="post" role="form" id="form_export" enctype="multipart/form-data" target="_blank">
                                             @csrf
                                             <input type="text" id="namee" name="namee" value="#" hidden>
+                                            <input type="text" id="locations" name="locations" hidden>
+                                            <input type="text" id="levells" name="levells" hidden>
                                             <input type="text" id="rolee" name="rolee" value="#" hidden>
                                             <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
@@ -97,6 +117,7 @@
                                             <input type="text" id="directManagerr" name="directManagerr" value="#" hidden>
                                             <input type="text" id="typeProjectt" name="typeProjectt" value="#" hidden>
                                             <input type="text" id="statuss" name="statuss" value="#" hidden>
+
                                             <div class="row">
                                                 <div class="mb-3 pt-7 col-6">
                                                     <button id="export_excel" type="submit" class="btn btn-success-soft" style="width:100%">
@@ -320,6 +341,8 @@
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
             $('#typeProjectt').val($('#typeProject').val());
+            $('#levells').val($('#levell').val());
+            $('#locations').val($('#location').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -333,12 +356,14 @@
                 'directManager': $('#directManagerr').val(),
                 'typeProject': $('#typeProjectt').val(),
                 'status': $('#statuss').val(),
+                'levell': $('#levells').val(),
+                'location': $('#locations').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status').on('change', function() {
+        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
@@ -346,6 +371,8 @@
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
             $('#typeProjectt').val($('#typeProject').val());
+            $('#levells').val($('#levell').val());
+            $('#locations').val($('#location').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -358,6 +385,8 @@
                 'directManager': $('#directManagerr').val(),
                 'typeProject': $('#typeProjectt').val(),
                 'status': $('#statuss').val(),
+                'levell': $('#levells').val(),
+                'location': $('#locations').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -371,6 +400,8 @@
             $('#directManager').val('#').trigger('change');
             $('#typeProject').val('#').trigger('change');
             $('#status').val('#').trigger('change');
+            $('#levell').val('#').trigger('change');
+            $('#location').val('#').trigger('change');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
@@ -379,6 +410,8 @@
             $('#directManagerr').val('#');
             $('#typeProjectt').val('#');
             $('#statuss').val('#');
+            $('#levells').val('#');
+            $('#locations').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

@@ -375,7 +375,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $role = roleEmployee::get();
         $typeProject = typeProject::get();
         $customer = Customer::get();
-        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer]);
+        $skill = skillLevel::get();
+        $location = locationEmployee::get();
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer, 'location' => $location, 'skill' => $skill]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -402,7 +404,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $employee = employee::get();
         $role = roleEmployee::get();
         $typeProject = typeProject::get();
-        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'role' => $role, 'typeProject' => $typeProject]);
+        $skill = skillLevel::get();
+        $location = locationEmployee::get();
+        return view('employee/byUnassigned', ['judul' => "By Unassigned", 'divisi' => $divisi, 'department' => $department, 'employee' => $employee, 'role' => $role, 'typeProject' => $typeProject, 'location' => $location, 'skill' => $skill]);
     })->name('empByUnassigned');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpUnassigned', [employeeController::class, 'exportEmpUnassigned']);

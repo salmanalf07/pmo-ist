@@ -14,82 +14,110 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label" for="selectOne">Division</label>
-                                        <select name="divisii" id="divisii" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($divisi as $divDept)
-                                            <option value="{{$divDept->id}}">{{$divDept->division}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-10 mb-3">
+                                        <div class="row">
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Location</label>
+                                                <select name="location" id="location" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($location as $locations)
+                                                    <option value="{{$locations->id}}">{{$locations->location}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Level</label>
+                                                <select name="levell" id="levell" class="select2" aria-label="Default select example">
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($skill as $skills)
+                                                    <option value="{{$skills->id}}">{{$skills->skillLevel}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Division</label>
+                                                <select name="divisii" id="divisii" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($divisi as $divDept)
+                                                    <option value="{{$divDept->id}}">{{$divDept->division}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Department </label>
+                                                <select name="departmentt" id="departmentt" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($department as $depart)
+                                                    <option value="{{$depart->id}}">{{$depart->department}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Role</label>
+                                                <select name="role" id="role" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($role as $roles)
+                                                    <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Direct Manager</label>
+                                                <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach(collect($employee)->sortBy('name') as $employe)
+                                                    <option value="{{$employe->id}}">{{$employe->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Type Project</label>
+                                                <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($typeProject as $typeProjects)
+                                                    <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" id="status" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    <option value="ACTIVE">ACTIVE</option>
+                                                    <option value="RESIGN">RESIGN</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label" for="selectOne">Department </label>
-                                        <select name="departmentt" id="departmentt" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($department as $depart)
-                                            <option value="{{$depart->id}}">{{$depart->department}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label" for="selectOne">Role</label>
-                                        <select name="role" id="role" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($role as $roles)
-                                            <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-3">
-                                        <label class="form-label">Direct Manager</label>
-                                        <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach(collect($employee)->sortBy('name') as $employe)
-                                            <option value="{{$employe->id}}">{{$employe->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 pt-7 col-1">
-                                        <form method="post" role="form" id="form-print" action="/ExportEmpUnassigned " enctype="multipart/form-data" formtarget="_blank" target="_blank">
-                                            @csrf
-                                            <input type="text" id="divisi" name="divisi" hidden>
-                                            <input type="text" id="department" name="department" hidden>
-                                            <input type="text" id="rolee" name="rolee" hidden>
-                                            <input type="text" id="directManagerr" name="directManagerr" hidden>
-                                            <input type="text" id="typeProjectt" name="typeProjectt" hidden>
-                                            <input type="text" id="statuss" name="statuss" hidden>
-                                            <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
-                                                    <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
-                                                </svg>
-                                            </button>
-                                        </form>
+                                    <div class="col-2 mb-3">
+                                        <div class="row">
+                                            <div class="mb-3 pt-7 col-6">
+                                                <form method="post" role="form" id="form-print" action="/ExportEmpUnassigned " enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                                    @csrf
+                                                    <input type="text" id="locations" name="locations" hidden>
+                                                    <input type="text" id="levells" name="levells" hidden>
+                                                    <input type="text" id="divisi" name="divisi" hidden>
+                                                    <input type="text" id="department" name="department" hidden>
+                                                    <input type="text" id="rolee" name="rolee" hidden>
+                                                    <input type="text" id="directManagerr" name="directManagerr" hidden>
+                                                    <input type="text" id="typeProjectt" name="typeProjectt" hidden>
+                                                    <input type="text" id="statuss" name="statuss" hidden>
+                                                    <button id="export" type="submit" class="btn btn-success-soft" style="width:100%">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
+                                                            <path fill="currentColor" d="M15.534 1.36L14.309 0H4.662c-.696 0-.965.516-.965.919v3.63H5.05V1.653c0-.154.13-.284.28-.284h6.903c.152 0 .228.027.228.152v4.82h4.913c.193 0 .268.1.268.246v11.77c0 .246-.1.283-.25.283H5.33a.287.287 0 0 1-.28-.284V17.28H3.706v1.695c-.018.6.302 1.025.956 1.025H18.06c.7 0 .939-.507.939-.969V5.187l-.35-.38l-3.116-3.446Zm-1.698.16l.387.434l2.596 2.853l.143.173h-2.653c-.2 0-.327-.033-.38-.1c-.053-.065-.084-.17-.093-.313V1.52Zm-1.09 9.147h4.577v1.334h-4.578v-1.334Zm0-2.666h4.577v1.333h-4.578V8Zm0 5.333h4.577v1.334h-4.578v-1.334ZM1 5.626v10.667h10.465V5.626H1Zm5.233 6.204l-.64.978h.64V14H3.016l2.334-3.51l-2.068-3.156H5.01L6.234 9.17l1.223-1.836h1.727L7.112 10.49L9.449 14H7.656l-1.423-2.17Z" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
 
-                                    </div>
-                                    <div class="mb-3 pt-7 col-1">
-                                        <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
-                                                <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label">Type Project</label>
-                                        <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
-                                            <option value="#" selected>Open this select menu</option>
-                                            @foreach($typeProject as $typeProjects)
-                                            <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-2">
-                                        <label class="form-label">Status</label>
-                                        <select name="status" id="status" class="select2" aria-label="Default select example" required>
-                                            <option value="#" selected>Open this select menu</option>
-                                            <option value="ACTIVE">ACTIVE</option>
-                                            <option value="RESIGN">RESIGN</option>
-                                        </select>
+                                            </div>
+                                            <div class="mb-3 pt-7 col-6">
+                                                <button id="clear" type="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Clear" class="btn btn-danger-soft" style="width:100%">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16">
+                                                        <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -235,13 +263,15 @@
                 [2, 'asc'],
             ]
         });
-        $('#divisii, #departmentt, #directManager,#role,#typeProject,#status').on('change', function() {
+        $('#divisii, #departmentt, #directManager,#role,#typeProject,#status,#levell, #location').on('change', function() {
             $('#divisi').val($('#divisii').val());
             $('#department').val($('#departmentt').val());
             $('#directManagerr').val($('#directManager').val());
             $('#rolee').val($('#role').val());
             $('#statuss').val($('#status').val());
             $('#typeProjectt').val($('#typeProject').val());
+            $('#levells').val($('#levell').val());
+            $('#locations').val($('#location').val());
 
             $('#example1').data('dt_params', {
                 'divisii': $('#divisii').val(),
@@ -250,6 +280,8 @@
                 'directManager': $('#directManager').val(),
                 'status': $('#status').val(),
                 'typeProject': $('#typeProject').val(),
+                'levell': $('#levells').val(),
+                'location': $('#locations').val(),
             });
             $('#example1').DataTable().draw();
         });
@@ -261,6 +293,8 @@
         $('#role').val('#').trigger('change');
         $('#typeProject').val('#').trigger('change');
         $('#status').val('#').trigger('change');
+        $('#levell').val('#').trigger('change');
+        $('#location').val('#').trigger('change');
 
         $('#divisi').val('#');
         $('#department').val('#');
@@ -268,6 +302,8 @@
         $('#rolee').val('#');
         $('#statuss').val('#');
         $('#typeProjectt').val('#');
+        $('#levells').val('#');
+        $('#locations').val('#');
 
         $('#example1').data('dt_params', {});
         $('#example1').DataTable().draw();

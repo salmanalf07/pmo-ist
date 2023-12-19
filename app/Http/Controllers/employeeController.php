@@ -28,7 +28,9 @@ class employeeController extends Controller
         // else {
         //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
         // }
-
+        if ($request->location != "#" && $request->location) {
+            $dataa->where('penempatan', '=', $request->location);
+        }
         if ($request->divisii && $request->divisii != '#') {
             $dataa->where('divisi', '=', $request->divisii);
         }
@@ -44,7 +46,9 @@ class employeeController extends Controller
         if ($request->roleFilter && $request->roleFilter != '#') {
             $dataa->where('role', '=', $request->roleFilter);
         }
-
+        if ($request->levell != "#" && $request->levell) {
+            $dataa->where('level', '=', $request->levell);
+        }
         if ($request->special != "#" && $request->special) {
             $dataa->where('spesialisasi', '=', $request->special);
         }
@@ -117,6 +121,12 @@ class employeeController extends Controller
             // else {
             //     $q->where('status', "ACTIVE");
             // }
+            if ($request->location != "#" && $request->location) {
+                $q->where('penempatan', '=', $request->location);
+            }
+            if ($request->levell != "#" && $request->levell) {
+                $q->where('level', '=', $request->levell);
+            }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             $q->where('overAllProg', '<', 100);
@@ -201,6 +211,12 @@ class employeeController extends Controller
         }
         if ($request->directManager && $request->directManager != '#') {
             $dataa->where('direct_manager', '=', $request->directManager);
+        }
+        if ($request->levell != "#" && $request->levell) {
+            $dataa->where('level', '=', $request->levell);
+        }
+        if ($request->location != "#" && $request->location) {
+            $dataa->where('penempatan', '=', $request->location);
         }
 
         $data = $dataa->get();
@@ -338,6 +354,12 @@ class employeeController extends Controller
             // else {
             //     $q->where('status', "ACTIVE");
             // }
+            if ($request->locations != "#" && $request->locations) {
+                $q->where('penempatan', '=', $request->locations);
+            }
+            if ($request->levells != "#" && $request->levells) {
+                $q->where('level', '=', $request->levells);
+            }
         });
         // if ($request->dateChange == "true") {
         //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -424,6 +446,12 @@ class employeeController extends Controller
         if ($request->directManagerr && $request->directManagerr != '#') {
             $dataa->where('direct_manager', '=', $request->directManagerr);
         }
+        if ($request->locations != "#" && $request->locations) {
+            $dataa->where('penempatan', '=', $request->locations);
+        }
+        if ($request->levells != "#" && $request->levells) {
+            $dataa->where('level', '=', $request->levells);
+        }
         $data = $dataa->get();
 
         //return $data;
@@ -472,6 +500,9 @@ class employeeController extends Controller
         // else {
         //     $dataa->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
         // }
+        if ($request->locations != "#" && $request->locations) {
+            $dataa->where('penempatan', '=', $request->locations);
+        }
         if ($request->divisiii != "#" && $request->divisiii) {
             $dataa->where('divisi', '=', $request->divisiii);
         }
@@ -483,6 +514,9 @@ class employeeController extends Controller
         }
         if ($request->roleFilterr && $request->roleFilterr != '#') {
             $dataa->where('role', '=', $request->roleFilterr);
+        }
+        if ($request->levells != "#" && $request->levells) {
+            $dataa->where('level', '=', $request->levells);
         }
         if ($request->speciall != "#" && $request->speciall) {
             $dataa->where('spesialisasi', '=', $request->speciall);
