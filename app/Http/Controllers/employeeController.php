@@ -248,8 +248,8 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
-            if ($request->typeProject != "#") {
-                $post->typeProject = $request->typeProject;
+            if ($request->typeProjects != "#") {
+                $post->typeProject = $request->typeProjects;
             } else {
                 $post->typeProject = "789ab3ca-7ee5-4504-ad26-cb3290ff77c1";
             }
@@ -294,8 +294,8 @@ class employeeController extends Controller
             $post->direct_manager = $request->direct_manager;
             $post->role = $request->role;
             $post->spesialisasi = $request->spesialisasi;
-            if ($request->typeProject != "#") {
-                $post->typeProject = $request->typeProject;
+            if ($request->typeProjects != "#") {
+                $post->typeProject = $request->typeProjects;
             }
             // else {
             //     $post->typeProject = "789ab3ca-7ee5-4504-ad26-cb3290ff77c1";
@@ -335,7 +335,7 @@ class employeeController extends Controller
 
     function exportByAssignment(Request $request)
     {
-        $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization');
+        $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization', 'employees.typeProjects');
         $dataa->whereHas('employee', function ($q) use ($request) {
             $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
             if ($request->directManagerr && $request->directManagerr != '#') {
@@ -423,7 +423,7 @@ class employeeController extends Controller
 
     function exportEmpUnassigned(Request $request)
     {
-        $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager', 'levels', 'roles', 'region', 'specialization');
+        $dataa = employee::whereDoesntHave('memberProject')->with('divisi', 'department', 'manager', 'levels', 'roles', 'region', 'specialization', 'typeProjects');
         if ($request->typeProjectt != "#" && $request->typeProjectt) {
             $dataa->where('typeProject', $request->typeProjectt);
         }

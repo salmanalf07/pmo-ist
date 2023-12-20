@@ -97,7 +97,7 @@ class memberProjectController extends Controller
                     $postt->ProjectId = $id;
                     $postt->partner = $partner[$count];
                     $postt->rolePartner = $rolePartner[$count];
-                    $postt->accesPartner = $accesPartner[$count];
+                    $postt->accesPartner = isset($accesPartner[$count]) ? $accesPartner[$count] : "";
                     $postt->partnerCorp = $partnerCorp[$count];
                     $postt->stdatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $stdatePartner[$count])));
                     $postt->eddatePartner = date("Y-m-d", strtotime(str_replace('-', '-', $eddatePartner[$count])));
