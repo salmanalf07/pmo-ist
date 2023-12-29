@@ -129,7 +129,13 @@ class employeeController extends Controller
             }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
-            $q->where('overAllProg', '<', 100);
+            if ($request->overAllProg != "#" && $request->overAllProg) {
+                if ($request->overAllProg == "progress") {
+                    $q->where('overAllProg', '<', 100);
+                } elseif ($request->overAllProg == "completed") {
+                    $q->where('overAllProg', '=', 100);
+                }
+            }
             if ($request->customer != "#" && $request->customer) {
                 $q->where('cust_id', '=', $request->customer);
             }

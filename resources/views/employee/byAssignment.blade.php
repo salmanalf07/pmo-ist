@@ -88,6 +88,15 @@
                                                 </div>
                                             </div>
                                             <div class="mb-3 col-3">
+                                                <label class="form-label">Project Progress</label>
+                                                <select name="overAllProg" id="overAllProg" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    <option value="all">All</option>
+                                                    <option value="progress">In Progress</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label" for="selectOne">Customer</label>
                                                 <select name="customer" id="customer" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
@@ -117,6 +126,7 @@
                                             <input type="text" id="directManagerr" name="directManagerr" value="#" hidden>
                                             <input type="text" id="typeProjectt" name="typeProjectt" value="#" hidden>
                                             <input type="text" id="statuss" name="statuss" value="#" hidden>
+                                            <input type="text" id="overAllProgs" name="overAllProgs" value="#" hidden>
 
                                             <div class="row">
                                                 <div class="mb-3 pt-7 col-6">
@@ -343,6 +353,7 @@
             $('#typeProjectt').val($('#typeProject').val());
             $('#levells').val($('#levell').val());
             $('#locations').val($('#location').val());
+            $('#overAllProgs').val($('#overAllProg').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -358,12 +369,13 @@
                 'status': $('#statuss').val(),
                 'levell': $('#levells').val(),
                 'location': $('#locations').val(),
+                'overAllProg': $('#overAllProgs').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location').on('change', function() {
+        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location, #overAllProg').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
@@ -373,6 +385,7 @@
             $('#typeProjectt').val($('#typeProject').val());
             $('#levells').val($('#levell').val());
             $('#locations').val($('#location').val());
+            $('#overAllProgs').val($('#overAllProg').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -387,6 +400,7 @@
                 'status': $('#statuss').val(),
                 'levell': $('#levells').val(),
                 'location': $('#locations').val(),
+                'overAllProg': $('#overAllProgs').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -402,6 +416,7 @@
             $('#status').val('#').trigger('change');
             $('#levell').val('#').trigger('change');
             $('#location').val('#').trigger('change');
+            $('#overAllProg').val('#').trigger('change');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
@@ -412,6 +427,7 @@
             $('#statuss').val('#');
             $('#levells').val('#');
             $('#locations').val('#');
+            $('#overAllProgs').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
