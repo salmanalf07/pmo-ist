@@ -26,11 +26,15 @@ function vlookupInKamus($record, $kamus)
 
 function formatAngka($angka)
 {
-    $satuan = ['', 'K', 'M', 'B', 'T']; // Menambahkan satuan seperti K (ribu), M (juta), B (miliar), dan T (triliun) sesuai kebutuhan
-    $posisi = floor(log($angka, 1000));
-    $nilai = $angka / pow(1000, $posisi);
-    $nilai = number_format($nilai, 2); // Membatasi hanya 2 angka di belakang koma
-    return $nilai . ' ' . $satuan[$posisi];
+    if ($angka != 0) {
+        $satuan = ['', 'K', 'M', 'B', 'T']; // Menambahkan satuan seperti K (ribu), M (juta), B (miliar), dan T (triliun) sesuai kebutuhan
+        $posisi = floor(log($angka, 1000));
+        $nilai = $angka / pow(1000, $posisi);
+        $nilai = number_format($nilai, 2); // Membatasi hanya 2 angka di belakang koma
+        return $nilai . ' ' . $satuan[$posisi];
+    } else {
+        return 0;
+    }
 }
 
 function getInitials($name)
