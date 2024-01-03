@@ -16,6 +16,7 @@ class DocProjectController extends Controller
             ->where([
                 ['projectId', $id],
                 ['type', '!=', "SOW"],
+                ['type', '!=', "TIMELINE"],
             ])->orderBy('created_at', 'DESC')->get();
 
         return DataTables::of($data)
