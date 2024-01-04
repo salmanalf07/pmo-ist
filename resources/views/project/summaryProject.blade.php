@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <br>
-                        <span class="h5">Project Member</span>
+                        <!-- <span class="h5">Project Member</span>
                         <br>
                         <div class="avatar-group">
                             @foreach($employee as $dataa)
@@ -148,7 +148,7 @@
                                 </div>
                             </span>
                             @endif
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
