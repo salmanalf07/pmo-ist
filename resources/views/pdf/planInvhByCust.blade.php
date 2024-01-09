@@ -59,11 +59,14 @@
 </head>
 
 <body>
+    <h3>
+        Plan Invoice Monthly By Customer - {{$year}}
+    </h3>
     <table>
         <thead>
             <tr style="background-color: #F4B083">
                 <th rowspan="2">Customer</th>
-                <th rowspan="2">Total Project Member (Jumlah Orang)</th>
+                <th rowspan="2">Total Project</th>
                 <th colspan="{{count($months)}}">Plan Invoice (Dalam Miliyar)</th>
             </tr>
             <tr style="background-color: #F4B083">
@@ -76,13 +79,13 @@
             @php
             $monthlyTotals = array_fill_keys($months, 0);
             $totalRow = 0;
-            $totalMemberProject = 0; // Menambahkan variabel untuk total anggota proyek
+            $totalcountProject = 0; // Menambahkan variabel untuk total anggota proyek
             @endphp
 
             @foreach ($result as $cust => $data)
             <tr>
                 <td>{{$cust}}</td>
-                <td style="text-align: center">{{$data['memberProject']}}</td>
+                <td style="text-align: center">{{$data['countProject']}}</td>
 
                 @php
                 $rowTotal = 0;
@@ -115,7 +118,7 @@
 
                 <!-- Menambahkan nilai anggota proyek ke total anggota proyek -->
                 @php
-                $totalMemberProject += $data['memberProject'];
+                $totalcountProject += $data['countProject'];
                 @endphp
             </tr>
             @endforeach
@@ -125,7 +128,7 @@
                 <td style="text-align: right">Total</td>
 
                 <!-- Menampilkan total anggota proyek di kolom footer -->
-                <td style="text-align: center">{{ $totalMemberProject }}</td>
+                <td style="text-align: center">{{ $totalcountProject }}</td>
 
                 @foreach ($months as $loopedMonth)
                 <!-- Menampilkan total bulanan di kolom footer -->

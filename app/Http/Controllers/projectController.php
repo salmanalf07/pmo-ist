@@ -6,6 +6,7 @@ use App\Exports\allProjectExport;
 use App\Exports\closeProjectExport;
 use App\Exports\ExportProjByMain;
 use App\Exports\invByMonthExport;
+use App\Exports\planInvhByCustExport;
 use App\Exports\statPaymentExport;
 use App\Models\Customer;
 use App\Models\documentationProject;
@@ -587,11 +588,11 @@ class projectController extends Controller
 
     function planInvhByCustExport(Request $request)
     {
-        $st_date = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st)));
-        $ed_date = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot)));
+        $st_date = date($request->booking_year . '-01-01');
+        $ed_date = date($request->booking_year . '-12-31');
         $dataa = topProject::with('project.memberProject');
         // $dataa->whereHas('topProject', function ($query) use ($request, $st_date, $ed_date) {
-        if ($request->date_st != null && $request->date_st) {
+        if ($request->booking_year != "#" && $request->booking_year) {
             $dataa->whereDate('bastDate', '>=', $st_date)
                 ->whereDate('bastDate', '<=', $ed_date);
         }
@@ -612,20 +613,16 @@ class projectController extends Controller
             $current_date = date("Y-m-d", strtotime($current_date . ' + 1 month'));
         }
         $result = array();
-        $dataMember = 0;
-
+        $dataMember = array();
         foreach ($data as $custId => $projects) {
             foreach ($projects as $datas) {
-                $dataMember += count($datas->project->memberProject);
-                $result[$custId]['memberProject'] = $dataMember;
-
+                $dataMember[$custId][] = $datas->projectId;
+                $result[$custId]['customer'] = $custId;
                 $bastDate = date('F-Y', strtotime($datas->bastDate));
 
                 $bastDateTimestamp = date('Y-m-d', strtotime($datas->bastDate));
-                $startDateTimestamp = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st)));
-                $endDateTimestamp = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot)));
 
-                if ($bastDateTimestamp >= $startDateTimestamp && $bastDateTimestamp <= $endDateTimestamp) {
+                if ($bastDateTimestamp >= $st_date && $bastDateTimestamp <= $ed_date) {
                     // Jika belum ada array untuk bulan tersebut, inisialisasi
                     if (!isset($result[$custId]['top'][$bastDate])) {
                         $result[$custId]['top'][$bastDate] = [
@@ -647,18 +644,25 @@ class projectController extends Controller
                 return $dateA - $dateB;
             });
         }
+        foreach ($dataMember as $key => $value) {
+            $uniqueValues = array_values(array_unique($value));
+            $dataMember[$key] = $uniqueValues;
+            $result[$key]['countProject'] = count($uniqueValues);
+        }
+
+
         if ($request->segment(1) == "planInvhByCustPdf") {
-            $pdf = PDF::loadView('pdf.planInvhByCust', compact('result', 'months'));
+            $pdf = PDF::loadView('pdf.planInvhByCust', compact('result', 'months'), ["year" => $request->booking_year]);
             // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4', 'landscape');
 
             return $pdf->download('Plan Invoice Monthly By Customer.pdf');
         }
 
-        // return Excel::download(new closeProjectExport($data), 'closeProjectExport.xlsx');
+        return Excel::download(new planInvhByCustExport($result), 'planInvhByCustExport.xlsx');
 
 
         // return view('pdf.planInvhByCust', compact('result', 'months'));
-        //return $result;
+        return $result;
     }
 }
