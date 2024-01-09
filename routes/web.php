@@ -724,6 +724,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('r_invByMonth');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/invByMonthExport', [projectController::class, 'invByMonthExport']);
+//r_planInvhByCust
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
+    Route::get('/r_planInvhByCust', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = employee::get();
+        return view('report/r_planInvhByCust', ['judul' => "Plan Invoice Monthly By Customer", 'customer' => $customer, 'employee' => $employee,]);
+    })->name('r_planInvhByCust');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/planInvhByCustExport', [projectController::class, 'planInvhByCustExport']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/planInvhByCustPdf', [projectController::class, 'planInvhByCustExport']);
 //r_statPayment
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
     Route::get('/r_statPayment', function () {

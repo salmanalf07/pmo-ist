@@ -162,10 +162,13 @@ class employeeController extends Controller
         }
         if ($request->availableAt != "01/01/1900" && $request->availableAt) {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
-        } // } else {
+        }
 
-        //     $dataa->where('endDate', '>=', date("Y-m-d"));
-        // }
+        if ($request->dateRange && $request->dateRange != "#") {
+            $dateArray = explode(' - ', $request->dateRange);
+            $dataa->whereDate('startDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $dateArray[0]))))
+                ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $dateArray[1]))));
+        }
         $data = $dataa->get();
         return DataTables::of($data)
             ->toJson();

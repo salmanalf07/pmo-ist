@@ -19,7 +19,7 @@
                     </a> -->
                     @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_statPayment','r_planBast','r_sales*','r_pm*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_planInvhByCust','r_statPayment','r_planBast','r_sales*','r_pm*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -43,7 +43,7 @@
                                 <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
                                     Report
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style="min-width: 16.5rem">
                                     <li>
                                         <a class="dropdown-item" href="/r_allProject">
                                             All Data Project
@@ -57,6 +57,11 @@
                                     <li>
                                         <a class="dropdown-item" href="/r_invByMonth">
                                             Invoice By Month
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/r_planInvhByCust">
+                                            Plan Invoice Monthly By Customer
                                         </a>
                                     </li>
                                     <li>

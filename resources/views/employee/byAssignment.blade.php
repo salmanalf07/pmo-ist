@@ -61,7 +61,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="mb-3 col-3">
+                                            <div class="mb-3 col-2">
                                                 <label class="form-label">Type Project</label>
                                                 <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
                                                     <option value="#" selected>Open this select menu</option>
@@ -70,22 +70,13 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="mb-3 col-3">
+                                            <div class="mb-3 col-2">
                                                 <label class="form-label">Status</label>
                                                 <select name="status" id="status" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
                                                     <option value="ACTIVE">ACTIVE</option>
                                                     <option value="RESIGN">RESIGN</option>
                                                 </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Available Date</label>
-                                                <div class="input-group me-3 datepicker">
-                                                    <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                                    <div class="input-group-append custom-picker">
-                                                        <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="mb-3 col-3">
                                                 <label class="form-label">Project Progress</label>
@@ -95,6 +86,24 @@
                                                     <option value="progress">In Progress</option>
                                                     <option value="completed">Completed</option>
                                                 </select>
+                                            </div>
+                                            <div class="mb-3 col-2">
+                                                <label class="form-label">Available Date</label>
+                                                <div class="input-group me-3 datepicker">
+                                                    <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                                    <div class="input-group-append custom-picker">
+                                                        <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-4">
+                                                <label class="form-label">Date Range</label>
+                                                <div class="input-group me-3">
+                                                    <input type="text" class="form-control float-right" id="reservation">
+                                                    <div class="input-group-append custom-picker">
+                                                        <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="mb-3 col-3">
                                                 <label class="form-label" for="selectOne">Customer</label>
@@ -121,6 +130,7 @@
                                             <input type="text" id="levells" name="levells" hidden>
                                             <input type="text" id="rolee" name="rolee" value="#" hidden>
                                             <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
+                                            <input type="text" id="dateRangee" name="dateRangee" value="#" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
                                             <input type="text" id="customerr" name="customerr" value="#" hidden>
                                             <input type="text" id="directManagerr" name="directManagerr" value="#" hidden>
@@ -201,14 +211,20 @@
     $(document).ready(function() {
 
         $('#reservation').daterangepicker({
-            startDate: moment().startOf('month'), // Mengatur tanggal awal ke awal bulan ini
-            endDate: moment().endOf('month'), // Mengatur tanggal akhir ke akhir bulan ini
+            autoUpdateInput: false, // Menonaktifkan pembaruan otomatis input
             locale: {
                 format: 'DD/MM/YYYY'
             }
-        }, function(start, end) {
-            var dateinn = start.format('YYYY-MM-DD');
-            var dateenn = end.format('YYYY-MM-DD');
+        });
+        // Menangani peristiwa reset tanggal
+        $('#reservation').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+        flatpickr("#availableAt", {
+            dateFormat: "d/m/Y",
+            defaultDate: new Date(),
+            allowInput: true, // Mengizinkan input manual
         });
 
         $('select.select2:not(.normal)').each(function() {
@@ -227,13 +243,6 @@
             }
 
         });
-
-        flatpickr("#availableAt", {
-            dateFormat: "d/m/Y",
-            defaultDate: new Date(),
-            allowInput: true, // Mengizinkan input manual
-        });
-
 
         $("#export_excel").click(function() {
             $("#form_export").attr("action", "/ExportEmpByAsign");
@@ -342,6 +351,38 @@
                 },
             ],
         });
+        $('#reservation').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            console.log($(this).val());
+            $('#namee').val($('#name').val());
+            $('#projectIdd').val($('#projectId').val());
+            $('#customerr').val($('#customer').val());
+            $('#dateRangee').val($(this).val());
+            $('#rolee').val($('#role').val());
+            $('#directManagerr').val($('#directManager').val());
+            $('#statuss').val($('#status').val());
+            $('#typeProjectt').val($('#typeProject').val());
+            $('#levells').val($('#levell').val());
+            $('#locations').val($('#location').val());
+            $('#overAllProgs').val($('#overAllProg').val());
+
+            $('#example1').data('dt_params', {
+                'dateRange': $('#dateRangee').val(),
+                'name': $('#namee').val(),
+                'projectId': $('#projectIdd').val(),
+                'customer': $('#customerr').val(),
+                'role': $('#rolee').val(),
+                'directManager': $('#directManagerr').val(),
+                'typeProject': $('#typeProjectt').val(),
+                'status': $('#statuss').val(),
+                'levell': $('#levells').val(),
+                'location': $('#locations').val(),
+                'overAllProg': $('#overAllProgs').val(),
+
+            });
+            $('#example1').DataTable().draw();
+            // console.log(date)
+        });
         $('#availableAt').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
@@ -417,6 +458,7 @@
             $('#levell').val('#').trigger('change');
             $('#location').val('#').trigger('change');
             $('#overAllProg').val('#').trigger('change');
+            $('#reservation').val('');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
@@ -428,6 +470,7 @@
             $('#levells').val('#');
             $('#locations').val('#');
             $('#overAllProgs').val('#');
+            $('#dateRangee').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

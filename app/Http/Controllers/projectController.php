@@ -584,4 +584,81 @@ class projectController extends Controller
             // return $pmData;
         }
     }
+
+    function planInvhByCustExport(Request $request)
+    {
+        $st_date = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st)));
+        $ed_date = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot)));
+        $dataa = topProject::with('project.memberProject');
+        // $dataa->whereHas('topProject', function ($query) use ($request, $st_date, $ed_date) {
+        if ($request->date_st != null && $request->date_st) {
+            $dataa->whereDate('bastDate', '>=', $st_date)
+                ->whereDate('bastDate', '<=', $ed_date);
+        }
+        // });
+
+        $data = $dataa->get()
+            ->groupBy('project.customer.company');
+        // Inisialisasi array bulan
+        $months = array();
+
+        // Loop untuk setiap bulan dari tanggal awal ke tanggal akhir
+        $current_date = date("Y-m-01", strtotime($st_date));
+        while ($current_date <= date("Y-m-01", strtotime($ed_date))) {
+            $month = date("F Y", strtotime($current_date));
+            $months[] = $month;
+
+            // Tambahkan 1 bulan ke tanggal
+            $current_date = date("Y-m-d", strtotime($current_date . ' + 1 month'));
+        }
+        $result = array();
+        $dataMember = 0;
+
+        foreach ($data as $custId => $projects) {
+            foreach ($projects as $datas) {
+                $dataMember += count($datas->project->memberProject);
+                $result[$custId]['memberProject'] = $dataMember;
+
+                $bastDate = date('F-Y', strtotime($datas->bastDate));
+
+                $bastDateTimestamp = date('Y-m-d', strtotime($datas->bastDate));
+                $startDateTimestamp = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st)));
+                $endDateTimestamp = date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot)));
+
+                if ($bastDateTimestamp >= $startDateTimestamp && $bastDateTimestamp <= $endDateTimestamp) {
+                    // Jika belum ada array untuk bulan tersebut, inisialisasi
+                    if (!isset($result[$custId]['top'][$bastDate])) {
+                        $result[$custId]['top'][$bastDate] = [
+                            'month' => $bastDate,
+                            'totalValue' => 0,
+                        ];
+                    }
+
+                    // Akumulasi nilai 'termsValue' per bulan
+                    $result[$custId]['top'][$bastDate]['totalValue'] += (int)$datas->termsValue;
+                }
+            }
+
+            // Mengurutkan array 'top' berdasarkan bulan
+            usort($result[$custId]['top'], function ($a, $b) {
+                $dateA = strtotime($a['month']);
+                $dateB = strtotime($b['month']);
+
+                return $dateA - $dateB;
+            });
+        }
+        if ($request->segment(1) == "planInvhByCustPdf") {
+            $pdf = PDF::loadView('pdf.planInvhByCust', compact('result', 'months'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4', 'landscape');
+
+            return $pdf->download('Plan Invoice Monthly By Customer.pdf');
+        }
+
+        // return Excel::download(new closeProjectExport($data), 'closeProjectExport.xlsx');
+
+
+        // return view('pdf.planInvhByCust', compact('result', 'months'));
+        //return $result;
+    }
 }

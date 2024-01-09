@@ -64,6 +64,10 @@ class Project extends Model
     {
         return $this->hasMany(partnerProject::class, 'projectId', 'id');
     }
+    public function topProject()
+    {
+        return $this->hasMany(topProject::class, 'projectId', 'id');
+    }
 
 
     /**
