@@ -80,7 +80,7 @@
                         },
                         {
                             data: function(row) {
-                                return row.employees.divisis ? row.employees.divisis.division : "";
+                                return row.employees.departments ? row.employees.departments.department : "";
                             },
                             title: 'Dept/Div'
                         },

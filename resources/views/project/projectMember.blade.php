@@ -191,7 +191,7 @@
                                         <th class="text-start" style="width: 30%;">Name</th>
                                         <th class="text-start" style="width: 15%;">Role</th>
                                         <th style="width: 10%;">AccesType</th>
-                                        <th style="width: 15%;">Dept/Div</th>
+                                        <th style="width: 15%;">Partner Corp</th>
                                         <th style="width: 10%;">Start Date</th>
                                         <th style="width: 10%;">End Date</th>
                                         <th style="width: 10%;">Plan Mandays</th>

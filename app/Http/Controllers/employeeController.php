@@ -82,7 +82,9 @@ class employeeController extends Controller
         if ($request->name != "#" && $request->name) {
             $dataa->where('partner', '=', $request->name);
         }
-
+        if ($request->partnerCorp != "#" && $request->partnerCorp) {
+            $dataa->where('partnerCorp', '=', $request->partnerCorp);
+        }
         if ($request->projectId != "#" && $request->projectId) {
             $dataa->where('projectId', '=', $request->projectId);
         }

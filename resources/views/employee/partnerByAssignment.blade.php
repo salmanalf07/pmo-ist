@@ -16,6 +16,15 @@
                                     <div class="mb-3 col-10">
                                         <div class="row">
                                             <div class="mb-3 col-3">
+                                                <label class="form-label" for="selectOne">Partner Corp</label>
+                                                <select name="partnerCorp" id="partnerCorp" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($employee->unique('partnerCorp') as $partnerCorp)
+                                                    <option value="{{$partnerCorp->partnerCorp}}">{{$partnerCorp->partnerCorp}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label" for="selectOne">Partner</label>
                                                 <select name="name" id="name" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
@@ -64,6 +73,7 @@
                                             <div class="mb-3 pt-7 col-6">
                                                 <form method="post" role="form" id="form-print" action="/ExportPartByAsign" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                                     @csrf
+                                                    <input type="text" id="partnerCorps" name="partnerCorps" hidden>
                                                     <input type="text" id="namee" name="namee" hidden>
                                                     <input type="text" id="rolee" name="rolee" hidden>
                                                     <input type="text" id="availableAtt" name="availableAtt" hidden>
@@ -235,6 +245,7 @@
             $('#availableAtt').val($('#availableAt').val());
             $('#roles').val($('#role').val());
             $('#customerr').val($('#customer').val());
+            $('#partnerCorps').val($('#partnerCorp').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -245,16 +256,18 @@
                 'role': $('#role').val(),
                 'availableAt': $('#availableAt').val(),
                 'customer': $('#customer').val(),
+                'partnerCorp': $('#partnerCorps').val()
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId, #role, #customer').on('change', function() {
+        $('#name, #projectId, #role, #customer,#partnerCorp').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#roles').val($('#role').val());
             $('#customerr').val($('#customer').val());
+            $('#partnerCorps').val($('#partnerCorp').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -264,6 +277,7 @@
                 'projectId': $('#projectId').val(),
                 'role': $('#role').val(),
                 'customer': $('#customer').val(),
+                'partnerCorp': $('#partnerCorps').val()
 
             });
             $('#example1').DataTable().draw();
@@ -274,11 +288,13 @@
             $('#projectId').val('#').trigger('change');
             $('#role').val('#').trigger('change');
             $('#customer').val('#').trigger('change');
+            $('#partnerCorp').val('#').trigger('change');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
             $('#roles').val('#');
             $('#customerr').val('#');
+            $('#partnerCorps').val('#');
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

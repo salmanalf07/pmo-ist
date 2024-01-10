@@ -16,7 +16,7 @@ class memberProjectController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = memberProject::with('employees.divisis', 'roles')->where('projectId', $id)->orderBy('created_at')->get();
+        $get = memberProject::with('employees.divisis', 'employees.departments', 'roles')->where('projectId', $id)->orderBy('created_at')->get();
         $partner = partnerProject::with('roles')->where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         $divisi = division::get();
