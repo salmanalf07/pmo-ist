@@ -96,10 +96,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="mb-3 col-4">
-                                                <label class="form-label">Date Range</label>
-                                                <div class="input-group me-3">
-                                                    <input type="text" class="form-control float-right" id="reservation">
+                                            <div class="mb-3 col-2">
+                                                <label class="form-label">Active Date</label>
+                                                <div class="input-group me-3 datepicker">
+                                                    <input id="activeAt" name="activeAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
                                                     <div class="input-group-append custom-picker">
                                                         <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
                                                     </div>
@@ -129,7 +129,7 @@
                                             <input type="text" id="locations" name="locations" hidden>
                                             <input type="text" id="levells" name="levells" hidden>
                                             <input type="text" id="rolee" name="rolee" value="#" hidden>
-                                            <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
+                                            <input type="text" id="activeAtt" name="activeAtt" value="#" hidden>
                                             <input type="text" id="dateRangee" name="dateRangee" value="#" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
                                             <input type="text" id="customerr" name="customerr" value="#" hidden>
@@ -210,18 +210,7 @@
 <script>
     $(document).ready(function() {
 
-        $('#reservation').daterangepicker({
-            autoUpdateInput: false, // Menonaktifkan pembaruan otomatis input
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        });
-        // Menangani peristiwa reset tanggal
-        $('#reservation').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
-
-        flatpickr("#availableAt", {
+        flatpickr("#availableAt,#activeAt", {
             dateFormat: "d/m/Y",
             defaultDate: new Date(),
             allowInput: true, // Mengizinkan input manual
@@ -333,7 +322,7 @@
                     data: function(row, type) {
                         if (row.project && row.project.customer.company) {
                             var data = row.project.customer.company;
-                            var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                            var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
                             return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                         } else {
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
@@ -351,13 +340,11 @@
                 },
             ],
         });
-        $('#reservation').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            console.log($(this).val());
+        $('#activeAt').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
-            $('#dateRangee').val($(this).val());
+            $('#activeAtt').val($('#activeAt').val());
             $('#rolee').val($('#role').val());
             $('#directManagerr').val($('#directManager').val());
             $('#statuss').val($('#status').val());
@@ -367,7 +354,10 @@
             $('#overAllProgs').val($('#overAllProg').val());
 
             $('#example1').data('dt_params', {
-                'dateRange': $('#dateRangee').val(),
+                // 'dateChange': dateChange,
+                // 'date_st': date[0],
+                // 'date_ot': date[1],
+                'activeAt': $('#activeAtt').val(),
                 'name': $('#namee').val(),
                 'projectId': $('#projectIdd').val(),
                 'customer': $('#customerr').val(),
