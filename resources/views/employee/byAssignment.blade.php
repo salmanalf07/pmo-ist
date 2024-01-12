@@ -126,10 +126,11 @@
                                         <form method="post" role="form" id="form_export" enctype="multipart/form-data" target="_blank">
                                             @csrf
                                             <input type="text" id="namee" name="namee" value="#" hidden>
-                                            <input type="text" id="locations" name="locations" hidden>
-                                            <input type="text" id="levells" name="levells" hidden>
+                                            <input type="text" id="locations" name="locations" value="#" hidden>
+                                            <input type="text" id="levells" name="levells" value="#" hidden>
                                             <input type="text" id="rolee" name="rolee" value="#" hidden>
                                             <input type="text" id="activeAtt" name="activeAtt" value="#" hidden>
+                                            <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
                                             <input type="text" id="dateRangee" name="dateRangee" value="#" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
                                             <input type="text" id="customerr" name="customerr" value="#" hidden>

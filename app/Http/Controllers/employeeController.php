@@ -374,7 +374,13 @@ class employeeController extends Controller
         //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
         // }
         $dataa->whereHas('project', function ($q) use ($request) {
-            $q->where('overAllProg', '<', 100);
+            if ($request->overAllProgs != "#" && $request->overAllProgs) {
+                if ($request->overAllProgs == "progress") {
+                    $q->where('overAllProg', '<', 100);
+                } elseif ($request->overAllProgs == "completed") {
+                    $q->where('overAllProg', '=', 100);
+                }
+            }
             if ($request->customerr != "#" && $request->customerr) {
                 $q->where('cust_id', '=', $request->customerr);
             }
@@ -397,9 +403,9 @@ class employeeController extends Controller
         if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#") {
             $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
         }
-        // } else {
-        //     $dataa->where('endDate', '>=', date("Y-m-d"));
-        // }
+        if ($request->activeAtt != "01/01/1900" && $request->activeAtt != "#") {
+            $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAtt))));
+        }
         $data = $dataa->get();
 
         //return $data;
