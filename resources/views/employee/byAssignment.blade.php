@@ -423,6 +423,8 @@
                 // 'dateChange': dateChange,
                 // 'date_st': date[0],
                 // 'date_ot': date[1],
+                'availableAt': $('#availableAtt').val(),
+                'activeAt': $('#activeAtt').val(),
                 'name': $('#namee').val(),
                 'projectId': $('#projectIdd').val(),
                 'customer': $('#customerr').val(),

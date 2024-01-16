@@ -129,6 +129,9 @@ class employeeController extends Controller
             if ($request->levell != "#" && $request->levell) {
                 $q->where('level', '=', $request->levell);
             }
+            if ($request->role != "#" && $request->role) {
+                $q->where('role', '=', $request->role);
+            }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             if ($request->overAllProg != "#" && $request->overAllProg) {
@@ -142,13 +145,6 @@ class employeeController extends Controller
                 $q->where('cust_id', '=', $request->customer);
             }
         });
-        if ($request->role != "#" && $request->role) {
-            $dataa->where('role', '=', $request->role);
-        }
-        // if ($request->dateChange == "true") {
-        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        // }
         // Periksa apakah request memiliki data untuk name
         if ($request->name != "#" && $request->name != null) {
             $names = explode(',', $request->name);
@@ -163,7 +159,12 @@ class employeeController extends Controller
             $dataa->where('projectId', '=', $request->projectId);
         }
         if ($request->availableAt != "01/01/1900" && $request->availableAt) {
-            $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAt))));
+            $dataa->whereNotExists(function ($query) use ($request) {
+                $query->select(DB::raw(1))
+                    ->from('member_projects as mp2')
+                    ->whereColumn('mp2.employee', '=', 'member_projects.employee')
+                    ->where('mp2.endDate', '>', date("Y-m-d", strtotime(str_replace('/', '-', $request->availableAt))));
+            });
         }
         if ($request->activeAt != "01/01/1900" && $request->activeAt) {
             $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAt))));
@@ -171,6 +172,104 @@ class employeeController extends Controller
         $data = $dataa->get();
         return DataTables::of($data)
             ->toJson();
+    }
+    function exportByAssignment(Request $request)
+    {
+        $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization', 'employees.typeProjects');
+        $dataa->whereHas('employee', function ($q) use ($request) {
+            $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
+            if ($request->directManagerr && $request->directManagerr != '#') {
+                $q->where('direct_manager', $request->directManagerr);
+            }
+            if ($request->typeProjectt != "#" && $request->typeProjectt) {
+                $q->where('typeProject', $request->typeProjectt);
+            }
+            // else {
+            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
+            // }
+
+            if ($request->statuss != "#" && $request->statuss) {
+                $q->where('status', $request->statuss);
+            }
+            // else {
+            //     $q->where('status', "ACTIVE");
+            // }
+            if ($request->locations != "#" && $request->locations) {
+                $q->where('penempatan', '=', $request->locations);
+            }
+            if ($request->levells != "#" && $request->levells) {
+                $q->where('level', '=', $request->levells);
+            }
+            if ($request->rolee != "#" && $request->rolee) {
+                $q->where('role', '=', $request->rolee);
+            }
+        });
+        // if ($request->dateChange == "true") {
+        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        // }
+        $dataa->whereHas('project', function ($q) use ($request) {
+            if ($request->overAllProgs != "#" && $request->overAllProgs) {
+                if ($request->overAllProgs == "progress") {
+                    $q->where('overAllProg', '<', 100);
+                } elseif ($request->overAllProgs == "completed") {
+                    $q->where('overAllProg', '=', 100);
+                }
+            }
+            if ($request->customerr != "#" && $request->customerr) {
+                $q->where('cust_id', '=', $request->customerr);
+            }
+        });
+        // Periksa apakah request memiliki data untuk name
+        if ($request->namee != "#" && $request->namee != null) {
+            $names = explode(',', $request->namee);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('employee', $names);
+            }
+        }
+        if ($request->projectIdd != "#" && $request->projectIdd) {
+            $dataa->where('projectId', '=', $request->projectIdd);
+        }
+        if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#") {
+            $dataa->whereNotExists(function ($query) use ($request) {
+                $query->select(DB::raw(1))
+                    ->from('member_projects as mp2')
+                    ->whereColumn('mp2.employee', '=', 'member_projects.employee')
+                    ->where('mp2.endDate', '>', date("Y-m-d", strtotime(str_replace('/', '-', $request->availableAtt))));
+            });
+        }
+        if ($request->activeAtt != "01/01/1900" && $request->activeAtt != "#") {
+            $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAtt))));
+        }
+        $data = $dataa->get();
+
+        //return $data;
+        if ($request->segment(1) == "ExportEmpByAsign") {
+            return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
+        }
+        if ($request->segment(1) == "GanttEmpByAsign") {
+            $gantt = [];
+            $id = 1;
+            foreach (collect($data)->sortBy('employees.name') as $item) {
+                $gantt[] = [
+                    'id' => $id++,
+                    'nama' => $item->employees->name,
+                    'text' => '',
+                    'role' => $item->roles ? $item->roles->roleEmployee : '',
+                    'level' => $item->employees->levels ? $item->employees->levels->skillLevel : "",
+                    'direct_manager' => $item->employees->manager ? $item->employees->manager->name : "",
+                    'customer' => $item->project->customer ? $item->project->customer->company : "",
+                    'projectName' => $item->project->projectName,
+                    'start_date' => date('d-m-Y', strtotime($item->startDate)),
+                    'end_date' => date('d-m-Y', strtotime($item->endDate)),
+                ];
+            }
+            return view('/gantt/emppProject', ['gantt' => $gantt]);
+            // return $gantt;
+            // return $request->all();
+        }
     }
     function jsonExtResources(Request $request)
     {
@@ -341,99 +440,7 @@ class employeeController extends Controller
         return view('sheets', compact('data'));
     }
 
-    function exportByAssignment(Request $request)
-    {
-        $dataa = memberProject::with('project.customer', 'employees.divisis', 'employees.departments', 'employees.manager', 'employees.levels', 'employees.roles', 'employees.region', 'employees.specialization', 'employees.typeProjects');
-        $dataa->whereHas('employee', function ($q) use ($request) {
-            $q->where('company', '=', 'PT. Infosys Solusi Terpadu');
-            if ($request->directManagerr && $request->directManagerr != '#') {
-                $q->where('direct_manager', $request->directManagerr);
-            }
-            if ($request->typeProjectt != "#" && $request->typeProjectt) {
-                $q->where('typeProject', $request->typeProjectt);
-            }
-            // else {
-            //     $q->where('typeProject', '789ab3ca-7ee5-4504-ad26-cb3290ff77c1');
-            // }
 
-            if ($request->statuss != "#" && $request->statuss) {
-                $q->where('status', $request->statuss);
-            }
-            // else {
-            //     $q->where('status', "ACTIVE");
-            // }
-            if ($request->locations != "#" && $request->locations) {
-                $q->where('penempatan', '=', $request->locations);
-            }
-            if ($request->levells != "#" && $request->levells) {
-                $q->where('level', '=', $request->levells);
-            }
-        });
-        // if ($request->dateChange == "true") {
-        //     $dataa->whereDate('endDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-        //         ->whereDate('endDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        // }
-        $dataa->whereHas('project', function ($q) use ($request) {
-            if ($request->overAllProgs != "#" && $request->overAllProgs) {
-                if ($request->overAllProgs == "progress") {
-                    $q->where('overAllProg', '<', 100);
-                } elseif ($request->overAllProgs == "completed") {
-                    $q->where('overAllProg', '=', 100);
-                }
-            }
-            if ($request->customerr != "#" && $request->customerr) {
-                $q->where('cust_id', '=', $request->customerr);
-            }
-        });
-        if ($request->rolee != "#" && $request->rolee) {
-            $dataa->where('role', '=', $request->rolee);
-        }
-        // Periksa apakah request memiliki data untuk name
-        if ($request->namee != "#" && $request->namee != null) {
-            $names = explode(',', $request->namee);
-            // Periksa apakah 'name' adalah string '#' atau array kosong
-            if (is_array($names) && count($names) > 0) {
-                // Gunakan whereIn untuk mencocokkan multiple values
-                $dataa->whereIn('employee', $names);
-            }
-        }
-        if ($request->projectIdd != "#" && $request->projectIdd) {
-            $dataa->where('projectId', '=', $request->projectIdd);
-        }
-        if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#") {
-            $dataa->where('endDate', '<', date("Y-m-d",  strtotime(str_replace('/', '-', $request->availableAtt))));
-        }
-        if ($request->activeAtt != "01/01/1900" && $request->activeAtt != "#") {
-            $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAtt))));
-        }
-        $data = $dataa->get();
-
-        //return $data;
-        if ($request->segment(1) == "ExportEmpByAsign") {
-            return Excel::download(new employByAsignExport($data), 'Employee_By_Assign.xlsx');
-        }
-        if ($request->segment(1) == "GanttEmpByAsign") {
-            $gantt = [];
-            $id = 1;
-            foreach (collect($data)->sortBy('employees.name') as $item) {
-                $gantt[] = [
-                    'id' => $id++,
-                    'nama' => $item->employees->name,
-                    'text' => '',
-                    'role' => $item->roles ? $item->roles->roleEmployee : '',
-                    'level' => $item->employees->levels ? $item->employees->levels->skillLevel : "",
-                    'direct_manager' => $item->employees->manager ? $item->employees->manager->name : "",
-                    'customer' => $item->project->customer ? $item->project->customer->company : "",
-                    'projectName' => $item->project->projectName,
-                    'start_date' => date('d-m-Y', strtotime($item->startDate)),
-                    'end_date' => date('d-m-Y', strtotime($item->endDate)),
-                ];
-            }
-            return view('/gantt/emppProject', ['gantt' => $gantt]);
-            // return $gantt;
-            // return $request->all();
-        }
-    }
 
     function exportEmpUnassigned(Request $request)
     {
