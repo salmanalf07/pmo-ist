@@ -158,7 +158,7 @@ class employeeController extends Controller
         if ($request->projectId != "#" && $request->projectId) {
             $dataa->where('projectId', '=', $request->projectId);
         }
-        if ($request->availableAt != "01/01/1900" && $request->availableAt != "#") {
+        if ($request->availableAt != "01/01/1900" && $request->availableAt != "#" && $request->availableAt != null) {
             $dataa->whereNotExists(function ($query) use ($request) {
                 $query->select(DB::raw(1))
                     ->from('member_projects as mp2')
@@ -166,7 +166,7 @@ class employeeController extends Controller
                     ->where('mp2.endDate', '>', date("Y-m-d", strtotime(str_replace('/', '-', $request->availableAt))));
             });
         }
-        if ($request->activeAt != "01/01/1900" && $request->activeAt) {
+        if ($request->activeAt != "01/01/1900" && $request->activeAt != "#" && $request->activeAt != null) {
             $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAt))));
         }
         $data = $dataa->get();
@@ -232,7 +232,7 @@ class employeeController extends Controller
         if ($request->projectIdd != "#" && $request->projectIdd) {
             $dataa->where('projectId', '=', $request->projectIdd);
         }
-        if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#") {
+        if ($request->availableAtt != "01/01/1900" && $request->availableAtt != "#" && $request->availableAtt != null) {
             $dataa->whereNotExists(function ($query) use ($request) {
                 $query->select(DB::raw(1))
                     ->from('member_projects as mp2')
@@ -240,7 +240,7 @@ class employeeController extends Controller
                     ->where('mp2.endDate', '>', date("Y-m-d", strtotime(str_replace('/', '-', $request->availableAtt))));
             });
         }
-        if ($request->activeAtt != "01/01/1900" && $request->activeAtt != "#") {
+        if ($request->activeAtt != "01/01/1900" && $request->activeAtt != "#" && $request->activeAtt != null) {
             $dataa->where('endDate', '>', date("Y-m-d",  strtotime(str_replace('/', '-', $request->activeAtt))));
         }
         $data = $dataa->get();
