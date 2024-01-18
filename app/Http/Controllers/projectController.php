@@ -250,7 +250,7 @@ class projectController extends Controller
     }
     function invByMonthExport(Request $request)
     {
-        $dataa = topProject::with('project');
+        $dataa = topProject::with('project', 'project.customer');
 
         if ($request->date_st != null && $request->date_st) {
             $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))

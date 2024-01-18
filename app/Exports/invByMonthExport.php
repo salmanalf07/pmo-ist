@@ -57,6 +57,7 @@ class invByMonthExport implements FromCollection, WithHeadings, ShouldAutoSize, 
     public function headings(): array
     {
         return [
+            'project.customer.company' => 'Customer Name',
             'project.projectName' => 'Project Name',
             'project.noContract' => 'No Contract',
             'termsName' => 'Terms Name',
