@@ -132,6 +132,12 @@ class employeeController extends Controller
             if ($request->role != "#" && $request->role) {
                 $q->where('role', '=', $request->role);
             }
+            if ($request->division != "#" && $request->division) {
+                $q->where('divisi', '=', $request->division);
+            }
+            if ($request->department != "#" && $request->department) {
+                $q->where('department', '=', $request->department);
+            }
         });
         $dataa->whereHas('project', function ($q) use ($request) {
             if ($request->overAllProg != "#" && $request->overAllProg) {
@@ -202,6 +208,12 @@ class employeeController extends Controller
             }
             if ($request->rolee != "#" && $request->rolee) {
                 $q->where('role', '=', $request->rolee);
+            }
+            if ($request->divisions != "#" && $request->divisions) {
+                $q->where('divisi', '=', $request->divisions);
+            }
+            if ($request->departments != "#" && $request->departments) {
+                $q->where('department', '=', $request->departments);
             }
         });
         // if ($request->dateChange == "true") {

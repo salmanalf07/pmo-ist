@@ -377,7 +377,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $customer = Customer::get();
         $skill = skillLevel::get();
         $location = locationEmployee::get();
-        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer, 'location' => $location, 'skill' => $skill]);
+        $department = department::get();
+        $division = division::get();
+        return view('employee/byAssignment', ['judul' => "By Assignment", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer, 'location' => $location, 'skill' => $skill, 'department' => $department, 'division' => $division]);
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

@@ -26,6 +26,24 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 col-3">
+                                                <label class="form-label">Department</label>
+                                                <select name="department" id="department" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($department as $departments)
+                                                    <option value="{{$departments->id}}">{{$departments->department}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
+                                                <label class="form-label">Division</label>
+                                                <select name="division" id="division" class="select2" aria-label="Default select example" required>
+                                                    <option value="#" selected>Open this select menu</option>
+                                                    @foreach($division as $divisions)
+                                                    <option value="{{$divisions->id}}">{{$divisions->division}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label">Location</label>
                                                 <select name="location" id="location" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
@@ -61,7 +79,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="mb-3 col-2">
+                                            <div class="mb-3 col-3">
                                                 <label class="form-label">Type Project</label>
                                                 <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
                                                     <option value="#" selected>Open this select menu</option>
@@ -127,6 +145,8 @@
                                             @csrf
                                             <input type="text" id="namee" name="namee" value="#" hidden>
                                             <input type="text" id="locations" name="locations" value="#" hidden>
+                                            <input type="text" id="departments" name="departments" value="#" hidden>
+                                            <input type="text" id="divisions" name="divisions" value="#" hidden>
                                             <input type="text" id="levells" name="levells" value="#" hidden>
                                             <input type="text" id="rolee" name="rolee" value="#" hidden>
                                             <input type="text" id="activeAtt" name="activeAtt" value="#" hidden>
@@ -369,6 +389,8 @@
                 'levell': $('#levells').val(),
                 'location': $('#locations').val(),
                 'overAllProg': $('#overAllProgs').val(),
+                'department': $('#departments').val(),
+                'division': $('#divisions').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -402,12 +424,14 @@
                 'levell': $('#levells').val(),
                 'location': $('#locations').val(),
                 'overAllProg': $('#overAllProgs').val(),
+                'department': $('#departments').val(),
+                'division': $('#divisions').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
-        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location, #overAllProg').on('change', function() {
+        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location, #overAllProg,#department,#division').on('change', function() {
             $('#namee').val($('#name').val());
             $('#projectIdd').val($('#projectId').val());
             $('#customerr').val($('#customer').val());
@@ -418,6 +442,8 @@
             $('#levells').val($('#levell').val());
             $('#locations').val($('#location').val());
             $('#overAllProgs').val($('#overAllProg').val());
+            $('#departments').val($('#department').val());
+            $('#divisions').val($('#division').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
@@ -435,6 +461,8 @@
                 'levell': $('#levells').val(),
                 'location': $('#locations').val(),
                 'overAllProg': $('#overAllProgs').val(),
+                'department': $('#departments').val(),
+                'division': $('#divisions').val(),
 
             });
             $('#example1').DataTable().draw();
@@ -451,6 +479,8 @@
             $('#levell').val('#').trigger('change');
             $('#location').val('#').trigger('change');
             $('#overAllProg').val('#').trigger('change');
+            $('#department').val('#').trigger('change');
+            $('#division').val('#').trigger('change');
             $('#reservation').val('');
 
             $('#namee').val('#');
@@ -464,6 +494,8 @@
             $('#locations').val('#');
             $('#overAllProgs').val('#');
             $('#dateRangee').val('#');
+            $('#departments').val("#");
+            $('#divisions').val("#");
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
