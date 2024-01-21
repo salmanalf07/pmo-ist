@@ -6,6 +6,7 @@ use App\Models\DetailOrder;
 use App\Models\Order;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use PhpParser\Node\Expr\Isset_;
 
@@ -16,7 +17,14 @@ class orderController extends Controller
         $get = Order::with(['detailOrder' => function ($query) {
             $query->orderBy('noRef', 'asc'); // Ganti 'namaKolomYangInginDiUrutkan' dengan nama kolom yang ingin diurutkan
         }])->where('projectId', $id)->first();
-        $value = Project::with('customer')->find($id);
+        $dataa = Project::with('customer')->where('id', $id);
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->where('pmName', Auth::user()->name);
+        }
+        $value = $dataa->first();
+        if (!$value) {
+            return view('/error', ['exception' => 'Project Not Allowed Access']);
+        }
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($get) {

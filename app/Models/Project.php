@@ -22,6 +22,7 @@ class Project extends Model
         'noPo',
         'datePo',
         'projectValue',
+        'projectValuePPN',
         'projectType',
         'partnerId',
         'sales',

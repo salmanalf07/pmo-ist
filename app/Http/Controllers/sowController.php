@@ -17,7 +17,14 @@ class sowController extends Controller
         $getInScope = inScope::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $getOutScope = outScope::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'SOW')->first();
-        $value = Project::with('customer')->find($id);
+        $dataa = Project::with('customer')->where('id', $id);
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->where('pmName', Auth::user()->name);
+        }
+        $value = $dataa->first();
+        if (!$value) {
+            return view('/error', ['exception' => 'Project Not Allowed Access']);
+        }
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($getInScope) {

@@ -38,12 +38,13 @@
                             <table class="table table-centered text-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th style="width: 25%;">Name TOP</th>
-                                        <th class="text-center" style="width: 13%;">Value</th>
+                                        <th style="width: 20%;">Name TOP</th>
+                                        <th class="text-center" style="width: 10%;">Value</th>
+                                        <th class="text-center" style="width: 10%;">Value + PPN</th>
                                         <th class="text-center" style="width: 13%;">Plan BAST</th>
                                         <th class="text-center" style="width: 13%;">Invoice Date</th>
                                         <th class="text-center" style="width: 13%;">Payment Date</th>
-                                        <th class="text-center" style="width: 18%;">Remarks</th>
+                                        <th class="text-center" style="width: 16%;">Remarks</th>
                                         <th style="width: 5%;"></th>
                                     </tr>
                                 </thead>
@@ -55,6 +56,7 @@
                                         <td>
                                             <input type="text" name="termsName[]" id="termsName0">
                                         </td>
+                                        <td><input type="text" class="number-input text-end" name="valueNotPPN[]" id="valueNotPPN0" readonly></td>
                                         <td><input type="text" class="number-input text-end" name="termsValue[]" id="termsValue0"></td>
                                         <td>
                                             <input style="width: 84% !important;" id="bastDate0" name="bastDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
@@ -80,12 +82,14 @@
                                         </td>
                                         <td>
                                             @canany(['bisa-hapus','top-editor'])
+                                            @if (!Auth::user()->hasRole("PM"))
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
                                                 <i data-feather="trash-2" class="icon-xs"></i>
                                                 <div id="trashOne" class="d-none">
                                                     <span>Delete</span>
                                                 </div>
                                             </a>
+                                            @endif
                                             @endcanany
                                         </td>
                                     </tr>
@@ -188,6 +192,7 @@
             for (var i = 0; i < '{{count($data)}}'; i++) {
                 $('#idtop' + i).val(data[i].id);
                 $('#termsName' + i).val(data[i].termsName);
+                $('#valueNotPPN' + i).val(formatNumberr(calculatePriceWithoutVAT(data[i].termsValue, 11)));
                 $('#termsValue' + i).val(formatNumberr(data[i].termsValue));
                 $('#bastDate' + i).val((data[i].bastDate).split("-").reverse().join("-"));
                 if (data[i].bastMain != 0) {
@@ -198,6 +203,14 @@
                     $('#termsValue' + i).attr('readonly', true);
                     $('#bastDate' + i).attr('disabled', true);
                     $('.form-check-inputt#bastMain' + i).attr('disabled', true);
+                }
+                if ('{{Auth::user()->hasRole("PM")}}') {
+                    $('#termsValue' + i).attr('readonly', true);
+                    $('.form-check-inputt#bastMain' + i).attr('disabled', true);
+                    $('#invDate' + i).attr('disabled', true);
+                    $('.form-check-inputt#invMain' + i).attr('disabled', true);
+                    $('#payDate' + i).attr('disabled', true);
+                    $('.form-check-inputt#payMain' + i).attr('disabled', true);
                 }
                 $('#invDate' + i).val((data[i].invDate).split("-").reverse().join("-"));
                 if (data[i].invMain != 0) {
@@ -216,6 +229,14 @@
                 $('#bastDate0').attr('disabled', true);
                 $('.form-check-inputt#bastMain0').attr('disabled', true);
             }
+            if ('{{Auth::user()->hasRole("PM")}}') {
+                $('#termsValue' + i).attr('readonly', true);
+                $('.form-check-inputt#bastMain' + i).attr('disabled', true);
+                $('#invDate' + i).attr('disabled', true);
+                $('.form-check-inputt#invMain' + i).attr('disabled', true);
+                $('#payDate' + i).attr('disabled', true);
+                $('.form-check-inputt#payMain' + i).attr('disabled', true);
+            }
         }
     })
 </script>
@@ -228,7 +249,7 @@
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 7; j++) {
+        for (let j = 0; j <= 8; j++) {
             var cell5 = lastRow.cells[j]; // Mengambil sel keempat (cell 4)
             var newCell5 = row.insertCell(j);
             // Mengklon semua elemen yang ada di dalam sel keempat (cell 4) pada row sebelumnya
@@ -238,10 +259,10 @@
             if (j == 0) {
                 newCell5.style.display = "none";
             }
-            if (j <= 6) {
+            if (j <= 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
-            if (j == 3 || j == 4 || j == 5) {
+            if (j == 4 || j == 5 || j == 6) {
                 var inputs = clonedContent.querySelectorAll('input');
                 inputs.forEach(function(input, index) {
                     // if (input.type == "checkbox") {

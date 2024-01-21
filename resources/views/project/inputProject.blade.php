@@ -63,8 +63,12 @@
                                             <option value="swasta">Swasta</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
                                         <label class="form-label">Project Value</label>
+                                        <input name="projectValuePPN" id="projectValuePPN" type="text" class="form-control" value="0" placeholder="Enter Here" readonly>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Project Value + PPN</label>
                                         <input name="projectValue" id="projectValue" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">
@@ -312,6 +316,10 @@
                 $('#joinDev1').removeAttr('hidden');
             }
         });
+        $('#projectValue').on('input', function() {
+            var projectValue = $(this).val();
+            $('#projectValuePPN').val(formatNumberr(calculatePriceWithoutVAT(projectValue.replace(/\./g, ""))));
+        });
 
     });
     //datepicker
@@ -343,6 +351,7 @@
             $('#dateEdPo').val(('{!! isset($data) ? $data->dateEdPo : "" !!}').split("-").reverse().join("-"));
             $('#poValue').val(formatNumberr('{!! isset($data) ? $data->poValue : "" !!}'));
             $('#projectValue').val(formatNumberr('{!! isset($data) ? $data->projectValue : "" !!}'));
+            $('#projectValuePPN').val(formatNumberr(calculatePriceWithoutVAT('{!! isset($data) ? $data->projectValue : "" !!}')));
             $('#projectType').val('{!! isset($data) ? $data->projectType : "" !!}').trigger('change');
             $('#partnerId').val('{!! isset($data) ? $data->partnerId : "" !!}').trigger('change');
             $('#sales').val('{!! isset($data) ? $data->sales : "" !!}').trigger('change');

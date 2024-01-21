@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -79,7 +80,14 @@ class topProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $get = topProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
-        $value = Project::with('customer')->find($id);
+        $dataa = Project::with('customer')->where('id', $id);
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->where('pmName', Auth::user()->name);
+        }
+        $value = $dataa->first();
+        if (!$value) {
+            return view('/error', ['exception' => 'Project Not Allowed Access']);
+        }
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if (count($get) > 0) {
@@ -115,16 +123,19 @@ class topProjectController extends Controller
                 $postt->noRef = $count + 1;
                 $postt->termsName = $termsName[$count];
                 $postt->termsValue = str_replace(".", "", $termsValue[$count]);
+                $postt->termsValuePPN = ceil(str_replace(".", "", $termsValue[$count])  / (1 + Session::get("ppn") / 100));
                 if ($bastDate) {
                     $postt->bastDate = date("Y-m-d", strtotime(str_replace('-', '-', $bastDate[$count])));
                 }
-                if (!Auth::user()->hasRole("Finance")) {
+                if (!Auth::user()->hasRole(["Finance", "PM"])) {
                     $postt->bastMain = isset($bastMain[$count]) ? $bastMain[$count] : 0;
                 }
-                $postt->invDate = date("Y-m-d", strtotime(str_replace('-', '-', $invDate[$count])));
-                $postt->invMain = isset($invMain[$count]) ? $invMain[$count] : 0;
-                $postt->payDate = date("Y-m-d", strtotime(str_replace('-', '-', $payDate[$count])));
-                $postt->payMain = isset($payMain[$count]) ? $payMain[$count] : 0;
+                if (!Auth::user()->hasRole("PM")) {
+                    $postt->invDate = date("Y-m-d", strtotime(str_replace('-', '-', $invDate[$count])));
+                    $postt->invMain = isset($invMain[$count]) ? $invMain[$count] : 0;
+                    $postt->payDate = date("Y-m-d", strtotime(str_replace('-', '-', $payDate[$count])));
+                    $postt->payMain = isset($payMain[$count]) ? $payMain[$count] : 0;
+                }
                 $postt->remaks = $remaks[$count];
 
                 $postt->save();

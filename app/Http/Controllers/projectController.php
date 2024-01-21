@@ -23,6 +23,7 @@ use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -134,6 +135,7 @@ class projectController extends Controller
             $post->dateStPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateStPo)));
             $post->dateEdPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateEdPo)));
             $post->poValue = str_replace(".", "", $request->poValue);
+            $post->projectValuePPN = $request->projectValue == null ? 0 : str_replace(".", "", $request->projectValue)  / (1 + Session::get("ppn") / 100);
             $post->projectValue = $request->projectValue == null ? 0 : str_replace(".", "", $request->projectValue);
             $post->projectType = $request->projectType;
             $post->partnerId = $request->partnerId;
@@ -156,7 +158,14 @@ class projectController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $get = Project::find($id);
+        $dataa = Project::where('id', $id);
+        if (Auth::user()->hasRole('PM')) {
+            $dataa->where('pmName', Auth::user()->name);
+        }
+        $get = $dataa->first();
+        if (!$get) {
+            return view('/error', ['exception' => 'Project Not Allowed Access']);
+        }
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         $customer = Customer::where('type', 'customer')->get();

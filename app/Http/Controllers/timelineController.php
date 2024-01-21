@@ -16,10 +16,17 @@ class timelineController extends Controller
     {
         $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
-        $overAllProg = Project::with('customer')->find($id);
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($request->segment(2) == "changeprojectTimeline") {
+            $dataa = Project::with('customer')->where('id', $id);
+            if (Auth::user()->hasRole('PM')) {
+                $dataa->where('pmName', Auth::user()->name);
+            }
+            $overAllProg = $dataa->first();
+            if (!$overAllProg) {
+                return view('/error', ['exception' => 'Project Not Allowed Access']);
+            }
             if ($get) {
                 $aksi = 'EditData';
             } else {

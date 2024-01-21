@@ -43,7 +43,13 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof UnauthorizedException) {
-            return response()->view('error', ['exception' => $e->getMessage()], 403);
+            if ($request->ajax()) {
+                // Jika permintaan adalah AJAX
+                return response()->json(['error' => $e->getMessage()], 403);
+            } else {
+                // Jika permintaan biasa
+                return response()->view('error', ['exception' => $e->getMessage(), 'code' => $e->getStatusCode()], 403);
+            }
         }
 
         return parent::render($request, $e);

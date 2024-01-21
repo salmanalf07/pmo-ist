@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\Models\tax;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
@@ -37,6 +39,9 @@ class JetstreamServiceProvider extends ServiceProvider
 
             if ($user && Hash::check($request->password, $user->password)) {
                 if ($user->status == "ACTIV") {  // it will return if status == 1
+                    $taxes = tax::where('status', 'Active')->first();
+                    session(['ppn' => $taxes->ppn]);
+
                     return $user;
                 }
             }

@@ -7,27 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class topProject extends Model
+class tax extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'projectId',
-        'termsName',
-        'termsValue',
-        'termsValuePPN',
-        'bastDate',
-        'invDate',
-        'payDate',
-        'bastMain',
-        'invMain',
-        'payMain',
-        'remaks',
+        'ppn',
+        'status'
     ];
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'projectId', 'id');
-    }
+
     /**
      * The "booting" function of model
      *

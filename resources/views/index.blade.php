@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{{asset('/assets/libs/gantt/dhtmlxgantt.css?v=8.0.6')}}">
     <link rel="stylesheet" href="{{asset('/assets/libs/gantt/common/controls_styles.css?v=8.0.6')}}">
     <title>PMO PORTAL</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -149,6 +150,10 @@
             if (nextRow && nextRow.tagName === "TR") {
                 row.parentElement.insertBefore(nextRow, row);
             }
+        }
+
+        function calculatePriceWithoutVAT(priceWithVAT) {
+            return Math.ceil(priceWithVAT / (1 + '{{ Session::get("ppn") }}' / 100));
         }
 
         document.addEventListener('DOMContentLoaded', function() {
