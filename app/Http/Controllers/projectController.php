@@ -135,7 +135,7 @@ class projectController extends Controller
             $post->dateStPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateStPo)));
             $post->dateEdPo = date("Y-m-d", strtotime(str_replace('-', '-', $request->dateEdPo)));
             $post->poValue = str_replace(".", "", $request->poValue);
-            $post->projectValuePPN = $request->projectValue == null ? 0 : str_replace(".", "", $request->projectValue)  / (1 + Session::get("ppn") / 100);
+            $post->projectValuePPN = $request->projectValue == null ? 0 : ceil(str_replace(".", "", $request->projectValue)  / (1 + Session::get("ppn") / 100));
             $post->projectValue = $request->projectValue == null ? 0 : str_replace(".", "", $request->projectValue);
             $post->projectType = $request->projectType;
             $post->partnerId = $request->partnerId;
