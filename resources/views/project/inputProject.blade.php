@@ -42,7 +42,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <br>
+                                    <div class="mb-3 col-6"></div>
                                     <div class="mb-3 col-6">
                                         <label class="form-label" for="selectOne">Customer</label>
                                         <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
