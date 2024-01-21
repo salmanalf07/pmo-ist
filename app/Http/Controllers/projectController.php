@@ -310,7 +310,7 @@ class projectController extends Controller
                 ['invMain', '=', 1]
             ])->sum('termsValue');
             if ($sumInv > 0) {
-                $invoiced = ($sumInv / $data->projectValue) * 100;
+                $invoiced = $data->projectValue != 0 ? ($sumInv / $data->projectValue) * 100 : 0;
             } else {
                 $invoiced = 0;
             }
@@ -320,7 +320,7 @@ class projectController extends Controller
                 ['payMain', '=', 1]
             ])->sum('termsValue');
             if ($sumPay > 0) {
-                $payment = ($sumPay / $data->projectValue) * 100;
+                $payment = $data->projectValue != 0 ? ($sumPay / $data->projectValue) * 100 : 0;;
             } else {
                 $payment = 0;
             }
