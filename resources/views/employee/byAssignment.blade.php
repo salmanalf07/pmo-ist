@@ -469,19 +469,18 @@
             // console.log(date)
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#name').val('#').trigger('change');
-            $('#projectId').val('#').trigger('change');
-            $('#customer').val('#').trigger('change');
-            $('#role').val('#').trigger('change');
-            $('#directManager').val('#').trigger('change');
-            $('#typeProject').val('#').trigger('change');
-            $('#status').val('#').trigger('change');
-            $('#levell').val('#').trigger('change');
-            $('#location').val('#').trigger('change');
-            $('#overAllProg').val('#').trigger('change');
-            $('#department').val('#').trigger('change');
-            $('#division').val('#').trigger('change');
-            $('#reservation').val('');
+            $('#name').val('#').trigger('change.select2');
+            $('#projectId').val('#').trigger('change.select2');
+            $('#customer').val('#').trigger('change.select2');
+            $('#role').val('#').trigger('change.select2');
+            $('#directManager').val('#').trigger('change.select2');
+            $('#typeProject').val('#').trigger('change.select2');
+            $('#status').val('#').trigger('change.select2');
+            $('#levell').val('#').trigger('change.select2');
+            $('#location').val('#').trigger('change.select2');
+            $('#overAllProg').val('#').trigger('change.select2');
+            $('#department').val('#').trigger('change.select2');
+            $('#division').val('#').trigger('change.select2');
 
             $('#namee').val('#');
             $('#projectIdd').val('#');
@@ -516,7 +515,7 @@
 
                 },
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $('[name="projectId"]').empty();
                     $('[name="projectId"]').append('<option value="#">Open this select menu</option>');
                     $.each(data, function(i) {
