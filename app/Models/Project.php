@@ -23,6 +23,7 @@ class Project extends Model
         'datePo',
         'projectValue',
         'projectValuePPN',
+        'overAllProg',
         'projectType',
         'partnerId',
         'sales',

@@ -44,6 +44,15 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
                     } else {
                         $rowData[$heading] = $relatedData;
                     }
+
+                    if ($column === 'project.overAllProg') {
+                        // Tambahkan pengecekan untuk progress di sini
+                        if ($relatedData == 100) {
+                            $rowData[$heading] = 'Completed';
+                        } else {
+                            $rowData[$heading] = 'In Progress';
+                        }
+                    }
                 } else {
                     // Cek apakah kolom adalah tanggal
                     $isDateColumn = false; // Tambahkan variabel untuk menandai kolom tanggal
@@ -51,7 +60,6 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
                     if ($column === 'startDate' || $column === 'endDate') {
                         $isDateColumn = true;
                     }
-
                     if ($isDateColumn) {
                         // Ubah format tanggal sesuai kebutuhan (misal: 'd-m-Y')
                         $rowData[$heading] = \Carbon\Carbon::parse($item->{$column})->format('d-M-Y');
@@ -81,6 +89,7 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'employees.specialization.specialization' => 'Specialization',
             'project.projectName' => 'Project Name',
             'project.customer.company' => 'Customer',
+            'project.overAllProg' => 'Project Progress',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
             'employees.typeProjects.typeProject' => 'Type Project',
