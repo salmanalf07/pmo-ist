@@ -193,39 +193,137 @@ class projectController extends Controller
 
     function allProjectExport(Request $request)
     {
-        $dataa = topProject::whereHas('project', function ($query) use ($request) {
+        // $dataa = topProject::whereHas('project', function ($query) use ($request) {
 
-            if ($request->cust_id != "#" && $request->cust_id) {
-                $query->where('cust_id', $request->cust_id);
+        //     if ($request->cust_id != "#" && $request->cust_id) {
+        //         $query->where('cust_id', $request->cust_id);
+        //     }
+        //     if ($request->pmName != "#" && $request->pmName) {
+        //         $query->where('pmName', $request->pmName);
+        //     }
+        //     if ($request->sales != "#" && $request->sales) {
+        //         $query->where('sales', $request->sales);
+        //     }
+        //     if ($request->spk != "#" && $request->spk == "noContract") {
+        //         $query->where('noContract', null);
+        //     } else if ($request->spk != "#" && $request->spk != "noContract") {
+        //         $query->where('noContract', $request->spk);
+        //     }
+        //     if ($request->statusId != "#" && $request->statusId) {
+        //         if ($request->statusId == "progress") {
+        //             $query->where('overAllProg', '<', 100);
+        //         } elseif ($request->statusId == "completed") {
+        //             $query->where('overAllProg', '=', 100);
+        //         }
+        //     }
+        // })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+
+        // $data = $dataa
+        //     ->orderBy('projectId')
+        //     ->orderByRaw('CONVERT(noRef, SIGNED) asc')
+        //     ->get();
+
+        // return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
+
+        $dataa = Project::with('customer', 'pm', 'coPm', 'sponsors', 'partner', 'saless', 'topProject');
+
+        if ($request->cust_id != "#" && $request->cust_id) {
+            $dataa->where('cust_id', $request->cust_id);
+        }
+        if ($request->pmName != "#" && $request->pmName) {
+            $dataa->where('pmName', $request->pmName);
+        }
+        if ($request->sales != "#" && $request->sales) {
+            $dataa->where('sales', $request->sales);
+        }
+        if ($request->spk != "#" && $request->spk == "noContract") {
+            $dataa->where('noContract', null);
+        } else if ($request->spk != "#" && $request->spk != "noContract") {
+            $dataa->where('noContract', $request->spk);
+        }
+        if ($request->statusId != "#" && $request->statusId) {
+            if ($request->statusId == "progress") {
+                $dataa->where('overAllProg', '<', 100);
+            } elseif ($request->statusId == "completed") {
+                $dataa->where('overAllProg', '=', 100);
             }
-            if ($request->pmName != "#" && $request->pmName) {
-                $query->where('pmName', $request->pmName);
-            }
-            if ($request->sales != "#" && $request->sales) {
-                $query->where('sales', $request->sales);
-            }
-            if ($request->spk != "#" && $request->spk == "noContract") {
-                $query->where('noContract', null);
-            } else if ($request->spk != "#" && $request->spk != "noContract") {
-                $query->where('noContract', $request->spk);
-            }
-            if ($request->statusId != "#" && $request->statusId) {
-                if ($request->statusId == "progress") {
-                    $query->where('overAllProg', '<', 100);
-                } elseif ($request->statusId == "completed") {
-                    $query->where('overAllProg', '=', 100);
-                }
-            }
-        })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
+        }
 
         $data = $dataa
-            ->orderBy('projectId')
-            ->orderByRaw('CONVERT(noRef, SIGNED) asc')
             ->get();
 
-        return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
+        $projectDetail = [];
 
-        //return $data;
+        foreach ($data as  $project) {
+            if (isset($project->topProject[0])) {
+                foreach ($project->topProject as $topProject) {
+                    $projectDetail[] = [
+                        'noProject' => $project->noProject,
+                        'customerType' => $project->customerType,
+                        'customerName' => $project->customer->company,
+                        'projectName' => $project->projectName,
+                        'noContract' => $project->noContract,
+                        'contractDate' => date("d-m-Y", strtotime($project->contractDate)),
+                        'po' => $project->po,
+                        'noPo' => $project->noPo,
+                        'datePo' => date("d-m-Y", strtotime($project->datePo)),
+                        'dateStPo' => date("d-m-Y", strtotime($project->dateStPo)),
+                        'dateEdPo' => date("d-m-Y", strtotime($project->dateEdPo)),
+                        'poValue' => $project->poValue,
+                        'projectValue' => $project->projectValue,
+                        'overAllProg' => $project->overAllProg,
+                        'projectType' => $project->projectType,
+                        'partnerCompany' => isset($project->partner->company) ? $project->partner->company : "",
+                        'saless' => $project->saless->name,
+                        'pm' => isset($project->pm->name) ? $project->pm->name : "",
+                        'co_pm' => isset($project->coPm->name) ? $project->coPm->name : "",
+                        'sponsors' => isset($project->sponsors->name) ? $project->sponsors->name : "",
+                        'contractStart' => date("d-m-Y", strtotime($project->contractStart)),
+                        'contractEnd' => date("d-m-Y", strtotime($project->contractEnd)),
+                        'termsName' => $topProject->termsName,
+                        'termsValue' => $topProject->termsValue,
+                        'bastDate' => date("d-m-Y", strtotime($topProject->bastDate)),
+                        'invDate' => date("d-m-Y", strtotime($topProject->invDate)),
+                        'payDate' =>  date("d-m-Y", strtotime($topProject->payDate)),
+                        'remaks' => $topProject->remaks,
+                    ];
+                }
+            } else {
+                $projectDetail[] = [
+                    'noProject' => $project->noProject,
+                    'customerType' => $project->customerType,
+                    'customerName' => $project->customer->company,
+                    'projectName' => $project->projectName,
+                    'noContract' => $project->noContract,
+                    'contractDate' => date("d-m-Y", strtotime($project->contractDate)),
+                    'po' => $project->po,
+                    'noPo' => $project->noPo,
+                    'datePo' => date("d-m-Y", strtotime($project->datePo)),
+                    'dateStPo' => date("d-m-Y", strtotime($project->dateStPo)),
+                    'dateEdPo' => date("d-m-Y", strtotime($project->dateEdPo)),
+                    'poValue' => $project->poValue,
+                    'projectValue' => $project->projectValue,
+                    'overAllProg' => $project->overAllProg,
+                    'projectType' => $project->projectType,
+                    'partnerCompany' => isset($project->partner->company) ? $project->partner->company : "",
+                    'saless' => $project->saless->name,
+                    'pm' => isset($project->pm->name) ? $project->pm->name : "",
+                    'co_pm' => isset($project->coPm->name) ? $project->coPm->name : "",
+                    'sponsors' => isset($project->sponsors->name) ? $project->sponsors->name : "",
+                    'contractStart' => date("d-m-Y", strtotime($project->contractStart)),
+                    'contractEnd' => date("d-m-Y", strtotime($project->contractEnd)),
+                    'termsName' => '',
+                    'termsValue' => '',
+                    'bastDate' => '',
+                    'invDate' => '',
+                    'payDate' => '',
+                    'remaks' => '',
+                ];
+            }
+        }
+
+        //return $projectDetail;
+        return Excel::download(new allProjectExport($projectDetail), 'allProjectExport.xlsx');
     }
     function closeProjectExport(Request $request)
     {

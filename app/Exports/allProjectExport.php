@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Illuminate\Support\Collection;
 
 class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
@@ -20,36 +21,7 @@ class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, 
 
     public function collection()
     {
-        $columns = $this->headings(); // Simpan referensi ke method headings() dalam variabel $columns
-
-        return $this->data->map(function ($item) use ($columns) {
-            $rowData = [];
-            foreach ($columns as $column => $heading) {
-                if (strpos($column, '.') !== false) {
-                    // Menghandle eager loading (with)
-                    $relatedData = $item;
-                    $relatedColumns = explode('.', $column);
-                    foreach ($relatedColumns as $relatedColumn) {
-                        // Cek apakah $relatedData null atau '#'
-                        if (is_null($relatedData) || $relatedData === '#') {
-                            $relatedData = null; // Set $relatedData menjadi null dan keluar dari loop
-                            break;
-                        }
-                        $relatedData = $relatedData->{$relatedColumn};
-                    }
-
-                    // Atur nilai pada $rowData[$heading] sesuai kondisi null atau tidaknya
-                    if (is_null($relatedData)) {
-                        $rowData[$heading] = ''; // Atau bisa diatur menjadi nilai default lainnya
-                    } else {
-                        $rowData[$heading] = $relatedData;
-                    }
-                } else {
-                    $rowData[$heading] = $item->{$column};
-                }
-            }
-            return $rowData;
-        });
+        return new Collection($this->data);
     }
 
 
@@ -57,28 +29,28 @@ class allProjectExport implements FromCollection, WithHeadings, ShouldAutoSize, 
     public function headings(): array
     {
         return [
-            'project.noProject' => 'No Project',
-            'project.customerType' => 'Type Customer',
-            'project.customer.company' => 'Customer',
-            'project.projectName' => 'Project Name',
-            'project.noContract' => 'No Contract/SPK/PO/SO',
-            'project.contractDate' => 'Date contract/SPK/PO/SO',
-            'project.po' => 'PO',
-            'project.noPo' => 'No Main contract',
-            'project.datePo' => 'Date Main contract',
-            'project.dateStPo' => 'Contract Start',
-            'project.dateEdPo' => 'Contract End',
-            'project.poValue' => 'PO Value',
-            'project.projectValue' => 'Project Value',
-            'project.overAllProg' => 'Progress',
-            'project.projectType' => 'Type Project',
-            'project.partner.company' => 'Partner',
-            'project.saless.name' => 'Sales',
-            'project.pm.name' => 'Project Manager',
-            'project.co_pm.name' => 'Co PM',
-            'project.sponsors.name' => 'Sponsor',
-            'project.contractStart' => ' Start Date Contract',
-            'project.contractEnd' => 'End Date Contract',
+            'noProject' => 'No Project',
+            'customerType' => 'Type Customer',
+            'customerName' => 'Customer',
+            'projectName' => 'Project Name',
+            'noContract' => 'No Contract/SPK/PO/SO',
+            'contractDate' => 'Date contract/SPK/PO/SO',
+            'po' => 'PO',
+            'noPo' => 'No Main contract',
+            'datePo' => 'Date Main contract',
+            'dateStPo' => 'Contract Start',
+            'dateEdPo' => 'Contract End',
+            'poValue' => 'PO Value',
+            'projectValue' => 'Project Value',
+            'overAllProg' => 'Progress',
+            'projectType' => 'Type Project',
+            'partnerCompany' => 'Partner',
+            'saless' => 'Sales',
+            'pm' => 'Project Manager',
+            'co_pm' => 'Co PM',
+            'sponsors' => 'Sponsor',
+            'contractStart' => ' Start Date Contract',
+            'contractEnd' => 'End Date Contract',
             'termsName' => 'Terms Name',
             'termsValue' => 'Terms of Payment',
             'bastDate' => 'Plan/BAST Date',
