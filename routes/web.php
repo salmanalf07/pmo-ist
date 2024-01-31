@@ -234,8 +234,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 //end profile
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
-    Route::get('/dashboard', function () {
+    Route::post('/get_executive_dashboard/{year}', function ($year) {
 
+        if ($year != "#") {
+            $years = $year;
+        } else {
+            $years = date('Y');
+        }
         $kamus = [
             [
                 "key" => "BankingNFinancialServicesIndustry",
@@ -256,12 +261,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         ];
 
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
-        $projectThisYear = Project::whereYear('contractStart', '=', date('Y'))->count();
-        $PotensialRevenue = topProject::whereYear('bastDate', '=', date('Y'))->sum('termsValue');
-        $RevenueNewPo = Project::whereYear('contractStart', '=', date('Y'))->sum('projectValue');
-        $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->sum('termsValue');
-        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', date('Y'))->orderByRaw('CONVERT(projectValue, SIGNED) desc')->get();
-        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('sales')->get();
+        $projectThisYear = Project::whereYear('contractStart', '=', $years)->count();
+        $PotensialRevenue = topProject::whereYear('bastDate', '=', $years)->sum('termsValue');
+        $RevenueNewPo = Project::whereYear('contractStart', '=', $years)->sum('projectValue');
+        $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', $years)->sum('termsValue');
+        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', $years)->orderByRaw('CONVERT(projectValue, SIGNED) desc')->get();
+        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('sales')->get();
         // Inisialisasi array hasil konversi
         $resultArray = [];
 
@@ -280,7 +285,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'revenue' => $salesData->totalRevenue
             ];
         }
-        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', date('Y'))->groupBy('customerType')->get();
+        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('customerType')->get();
         // Loop setiap hasil dari kueri $salesRevenue
         $resultCustTypeRevenue = [];
         foreach ($custTypeRevenue as $custTypeRevenuee) {
@@ -290,10 +295,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'totalRevenue' => formatAngka($custTypeRevenuee->totalRevenue),
             ];
         }
-
-        $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', date('Y'))->groupBy(DB::raw('MONTH(invDate)'))->get();
+        if ($years != date('Y')) {
+            $month = 12;
+        } else {
+            $month = date('m');
+        }
+        $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', $years)->groupBy(DB::raw('MONTH(invDate)'))->get();
         $resultInvByMonth = [];
-        for ($i = 0; $i <= (date('m') - 1); $i++) {
+        for ($i = 0; $i <= ($month - 1); $i++) {
             if (isset($invByMonth[$i]['MONTH(invDate)']) && $invByMonth[$i]['MONTH(invDate)'] == $i + 1) {
                 $resultInvByMonth[] = [
                     'MONTH(invDate)' => $i + 1,
@@ -306,9 +315,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 ];
             }
         }
-        $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValue) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', date('Y'))->groupBy(DB::raw('MONTH(payDate)'))->get();
+        $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValue) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', $years)->groupBy(DB::raw('MONTH(payDate)'))->get();
         $resultPayByMonth = [];
-        for ($i = 0; $i <= (date('m') - 1); $i++) {
+        for ($i = 0; $i <= ($month - 1); $i++) {
             if (isset($payByMonth[$i]['MONTH(payDate)']) && $payByMonth[$i]['MONTH(payDate)'] == $i + 1) {
                 $resultPayByMonth[] = [
                     'MONTH(payDate)' => $i + 1,
@@ -322,7 +331,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             }
         }
 
-        return view('dashboard', ['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $resultInvByMonth, 'payByMonth' => $resultPayByMonth]);
+        return response()->json(['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $resultInvByMonth, 'payByMonth' => $resultPayByMonth]);
+    })->name('get_executive_dashboard');
+    Route::get('/dashboard', function () {
+
+        return view('dashboard');
         //return $resultPayByMonth;
     })->name('dashboard');
 });
