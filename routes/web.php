@@ -582,7 +582,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectPartner/{id}', [memberProjectController::class, 'destroyPartner'])->name('deletePartner');
 //TimeLine
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{id}', function ($id) {
-    $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
+    $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
         $dataa->where('pmName', Auth::user()->name);

@@ -14,11 +14,13 @@
             <div class="card-body">
                 <div id="linkDirect" class="row">
                     @if ($file)
+                    @foreach ($file as $files)
                     <div class="mb-3 col-9">
-                        <a href="{{$file->link}}" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">
-                            <i class="bi bi-link-45deg icon-lg me-1"></i>{{$file->nameFile}}
+                        <a href="{{$files->link}}" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">
+                            <i class="bi bi-link-45deg icon-lg me-1"></i>{{$files->nameFile}}
                         </a>
                     </div>
+                    @endforeach
                     @endif
                 </div>
             </div>

@@ -37,12 +37,19 @@
                     </div>
                     <div class="card-body">
                         <div id="inputfile" class="row">
-                            <input type="hidden" name="idFile" id="idFile" value="#">
+                            <input type="hidden" name="idFile[]" id="idFile0" value="#">
                             <div class="mb-3 col-6">
-                                <input name="nameFile" id="nameFile" type="text" class="form-control" placeholder="Enter Name File Here">
+                                <input name="nameFile[]" id="nameFile0" type="text" class="form-control" placeholder="Enter Name File 1 Here">
                             </div>
                             <div class="mb-3 col-6">
-                                <input name="link" id="link" type="text" class="form-control" placeholder="Enter Link Here">
+                                <input name="link[]" id="link0" type="text" class="form-control" placeholder="Enter Link Here">
+                            </div>
+                            <input type="hidden" name="idFile[]" id="idFile1" value="#">
+                            <div class="mb-3 col-6">
+                                <input name="nameFile[]" id="nameFile1" type="text" class="form-control" placeholder="Enter Name File 2 Here">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <input name="link[]" id="link1" type="text" class="form-control" placeholder="Enter Link Here">
                             </div>
                         </div>
                         <div style="display: none;" id="linkDirect" class="row">
@@ -232,21 +239,24 @@
 
         if ('{{isset($file) && $aksiFile == "EditData"}}') {
             var data = <?php echo json_encode($file); ?>;
-            $('#idFile').val(data.id);
-            $('#nameFile').val(data.nameFile);
-            $('#link').val(data.link);
-            $('#linkDirect').html('<div class="mb-3 col-9">' +
-                '<a href="' + data.link + '" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">' +
-                '<i class="bi bi-link-45deg icon-lg me-1"></i>' + data.nameFile +
-                '</a></div>' +
-                '<div class="mb-3 col-3">' +
-                '<div class="justify-content-between text-end">' +
-                '@can("bisa-ubah")' +
-                '<button type="button" id="buttonUpdateLink" class="btn btn-warning-soft">Update</button>' +
-                '@endcan' +
-                '</div');
-            $('#linkDirect').show();
-            $('#inputfile').hide();
+
+            for (let j = 0; j < data.length; j++) {
+                $('#idFile' + j).val(data[j].id);
+                $('#nameFile' + j).val(data[j].nameFile);
+                $('#link' + j).val(data[j].link);
+                $('#linkDirect').append('<div class="mb-3 col-9">' +
+                    '<a href="' + data[j].link + '" target="_blank" class="btn btn-ghost p-2 pt-0 pb-0" data-template="six">' +
+                    '<i class="bi bi-link-45deg icon-lg me-1"></i>' + data[j].nameFile +
+                    '</a></div>' +
+                    '<div class="mb-3 col-3">' +
+                    '<div class="justify-content-between text-end">' +
+                    '@can("bisa-ubah")' +
+                    '<button type="button" id="buttonUpdateLink" class="btn btn-warning-soft">Update</button>' +
+                    '@endcan' +
+                    '</div');
+                $('#linkDirect').show();
+                $('#inputfile').hide();
+            }
         } else {
             $('#idFile').val("#");
         }

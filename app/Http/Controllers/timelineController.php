@@ -15,7 +15,7 @@ class timelineController extends Controller
     public function edit(Request $request, $id)
     {
         $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
-        $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->first();
+        $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($request->segment(2) == "changeprojectTimeline") {
@@ -88,14 +88,17 @@ class timelineController extends Controller
                 $postt->save();
             }
             //documentation
-            if ($request->idFile != '#' || $request->nameFile != null) {
-                $file = documentationProject::findOrNew($request->idFile);
-                $file->ProjectId = $id;
-                $file->nameFile = $request->nameFile;
-                $file->type = "TIMELINE";
-                $file->link = $request->link;
-                $file->userId = Auth::user()->id;
-                $file->save();
+
+            for ($fileTimeline = 0; $fileTimeline < count($request->nameFile); $fileTimeline++) {
+                if ($request->idFile[$fileTimeline] != '#' || $request->nameFile[$fileTimeline] != null) {
+                    $file = documentationProject::findOrNew($request->idFile[$fileTimeline]);
+                    $file->ProjectId = $id;
+                    $file->nameFile = $request->nameFile[$fileTimeline];
+                    $file->type = "TIMELINE";
+                    $file->link = $request->link[$fileTimeline];
+                    $file->userId = Auth::user()->id;
+                    $file->save();
+                }
             }
 
             $data = [$id];
