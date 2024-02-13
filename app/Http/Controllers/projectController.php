@@ -114,6 +114,7 @@ class projectController extends Controller
                 'cust_id' => ['required', 'string', 'max:255'],
                 'customerType' => ['required', 'string', 'max:255'],
                 'projectName' => ['required', 'string', 'max:255'],
+                'shortProjectName' => ['required', 'string', 'max:255'],
             ]);
 
             if ($request->id) {
@@ -126,6 +127,7 @@ class projectController extends Controller
             $post->cust_id = $request->cust_id;
             $post->customerType = $request->customerType;
             $post->projectName = $request->projectName;
+            $post->shortProjectName = $request->shortProjectName;
             $post->solution = $request->solution;
             $post->noContract = $request->noContract;
             $post->contractDate = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractDate)));

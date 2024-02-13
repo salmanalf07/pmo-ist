@@ -25,12 +25,16 @@
                                     </div>
                                     <ul class="nav nav-lt-tab px-4 mb-3" id="pills-tab" role="tablist">
                                     </ul>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-3">
                                         <label class="form-label">Project ID</label>
                                         <input name="noProject" id="noProject" value="{{ (isset($noProject)) ? $noProject : $data->noProject }}" type="text" class="form-control" readonly>
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-9">
                                         <label class="form-label">Project Name</label>
+                                        <input name="shortProjectName" id="shortProjectName" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <label class="form-label">Contract Name</label>
                                         <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">
@@ -337,6 +341,7 @@
             $('#cust_id').val('{!! isset($data) ? $data->cust_id : "" !!}').trigger('change');
             $('#customerType').val('{!! isset($data) ? $data->customerType : "" !!}').trigger('change');
             $('#projectName').val('{!! isset($data) ? $data->projectName : "" !!}');
+            $('#shortProjectName').val('{!! isset($data) ? $data->shortProjectName : "" !!}');
             $('#solution').val('{!! isset($data) ? $data->solution : "" !!}').trigger('change');
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
             $('#noContract').val(`{!! isset($data) ? $data->noContract : "" !!}`);
