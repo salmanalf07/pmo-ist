@@ -32,6 +32,7 @@ use App\Http\Controllers\tempGuideController;
 use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\weeklyReportController;
 use App\Models\community;
 use App\Models\communityCategory as ModelsCommunityCategory;
 use App\Models\communityType as ModelsCommunityType;
@@ -610,7 +611,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     return view('project/riskIssuesDashboard', ['judul' => "Risk/Issues", 'id' => $id,  'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
 })->name('riskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_riskIssues/{id}', [riskIssuestController::class, 'edit'])->name('json_riskIssues');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->get('/project/changeriskIssues/{id}', [riskIssuestController::class, 'edit'])->name('changeriskIssues');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->get('/project/changeriskIssues/{id}', [riskIssuestController::class, 'edit'])->name('changeriskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_riskIssues/{id}', [riskIssuestController::class, 'store'])->name('storeRiskIssues');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectMember/{table}/{id}', [riskIssuestController::class, 'destroy'])->name('deleteIssues');
 //SOW
@@ -682,6 +683,23 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_participant/{id}', [momController::class, 'deleteParticipant']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_moms/{id}', [momController::class, 'deleteMom']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/exportPdf/{id}', [momController::class, 'exportMom']);
+//WEEKLY REPORT
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/weekly_report/{id}', function ($id) {
+    $dataa = Project::with('customer')->where('id', $id);
+    if (Auth::user()->hasRole('PM')) {
+        $dataa->where('pmName', Auth::user()->name);
+    }
+    $project = $dataa->first();
+    if (!$project) {
+        return view('/error', ['exception' => 'Project Not Allowed Access']);
+    }
+    return view('project/weeklyReport', ['id' => $id, 'judul' => "MOM", 'header' => $project->customer->company . ' - ' . $project->noContract . ' - ' . $project->projectName,]);
+})->name('weekly_report');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get(
+    '/project/formWeeklyReport/{id}',
+    [weeklyReportController::class, 'edit']
+)->name('formWeeklyReport');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_weeklyReport/{id}', [momController::class, 'json']);
 //gantt Cart
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/gantt_cart/{id}', function ($id) {
     $member = memberProject::with('employees.manager', 'employees.levels', 'roles', 'project.customer')->where('projectId', $id)->get();
