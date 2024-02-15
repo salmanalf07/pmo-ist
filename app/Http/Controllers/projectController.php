@@ -74,7 +74,10 @@ class projectController extends Controller
         }
 
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
 
         $data = $dataa->get();
@@ -162,7 +165,10 @@ class projectController extends Controller
     {
         $dataa = Project::where('id', $id);
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
         $get = $dataa->first();
         if (!$get) {

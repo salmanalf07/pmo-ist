@@ -60,7 +60,8 @@ class topProjectController extends Controller
         }
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
-                $query->where('pmName', Auth::user()->name);
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
             });
         }
 
@@ -82,7 +83,10 @@ class topProjectController extends Controller
         $get = topProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $dataa = Project::with('customer')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
         $value = $dataa->first();
         if (!$value) {
@@ -181,7 +185,8 @@ class topProjectController extends Controller
 
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
-                $query->where('pmName', Auth::user()->name);
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
             });
         }
 
@@ -219,7 +224,8 @@ class topProjectController extends Controller
 
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
-                $query->where('pmName', Auth::user()->name);
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
             });
         }
 

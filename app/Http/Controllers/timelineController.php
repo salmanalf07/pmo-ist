@@ -21,7 +21,10 @@ class timelineController extends Controller
         if ($request->segment(2) == "changeprojectTimeline") {
             $dataa = Project::with('customer')->where('id', $id);
             if (Auth::user()->hasRole('PM')) {
-                $dataa->where('pmName', Auth::user()->name);
+                $dataa->where(function ($query) {
+                    $query->where('pmName', Auth::user()->name)
+                        ->orWhere('coPm', Auth::user()->name);
+                });
             }
             $overAllProg = $dataa->first();
             if (!$overAllProg) {

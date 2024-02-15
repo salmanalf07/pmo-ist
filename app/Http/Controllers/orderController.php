@@ -19,7 +19,10 @@ class orderController extends Controller
         }])->where('projectId', $id)->first();
         $dataa = Project::with('customer')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
         $value = $dataa->first();
         if (!$value) {

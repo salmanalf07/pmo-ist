@@ -62,6 +62,7 @@ use App\Models\tax;
 use App\Models\tempAndGuide;
 use App\Models\topProject;
 use App\Models\typeProject;
+use App\Models\weeklyReport;
 use Google\Service\CloudSearch\Member;
 use Google\Service\Docs\Request;
 use Illuminate\Http\Request as RequestData;
@@ -481,7 +482,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         $dataa = Project::where('id', $id);
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
         $data = $dataa->first();
         if (!$data) {
@@ -567,7 +571,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectMember/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
-        $dataa->where('pmName', Auth::user()->name);
+        $dataa->where(function ($query) {
+            $query->where('pmName', Auth::user()->name)
+                ->orWhere('coPm', Auth::user()->name);
+        });
     }
     $value = $dataa->first();
     if (!$value) {
@@ -586,7 +593,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
-        $dataa->where('pmName', Auth::user()->name);
+        $dataa->where(function ($query) {
+            $query->where('pmName', Auth::user()->name)
+                ->orWhere('coPm', Auth::user()->name);
+        });
     }
     $value = $dataa->first();
     if (!$value) {
@@ -602,7 +612,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
-        $dataa->where('pmName', Auth::user()->name);
+        $dataa->where(function ($query) {
+            $query->where('pmName', Auth::user()->name)
+                ->orWhere('coPm', Auth::user()->name);
+        });
     }
     $value = $dataa->first();
     if (!$value) {
@@ -629,7 +642,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/project/documentation/{id}', function ($id) {
         $dataa = Project::with('customer')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
-            $dataa->where('pmName', Auth::user()->name);
+            $dataa->where(function ($query) {
+                $query->where('pmName', Auth::user()->name)
+                    ->orWhere('coPm', Auth::user()->name);
+            });
         }
         $value = $dataa->first();
         if (!$value) {
@@ -663,7 +679,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/moms/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
-        $dataa->where('pmName', Auth::user()->name);
+        $dataa->where(function ($query) {
+            $query->where('pmName', Auth::user()->name)
+                ->orWhere('coPm', Auth::user()->name);
+        });
     }
     $project = $dataa->first();
     if (!$project) {
@@ -687,7 +706,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/weekly_report/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
     if (Auth::user()->hasRole('PM')) {
-        $dataa->where('pmName', Auth::user()->name);
+        $dataa->where(function ($query) {
+            $query->where('pmName', Auth::user()->name)
+                ->orWhere('coPm', Auth::user()->name);
+        });
     }
     $project = $dataa->first();
     if (!$project) {
@@ -699,7 +721,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     '/project/formWeeklyReport/{id}',
     [weeklyReportController::class, 'edit']
 )->name('formWeeklyReport');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_weeklyReport/{id}', [momController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_weeklyReport/{id}', [weeklyReportController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/project_information/{id}', [weeklyReportController::class, 'meeting_information']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/editWeeklyReport/{id}', [weeklyReportController::class, 'edit']);
 //gantt Cart
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/gantt_cart/{id}', function ($id) {
     $member = memberProject::with('employees.manager', 'employees.levels', 'roles', 'project.customer')->where('projectId', $id)->get();
