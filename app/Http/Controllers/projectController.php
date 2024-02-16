@@ -36,10 +36,20 @@ class projectController extends Controller
         $dataa = Project::with('customer', 'pm', 'saless')->orderBy('created_at', 'DESC');
 
         if ($request->cust_id != "#" && $request->cust_id) {
-            $dataa->where('cust_id', $request->cust_id);
+            $names = explode(',', $request->cust_id);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('cust_id', $names);
+            }
         }
         if ($request->pmName != "#" && $request->pmName) {
-            $dataa->where('pmName', $request->pmName);
+            $names = explode(',', $request->pmName);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('pmName', $names);
+            }
         }
         if ($request->status != "#" && $request->status) {
             if ($request->status == "progress") {

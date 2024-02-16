@@ -19,8 +19,8 @@
                                     <div class="row col-10">
                                         <div class="mb-3 col-4">
                                             <label class="form-label" for="selectOne">Customer</label>
-                                            <select name="cust_id" id="cust_id" class="select2" aria-label="Default select example">
-                                                <option value="#" selected>Open this select menu</option>
+                                            <input type="text" id="custId" name="custId" value="#" hidden>
+                                            <select name="cust_id[]" id="cust_id" multiple="multiple" class="select2" aria-label="Default select example">
                                                 @foreach($customer as $customer)
                                                 <option value="{{$customer->id}}">{{strtoupper($customer->company)}}</option>
                                                 @endforeach
@@ -28,8 +28,8 @@
                                         </div>
                                         <div class="mb-3 col-4">
                                             <label class="form-label">Project Manager</label>
-                                            <select name="pmName" id="pmName" class="select2" aria-label="Default select example" required>
-                                                <option value="#" selected>Open this select menu</option>
+                                            <input type="text" id="pmId" name="pmId" value="#" hidden>
+                                            <select name="pmName[]" id="pmName" multiple="multiple" class="select2" aria-label="Default select example" required>
                                                 @foreach($pm->unique('pmName') as $pmName)
                                                 @if($pmName->pm != null)
                                                 <option value="{{$pmName->pm->id}}">{{$pmName->pm->name}}</option>
@@ -116,7 +116,7 @@
             var elementId = $(this).attr('id'); // Get the ID of the current select element
 
             // Check if the ID matches a specific condition
-            if (elementId === 'sales') {
+            if (['sales', 'cust_id', 'pmName'].includes(elementId)) {
                 $(this).select2({
                     dropdownParent: $(this).parent().parent(),
                     placeholder: 'Select multiple options...'
@@ -205,10 +205,12 @@
         // $('.col-12').on('click', '#in', function() {
         $('#cust_id, #pmName, #status, #sales').on('change', function() {
             $('#salesId').val($('#sales').val());
+            $('#pmId').val($('#pmName').val());
+            $('#custId').val($('#cust_id').val());
 
             $('#example1').data('dt_params', {
-                'cust_id': $('#cust_id').val(),
-                'pmName': $('#pmName').val(),
+                'cust_id': $('#custId').val(),
+                'pmName': $('#pmId').val(),
                 'status': $('#status').val(),
                 'salesId': $('#salesId').val(),
             });
