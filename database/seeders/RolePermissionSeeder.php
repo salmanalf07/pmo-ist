@@ -15,6 +15,6 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'mom-editor']);
+        Permission::create(['name' => 'weekly-editor']);
     }
 }
