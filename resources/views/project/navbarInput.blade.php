@@ -61,6 +61,11 @@
                             <!-- <li class=" nav-item">
                                 <a class="nav-link {{ request()->is('project/gantt_cart/*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/gantt_cart/' . $id : '#' }}">Gantt Cart</a>
                             </li> -->
+                            @if(!auth()->user()->hasRole('PM'))
+                            <li class=" nav-item">
+                                <a class="nav-link {{ request()->is('project/weekly_report*','project/formWeeklyReport*','editWeeklyReport*') ? 'active' : '' }}" href="{{ isset($id) ? '/project/weekly_report/' . $id : '#' }}">Weekly Report</a>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

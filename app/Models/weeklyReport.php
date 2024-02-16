@@ -7,31 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class topProject extends Model
+class weeklyReport extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $fillable = [
         'projectId',
-        'termsName',
-        'termsValue',
-        'termsValuePPN',
-        'bastDate',
-        'invDate',
-        'payDate',
-        'bastMain',
-        'invMain',
-        'payMain',
-        'remaks',
+        'periode',
+        'currentStage',
+        'traficLight',
+        'PMCust',
+        'issuedDate'
     ];
-    public function project()
+
+    public function riskIssue()
     {
-        return $this->belongsTo(Project::class, 'projectId', 'id');
+        return $this->hasMany(WReportRiskIssue::class, 'wReportId', 'id');
     }
+
     public function milestone()
     {
-        return $this->hasMany(WReportMilestone::class, 'topId', 'id');
+        return $this->hasMany(WReportMilestone::class, 'wReportId', 'id');
     }
+
     /**
      * The "booting" function of model
      *

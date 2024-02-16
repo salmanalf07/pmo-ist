@@ -20,6 +20,11 @@ class riskProject extends Model
         'owner',
         'statRisk',
     ];
+
+    public function riskWeeklyReport()
+    {
+        return $this->hasMany(WReportRiskIssue::class, 'riskIssueId', 'id');
+    }
     /**
      * The "booting" function of model
      *

@@ -7,31 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class topProject extends Model
+class WReportMilestone extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $fillable = [
-        'projectId',
-        'termsName',
-        'termsValue',
-        'termsValuePPN',
-        'bastDate',
-        'invDate',
-        'payDate',
-        'bastMain',
-        'invMain',
-        'payMain',
-        'remaks',
+        'wReportId',
+        'topId',
+        'finishDate',
+        'status',
+        'notes'
     ];
-    public function project()
+
+    public function topProject()
     {
-        return $this->belongsTo(Project::class, 'projectId', 'id');
+        return $this->belongsTo(topProject::class, 'topId', 'id');
     }
-    public function milestone()
-    {
-        return $this->hasMany(WReportMilestone::class, 'topId', 'id');
-    }
+
     /**
      * The "booting" function of model
      *

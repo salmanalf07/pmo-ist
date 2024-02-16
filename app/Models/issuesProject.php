@@ -20,6 +20,11 @@ class issuesProject extends Model
         'resolvedDate',
         'statIssues',
     ];
+
+    public function issueWeeklyReport()
+    {
+        return $this->hasMany(WReportRiskIssue::class, 'riskIssueId', 'id');
+    }
     /**
      * The "booting" function of model
      *
