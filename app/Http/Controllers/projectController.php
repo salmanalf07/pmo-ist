@@ -16,6 +16,7 @@ use App\Models\memberProject;
 use App\Models\Order;
 use App\Models\partnerProject;
 use App\Models\Project;
+use App\Models\projectSponsor;
 use App\Models\riskProject;
 use App\Models\scopeProject;
 use App\Models\solution;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Ramsey\Uuid\Uuid;
 use PDF;
 
 class projectController extends Controller
@@ -157,12 +159,21 @@ class projectController extends Controller
             $post->sales = $request->sales;
             $post->pmName = $request->pmName;
             $post->coPm = $request->coPm;
-            if ($request->sponsor) {
-                $post->sponsor = implode(",", $request->sponsor);
-            }
             $post->contractStart = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractStart)));
             $post->contractEnd = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractEnd)));
             $post->save();
+
+
+            if ($request->sponsor) {
+                $post->sponsor()->detach();
+                // Membuat array dari UUID sponsors yang diterima dari form
+                $sponsorIds = $request->input('sponsor');
+
+                foreach ($sponsorIds as $sponsorId) {
+                    $pivotId = Uuid::uuid4()->toString();
+                    $post->sponsor()->attach([$sponsorId => ['id' => $pivotId]]);
+                }
+            }
 
             $data = [$post];
             return response()->json($data);
@@ -173,7 +184,7 @@ class projectController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $dataa = Project::where('id', $id);
+        $dataa = Project::with('sponsors.employee')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
             $dataa->where(function ($query) {
                 $query->where('pmName', Auth::user()->name)
@@ -181,6 +192,7 @@ class projectController extends Controller
             });
         }
         $get = $dataa->first();
+        // return $get;
         if (!$get) {
             return view('/error', ['exception' => 'Project Not Allowed Access']);
         }

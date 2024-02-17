@@ -46,10 +46,6 @@ class Project extends Model
     {
         return $this->belongsTo(employee::class, 'pmName', 'id');
     }
-    public function sponsors()
-    {
-        return $this->belongsTo(employee::class, 'sponsor', 'id');
-    }
     public function saless()
     {
         return $this->belongsTo(employee::class, 'sales', 'id');
@@ -69,6 +65,14 @@ class Project extends Model
     public function topProject()
     {
         return $this->hasMany(topProject::class, 'projectId', 'id');
+    }
+    public function sponsor()
+    {
+        return $this->belongsToMany(projectSponsor::class, 'project_sponsors', 'projectId', 'sponsorId');
+    }
+    public function sponsors()
+    {
+        return $this->hasMany(projectSponsor::class, 'projectId', 'id');
     }
 
 

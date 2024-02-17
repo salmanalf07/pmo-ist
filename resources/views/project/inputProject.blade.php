@@ -363,9 +363,10 @@
             $('#pmName').val('{!! isset($data) ? $data->pmName : "" !!}').trigger('change');
             $('#coPm').val('{!! isset($data) ? $data->coPm : "" !!}').trigger('change');
             //multi-select
-            var rawData = '{!! isset($data) ? $data->sponsor : "" !!}';
-            var dataArray = rawData.split(",");
-            $('#sponsor').val(dataArray).trigger('change');
+            var rawData = '{!! isset($data) ? $data->sponsors : "" !!}';
+            var dataArray = JSON.parse(rawData);
+            var sponsorIds = dataArray.map(item => item.sponsorId);
+            $('#sponsor').val(sponsorIds).trigger('change');
             //end
             $('#contractStart').val(('{!! isset($data) ? $data->contractStart : "" !!}').split("-").reverse().join("-"));
             $('#contractEnd').val(('{!! isset($data) ? $data->contractEnd : "" !!}').split("-").reverse().join("-"));

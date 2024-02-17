@@ -1127,3 +1127,23 @@ Route::get('/gantt', function () {
 Route::get('/google/auth', [employeeController::class, 'auth']);
 Route::get('/google/callback', [employeeController::class, 'callback']);
 Route::get('/googleSheet', [employeeController::class, 'getSheetsData']);
+
+Route::get('/getSponsor', function () {
+    $projects = Project::all();
+
+    // Menampilkan informasi semua proyek beserta sponsor-sponsor mereka
+    $resultArray = [];
+
+    foreach ($projects as $project) {
+        $projectArray = $project->toArray();
+
+        // Menampilkan informasi proyek dan sponsor-sponsor mereka
+        $resultArray[] = [
+            'project' => $projectArray,
+            'sponsors' => $project->sponsor ? $project->sponsor->toArray() : 'No sponsors', // Perubahan di sini
+        ];
+    }
+
+    // Output hasil dalam bentuk array
+    print_r($resultArray);
+});
