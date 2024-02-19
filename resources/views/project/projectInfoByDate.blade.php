@@ -86,6 +86,7 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>Project Id</th>
                                         <th>Customer</th>
                                         <th>Sales</th>
                                         <th>Project Name</th>
@@ -126,7 +127,10 @@
             ],
             "autoWidth": false,
             "columnDefs": [{
-                targets: [3, 4],
+                "className": "text-center",
+                "targets": [0], // table ke 1
+            }, {
+                targets: [4, 5],
                 render: function(oTable) {
                     return moment(oTable).format('DD-MM-YYYY');
                 }
@@ -143,6 +147,9 @@
                 }
             },
             columns: [{
+                    data: 'noProject',
+                },
+                {
                     data: 'customer.company',
                     name: 'customer.company',
                     render: function(data, type, row) {

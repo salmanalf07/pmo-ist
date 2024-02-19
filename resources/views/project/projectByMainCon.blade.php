@@ -92,6 +92,7 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>Project Id</th>
                                         <th>Main Contract</th>
                                         <th>Contract</th>
                                         <th>Customer</th>
@@ -131,10 +132,13 @@
             ],
             "autoWidth": false,
             "columnDefs": [{
-                "className": "text-end",
-                "targets": [4], // table ke 1
+                "className": "text-center",
+                "targets": [0], // table ke 1
             }, {
-                targets: [4],
+                "className": "text-end",
+                "targets": [5], // table ke 1
+            }, {
+                targets: [5],
                 render: $.fn.dataTable.render.number('.', '.', 0)
             }, ],
             ajax: {
@@ -149,6 +153,9 @@
                 }
             },
             columns: [{
+                    data: 'noProject',
+                },
+                {
                     data: function(row) {
                         if (row.noPo && row.noPo) {
                             return row.noPo; // Mengembalikan nilai properti name jika ada

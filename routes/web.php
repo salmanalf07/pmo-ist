@@ -54,6 +54,7 @@ use App\Models\Order;
 use App\Models\partnerProject;
 use App\Models\pipeline;
 use App\Models\Project;
+use App\Models\projectSponsor;
 use App\Models\roleEmployee;
 use App\Models\skillLevel;
 use App\Models\solution;
@@ -451,7 +452,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         $employee = employee::get();
         $pm = project::with('pm')->select('pmName')->get();
         $sales = Project::with('saless')->select('sales')->get();
-        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm, 'sales' => $sales]);
+        $sponsors = projectSponsor::with('employee')->get();
+        return view('project/projectInfo', ['judul' => "Project All", 'customer' => $customer, 'employee' => $employee, 'pm' => $pm, 'sales' => $sales, 'sponsors' => $sponsors]);
         // return $pm;
     })->name('projectInfo');
 });
@@ -807,7 +809,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         $customer = Customer::where('type', 'customer')->get();
         $employee = employee::get();
         $spk = project::select('noContract')->distinct()->get();
-        return view('report/r_allProject', ['judul' => "Report All Project", 'customer' => $customer, 'employee' => $employee, 'spk' => $spk]);
+        $sponsors = projectSponsor::with('employee')->get();
+        return view('report/r_allProject', ['judul' => "Report All Project", 'customer' => $customer, 'employee' => $employee, 'spk' => $spk, 'sponsors' => $sponsors]);
     })->name('r_allProject');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/allProjectExport', [projectController::class, 'allProjectExport']);

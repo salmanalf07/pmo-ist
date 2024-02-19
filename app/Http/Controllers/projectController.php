@@ -35,7 +35,7 @@ class projectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = Project::with('customer', 'pm', 'saless')->orderBy('created_at', 'DESC');
+        $dataa = Project::with('customer', 'pm', 'saless', 'sponsors')->orderBy('created_at', 'DESC');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $names = explode(',', $request->cust_id);
@@ -78,6 +78,17 @@ class projectController extends Controller
             if (is_array($names) && count($names) > 0) {
                 // Gunakan whereIn untuk mencocokkan multiple values
                 $dataa->whereIn('sales', $names);
+            }
+        }
+
+        if ($request->sponsors != "#" && $request->sponsors) {
+            $names = explode(',', $request->sponsors);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                $dataa->whereHas('sponsors', function ($query) use ($names) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sponsorId', $names);
+                });
             }
         }
 
@@ -255,7 +266,7 @@ class projectController extends Controller
 
         // return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
 
-        $dataa = Project::with('customer', 'pm', 'coPm', 'sponsors', 'partner', 'saless', 'topProject');
+        $dataa = Project::with('customer', 'pm', 'coPm', 'sponsors.employee', 'partner', 'saless', 'topProject');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $dataa->where('cust_id', $request->cust_id);
@@ -278,6 +289,16 @@ class projectController extends Controller
                 $dataa->where('overAllProg', '=', 100);
             }
         }
+        if ($request->sponsor != "#" && $request->sponsor) {
+            $names = explode(',', $request->sponsor);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                $dataa->whereHas('sponsors', function ($query) use ($names) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sponsorId', $names);
+                });
+            }
+        }
 
         $data = $dataa
             ->get();
@@ -285,8 +306,16 @@ class projectController extends Controller
         $projectDetail = [];
 
         foreach ($data as  $project) {
+            $sponsorData = [];
+
+            // Loop foreach untuk mengakses nama karyawan dan menyimpannya dalam array
+            foreach ($project->sponsors as $sponsor) {
+                $sponsorName = $sponsor->employee->name ?? "";
+                $sponsorData[] = $sponsorName;
+            }
             if (isset($project->topProject[0])) {
                 foreach ($project->topProject as $topProject) {
+                    // Inisialisasi array untuk menyimpan nama karyawan
                     $projectDetail[] = [
                         'noProject' => $project->noProject,
                         'customerType' => $project->customerType,
@@ -307,7 +336,7 @@ class projectController extends Controller
                         'saless' => $project->saless->name,
                         'pm' => isset($project->pm->name) ? $project->pm->name : "",
                         'co_pm' => isset($project->coPm->name) ? $project->coPm->name : "",
-                        'sponsors' => isset($project->sponsors->name) ? $project->sponsors->name : "",
+                        'sponsors' => implode(', ', $sponsorData) ?? "",
                         'contractStart' => date("d-m-Y", strtotime($project->contractStart)),
                         'contractEnd' => date("d-m-Y", strtotime($project->contractEnd)),
                         'termsName' => $topProject->termsName,
@@ -339,7 +368,7 @@ class projectController extends Controller
                     'saless' => $project->saless->name,
                     'pm' => isset($project->pm->name) ? $project->pm->name : "",
                     'co_pm' => isset($project->coPm->name) ? $project->coPm->name : "",
-                    'sponsors' => isset($project->sponsors->name) ? $project->sponsors->name : "",
+                    'sponsors' => implode(', ', $sponsorData) ?? "",
                     'contractStart' => date("d-m-Y", strtotime($project->contractStart)),
                     'contractEnd' => date("d-m-Y", strtotime($project->contractEnd)),
                     'termsName' => '',

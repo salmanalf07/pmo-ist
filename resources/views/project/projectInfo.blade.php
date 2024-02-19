@@ -57,6 +57,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Project Sponsors</label>
+                                            <input type="text" id="sponsor" name="sponsor" value="#" hidden>
+                                            <select name="sponsors[]" id="sponsors" multiple="multiple" class="select2" aria-label="Default select example" required>
+                                                @foreach($sponsors->unique('sponsorId') as $sponsor)
+                                                @if($sponsor->employee != null)
+                                                <option value="{{$sponsor->sponsorId}}">{{$sponsor->employee['name']}}</option>
+                                                @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row col-2 pt-7 ms-3">
                                         <div class="mb-3 col-12">
@@ -91,6 +102,7 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>Project Id</th>
                                         <th>Customer</th>
                                         <th>Project Name</th>
                                         <th>SPK</th>
@@ -116,7 +128,7 @@
             var elementId = $(this).attr('id'); // Get the ID of the current select element
 
             // Check if the ID matches a specific condition
-            if (['sales', 'cust_id', 'pmName'].includes(elementId)) {
+            if (['sales', 'cust_id', 'pmName', 'sponsors'].includes(elementId)) {
                 $(this).select2({
                     dropdownParent: $(this).parent().parent(),
                     placeholder: 'Select multiple options...'
@@ -143,6 +155,10 @@
                 [10, 25, 50, "All"]
             ],
             "autoWidth": false,
+            "columnDefs": [{
+                "className": "text-center",
+                "targets": [0], // table ke 1
+            }],
             ajax: {
                 url: '{{ url("json_project") }}',
                 data: function(d) {
@@ -155,6 +171,9 @@
                 }
             },
             columns: [{
+                    data: 'noProject',
+                },
+                {
                     data: function(row, type) {
                         if (row.cust_id != "#") {
                             var value = type === 'display' && row.customer.company.length > 23 ? row.customer.company.substring(0, 23) + '..' : row.customer.company;
@@ -203,16 +222,18 @@
             ],
         });
         // $('.col-12').on('click', '#in', function() {
-        $('#cust_id, #pmName, #status, #sales').on('change', function() {
+        $('#cust_id, #pmName, #status, #sales, #sponsors').on('change', function() {
             $('#salesId').val($('#sales').val());
             $('#pmId').val($('#pmName').val());
             $('#custId').val($('#cust_id').val());
+            $('#sponsor').val($('#sponsors').val());
 
             $('#example1').data('dt_params', {
                 'cust_id': $('#custId').val(),
                 'pmName': $('#pmId').val(),
                 'status': $('#status').val(),
                 'salesId': $('#salesId').val(),
+                'sponsors': $('#sponsor').val(),
             });
             $('#example1').DataTable().draw();
         });
@@ -221,6 +242,7 @@
             $('#cust_id').val('#').trigger('change');
             $('#pmName').val('#').trigger('change');
             $('#status').val('#').trigger('change');
+            $('#sponsors').val('#').trigger('change');
 
             $('#salesId').val("#");
             $('#example1').data('dt_params', {});
