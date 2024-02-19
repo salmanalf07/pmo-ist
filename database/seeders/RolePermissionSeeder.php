@@ -15,6 +15,10 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'weekly-editor']);
+        $permissionNames = ['customers-editor', 'departments-editor', 'divisions-editor', 'doctypes-editor', 'skilllevels-editor', 'solutions-editor', 'specializations-editor', 'roles-editor', 'users-editor', 'taxes'];
+
+        foreach ($permissionNames as $name) {
+            Permission::create(['name' => $name]);
+        }
     }
 }

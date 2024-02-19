@@ -208,63 +208,82 @@
                         Customers
                     </a> -->
 
-                    @role('Manage')
+                    @role(['Manage','PM'])
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users','taxes','pmo*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Master Data
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
-
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('customers-editor'))
                             <li>
                                 <a class="dropdown-item" href="/customers">
                                     Customer
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('departments-editor'))
                             <li>
                                 <a class="dropdown-item" href="/departments">
                                     Department
                                 </a>
-                            </li>
+                            </li>@endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('divisions-editor'))
                             <li>
                                 <a class="dropdown-item" href="/divisions">
                                     Division
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('doctypes-editor'))
                             <li>
                                 <a class="dropdown-item" href="/doctypes">
                                     Document Type
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('skilllevels-editor'))
                             <li>
                                 <a class="dropdown-item" href="/skilllevels">
                                     Skill Level
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('solutions-editor'))
                             <li>
                                 <a class="dropdown-item" href="/solutions">
                                     Solution
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('specializations-editor'))
                             <li>
                                 <a class="dropdown-item" href="/specializations">
                                     Specialization
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('roles-editor'))
                             <li>
                                 <a class="dropdown-item" href="/roles">
                                     Role
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('users-editor'))
                             <li>
                                 <a class="dropdown-item" href="/users">
                                     User
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm') || Auth::user()->can('taxes-editor'))
                             <li>
                                 <a class="dropdown-item" href="/taxes">
                                     Taxes
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm'))
                             <li class="dropdown-submenu dropend">
                                 <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">
                                     PMO
@@ -339,6 +358,7 @@
                                 </ul>
 
                             </li>
+                            @endif
                         </ul>
                     </li>
                     @endrole

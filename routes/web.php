@@ -902,14 +902,14 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 
 
 //MASTER DATA
-Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm']], function () {
+Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:Manage|PM']], function () {
     //search data
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/search_project', function (RequestData $request) {
         $project = Project::where('cust_id', $request->cust_id)->get();
         return response()->json($project);
     });
     //customer
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|customers-editor'])->group(function () {
         Route::get('/customers', function () {
             return view('masterData/customers', ['judul' => "Customers"]);
         })->name('customers');
@@ -920,7 +920,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_customer/{id}', [customerController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_customer/{id}', [customerController::class, 'destroy']);
     //department
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|departments-editor'])->group(function () {
         Route::get('/departments', function () {
             return view('masterData/departments', ['judul' => "Department"]);
         })->name('departments');
@@ -931,7 +931,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_department/{id}', [departmentController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_department/{id}', [departmentController::class, 'destroy']);
     //division
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|divisions-editor'])->group(function () {
         Route::get('/divisions', function () {
             return view('masterData/divisions', ['judul' => "Division"]);
         })->name('divisions');
@@ -942,7 +942,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_division/{id}', [divisionController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_division/{id}', [divisionController::class, 'destroy']);
     //Document Type
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|doctypes-editor'])->group(function () {
         Route::get('/doctypes', function () {
             return view('masterData/doctypes', ['judul' => "Document Type"]);
         })->name('doctypes');
@@ -953,7 +953,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_doctypes/{id}', [doctypeController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_doctypes/{id}', [doctypeController::class, 'destroy']);
     //Skill Level
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|skilllevels-editor'])->group(function () {
         Route::get('/skilllevels', function () {
             return view('masterData/skilllevels', ['judul' => "Skill Level"]);
         })->name('skilllevels');
@@ -964,7 +964,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_skilllevels/{id}', [skillLevelController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_skilllevels/{id}', [skillLevelController::class, 'destroy']);
     //Solution
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|solutions-editor'])->group(function () {
         Route::get('/solutions', function () {
             return view('masterData/solutions', ['judul' => "Solution"]);
         })->name('solutions');
@@ -986,7 +986,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_specializations/{id}', [specializationController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_specializations/{id}', [specializationController::class, 'destroy']);
     //Role
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|roles-editor'])->group(function () {
         Route::get('/roles', function () {
             return view('masterData/roles', ['judul' => "Role"]);
         })->name('roles');
@@ -997,7 +997,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_roles/{id}', [ControllersRoleEmployee::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_roles/{id}', [ControllersRoleEmployee::class, 'destroy']);
     //User
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|users-editor'])->group(function () {
         Route::get('/users', function () {
             $role = Role::all();
             $employee = employee::all();
@@ -1010,7 +1010,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_users/{id}', [userController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_users/{id}', [userController::class, 'destroy']);
     //Taxes
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'multi_role:SuperAdm,Manage'])->group(function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|taxes-editor'])->group(function () {
         Route::get('/taxes', function () {
             return view('masterData/tax', ['judul' => "Taxes"]);
         })->name('taxes');
