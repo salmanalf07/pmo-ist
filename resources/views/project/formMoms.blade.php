@@ -327,7 +327,7 @@
             var dataMii = <?php echo json_encode($partMii); ?>;
             if (dataMii.length > 0) {
                 for (let i = 0; i < (dataMii.length - 1); i++) {
-                    addtMiiomer();
+                    addMii();
                 }
                 for (let i = 0; i < dataMii.length; i++) {
                     $('#idMii' + i).val(dataMii[i].id);
