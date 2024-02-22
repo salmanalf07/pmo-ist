@@ -621,7 +621,27 @@
                     data: fd,
                     processData: false,
                     contentType: false,
-                    success: function(data) {
+                    success: function(response) {
+                        // Loop melalui setiap elemen topId pada halaman
+                        var responseData = response.data;
+                        $('[id^="actionFu"]').each(function() {
+                            var currentActionFu = $(this).val();
+
+                            // Cari data yang sesuai dari respons
+                            var matchedData = responseData.find(function(item) {
+                                return item.action === currentActionFu;
+                            });
+
+                            // Jika data ditemukan, tetapkan ID ke elemen sesuai
+                            if (matchedData) {
+                                console.log(matchedData);
+                                // Ambil karakter unik dari ID sebagai basis pencarian
+                                var idSuffix = $(this).attr('id').replace('actionFu', '');
+                                // Setel nilai elemen "idmilestone" dan "idtop" yang memiliki ID dengan karakter unik yang sesuai
+                                $('#idFu' + idSuffix).val(matchedData.id);
+                                console.log($('#idFu' + idSuffix).val());
+                            }
+                        });
                         alert('Data berhasil disimpan')
                         // window.location.href = "/project/moms/" + data.id;
 

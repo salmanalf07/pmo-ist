@@ -221,11 +221,11 @@ class momController extends Controller
                     $fuBase->save();
                 }
             }
-
+            $data = followupMom::where('momId', $id)->get();
             DB::commit(); // Commit transaksi jika berhasil
 
             // Berikan respons bahwa operasi berhasil
-            return response()->json(['message' => 'Operasi berhasil', 'id' => $id], 200);
+            return response()->json(['message' => 'Operasi berhasil', 'id' => $id, 'data' => $data], 200);
         } catch (\Exception  $e) {
             DB::rollback(); // Batalkan transaksi jika terjadi kesalahan
             // Handle kesalahan atau tindakan lain yang perlu dilakukan jika terjadi kesalahan validasi atau operasi database
@@ -243,7 +243,11 @@ class momController extends Controller
 
     function deleteMom($id)
     {
-        $post = mom::find($id);
+        $post = mom::with('discussions', 'decisions', 'followup', 'participant')->find($id);
+        $post->participant()->delete();
+        $post->decisions()->delete();
+        $post->followup()->delete();
+        $post->participant()->delete();
         $post->delete();
 
         return response()->json($post, 200);

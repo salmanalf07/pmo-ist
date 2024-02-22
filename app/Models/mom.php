@@ -33,6 +33,10 @@ class mom extends Model
     {
         return $this->hasMany(partMom::class, 'momId', 'id');
     }
+    public function followup()
+    {
+        return $this->hasMany(followupMom::class, 'momId', 'id');
+    }
 
     /**
      * The "booting" function of model
