@@ -26,7 +26,7 @@ class momController extends Controller
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
                 $editButton = auth()->user()->canany(['bisa-ubah', 'mom-editor']) ?
-                    '<a href="/editMom/' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                    '<a href="/project/editMom/' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Edit">
                     <i class="bi bi-pencil-square"></i>
                 </a>' : '';
 
@@ -56,7 +56,7 @@ class momController extends Controller
     function edit(Request $request, $id)
     {
         $get = mom::with('discussions', 'decisions')->find($id);
-        if ($request->segment(1) == "editMom") {
+        if ($request->segment(2) == "editMom") {
             $aksi = 'EditData';
 
             $project = Project::with('customer')->find($get->projectId);
