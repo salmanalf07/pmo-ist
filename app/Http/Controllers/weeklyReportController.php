@@ -8,11 +8,14 @@ use App\Models\riskProject;
 use App\Models\topProject;
 use App\Models\weeklyReport;
 use App\Models\WReportMilestone;
+use App\Models\wReportProjectProgres;
 use App\Models\WReportRiskIssue;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use PDF;
 
 class weeklyReportController extends Controller
 {
@@ -77,6 +80,8 @@ class weeklyReportController extends Controller
                 }
             }])->where('projectId', $get->projectId)->get();
 
+            $projectProgress = wReportProjectProgres::where('wReportId', $id)->first();
+
             $referensi = $get->projectId;
         } else {
             $aksi = 'Add';
@@ -89,11 +94,12 @@ class weeklyReportController extends Controller
             $risk = riskProject::with('riskWeeklyReport')->where('projectId', $id)->get();
             $issue = issuesProject::with('issueWeeklyReport')->where('projectId', $id)->get();
             $project = Project::with('customer')->find($id);
+            $projectProgress = wReportProjectProgres::where('wReportId', $id)->first();
         }
 
 
         // return $issue;
-        return view('project/formWeeklyReport', ['id' => $referensi, 'aksi' => $aksi, 'data' => $get, 'project' => $project, 'risk' => $risk, 'issue' => $issue, 'milestone' => $milestone, 'top' => $top]);
+        return view('project/formWeeklyReport', ['id' => $referensi, 'aksi' => $aksi, 'data' => $get, 'project' => $project, 'risk' => $risk, 'issue' => $issue, 'milestone' => $milestone, 'top' => $top, 'projectProgress' => $projectProgress]);
     }
 
     function meeting_information(Request $request, $id)
@@ -281,11 +287,50 @@ class weeklyReportController extends Controller
         }
     }
 
+    function storeProjectProgress(Request $request)
+    {
+        try {
+            if ($request->key == "projectProgress") {
+                if ($request->uid != "#") {
+                    $post = wReportProjectProgres::find($request->uid);
+                } else {
+                    $post = new wReportProjectProgres();
+                }
+                $post->projectProgress = $request->konten;
+                $post->wReportId = $request->wReportId;
+
+                $post->save();
+            }
+
+            return response()->json(['message' => 'Content saved successfully', 'post' => $post->id, 'key' => $request->key]);
+        } catch (QueryException $e) {
+            // Handle any database-related exceptions
+            return response()->json(['error' => 'Database error: ' . $e->getMessage()], 500);
+        } catch (\Exception $e) {
+            // Catch any other exceptions
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function destroy($id)
     {
-        $post = weeklyReport::with('riskIssue', 'milestone')->find($id);
+        $post = weeklyReport::with('riskIssue', 'milestone', 'projectProgress')->find($id);
         $post->riskIssue()->delete();
         $post->milestone()->delete();
+        $post->projectProgress()->delete();
         $post->delete();
+    }
+
+    function exportWeekly($id)
+    {
+        $data = weeklyReport::with('project.customer', 'risk.risk', 'issue.issue', 'milestone.topProject', 'projectProgress')->find($id);
+
+        //return $data;
+        //return view('pdf/exportWeekly', ['data' => $data]);
+        $pdf = PDF::loadView('pdf.exportWeekly', compact('data'));
+        // Mengubah orientasi menjadi lanskap
+        $pdf->setPaper('a4');
+
+        return $pdf->stream('WeeklyReport.pdf');
     }
 }

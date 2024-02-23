@@ -19,14 +19,34 @@ class weeklyReport extends Model
         'issuedDate'
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
+
     public function riskIssue()
     {
         return $this->hasMany(WReportRiskIssue::class, 'wReportId', 'id');
+    }
+    public function risk()
+    {
+        return $this->hasMany(WReportRiskIssue::class, 'wReportId', 'id')
+            ->where('type', '=', 'risk');
+    }
+    public function issue()
+    {
+        return $this->hasMany(WReportRiskIssue::class, 'wReportId', 'id')
+            ->where('type', '=', 'issue');
     }
 
     public function milestone()
     {
         return $this->hasMany(WReportMilestone::class, 'wReportId', 'id');
+    }
+
+    public function projectProgress()
+    {
+        return $this->hasOne(wReportProjectProgres::class, 'wReportId', 'id');
     }
 
     /**

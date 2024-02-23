@@ -7,29 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class WReportRiskIssue extends Model
+class wReportProjectProgres extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'wReportId',
-        'riskIssueId',
-        'type',
-        'responPlan',
-        'owner',
-        'severity',
-        'status',
-        'dueDate'
+        'projectProgress',
     ];
 
-    public function issue()
-    {
-        return $this->belongsTo(issuesProject::class, 'riskIssueId', 'id');
-    }
-
-    public function risk()
-    {
-        return $this->belongsTo(riskProject::class, 'riskIssueId', 'id');
-    }
 
     /**
      * The "booting" function of model

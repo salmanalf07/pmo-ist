@@ -239,6 +239,24 @@
             </div>
         </div>
     </div>
+    <div class="col-12 mb-4">
+        <div class="card mb-4">
+            <!-- card body -->
+            <div class="card-body">
+                <div>
+                    <!-- input -->
+                    <div class="mb-3">
+                        <h4><label class="form-label">Progress Report</label></h4>
+                        <input type="hidden" id="idProjectProgress" value="#">
+                        <textarea name="projectProgressContent" id="projectProgressContent"></textarea>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <button type="button" id="saveProgressReport" data-form="projectProgress" class="btn btn-primary-soft">Save Project Progress</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
@@ -258,6 +276,17 @@
         });
     })
     $(document).ready(function() {
+        var editor = Jodit.make('#projectProgressContent', {
+            "buttons": "bold,italic,underline,strikethrough,eraser,ul,ol,font,fontsize,lineHeight,image,cut,copy,paste,selectall,table,symbols,indent,outdent",
+            uploader: {
+                insertImageAsBase64URI: true // Menyisipkan gambar sebagai base64 URI
+            },
+            table: {
+                // Konfigurasi tabel
+            }
+        });
+
+
         if ('{{isset($aksi) && $aksi == "EditData"}}') {
             $('#weeklyId').val('{!! isset($data) ? $data->id : "#" !!}');
             $('#issuedDate').val(('{!! isset($data) ? $data->issuedDate : "" !!}').split("-").reverse().join("-"));
@@ -321,6 +350,9 @@
 
                 }
             }
+            $('#idProjectProgress').val('{!! isset($projectProgress) ? $projectProgress->id : "#" !!}');
+            var editor = new Jodit('#projectProgressContent');
+            editor.value = `{!! isset($projectProgress) ? $projectProgress->projectProgress : "" !!}`;
 
         } else {
             var milestone = <?php echo json_encode($milestone); ?>;
@@ -625,6 +657,40 @@
             }
         })
 
+        $(document).on('click', '#saveProgressReport', function(e) {
+            e.preventDefault();
+            if ($('#weeklyId').val() != "#") {
+                var key = $(this).data('form');
+                // alert(uid)
+                if (key === 'projectProgress') {
+                    var uid = $('#idProjectProgress').val();
+                    var content = $('#projectProgressContent').val();
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/storeProjectProgress',
+                    data: {
+                        key: key,
+                        uid: uid,
+                        konten: content,
+                        wReportId: $('#weeklyId').val(),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.message);
+                        if (data.key === 'projectProgress') {
+                            $('#idProjectProgress').val(data.post);
+                        }
+                    },
+                    error: function(data) {
+                        alert(data.message);
+                    }
+                });
+            } else {
+                alert('Harap mengisi Project Information & save')
+            }
+        })
 
     })
 </script>
