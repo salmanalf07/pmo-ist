@@ -58,8 +58,13 @@
                     "responsive": true,
                     "columnDefs": [{
                         targets: [4, 5],
-                        render: function(oTable) {
-                            return moment(oTable).format('DD-MM-YYYY');
+                        render: function(data, type, row, meta) {
+                            if (type === 'display' || type === 'filter') {
+                                // Use moment.js to format the date for display and filtering
+                                return moment(data).format('DD-MM-YYYY');
+                            }
+                            // For sorting and other operations, use the original data
+                            return data;
                         },
                     }, ],
                     columns: [{
@@ -67,8 +72,13 @@
                             title: 'Member Name'
                         },
                         {
-                            data: function(row) {
-                                return row.roles ? row.roles.roleEmployee : "";
+                            data: function(row, type) {
+                                if (row.roles != "#") {
+                                    var value = type === 'display' && row.roles.roleEmployee.length > 23 ? row.roles.roleEmployee.substring(0, 23) + '..' : row.roles.roleEmployee;
+                                    return '<div data-toggle="tooltip" title="' + row.roles.roleEmployee + '">' + value + '</div>'
+                                } else {
+                                    return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                                }
                             },
                             title: 'Role'
                         },
@@ -79,8 +89,13 @@
                             title: 'Acces Type'
                         },
                         {
-                            data: function(row) {
-                                return row.employees.departments ? row.employees.departments.department : "";
+                            data: function(row, type) {
+                                if (row.employees.departments != "#") {
+                                    var value = type === 'display' && row.employees.departments.department.length > 23 ? row.employees.departments.department.substring(0, 23) + '..' : row.employees.departments.department;
+                                    return '<div data-toggle="tooltip" title="' + row.employees.departments.department + '">' + value + '</div>'
+                                } else {
+                                    return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                                }
                             },
                             title: 'Dept/Div'
                         },
