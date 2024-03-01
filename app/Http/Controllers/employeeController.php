@@ -436,7 +436,8 @@ class employeeController extends Controller
     }
     public function destroy($id)
     {
-        $post = employee::find($id);
+        $post = employee::with('memberProject')->find($id);
+        $post->memberProject()->delete();
         $post->delete();
 
         return response()->json($post);
