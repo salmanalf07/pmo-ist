@@ -402,7 +402,7 @@ class employeeController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $post = employee::find($id);
+            $post = employee::with('memberProject')->find($id);
             $post->employee_id = $request->employee_id;
             $post->name = $request->name;
             $post->level = $request->level;
@@ -426,6 +426,10 @@ class employeeController extends Controller
             //     $post->status = "ACTIVE";
             // }
             $post->save();
+            if ($request->status == "RESIGN") {
+                $post->memberProject()->delete();
+            }
+
 
             $data = [$post];
             return response()->json($data);
