@@ -544,7 +544,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('summaryProject');
 });
 //projectinfo
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM|Finance'])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM|Finance|Sales'])->group(function () {
     Route::get('/project/inputProject', function () {
         $project = Project::select('noProject')->latest()->first();
         if (!$project) {
@@ -560,7 +560,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('inputProject');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_project', [projectController::class, 'store']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM|Finance|BOD'])->get('/project/inputProject/{id}', [projectController::class, 'edit'])->name('editProject');
+//Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM|Finance|BOD'])->get('/project/inputProject/{id}', [projectController::class, 'edit'])->name('editProject');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/inputProject/{id}', [projectController::class, 'edit'])->name('editProject');
 //Detail Order
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/detailOrder/{id}', [orderController::class, 'edit'])->name('detailOrder');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_detailOrder/{id}', [orderController::class, 'store'])->name('storeOrder');
