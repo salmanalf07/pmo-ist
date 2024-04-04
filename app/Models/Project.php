@@ -32,6 +32,7 @@ class Project extends Model
         'sponsor',
         'contractStart',
         'contractEnd',
+        'deleted_by'
     ];
 
     public function customer()

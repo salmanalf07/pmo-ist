@@ -19,6 +19,7 @@ class memberProject extends Model
         'startDate',
         'endDate',
         'planMandays',
+        'deleted_by'
     ];
     /**
      * The "booting" function of model
