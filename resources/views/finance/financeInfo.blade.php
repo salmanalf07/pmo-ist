@@ -198,7 +198,7 @@
                     data: 'termsName',
                     name: 'termsName',
                     render: function(data, type, row) {
-                        var value = type === 'display' && data.length > 30 ? data.substring(0, 30) + '...' : data;
+                        var value = type === 'display' && data.length > 15 ? data.substring(0, 15) + '...' : data;
                         return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
                     }
                 },
