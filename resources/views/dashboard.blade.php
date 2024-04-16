@@ -334,22 +334,6 @@
                     'year': $('#year').val()
                 },
                 success: function(data) {
-                    $('#project').text('');
-                    // let text = "";
-                    // for (let i = 0; i < data.length; i++) {
-                    //     text +=
-                    //         '<div class="row mb-2 border-bottom pb-2 g-0">' + '<div class="col-lg-12">' + '<div class="d-flex">' +
-                    //         '<div class="me-2"><i class="mdi mdi-drag"></i></div>' +
-                    //         '<label class="form-check-label" for="customCheck1">' +
-                    //         '<span class="h5">' + data[i]['projectName'] + '  -  ' + data[i]['customer']['company'] +
-                    //         '<div class="d-flex align-items-center">' +
-                    //         '<div class="me-2"> <span>Progress ' + data[i]['overAllProg'] + '%</span></div>' +
-                    //         '<div class="progress" style="height: 6px;width:10em">' +
-                    //         '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + data[i]['overAllProg'] + '%;" aria-valuenow="' + data[i]['overAllProg'] + '" aria-valuemin="0" aria-valuemax="100">' +
-                    //         '</div></div></div>' +
-                    //         '</span>' +
-                    //         '</label>' + '</div></div></div>';
-                    // }
                     if (data.length > 0) {
                         let text = "";
                         var dataa = Object.assign({}, data)
