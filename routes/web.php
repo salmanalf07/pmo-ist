@@ -265,11 +265,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
         $projectThisYear = Project::whereYear('contractStart', '=', $years)->count();
-        $PotensialRevenue = topProject::whereYear('bastDate', '=', $years)->sum('termsValue');
-        $RevenueNewPo = Project::whereYear('contractStart', '=', $years)->sum('projectValue');
-        $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', $years)->sum('termsValue');
-        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', $years)->orderByRaw('CONVERT(projectValue, SIGNED) desc')->get();
-        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('sales')->get();
+        $PotensialRevenue = topProject::whereYear('bastDate', '=', $years)->sum('termsValuePPN');
+        $RevenueNewPo = Project::whereYear('contractStart', '=', $years)->sum('projectValuePPN');
+        $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', $years)->sum('termsValuePPN');
+        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', $years)->orderByRaw('CONVERT(projectValuePPN, SIGNED) desc')->get();
+        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('sales')->get();
         // Inisialisasi array hasil konversi
         $resultArray = [];
 
@@ -288,7 +288,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'revenue' => $salesData->totalRevenue
             ];
         }
-        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValue) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('customerType')->get();
+        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('customerType')->get();
         // Loop setiap hasil dari kueri $salesRevenue
         $resultCustTypeRevenue = [];
         foreach ($custTypeRevenue as $custTypeRevenuee) {
@@ -303,7 +303,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         } else {
             $month = date('m');
         }
-        $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValue) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', $years)->groupBy(DB::raw('MONTH(invDate)'))->get();
+        $invByMonth = topProject::select(DB::raw('MONTH(invDate)'), DB::raw('SUM(termsValuePPN) as totalRevenue'))->where('invMain', '=', 1)->whereYear('invDate', '=', $years)->groupBy(DB::raw('MONTH(invDate)'))->get();
         $resultInvByMonth = [];
         for ($i = 0; $i <= ($month - 1); $i++) {
             if (isset($invByMonth[$i]['MONTH(invDate)']) && $invByMonth[$i]['MONTH(invDate)'] == $i + 1) {
@@ -318,7 +318,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 ];
             }
         }
-        $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValue) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', $years)->groupBy(DB::raw('MONTH(payDate)'))->get();
+        $payByMonth = topProject::select(DB::raw('MONTH(payDate)'), DB::raw('SUM(termsValuePPN) as totalpayRevenue'))->where('payMain', '=', 1)->whereYear('payDate', '=', $years)->groupBy(DB::raw('MONTH(payDate)'))->get();
         $resultPayByMonth = [];
         for ($i = 0; $i <= ($month - 1); $i++) {
             if (isset($payByMonth[$i]['MONTH(payDate)']) && $payByMonth[$i]['MONTH(payDate)'] == $i + 1) {
@@ -341,8 +341,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return view('dashboard');
         //return $resultPayByMonth;
     })->name('dashboard');
+    Route::post('/detailProjectDetail', function (RequestData $request) {
+        $getData = Project::with('customer');
+        if ($request->filter == "projectOnGoing") {
+            $data = $getData->where('overAllProg', '<', 100)->get();
+        }
+        if ($request->filter == "projectThisYear") {
+            $data = $getData->whereYear('contractStart', '=', $request->year)->get();
+        }
+        return response()->json($data);
+    });
 });
-
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
     Route::get('/projectDashboard', function () {
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();

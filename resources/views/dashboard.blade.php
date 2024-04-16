@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <!-- project number -->
-                            <div class="lh-1">
+                            <div class="lh-1" id="detailModals" data-modal="projectOnGoing">
                                 <h1 class="d-flex justify-content-center mb-1 fw-bold" id="projectOnGoing">0</h1>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                             <!-- project number -->
-                            <div class="lh-1">
+                            <div class="lh-1" id="detailModals" data-modal="projectThisYear">
                                 <h1 class="d-flex justify-content-center mb-1 fw-bold" id="projectThisYear">0</h1>
                             </div>
                         </div>
@@ -240,6 +240,48 @@
         </div>
     </div>
 </div>
+<div class="modal fade gd-example-modal-xl" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" data-bs-focus="false">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Detail Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+
+            <!-- card body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-6">
+                            <div class="table-responsive">
+                                <table class="table text-nowrap mb-0 table-centered">
+                                    <thead class="table-light" style="position: sticky;top: 0;">
+                                        <tr>
+                                            <th>Project Name</th>
+                                            <th>Customer</th>
+                                            <th class="text-end">Project Value</th>
+                                            <th>Contract PO/SPP/SO number</th>
+                                            <th>Contract Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detailProjectTable">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- button -->
+                    <div class="col-12 text-end">
+                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
@@ -279,6 +321,59 @@
             e.preventDefault();
             get_executive_dashboard($(this).val())
         });
+
+        $(document).on('click', '#detailModals', function(e) {
+            e.preventDefault();
+            var filter = $(this).data('modal');
+            $.ajax({
+                type: 'POST',
+                url: '/detailProjectDetail',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'filter': filter,
+                    'year': $('#year').val()
+                },
+                success: function(data) {
+                    $('#project').text('');
+                    // let text = "";
+                    // for (let i = 0; i < data.length; i++) {
+                    //     text +=
+                    //         '<div class="row mb-2 border-bottom pb-2 g-0">' + '<div class="col-lg-12">' + '<div class="d-flex">' +
+                    //         '<div class="me-2"><i class="mdi mdi-drag"></i></div>' +
+                    //         '<label class="form-check-label" for="customCheck1">' +
+                    //         '<span class="h5">' + data[i]['projectName'] + '  -  ' + data[i]['customer']['company'] +
+                    //         '<div class="d-flex align-items-center">' +
+                    //         '<div class="me-2"> <span>Progress ' + data[i]['overAllProg'] + '%</span></div>' +
+                    //         '<div class="progress" style="height: 6px;width:10em">' +
+                    //         '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + data[i]['overAllProg'] + '%;" aria-valuenow="' + data[i]['overAllProg'] + '" aria-valuemin="0" aria-valuemax="100">' +
+                    //         '</div></div></div>' +
+                    //         '</span>' +
+                    //         '</label>' + '</div></div></div>';
+                    // }
+                    if (data.length > 0) {
+                        let text = "";
+                        var dataa = Object.assign({}, data)
+                        for (let x in dataa) {
+                            text += '<tr>' +
+                                '<td><h4 class="mb-0 fs-5"><a href="/project/summaryProject/' + dataa[x].id + '" data-toggle="tooltip" title="' + dataa[x].projectName + '" class="text-inherit" target="_blank">' + dataa[x].projectName.substring(0, 25) + '</a></h4></td>' +
+                                '<td data-toggle="tooltip" title="' + dataa[x].customer.company + '">' + dataa[x].customer.company.substring(0, 15) + '</td>' +
+                                '<td class="text-end text-dark">' + formatNumberr(dataa[x].projectValuePPN) + '</td>' +
+                                '<td data-toggle="tooltip" title="' + dataa[x].noContract + '">' + dataa[x].noContract.substring(0, 15) + '</td>' +
+                                '<td>' + moment(dataa[x].contractDate).format('DD-MM-YYYY') + '</td>' +
+                                '</tr>';
+                        }
+                        $('#detailProjectTable').html(text);
+                    } else {
+                        $('#detailProjectTable').html("")
+                    }
+                    $('#taskModal').modal('show');
+
+                },
+                error: function(data) {
+                    alert('Gagal Mengeksekusi');
+                }
+            });
+        });
     })
 
     function get_executive_dashboard(year) {
@@ -302,7 +397,7 @@
                         text += '<tr>' +
                             '<td data-toggle="tooltip" title="' + dataa[x].customer.company + '">' + dataa[x].customer.company.substring(0, 15) + '</td>' +
                             '<td><h4 class="mb-0 fs-5"><a href="/project/summaryProject/' + dataa[x].id + '" data-toggle="tooltip" title="' + dataa[x].projectName + '" class="text-inherit" target="_blank">' + dataa[x].projectName.substring(0, 25) + '</a></h4></td>' +
-                            '<td class="text-end text-dark">' + formatNumberr(dataa[x].projectValue) + '</td>' +
+                            '<td class="text-end text-dark">' + formatNumberr(dataa[x].projectValuePPN) + '</td>' +
                             '<td>' +
                             '<div class="d-flex align-items-center">' +
                             '<div class="me-2"> <span>' + dataa[x].overAllProg + '%</span></div>' +

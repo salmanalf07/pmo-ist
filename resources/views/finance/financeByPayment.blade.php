@@ -199,8 +199,8 @@
                     }
                 },
                 {
-                    data: 'termsValue',
-                    name: 'termsValue'
+                    data: 'termsValuePPN',
+                    name: 'termsValuePPN'
                 },
                 {
                     data: 'payDate',
