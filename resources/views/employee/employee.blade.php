@@ -486,6 +486,8 @@
     $('.col-12').on('click', '.add', function() {
         var form = document.getElementById("form-add");
         var fd = new FormData(form);
+        $("#in").prop("disabled", true); // Menggunakan .prop()
+
         $.ajax({
             type: 'POST',
             url: '{{ url("store_employee") }}',
@@ -505,6 +507,7 @@
                     reset_form()
                     $('#example1').DataTable().ajax.reload();
                 }
+                $("#in").prop("disabled", false); // Menggunakan .prop()
 
             },
         });
