@@ -29,7 +29,7 @@ class LogSuccessfulLogin
     {
 
         Activity::create([
-            'log_name' => 'login',
+            'log_name' => 'Login',
             'description' => 'User logged in',
             'subject_id' => auth()->id(), // ID pengguna yang login
             'properties' => ['login_ip' => request()->ip()], // Informasi tambahan
