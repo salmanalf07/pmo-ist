@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Listeners\LogSuccessfulLogin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Login;
+use Spatie\Activitylog\Models\Activity;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        Login::class => [
+            LogSuccessfulLogin::class, // Ubah ini sesuai dengan nama kelas listener yang Anda buat
+        ],
     ];
 
     /**
@@ -27,6 +33,5 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 }
