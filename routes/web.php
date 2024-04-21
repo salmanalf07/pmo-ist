@@ -1171,3 +1171,25 @@ Route::get('/getSponsor', function () {
     // Output hasil dalam bentuk array
     print_r($resultArray);
 });
+route::get(
+    '/counttaxes',
+    function () {
+        $data = [
+            '0eaa6578-f612-4b68-ae23-9334f095755d',
+            '13cd0034-19fe-44d3-a32e-fa87a3dd7557',
+            '14ebc089-b256-4a1f-94b8-eb273042f7c8',
+            '1789c8f8-753b-4b5a-88cd-9459b80b8f18',
+            '19881a97-f9df-4375-919c-884bfd6a7df4',
+            '1a53cba4-3010-47e8-b3d3-eb6c443c81f5',
+            '1abd6035-883e-466a-bc13-eacfca391277',
+            '2250fe3b-817b-414d-96d2-492a195b33b9',
+            '31a788ed-9efb-4802-86dc-da863a70681f'
+        ];
+        for ($i = 0; $i < count($data); $i++) {
+            $dataa = Project::find($data[$i]);
+            $dataa->projectValuePPN = ceil(str_replace(".", "", $dataa->projectValue)  / (1 + 11 / 100));
+            $dataa->save();
+        }
+        return count($data);
+    }
+);
