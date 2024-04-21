@@ -210,7 +210,7 @@
 
                     @role(['Manage','PM'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users','taxes','pmo*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('customers','departments','divisions','doctypes','skilllevels','solutions','specializations','roles','users','taxes','logHistory','pmo*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Master Data
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -280,6 +280,13 @@
                             <li>
                                 <a class="dropdown-item" href="/taxes">
                                     Taxes
+                                </a>
+                            </li>
+                            @endif
+                            @if (Auth::user()->hasRole('SuperAdm'))
+                            <li>
+                                <a class="dropdown-item" href="/logHistory">
+                                    Log History
                                 </a>
                             </li>
                             @endif

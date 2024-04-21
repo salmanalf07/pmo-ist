@@ -14,6 +14,7 @@ use App\Http\Controllers\guideType;
 use App\Http\Controllers\highAndNotesController;
 use App\Http\Controllers\leesonLearnController;
 use App\Http\Controllers\leesonStatusController;
+use App\Http\Controllers\logController;
 use App\Http\Controllers\memberProjectController;
 use App\Http\Controllers\momController;
 use App\Http\Controllers\orderController;
@@ -1032,6 +1033,14 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_taxes', [taxController::class, 'edit']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_taxes/{id}', [taxController::class, 'update']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_taxes/{id}', [taxController::class, 'destroy']);
+    //LogSession
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->group(function () {
+        Route::get('/logHistory', function () {
+            $role = roleEmployee::get();
+            return view('masterData/logHistory', ['judul' => "Log History", 'role' => $role]);
+        })->name('logHistory');
+    });
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_logLogin', [logController::class, 'jsonLogLogin']);
 });
 //PMO-MASTER
 Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'pmo'], function () {
