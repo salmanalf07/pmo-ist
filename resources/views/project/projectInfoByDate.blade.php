@@ -52,6 +52,15 @@
                                                 <option value="none">None</option>
                                             </select>
                                         </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Project Status</label>
+                                            <select name="projStatus" id="projStatus" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="all">All</option>
+                                                <option value="progress">In Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row col-2 pt-7 ms-3">
                                         <div class="mb-3 col-12">
@@ -219,18 +228,20 @@
                 }
             ],
         });
-        $('#cust_id, #pmName, #conStatus').on('change', function() {
+        $('#cust_id, #pmName, #conStatus, #projStatus').on('change', function() {
             $('#example1').data('dt_params', {
                 'cust_id': $('#cust_id').val(),
                 'pmName': $('#pmName').val(),
                 'conStatus': $('#conStatus').val(),
+                'status': $('#projStatus').val(),
             });
             $('#example1').DataTable().draw();
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#cust_id').val('#').trigger('change');
-            $('#pmName').val('#').trigger('change');
-            $('#conStatus').val('#').trigger('change');
+            $('#cust_id').val('#').trigger('change.select2');
+            $('#pmName').val('#').trigger('change.select2');
+            $('#projStatus').val('#').trigger('change.select2');
+            $('#conStatus').val('#').trigger('change.select2');
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
