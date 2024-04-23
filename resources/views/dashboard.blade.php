@@ -598,7 +598,7 @@
                     // Iterate through the salesRevenueData array and create objects in the required format
                     for (var value of summaryCustomer) {
                         dataSummaryCustomer.push({
-                            x: value.year,
+                            x: "" + value.year + "",
                             y: value.unique_customers,
                             fillColor: getRandomColor()
                         });
