@@ -518,35 +518,31 @@
                 if (data.custTypeRevenue.length > 0) {
                     $('#chartSecRevenue').html("");
                     var custTypeRevenue = data.custTypeRevenue;
+                    var dataCustTypeRevenue = [];
+
+                    // Iterate through the salesRevenueData array and create objects in the required format
+                    for (var value of custTypeRevenue) {
+                        dataCustTypeRevenue.push({
+                            y: value.totalRevenue,
+                            x: value.customerType,
+                            fillColor: getRandomColor()
+                        });
+                    }
 
                     var e = {
                         series: [{
-                            data: custTypeRevenue.map(obj => parseFloat(obj.totalRevenue.replace(" B", "")))
+                            data: dataCustTypeRevenue
                         }],
                         chart: {
                             type: 'bar',
-                            height: 280,
                         },
                         plotOptions: {
                             bar: {
                                 horizontal: false,
-                                columnWidth: '55%',
-                                endingShape: 'rounded'
                             },
                         },
                         dataLabels: {
                             enabled: true
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        xaxis: {
-                            categories: custTypeRevenue.map(obj => obj.customerType),
-                            labels: {
-                                rotate: -15,
-                            },
                         },
                         yaxis: {
                             title: {
@@ -557,11 +553,8 @@
                                     return val + " B";
                                 }
                             },
-                            tickAmount: 2,
+                            tickAmount: 4,
                             min: 0,
-                        },
-                        fill: {
-                            opacity: 1,
                         },
                         tooltip: {
                             enabled: true,
@@ -600,57 +593,29 @@
                 if (data.summaryCustomer.length > 0) {
                     $('#summaryCustomer').html("");
                     var summaryCustomer = data.summaryCustomer;
-                    var color = [
-                        "#624bff",
-                        "#f59e0b",
-                        "#0ea5e9",
-                        "#20c997",
-                    ];
+                    var dataSummaryCustomer = [];
 
+                    // Iterate through the salesRevenueData array and create objects in the required format
+                    for (var value of summaryCustomer) {
+                        dataSummaryCustomer.push({
+                            x: value.year,
+                            y: value.unique_customers,
+                            fillColor: getRandomColor()
+                        });
+                    }
 
                     var e = {
-                        series: [{
-                            data: summaryCustomer.map(obj => obj.unique_customers)
-                        }],
                         chart: {
-                            type: 'bar',
-                            height: 280,
+                            type: 'bar'
                         },
                         plotOptions: {
                             bar: {
                                 horizontal: false,
-                                columnWidth: '55%',
-                                endingShape: 'rounded',
-                            },
+                            }
                         },
-                        dataLabels: {
-                            enabled: true
-                        },
-                        stroke: {
-                            show: true,
-                            width: 2,
-                            colors: ['transparent']
-                        },
-                        xaxis: {
-                            categories: summaryCustomer.map(obj => obj.year),
-                            labels: {
-                                rotate: -15,
-                            },
-                        },
-                        yaxis: {
-                            title: {
-                                text: 'Customer',
-                            },
-                            tickAmount: 2,
-                            min: 0,
-                        },
-                        fill: {
-                            opacity: 1,
-                        },
-                        tooltip: {
-                            enabled: true,
-
-                        }
+                        series: [{
+                            data: dataSummaryCustomer
+                        }],
                     };
 
                     $('#summaryCustomer').html("");
