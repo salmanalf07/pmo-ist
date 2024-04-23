@@ -215,7 +215,7 @@
                 </div>
                 <!-- card  -->
                 <div class="col-xl-6 mb-5">
-                    <div class="card h-100">
+                    <div class="card h-50 mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Revenue By Sector</h4>
                             <div class="dropdown dropstart">
@@ -223,7 +223,7 @@
                         </div>
                         <div class="card-body">
                             <div id="chart">
-                                <div id="chartCampaignEmail" class="d-flex justify-content-center mt-8"></div>
+                                <div id="chartCampaignEmail" class="d-flex justify-content-center"></div>
                             </div>
 
                             <div class="mt-8">
@@ -231,6 +231,19 @@
 
 
                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card h-50">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Number Of Customer Per Year</h4>
+                            <div class="dropdown dropstart">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartSumCustomer">
+                                <div id="summaryCustomer" class="d-flex justify-content-center mt-2"></div>
                             </div>
                         </div>
 
@@ -505,77 +518,62 @@
                 if (data.custTypeRevenue.length > 0) {
                     $('#chartSecRevenue').html("");
                     var custTypeRevenue = data.custTypeRevenue;
-                    var color = [
-                        "#624bff",
-                        "#f59e0b",
-                        "#0ea5e9",
-                        "#20c997",
-                    ];
-                    var count = 0;
-                    // Menggunakan perulangan untuk menambahkan data dengan key baru ke custTypeRevenue
-                    custTypeRevenue.forEach(function(dataa) {
-                        // Tambahkan key baru "newKey" dengan nilai "customValue" ke setiap objek dataa
-                        dataa["color"] = color[count];
-                        count += 1;
-                        // Langkah 1: Dapatkan referensi ke elemen div tujuan
-                        var divTujuan = document.getElementById("chartSecRevenue");
-
-                        // Langkah 2: Gunakan innerHTML untuk menambahkan elemen div baru beserta kontennya
-                        divTujuan.innerHTML += '<div class="col">' +
-                            '<div><h4 class="mb-1">' + dataa["totalRevenue"] + '</h4>' +
-                            '<span><i class="mdi mdi-circle small me-1" style="color:' + dataa["color"] + '"></i>' + dataa["customerType"] + '</span></div></div>';
-                    });
-
 
                     var e = {
-                        series: custTypeRevenue.map(obj => {
-                            // Hapus " B" dari totalRevenue dan konversi ke tipe numerik
-                            return parseFloat(obj.totalRevenue.replace(" B", ""));
-                        }),
-                        labels: custTypeRevenue.map(obj => obj.customerType),
-                        colors: custTypeRevenue.map(obj => obj.color),
+                        series: [{
+                            data: custTypeRevenue.map(obj => parseFloat(obj.totalRevenue.replace(" B", "")))
+                        }],
                         chart: {
-                            width: 350,
-                            type: "donut"
+                            type: 'bar',
+                            height: 280,
                         },
                         plotOptions: {
-                            pie: {
-                                donut: {
-                                    size: "74%"
-                                }
-                            }
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '55%',
+                                endingShape: 'rounded'
+                            },
                         },
                         dataLabels: {
-                            enabled: !1
-                        },
-                        legend: {
-                            show: !1
+                            enabled: true
                         },
                         stroke: {
-                            show: !0,
-                            colors: "transparent",
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: custTypeRevenue.map(obj => obj.customerType),
+                            labels: {
+                                rotate: -15,
+                            },
                         },
                         yaxis: {
-                            labels: {
-                                formatter: function(e) {
-                                    return e + " B";
-                                },
+                            title: {
+                                text: 'Revenue (in Billions)',
                             },
-                            tickAmount: 4,
+                            labels: {
+                                formatter: function(val) {
+                                    return val + " B";
+                                }
+                            },
+                            tickAmount: 2,
                             min: 0,
                         },
-                        responsive: [{
-                            breakpoint: 768,
-                            options: {
-                                chart: {
-                                    width: 200
-                                },
-                                legend: {
-                                    position: "bottom"
-                                },
+                        fill: {
+                            opacity: 1,
+                        },
+                        tooltip: {
+                            enabled: true,
+                            y: {
+                                formatter: function(val) {
+                                    return val + " B";
+                                }
                             },
-                        }, ],
+
+                        }
                     };
+
                     $('#chartCampaignEmail').html("");
                     new ApexCharts(
                         document.querySelector("#chartCampaignEmail"),
@@ -596,6 +594,85 @@
 
                     // Clear the content of the element with id "chartSecRevenue"
                     $('#chartSecRevenue').html("");
+
+                }
+
+                if (data.summaryCustomer.length > 0) {
+                    $('#summaryCustomer').html("");
+                    var summaryCustomer = data.summaryCustomer;
+                    var color = [
+                        "#624bff",
+                        "#f59e0b",
+                        "#0ea5e9",
+                        "#20c997",
+                    ];
+
+
+                    var e = {
+                        series: [{
+                            data: summaryCustomer.map(obj => obj.unique_customers)
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 280,
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '55%',
+                                endingShape: 'rounded',
+                            },
+                        },
+                        dataLabels: {
+                            enabled: true
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: summaryCustomer.map(obj => obj.year),
+                            labels: {
+                                rotate: -15,
+                            },
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Customer',
+                            },
+                            tickAmount: 2,
+                            min: 0,
+                        },
+                        fill: {
+                            opacity: 1,
+                        },
+                        tooltip: {
+                            enabled: true,
+
+                        }
+                    };
+
+                    $('#summaryCustomer').html("");
+                    new ApexCharts(
+                        document.querySelector("#summaryCustomer"),
+                        e
+                    ).render();
+                } else {
+                    // Remove the element with id "summaryCustomer"
+                    $('#summaryCustomer').remove();
+
+                    // Get the parent element with id "chart"
+                    var chartParentElement = $('#chartSumCustomer');
+
+                    // Create a new element with the same id and content
+                    var newCartSumCustomerElement = $('<div id="summaryCustomer" class="d-flex justify-content-center mt-8"></div>');
+
+                    // Add the new element back to the parent
+                    chartParentElement.append(newCartSumCustomerElement);
+
+                    // Clear the content of the element with id "chartSecRevenue"
+                    $('#summaryCustomer').html("");
 
                 }
 

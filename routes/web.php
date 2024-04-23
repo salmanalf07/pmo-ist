@@ -299,6 +299,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'totalRevenue' => formatAngka($custTypeRevenuee->totalRevenue),
             ];
         }
+        $summaryCustomer = Project::select(DB::raw('YEAR(contractStart) as year'), DB::raw('COUNT(DISTINCT cust_id) as unique_customers'))
+            ->whereRaw('YEAR(contractStart) >= ?', [$years - 2])
+            ->whereRaw('YEAR(contractStart) <= ?', [$years])
+            ->groupBy('year')
+            ->get();
+
         if ($years != date('Y')) {
             $month = 12;
         } else {
@@ -335,7 +341,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             }
         }
 
-        return response()->json(['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $resultInvByMonth, 'payByMonth' => $resultPayByMonth]);
+        return response()->json(['projectOnGoing' => $projectOnGoing, 'projectThisYear' => $projectThisYear, 'PotensialRevenue' => formatAngka($PotensialRevenue), 'invoiced' => formatAngka($invoiced), 'RevenueNewPo' => formatAngka($RevenueNewPo), 'projectByValue' => $projectByValue, 'salesRevenue' => $resultArray, 'custTypeRevenue' => $resultCustTypeRevenue, 'invByMonth' => $resultInvByMonth, 'payByMonth' => $resultPayByMonth, 'summaryCustomer' => $summaryCustomer]);
     })->name('get_executive_dashboard');
     Route::get('/dashboard', function () {
 
@@ -1175,20 +1181,17 @@ route::get(
     '/counttaxes',
     function () {
         $data = [
-            '0eaa6578-f612-4b68-ae23-9334f095755d',
-            '13cd0034-19fe-44d3-a32e-fa87a3dd7557',
-            '14ebc089-b256-4a1f-94b8-eb273042f7c8',
-            '1789c8f8-753b-4b5a-88cd-9459b80b8f18',
-            '19881a97-f9df-4375-919c-884bfd6a7df4',
-            '1a53cba4-3010-47e8-b3d3-eb6c443c81f5',
-            '1abd6035-883e-466a-bc13-eacfca391277',
-            '2250fe3b-817b-414d-96d2-492a195b33b9',
-            '31a788ed-9efb-4802-86dc-da863a70681f'
+            'efba6e8b-1b4c-4e2b-962d-6d471f616316',
+            'f072f215-ceb9-44a9-8c6a-0584b88d8486',
+
         ];
         for ($i = 0; $i < count($data); $i++) {
-            $dataa = Project::find($data[$i]);
-            $dataa->projectValuePPN = ceil(str_replace(".", "", $dataa->projectValue)  / (1 + 11 / 100));
-            $dataa->save();
+            $dataa = topProject::find($data[$i]);
+            if ($dataa) {
+                $dataa->termsValuePPN = ceil(str_replace(".", "", $dataa->termsValue)  / (1 + 11 / 100));
+                $dataa->save();
+            };
+            // return $data[$i];
         }
         return count($data);
     }
