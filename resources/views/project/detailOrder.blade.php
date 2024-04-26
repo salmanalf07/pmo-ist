@@ -196,7 +196,9 @@
             for (var i = 0; i < data.detail_order.length; i++) {
                 $('#idor' + i).val(data.detail_order[i].id);
                 $('#item' + i).val(data.detail_order[i].item);
-                $('#categoryId' + i).val(data.detail_order[i].categoryId).trigger('change');
+                if (data.detail_order[i].categoryId != null) {
+                    $('#categoryId' + i).val(data.detail_order[i].categoryId).trigger('change');
+                }
                 $('#qty' + i).val(data.detail_order[i].qty);
                 $('#unit' + i).val(data.detail_order[i].unit);
                 $('#rev' + i).val(formatNumberr(data.detail_order[i].rev)).change();
