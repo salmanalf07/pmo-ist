@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDeletedByInMemberProjectsTable extends Migration
+class AddCategoryIdInDetailOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddDeletedByInMemberProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::table('member_projects', function (Blueprint $table) {
-            $table->string('deleted_by')->nullable()->after('deleted_at');
+        Schema::table('detail_orders', function (Blueprint $table) {
+            $table->string('categoryId')->default(null)->nullable()->after('item');
         });
     }
 
@@ -25,8 +25,8 @@ class AddDeletedByInMemberProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('member_projects', function (Blueprint $table) {
-            $table->dropColumn('deleted_by');
+        Schema::table('detail_orders', function (Blueprint $table) {
+            $table->dropColumn('categoryId');
         });
     }
 }

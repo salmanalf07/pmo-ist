@@ -7,27 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class DetailOrder extends Model
+class categoryOrder extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'orderId',
-        'noRef',
-        'item',
-        'categoryId',
-        'rev',
-        'cogs',
-        'gp',
+        'category',
+        'keterangan',
     ];
-    public function Order()
-    {
-        return $this->belongsTo(Order::class, 'orderId', 'id');
-    }
-    public function Category()
-    {
-        return $this->belongsTo(categoryOrder::class, 'categoryId', 'id');
-    }
     /**
      * The "booting" function of model
      *

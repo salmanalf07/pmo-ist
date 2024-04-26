@@ -26,7 +26,7 @@ class AddDeletedByInEmployeesTable extends Migration
     public function down()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('deleted_by')->nullable();
+            $table->dropColumn('deleted_by');
         });
     }
 }

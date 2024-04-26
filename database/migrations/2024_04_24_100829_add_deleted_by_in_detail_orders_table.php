@@ -26,7 +26,7 @@ class AddDeletedByInDetailOrdersTable extends Migration
     public function down()
     {
         Schema::table('detail_orders', function (Blueprint $table) {
-            $table->string('deleted_by');
+            $table->dropColumn('deleted_by');
         });
     }
 }

@@ -26,7 +26,7 @@ class AddDeletedByInTopProjectsTable extends Migration
     public function down()
     {
         Schema::table('top_projects', function (Blueprint $table) {
-            $table->string('deleted_by')->nullable();
+            $table->dropColumn('deleted_by');
         });
     }
 }

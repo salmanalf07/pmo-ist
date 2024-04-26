@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\categoryOrderController;
 use App\Http\Controllers\communityCategory;
 use App\Http\Controllers\communityController;
 use App\Http\Controllers\communityType;
@@ -1047,6 +1048,17 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
         })->name('logHistory');
     });
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_logLogin', [logController::class, 'jsonLogLogin']);
+    //categoryDetailOrder
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|customers-editor'])->group(function () {
+        Route::get('/categoryOrder', function () {
+            return view('masterData/categoryDetailOrder', ['judul' => "Category Detail Order"]);
+        })->name('categoryOrder');
+    });
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_categoryOrder', [categoryOrderController::class, 'json']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_categoryOrder', [categoryOrderController::class, 'store']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/edit_categoryOrder', [categoryOrderController::class, 'edit']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/update_categoryOrder/{id}', [categoryOrderController::class, 'update']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->delete('/delete_categoryOrder/{id}', [categoryOrderController::class, 'destroy']);
 });
 //PMO-MASTER
 Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'pmo'], function () {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\categoryOrder;
 use App\Models\DetailOrder;
 use App\Models\Order;
 use App\Models\Project;
@@ -17,6 +18,7 @@ class orderController extends Controller
         $get = Order::with(['detailOrder' => function ($query) {
             $query->orderBy('noRef', 'asc'); // Ganti 'namaKolomYangInginDiUrutkan' dengan nama kolom yang ingin diurutkan
         }])->where('projectId', $id)->first();
+        $categoryOrder = categoryOrder::all();
         $dataa = Project::with('customer')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
             $dataa->where(function ($query) {
@@ -35,7 +37,7 @@ class orderController extends Controller
         } else {
             $aksi = 'Add';
         }
-        return view('project/detailOrder', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue]);
+        return view('project/detailOrder', ['id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'aksi' => $aksi, 'data' => $get, 'projectValue' => $value->projectValue, 'categoryOrder' => $categoryOrder]);
     }
 
     public function store(Request $request, $id)
@@ -61,6 +63,7 @@ class orderController extends Controller
 
             $idor = $request->idor;
             $item = collect($request->item)->filter()->all();
+            $categoryId = collect($request->categoryId)->filter()->all();
             $qty = array_map(function ($value) {
                 return $value !== null ? $value : 0;
             }, $request->qty);
@@ -83,6 +86,7 @@ class orderController extends Controller
                 $postt->orderId = $post->id;
                 $postt->noRef = $count + 1;
                 $postt->item = $item[$count];
+                $postt->categoryId = $categoryId[$count];
                 $postt->qty = $qty[$count];
                 $postt->unit = $unit[$count];
                 $postt->rev = str_replace(".", "", $rev[$count]);

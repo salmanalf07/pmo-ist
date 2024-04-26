@@ -21,6 +21,7 @@
         color: var(--dashui-body-color)
     }
 </style>
+<link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div>
     <!-- row -->
 
@@ -29,7 +30,7 @@
             @csrf
             <span id="peringatan"></span>
             <input class="form-control" type="text" name="id" id="id" hidden>
-            <div class="col-xxl-9 col-12">
+            <div class="col-xxl-12 col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="mb-0">Detail Order</h4>
@@ -41,9 +42,10 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th style="width: 30%;">Item</th>
+                                        <th style="width: 10%;">Category</th>
                                         <th class="text-center" style="width: 10%;">Quantity</th>
-                                        <th class="text-center" style="width: 15%;">Unit</th>
-                                        <th class="text-end" style="width: 15%;">Rev</th>
+                                        <th class="text-center" style="width: 10%;">Unit</th>
+                                        <th class="text-end" style="width: 10%;">Rev</th>
                                         <th class="text-end" style="width: 15%;">COGS</th>
                                         <th class="text-center" style="width: 10%;">GP %</th>
                                         <th style="width: 5%;"></th>
@@ -56,6 +58,14 @@
                                         </td>
                                         <td>
                                             <input name="item[]" id="item0" type="text">
+                                        </td>
+                                        <td>
+                                            <select name="categoryId[]" id="categoryId0" class="select2" aria-label="Default select example">
+                                                <option value="#" selected>Open this select menu</option>
+                                                @foreach($categoryOrder as $categorys)
+                                                <option value="{{$categorys->id}}">{{$categorys->category}}</option>
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td>
                                             <input name="qty[]" id="qty0" type="text" class="text-center">
@@ -93,7 +103,9 @@
 
                 </div>
             </div>
-            <div class="col-xxl-3 col-12">
+            <div class="col-xxl-8 col-12">
+            </div>
+            <div class="col-xxl-4 col-12">
                 <div class="card mb-4 mt-4 mt-xxl-0">
                     <div class="card-body pb-2">
                         <ul class="list-unstyled mb-0">
@@ -129,6 +141,9 @@
 </div>
 <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
 <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
     $(function() {
         //add data
         $('.card-footer').on('click', '.add', function() {
@@ -181,6 +196,7 @@
             for (var i = 0; i < data.detail_order.length; i++) {
                 $('#idor' + i).val(data.detail_order[i].id);
                 $('#item' + i).val(data.detail_order[i].item);
+                $('#categoryId' + i).val(data.detail_order[i].categoryId).trigger('change');
                 $('#qty' + i).val(data.detail_order[i].qty);
                 $('#unit' + i).val(data.detail_order[i].unit);
                 $('#rev' + i).val(formatNumberr(data.detail_order[i].rev)).change();
@@ -195,47 +211,70 @@
         var table = document.getElementById("detailOrder");
         var tableRange = table.rows.length
         var lastRow = table.rows[table.rows.length - 1];
-        var cell4 = lastRow.cells[5];
-
         var row = table.insertRow(table.rows.length);
         row.classList.add("input-100");
 
-        for (let j = 0; j <= 7; j++) {
+        for (let j = 0; j <= 1; j++) {
+            var cell5 = lastRow.cells[j];
+            var selectElement = cell5.querySelector('input');
+            var newCell5 = row.insertCell(j);
+            var clonedContent = cell5.cloneNode(true);
+            clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            if (j == 0) {
+                newCell5.style.display = "none";
+            }
+            for (var k = 0; k < clonedContent.childNodes.length; k++) {
+                var clonedNode = clonedContent.childNodes[k].cloneNode(true);
+                newCell5.appendChild(clonedNode);
+                if (clonedNode.tagName === "INPUT") {
+                    clonedNode.value = "";
+                }
+            }
+        }
+        // Code for cloning elements in columns 1 to 3 (indexes 1 to 3)
+        for (let j = 2; j <= 2; j++) {
+            var cell5 = lastRow.cells[j];
+            var newCell5 = row.insertCell(j);
+            var selectElement = cell5.querySelector('select');
+            var clonedSelect = selectElement.cloneNode(true);
+            clonedSelect.id = (selectElement.id).replace(/\d+/g, '') + tableRange;
+            newCell5.appendChild(clonedSelect);
+            if ($(clonedSelect).hasClass('select2-hidden-accessible')) {
+                $(clonedSelect).select2('destroy');
+            }
+            $(clonedSelect).select2();
+            var selectedOptions = Array.from(selectElement.selectedOptions);
+            selectedOptions.forEach(option => {
+                $(clonedSelect).find(`option[value="#"]`).prop('selected', true);
+                clonedNode.addEventListener("change", function() {
+                    search_div(this);
+                });
+            });
+        }
+
+        for (let j = 3; j <= 8; j++) {
             var cell5 = lastRow.cells[j];
             var newCell5 = row.insertCell(j);
             var selectElement = cell5.querySelector('input');
             var clonedContent = cell5.cloneNode(true);
-
-            if (j == 0) {
-                newCell5.style.display = "none";
-            }
-
-            if (j <= 6) {
+            var childNodes = clonedContent.childNodes;
+            if (j == 3 || j == 4 || j == 5 || j == 6 || j == 7) {
                 clonedContent.querySelector('input').id = (selectElement.id).replace(/\d+/g, '') + tableRange;
             }
-
-            var childNodes = clonedContent.childNodes;
-
             for (var k = 0; k < childNodes.length; k++) {
                 var clonedNode = childNodes[k].cloneNode(true);
                 newCell5.appendChild(clonedNode);
-
                 if (clonedNode.tagName === "INPUT") {
-                    clonedNode.value = ""; // Reset input value
+                    clonedNode.value = "";
+                    clonedNode.addEventListener("change", function() {
+                        compareDates(this);
+                    });
                 }
             }
-
-            // if (j == 5) {
-            //     cell5.addEventListener("click", function() {
-            //         deleteRow(this);
-            //     });
-
-            //     newCell5.addEventListener("click", function() {
-            //         deleteRow(this);
-            //     });
-            // }
         }
 
+        // Re-enable Select2 for all elements with class 'select2'
+        $('.select2').select2();
 
 
         $(".number-input").on("input", function() {
