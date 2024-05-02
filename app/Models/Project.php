@@ -75,6 +75,14 @@ class Project extends Model
     {
         return $this->hasMany(projectSponsor::class, 'projectId', 'id');
     }
+    public function inScope()
+    {
+        return $this->hasMany(inScope::class, 'projectId', 'id');
+    }
+    public function outScope()
+    {
+        return $this->hasMany(outScope::class, 'projectId', 'id');
+    }
 
 
     /**

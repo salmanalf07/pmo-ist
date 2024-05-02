@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\allProjectExport;
 use App\Exports\closeProjectExport;
+use App\Exports\dataSowExport;
 use App\Exports\ExportProjByMain;
 use App\Exports\invByMonthExport;
 use App\Exports\planInvhByCustExport;
@@ -11,6 +12,7 @@ use App\Exports\statPaymentExport;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
+use App\Models\inScope;
 use App\Models\issuesProject;
 use App\Models\memberProject;
 use App\Models\Order;
@@ -21,6 +23,7 @@ use App\Models\riskProject;
 use App\Models\scopeProject;
 use App\Models\solution;
 use App\Models\topProject;
+use Google\Service\Vault\Export;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -234,39 +237,7 @@ class projectController extends Controller
 
     function allProjectExport(Request $request)
     {
-        // $dataa = topProject::whereHas('project', function ($query) use ($request) {
-
-        //     if ($request->cust_id != "#" && $request->cust_id) {
-        //         $query->where('cust_id', $request->cust_id);
-        //     }
-        //     if ($request->pmName != "#" && $request->pmName) {
-        //         $query->where('pmName', $request->pmName);
-        //     }
-        //     if ($request->sales != "#" && $request->sales) {
-        //         $query->where('sales', $request->sales);
-        //     }
-        //     if ($request->spk != "#" && $request->spk == "noContract") {
-        //         $query->where('noContract', null);
-        //     } else if ($request->spk != "#" && $request->spk != "noContract") {
-        //         $query->where('noContract', $request->spk);
-        //     }
-        //     if ($request->statusId != "#" && $request->statusId) {
-        //         if ($request->statusId == "progress") {
-        //             $query->where('overAllProg', '<', 100);
-        //         } elseif ($request->statusId == "completed") {
-        //             $query->where('overAllProg', '=', 100);
-        //         }
-        //     }
-        // })->with('project.customer', 'project.pm', 'project.coPm', 'project.sponsors', 'project.partner', 'project.saless');
-
-        // $data = $dataa
-        //     ->orderBy('projectId')
-        //     ->orderByRaw('CONVERT(noRef, SIGNED) asc')
-        //     ->get();
-
-        // return Excel::download(new allProjectExport($data), 'allProjectExport.xlsx');
-
-        $dataa = Project::with('customer', 'pm', 'coPm', 'sponsors.employee', 'partner', 'saless', 'topProject');
+        $dataa = Project::with('customer', 'pm', 'coPm', 'sponsors.employee', 'partner', 'saless', 'topProject', 'inScope', 'outScope');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $dataa->where('cust_id', $request->cust_id);
@@ -304,6 +275,8 @@ class projectController extends Controller
             ->get();
 
         $projectDetail = [];
+        $inScope = [];
+        $outScope = [];
 
         foreach ($data as  $project) {
             $sponsorData = [];
@@ -379,10 +352,30 @@ class projectController extends Controller
                     'remaks' => '',
                 ];
             }
-        }
 
-        //return $projectDetail;
-        return Excel::download(new allProjectExport($projectDetail), 'allProjectExport.xlsx');
+            if (count($project->inScope) > 0) {
+                foreach ($project->inScope as $key => $value) {
+                    // Tambahkan nilai baru ke setiap nilai dalam array
+                    $inScope[$key]['noProject'] = $project->noProject;
+                    $inScope[$key]['projectName'] = $project->projectName;
+                    $inScope[$key]['inScope'] = $value->inScope;
+                    $inScope[$key]['remaks'] = $value->remaks;
+                }
+            }
+
+            if (count($project->outScope) > 0) {
+                foreach ($project->outScope as $key => $value) {
+                    // Tambahkan nilai baru ke setiap nilai dalam array
+                    $outScope[$key]['noProject'] = $project->noProject;
+                    $outScope[$key]['projectName'] = $project->projectName;
+                    $outScope[$key]['outScope'] = $value->outOfScope;
+                    $outScope[$key]['remaks'] = $value->remaks;
+                }
+            }
+        }
+        $dataExport = ["projectDetail" => $projectDetail, "inScope" => $inScope, "outScope" => $outScope];
+        // return $dataExport;
+        return Excel::download(new allProjectExport($dataExport), 'allProjectExport.xlsx');
     }
     function closeProjectExport(Request $request)
     {
