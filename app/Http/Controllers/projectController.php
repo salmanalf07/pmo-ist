@@ -356,20 +356,24 @@ class projectController extends Controller
             if (count($project->inScope) > 0) {
                 foreach ($project->inScope as $key => $value) {
                     // Tambahkan nilai baru ke setiap nilai dalam array
-                    $inScope[$key]['noProject'] = $project->noProject;
-                    $inScope[$key]['projectName'] = $project->projectName;
-                    $inScope[$key]['inScope'] = $value->inScope;
-                    $inScope[$key]['remaks'] = $value->remaks;
+                    $inScope[] = [
+                        'noProject' => $project->noProject,
+                        'projectName' => $project->projectName,
+                        'inScope' => $value->inScope,
+                        'remaks' => $value->remaks,
+                    ];
                 }
             }
 
             if (count($project->outScope) > 0) {
                 foreach ($project->outScope as $key => $value) {
                     // Tambahkan nilai baru ke setiap nilai dalam array
-                    $outScope[$key]['noProject'] = $project->noProject;
-                    $outScope[$key]['projectName'] = $project->projectName;
-                    $outScope[$key]['outScope'] = $value->outOfScope;
-                    $outScope[$key]['remaks'] = $value->remaks;
+                    $outScope[] = [
+                        'noProject' => $project->noProject,
+                        'projectName' => $project->projectName,
+                        'outScope' => $value->outOfScope,
+                        'remaks' => $value->remaks,
+                    ];
                 }
             }
         }
