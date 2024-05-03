@@ -48,7 +48,7 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'project.projectName' => 'Project Name',
             'project.noContract' => 'No Contract',
             'termsName' => 'Terms Name',
-            'termsValue' => 'Terms of Payment',
+            'termsValuePPN' => 'Terms of Payment',
             'bastDate' => 'Plan/BAST Date',
         ];
     }
