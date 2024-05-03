@@ -795,7 +795,7 @@ class projectController extends Controller
                     }
 
                     // Akumulasi nilai 'termsValue' per bulan
-                    $result[$custId]['top'][$bastDate]['totalValue'] += (int)$datas->termsValue;
+                    $result[$custId]['top'][$bastDate]['totalValue'] += (int)$datas->termsValuePPN;
                 }
             }
 

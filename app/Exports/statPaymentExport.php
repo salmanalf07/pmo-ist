@@ -73,7 +73,7 @@ class statPaymentExport implements FromCollection, WithHeadings, ShouldAutoSize,
             'project.projectName' => 'Project Name',
             'project.noContract' => 'No Contract',
             'termsName' => 'Terms Name',
-            'termsValue' => 'Terms Value',
+            'termsValuePPN' => 'Terms Value',
             'payDate' => 'Payment Date',
 
         ];

@@ -230,8 +230,8 @@ class topProjectController extends Controller
         }
 
         $data = $dataa->orderBy('bastDate')->get();
-        $totalPlan = $data->sum('termsValue');
-        $totalInv = $data->where('invMain', 1)->sum('termsValue');
+        $totalPlan = $data->sum('termsValuePPN');
+        $totalInv = $data->where('invMain', 1)->sum('termsValuePPN');
 
         $pdf = PDF::loadView('pdf.planBAST', compact('title', 'data', 'totalPlan', 'totalInv'));
         // Mengubah orientasi menjadi lanskap

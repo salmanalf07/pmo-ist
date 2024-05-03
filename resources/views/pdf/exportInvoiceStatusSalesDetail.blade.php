@@ -160,7 +160,7 @@
                 <td class="text-right">{{number_format($terms->project->projectValue, 0, ',', '.')}}</td>
                 @endif
                 <td>{{$terms->termsName}}</td>
-                <td class="text-right">{{number_format($terms->termsValue, 0, ',', '.')}}</td>
+                <td class="text-right">{{number_format($terms->termsValuePPN, 0, ',', '.')}}</td>
                 <td class="text-center">{{$terms->bastDate == "1990-01-01"|| $terms->bastDate == "1900-01-01" ? "" : date("d-m-Y", strTotime($terms->bastDate))}}</td>
                 <td class="text-center">{{$terms->invDate == "1990-01-01"|| $terms->invDate == "1900-01-01" ? "" : date("d-m-Y", strTotime($terms->invDate))}}</td>
                 <td class="text-center">{{$terms->payDate == "1990-01-01"|| $terms->payDate == "1900-01-01" ? "" :date("d-m-Y", strTotime($terms->payDate))}}</td>
