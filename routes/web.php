@@ -904,6 +904,14 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     })->name('invoiceStatusSalesDetail');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_invoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
+
+    Route::get('/invoiceProgressPerSales', function () {
+        $employee = Project::with('saless')->select('sales')->get();
+        return view('report/sales/invoiceProgressPerSales', ['judul' => "Invoice Progress per PO Per Sales", 'employee' => $employee,]);
+        //return $employee;
+    })->name('invoiceProgressPerSales');
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_invoiceProgressPerSales', [topProjectController::class, 'invoiceProgressPerSales']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceProgressPerSales', [topProjectController::class, 'invoiceProgressPerSales']);
 });
 //END SALES
 //PM

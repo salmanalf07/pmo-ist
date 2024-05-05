@@ -291,4 +291,62 @@ class topProjectController extends Controller
             // return $sum;
         }
     }
+
+    public function invoiceProgressPerSales(Request $request)
+    {
+        $dataa = topProject::with('project.saless')->orderBy('created_at', 'DESC');
+
+        $dataa->whereHas('project', function ($query) use ($request) {
+            if ($request->salesId != "#" && $request->salesId) {
+                $names = explode(',', $request->salesId);
+                // Periksa apakah 'name' adalah string '#' atau array kosong
+                if (is_array($names) && count($names) > 0) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sales', $names);
+                }
+            }
+            if ($request->statusId != "#" && $request->statusId) {
+                if ($request->statusId == "progress") {
+                    $query->where('overAllProg', '<', 100);
+                } elseif ($request->statusId == "completed") {
+                    $query->where('overAllProg', '=', 100);
+                }
+            }
+        });
+
+        $data = $dataa->get();
+
+        if ($request->segment(2) == "json_invoiceProgressPerSales") {
+            return DataTables::of($data)->toJson();
+        }
+        if ($request->segment(2) == "exportInvoiceProgressPerSales") {
+            $statusId = $request->statusId != "#" ? $request->statusId : 'ALL';
+            $salesData = [];
+
+            // Pengelompokkan berdasarkan sales
+            $groupedData = $data->sortBy('project.saless.name')->groupBy('project.noContract', 'projectId');
+
+            $sumArray = [];
+            $sum = 0;
+
+            foreach ($groupedData as $groupKey => $groupItems) {
+                $summ = 0;
+                foreach ($groupItems as $item) {
+                    if ($item->invMain == 1) {
+                        $sum += $item->termsValuePPN;
+                        $summ += $item->termsValuePPN;
+                    }
+                }
+                $sumArray[$groupKey] = $summ;
+            }
+            // return $sumArray;
+            $pdf = PDF::loadView('pdf.exportInvoiceProgressPerSales', compact('groupedData', 'sum', 'statusId', 'sumArray'));
+            // Mengubah orientasi menjadi lanskap
+            $pdf->setPaper('a4', 'lanscape');
+
+            //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum',  'date_st', 'date_ot', 'sumArray'));
+            return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
+            // return $sum;
+        }
+    }
 }

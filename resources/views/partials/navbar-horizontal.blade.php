@@ -95,6 +95,11 @@
                                                     Invoice Status Per PO Per Sales - Detail
                                                 </a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a class="dropdown-item " href="/r_sales/invoiceProgressPerSales">
+                                                    Invoice Progress per PO Per Sales
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown-submenu dropend">
