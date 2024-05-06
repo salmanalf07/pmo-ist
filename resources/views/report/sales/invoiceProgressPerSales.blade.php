@@ -159,7 +159,7 @@
             "autoWidth": true,
             "columnDefs": [{
                     "className": "text-end",
-                    "targets": [5, 6, 7], // table ke 1
+                    "targets": [5, 6, 7, 8], // table ke 1
                 }, {
                     targets: [3],
                     render: function(oTable) {
@@ -167,7 +167,7 @@
                     }
                 },
                 {
-                    targets: [5, 6, 7],
+                    targets: [5, 6, 7, 8],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
             ],
@@ -274,7 +274,7 @@
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
-        $('#spks, #status').on('change', function() {
+        $('#sales, #status').on('change', function() {
             $('#salesId').val($('#sales').val());
             $('#statusId').val($('#status').val());
             $('#example1').data('dt_params', {
