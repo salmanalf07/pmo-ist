@@ -305,42 +305,91 @@ class topProjectController extends Controller
                     $query->whereIn('sales', $names);
                 }
             }
-            if ($request->statusId != "#" && $request->statusId) {
-                if ($request->statusId == "progress") {
-                    $query->where('overAllProg', '<', 100);
-                } elseif ($request->statusId == "completed") {
-                    $query->where('overAllProg', '=', 100);
-                }
+            if ($request->date_st != "#" && $request->date_st) {
+                $query->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $query->whereMonth('contractDate', '=', date("m"))
+                    ->whereYear('contractDate', '=', date("Y"));
             }
         });
 
         $data = $dataa->get();
+        // Pengelompokkan berdasarkan sales
+        $groupedData = $data->sortBy('project.saless.name')->groupBy('project.noContract', 'projectId');
+
+        $sumArray = [];
+        $sum = 0;
+
+        foreach ($groupedData as $groupKey => $groupItems) {
+            $summ = 0;
+            $shortProjectName = '';
+            $sales = '';
+            $customer = '';
+            $contractDate = '';
+            $noContract = '';
+            $projectValuePPN = '';
+            $projectId = '';
+            foreach ($groupItems as $item) {
+                $shortProjectName = $item->project->shortProjectName;
+                $sales = $item->project->saless->name;
+                $contractDate = $item->project->contractDate;
+                $customer = $item->project->customer->company;
+                $noContract = $item->project->noContract;
+                $projectValuePPN = preg_replace('/[^0-9]/', '', $item->project->projectValuePPN);
+                $projectId = $item->project->id;
+                if ($item->invMain == 1) {
+                    $sum += $item->termsValuePPN;
+                    $summ += $item->termsValuePPN;
+                }
+            }
+            $sumArray[$groupKey] = [
+                'projectId' => $projectId,
+                'sales' => $sales,
+                'shortProjectName' => $shortProjectName,
+                'customer' => $customer,
+                'contractDate' => $contractDate,
+                'noContract' => $noContract,
+                'projectValuePPN' => $projectValuePPN,
+                'invoiced' => $summ,
+                'progresPercen' => round(($summ / $projectValuePPN) * 100, 0),
+                'outstanding' => $projectValuePPN - $summ
+
+            ];
+        }
+        $finishData = array_filter($sumArray, function ($item) use ($request) {
+            if ($request->statusId != "#" && $request->statusId) {
+                if ($request->statusId == "progress") {
+                    return ($item['progresPercen'] < 100); // Ubah kondisi filter sesuai kebutuhan
+                } elseif ($request->statusId == "completed") {
+                    return ($item['progresPercen'] >= 100); // Ubah kondisi filter sesuai kebutuhan
+                }
+            }
+            return true;
+        });
 
         if ($request->segment(2) == "json_invoiceProgressPerSales") {
-            return DataTables::of($data)->toJson();
+            return DataTables::of($finishData)
+                ->addColumn('projectNamee', function ($finishData) {
+                    return
+                        '<div class="d-flex align-items-center" data-toggle="tooltip" title="' . $finishData['shortProjectName'] . '">
+                        <div>
+                            <h4 class="mb-0 fs-5"><a target="_blank" href="/project/top/' . $finishData['projectId'] . '" class="text-inherit">' . substr($finishData['shortProjectName'], 0, 20) . '</a></h4>
+                        </div>
+                    </div>';
+                })
+                ->rawColumns(['projectNamee'])
+                ->toJson();
         }
         if ($request->segment(2) == "exportInvoiceProgressPerSales") {
             $statusId = $request->statusId != "#" ? $request->statusId : 'ALL';
+            $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+            $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
             $salesData = [];
 
-            // Pengelompokkan berdasarkan sales
-            $groupedData = $data->sortBy('project.saless.name')->groupBy('project.noContract', 'projectId');
 
-            $sumArray = [];
-            $sum = 0;
-
-            foreach ($groupedData as $groupKey => $groupItems) {
-                $summ = 0;
-                foreach ($groupItems as $item) {
-                    if ($item->invMain == 1) {
-                        $sum += $item->termsValuePPN;
-                        $summ += $item->termsValuePPN;
-                    }
-                }
-                $sumArray[$groupKey] = $summ;
-            }
-            // return $sumArray;
-            $pdf = PDF::loadView('pdf.exportInvoiceProgressPerSales', compact('groupedData', 'sum', 'statusId', 'sumArray'));
+            //return $finishData;
+            $pdf = PDF::loadView('pdf.exportInvoiceProgressPerSales', compact('finishData', 'sum', 'statusId', 'date_st', 'date_ot'));
             // Mengubah orientasi menjadi lanskap
             $pdf->setPaper('a4', 'lanscape');
 

@@ -26,7 +26,16 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Project Status</label>
+                                        <label class="form-label">PO Date Range</label>
+                                        <div class="input-group me-3">
+                                            <input type="text" class="form-control float-right" id="reservation">
+                                            <div class="input-group-append custom-picker">
+                                                <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Invoice Progress</label>
                                         <select name="status" id="status" class="select2" aria-label="Default select example" required>
                                             <option value="all">All</option>
                                             <option value="progress">In Progress</option>
@@ -47,6 +56,8 @@
                                             @csrf
                                             <input type="text" id="salesId" name="salesId" value="#" hidden>
                                             <input type="text" id="statusId" name="statusId" value="#" hidden>
+                                            <input type="text" id="date_st" name="date_st" value="#" hidden>
+                                            <input type="text" id="date_ot" name="date_ot" value="#" hidden></input>
                                             <button id="export" type="submit" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Export" class="btn btn-secondary-soft" style="width:100%">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="red" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z" />
@@ -80,12 +91,14 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th style="text-align: center;">Sales Name</th>
+                                        <th style="text-align: center;">Customer</th>
+                                        <th style="text-align: center;">Project Name</th>
                                         <th style="text-align: center;">PO Date</th>
                                         <th style="text-align: center;">PO Number</th>
                                         <th style="text-align: center;">PO Value</th>
                                         <th style="text-align: center;">Invoiced</th>
-                                        <th style="text-align: center;">Terms Description</th>
-                                        <th style="text-align: center;">Terms Value</th>
+                                        <th style="text-align: center;">%</th>
+                                        <th style="text-align: center;">Outstanding</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -146,20 +159,20 @@
             "autoWidth": true,
             "columnDefs": [{
                     "className": "text-end",
-                    "targets": [3, 4, 6], // table ke 1
+                    "targets": [5, 6, 7], // table ke 1
                 }, {
-                    targets: [1],
+                    targets: [3],
                     render: function(oTable) {
                         return moment(oTable).format('DD-MM-YYYY');
                     }
                 },
                 {
-                    targets: [3, 4, 6],
+                    targets: [5, 6, 7],
                     render: $.fn.dataTable.render.number('.', '.', 0)
                 },
             ],
             order: [
-                [1, 'asc']
+                [0, 'asc']
             ],
             footerCallback: function(row, data, start, end, display) {
                 var api = this.api();
@@ -200,7 +213,7 @@
                 }
             },
             columns: [{
-                    data: 'project.saless.name',
+                    data: 'sales',
                     render: function(data, type, row) {
                         if (data != null) {
                             var value = type === 'display' && data.length > 15 ? data.substring(0, 15) : data;
@@ -210,12 +223,20 @@
                     }
                 },
                 {
-                    data: 'project.contractDate',
-                    name: 'project.contractDate',
+                    data: 'customer',
+                    name: 'customer',
                 },
                 {
-                    data: 'project.noContract',
-                    name: 'project.noContract',
+                    data: 'projectNamee',
+                    name: 'projectNamee',
+                },
+                {
+                    data: 'contractDate',
+                    name: 'contractDate',
+                },
+                {
+                    data: 'noContract',
+                    name: 'noContract',
                     render: function(data, type, row) {
                         if (data != null) {
                             var value = type === 'display' && data.length > 10 ? data.substring(0, 10) + '..' : data;
@@ -225,28 +246,20 @@
                     }
                 },
                 {
-                    data: 'project.projectValuePPN',
-                    name: 'project.projectValuePPN',
+                    data: 'projectValuePPN',
+                    name: 'projectValuePPN',
                 },
                 {
-                    data: function(row, type) {
-                        return row.invMain == 1 ? row.termsValuePPN : "0";
-                    },
+                    data: 'invoiced',
+                    name: 'invoiced',
                 },
                 {
-                    data: 'termsName',
-                    name: 'termsName',
-                    render: function(data, type, row) {
-                        if (data != null) {
-                            var value = type === 'display' && data.length > 18 ? data.substring(0, 18) : data;
-                            return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
-                        }
-                        return '';
-                    }
+                    data: 'progresPercen',
+                    name: 'progresPercen',
                 },
                 {
-                    data: 'termsValuePPN',
-                    name: 'termsValuePPN'
+                    data: 'outstanding',
+                    name: 'outstanding',
                 },
             ],
         });
@@ -256,6 +269,8 @@
 
             $('#statusId').val('#');
             $('#salesId').val("#");
+            $('#date_st').val("#");
+            $('#date_ot').val("#");
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();
         });
@@ -263,6 +278,22 @@
             $('#salesId').val($('#sales').val());
             $('#statusId').val($('#status').val());
             $('#example1').data('dt_params', {
+                'salesId': $('#salesId').val(),
+                'statusId': $('#status').val(),
+                'date_st': $('#date_st').val(),
+                'date_ot': $('#date_ot').val(),
+            });
+            $('#example1').DataTable().draw();
+            // console.log(date)
+        });
+
+        $('.col-12').on('change', '#reservation', function() {
+            var date = $('#reservation').val().split(" - ");
+            $('#date_st').val(date[0]);
+            $('#date_ot').val(date[1]);
+            $('#example1').data('dt_params', {
+                'date_st': $('#date_st').val(),
+                'date_ot': $('#date_ot').val(),
                 'salesId': $('#salesId').val(),
                 'statusId': $('#status').val(),
             });

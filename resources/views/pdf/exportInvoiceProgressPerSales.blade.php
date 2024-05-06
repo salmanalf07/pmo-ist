@@ -99,7 +99,12 @@
         </tr>
         <tr class="no-border">
             <td class="no-border" style="font-weight: bold;">
-                Project Status : {{$statusId}}
+                PO Date Periode : {{$date_st}} - {{$date_ot}}
+            </td>
+        </tr>
+        <tr class="no-border">
+            <td class="no-border" style="font-weight: bold;">
+                Invoice Status : {{$statusId}}
             </td>
         </tr>
         <tr class="no-border">
@@ -117,13 +122,13 @@
             <tr>
                 <th style="width: 10%;">Sales</th>
                 <th style="width: 10%;">Customer</th>
+                <th style="width: 18%;">Project Name</th>
                 <th style="width: 10%;">PO Date</th>
-                <th style="max-width: 15%;">PO Number</th>
+                <th style="max-width: 17%;">PO Number</th>
                 <th style="width: 10%;">PO Value</th>
-                <th style="width: 15%;">Invoiced</th>
-                <th style="width: 10%;">%</th>
+                <th style="width: 10%;">Invoiced</th>
+                <th style="width: 5%;">%</th>
                 <th style="width: 10%;">Outstanding</th>
-                <th style="width: 10%;">%</th>
 
             </tr>
         </thead>
@@ -132,48 +137,46 @@
             $lastItem = null;
             $sales = null;
             ?>
-            @foreach ($groupedData as $data)
-            @foreach (collect($data)->sortBy('noRef') as $terms)
-            @if (!is_null($lastItem) && $lastItem == $terms->project->noContract)
+            @foreach ($finishData as $data)
+            @if (!is_null($lastItem) && $lastItem == $data['noContract'])
             @else
             <tr>
 
                 <?php
-                $contractDate = date("d-m-Y", strtotime($terms->project->contractDate));
-                $noContract = $terms->project->noContract;
-                $projectValuePPN = preg_replace('/[^0-9]/', '', $terms->project->projectValuePPN);
-                $termsValuePPN = $terms->termsValuePPN;
+                $contractDate = date("d-m-Y", strtotime($data['contractDate']));
+                $noContract = $data['noContract'];
+                $projectValuePPN = $data['projectValuePPN'];
 
-                $groupKey = $terms->project->noContract;
-                $sumValue = $sumArray[$groupKey] ?? '-';
-                $outStanding = $projectValuePPN - $sumValue;
+                $groupKey = $data['noContract'];
+                $sumValue = $data['invoiced'];
+                $progresPercen = $data['progresPercen'];
+                $outStanding = $data['outstanding'];
                 ?>
 
                 <td>
-                    @if (!is_null($sales) && $sales == $terms->project->sales)
+                    @if (!is_null($sales) && $sales == $data['sales'])
                     <!-- Do nothing -->
                     @else
-                    {{$terms->project->saless ? $terms->project->saless->name : ""}}
+                    {{$data['sales'] ? $data['sales'] : ""}}
                     @endif
                 </td>
-                <td class="text-center">{{$terms->project->customer->company}}</td>
+                <td class="text-center">{{$data['customer']}}</td>
+                <td>{{$data['shortProjectName']}}</td>
                 <td class="text-center">{{$contractDate}}</td>
                 <td>{{$noContract}}</td>
                 <td class="text-right">{{is_numeric($projectValuePPN) ? number_format($projectValuePPN, 0, ',', '.') : '$$$'}}</td>
                 <td class="text-right">
                     {{ is_numeric($sumValue) ? number_format($sumValue, 0, ',', '.') : $sumValue }}
                 </td>
-                <td class="text-center">{{round(($sumValue / $projectValuePPN) * 100, 2)}}</td>
+                <td class="text-center">{{$progresPercen}}</td>
                 <td class="text-right">{{number_format(($outStanding), 0, ',', '.')}}</td>
-                <td class="text-center">{{round(($outStanding / $projectValuePPN) * 100, 2)}}</td>
             </tr>
             @endif
 
             <?php
-            $lastItem = $terms->project->noContract;
-            $sales = $terms->project->sales ? $terms->project->sales : "";
+            $lastItem = $data['noContract'];
+            $sales = $data['sales'] ? $data['sales'] : "";
             ?>
-            @endforeach
             @endforeach
         </tbody>
 
