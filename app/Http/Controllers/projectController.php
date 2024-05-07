@@ -611,7 +611,7 @@ class projectController extends Controller
         }
 
         // $data = $dataa->select('sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('sales')->get();
-        $data = $dataa->select('cust_id', 'sales', DB::raw('SUM(projectValue) as totalProjectValue'))->groupBy('cust_id', 'sales')->get();
+        $data = $dataa->select('cust_id', 'sales', DB::raw('SUM(projectValuePPN) as totalProjectValue'))->groupBy('cust_id', 'sales')->get();
         if ($request->segment(2) == "json_summaryPoBySales") {
             return DataTables::of($data)
                 ->addColumn('projectNamee', function ($data) {

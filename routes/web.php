@@ -271,7 +271,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         $RevenueNewPo = Project::whereYear('contractStart', '=', $years)->sum('projectValuePPN');
         $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', $years)->sum('termsValuePPN');
         $projectByValue = Project::with('customer')->whereYear('contractStart', '=', $years)->orderByRaw('CONVERT(projectValuePPN, SIGNED) desc')->get();
-        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('sales')->get();
+        $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractDate', '=', $years)->groupBy('sales')->get();
         // Inisialisasi array hasil konversi
         $resultArray = [];
 
