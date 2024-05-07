@@ -492,6 +492,6 @@ class topProjectController extends Controller
         $pdf->setPaper('a4', 'lanscape');
 
         //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum',  'date_st', 'date_ot', 'sumArray'));
-        return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
+        return $pdf->download('INVOICE SUMMARY PER PO PER SALES – DETAIL.pdf');
     }
 }
