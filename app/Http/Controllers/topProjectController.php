@@ -429,7 +429,7 @@ class topProjectController extends Controller
         $lastItem = '';
 
         foreach ($data as $groupKey => $groupItems) {
-            foreach ($groupItems as $item) {
+            foreach ($groupItems->sortBy('cust_id') as $item) {
 
                 if ($lastItem != $item->cust_id) {
                     $summ = 0;
