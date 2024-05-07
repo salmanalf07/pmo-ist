@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
@@ -397,5 +398,100 @@ class topProjectController extends Controller
             return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
             // return $sum;
         }
+    }
+
+    function invoiceSummaryPerSales(Request $request)
+    {
+        $dataa = Project::with('saless', 'customer', 'topProject');
+        if ($request->date_st != "#" && $request->date_st) {
+            $dataa->whereDate('contractDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                ->whereDate('contractDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+        } else {
+            $dataa->whereMonth('contractDate', '=', date("m"))
+                ->whereYear('contractDate', '=', date("Y"));
+        }
+        if ($request->salesId != "#" && $request->salesId) {
+            $names = explode(',', $request->salesId);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                // Gunakan whereIn untuk mencocokkan multiple values
+                $dataa->whereIn('sales', $names);
+            }
+        }
+
+        $data = $dataa->get()->groupBy('sales');
+
+        $sumArray = [];
+        $sum = 0;
+        $summ = 0;
+        $projectValuePPN = 0;
+
+        $lastItem = '';
+
+        foreach ($data as $groupKey => $groupItems) {
+            foreach ($groupItems as $item) {
+
+                if ($lastItem != $item->cust_id) {
+                    $summ = 0;
+                    $projectValuePPN = 0;
+                    $sales = $item->saless->name;
+                    $customer = $item->customer->company;
+                    $projectId = $item->id;
+                }
+
+                // Tambahan: Menambahkan projectValuePPN dari setiap item
+                $projectValuePPN += preg_replace('/[^0-9]/', '', $item->projectValuePPN);
+
+                foreach ($item->topProject as $top) {
+                    if ($top->invMain == 1) {
+                        $sum += $top->termsValuePPN;
+                        $summ += $top->termsValuePPN;
+                    }
+                }
+
+                if ($lastItem != $item->cust_id) {
+                    $sumArray[$projectId] = [
+                        'projectId' => $projectId,
+                        'sales' => $sales,
+                        'customer' => $customer,
+                        'projectValuePPN' => $projectValuePPN,
+                        'invoiced' => $summ,
+                        'progresPercen' => round(($summ / $projectValuePPN) * 100, 0),
+                        'outstanding' => $projectValuePPN - $summ
+                    ];
+                } else {
+                    // Update record jika lastItem sama dengan item->cust_id
+                    $sumArray[$projectId]['projectValuePPN'] = $projectValuePPN;
+                    $sumArray[$projectId]['invoiced'] = $summ;
+                    $sumArray[$projectId]['progresPercen'] = round(($summ / $projectValuePPN) * 100, 0);
+                    $sumArray[$projectId]['outstanding'] = $projectValuePPN - $summ;
+                }
+
+                $lastItem = $item->cust_id;
+            }
+        }
+
+
+        $finishData = array_filter($sumArray, function ($item) use ($request) {
+            if ($request->statusId != "#" && $request->statusId) {
+                if ($request->statusId == "progress") {
+                    return ($item['progresPercen'] < 100); // Ubah kondisi filter sesuai kebutuhan
+                } elseif ($request->statusId == "completed") {
+                    return ($item['progresPercen'] >= 100); // Ubah kondisi filter sesuai kebutuhan
+                }
+            }
+            return true;
+        });
+
+        $statusId = $request->statusId != "#" ? $request->statusId : 'ALL';
+        $date_st = $request->date_st != "#" ? $request->date_st : date("01/m/Y");
+        $date_ot = $request->date_ot != "#" ? $request->date_ot : date("t/m/Y");
+
+        $pdf = PDF::loadView('pdf.exportInvoiceSummaryPerSales', compact('finishData', 'sum', 'statusId', 'date_st', 'date_ot'));
+        // Mengubah orientasi menjadi lanskap
+        $pdf->setPaper('a4', 'lanscape');
+
+        //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum',  'date_st', 'date_ot', 'sumArray'));
+        return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
     }
 }

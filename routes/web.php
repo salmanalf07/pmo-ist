@@ -912,6 +912,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     })->name('invoiceProgressPerSales');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_invoiceProgressPerSales', [topProjectController::class, 'invoiceProgressPerSales']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceProgressPerSales', [topProjectController::class, 'invoiceProgressPerSales']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceSummaryPerSales', [topProjectController::class, 'invoiceSummaryPerSales']);
 });
 //END SALES
 //PM
