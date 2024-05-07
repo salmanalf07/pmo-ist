@@ -266,11 +266,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         ];
 
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
-        $projectThisYear = Project::whereYear('contractStart', '=', $years)->count();
+        $projectThisYear = Project::whereYear('contractDate', '=', $years)->count();
         $PotensialRevenue = topProject::whereYear('bastDate', '=', $years)->sum('termsValuePPN');
-        $RevenueNewPo = Project::whereYear('contractStart', '=', $years)->sum('projectValuePPN');
+        $RevenueNewPo = Project::whereYear('contractDate', '=', $years)->sum('projectValuePPN');
         $invoiced = topProject::where('invMain', '=', 1)->whereYear('invDate', '=', $years)->sum('termsValuePPN');
-        $projectByValue = Project::with('customer')->whereYear('contractStart', '=', $years)->orderByRaw('CONVERT(projectValuePPN, SIGNED) desc')->get();
+        $projectByValue = Project::with('customer')->whereYear('contractDate', '=', $years)->orderByRaw('CONVERT(projectValuePPN, SIGNED) desc')->get();
         $salesRevenue = Project::with('saless')->select('sales', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractDate', '=', $years)->groupBy('sales')->get();
         // Inisialisasi array hasil konversi
         $resultArray = [];
@@ -290,7 +290,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'revenue' => $salesData->totalRevenue
             ];
         }
-        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractStart', '=', $years)->groupBy('customerType')->get();
+        $custTypeRevenue = Project::select('customerType', DB::raw('SUM(projectValuePPN) as totalRevenue'))->whereYear('contractDate', '=', $years)->groupBy('customerType')->get();
         // Loop setiap hasil dari kueri $salesRevenue
         $resultCustTypeRevenue = [];
         foreach ($custTypeRevenue as $custTypeRevenuee) {
@@ -300,9 +300,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                 'totalRevenue' => formatAngka($custTypeRevenuee->totalRevenue),
             ];
         }
-        $summaryCustomer = Project::select(DB::raw('YEAR(contractStart) as year'), DB::raw('COUNT(DISTINCT cust_id) as unique_customers'))
-            ->whereRaw('YEAR(contractStart) >= ?', [$years - 2])
-            ->whereRaw('YEAR(contractStart) <= ?', [$years])
+        $summaryCustomer = Project::select(DB::raw('YEAR(contractDate) as year'), DB::raw('COUNT(DISTINCT cust_id) as unique_customers'))
+            ->whereRaw('YEAR(contractDate) >= ?', [$years - 2])
+            ->whereRaw('YEAR(contractDate) <= ?', [$years])
             ->groupBy('year')
             ->get();
 
@@ -355,7 +355,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             $data = $getData->where('overAllProg', '<', 100)->get();
         }
         if ($request->filter == "projectThisYear") {
-            $data = $getData->whereYear('contractStart', '=', $request->year)->get();
+            $data = $getData->whereYear('contractDate', '=', $request->year)->get();
         }
         return response()->json($data);
     });
@@ -363,7 +363,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
     Route::get('/projectDashboard', function () {
         $projectOnGoing = Project::where('overAllProg', '<', 100)->count();
-        $salesRevenue = Project::with('pm')->select('pmName', DB::raw('count(*) as totalProject'), DB::raw('SUM(projectValue) as totalRevenue'))->where('overAllProg', '<', 100)->groupBy('pmName')->get();
+        $salesRevenue = Project::with('pm')->select('pmName', DB::raw('count(*) as totalProject'), DB::raw('SUM(projectValuePPN) as totalRevenue'))->where('overAllProg', '<', 100)->groupBy('pmName')->get();
 
         $numberOfProject = [];
 
