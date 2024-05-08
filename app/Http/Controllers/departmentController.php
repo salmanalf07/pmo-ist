@@ -6,13 +6,14 @@ use App\Models\department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class departmentController extends Controller
 {
-    public function json()
+    public function json(Request $request)
     {
-        $data = department::orderBy('created_at', 'DESC');
 
+        $data = department::orderBy('created_at', 'DESC');
         return DataTables::of($data)
             ->addColumn('aksi', function ($data) {
                 return

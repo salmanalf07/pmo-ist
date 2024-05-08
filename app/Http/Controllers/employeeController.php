@@ -10,6 +10,7 @@ use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use App\Models\memberProject;
 use App\Models\partnerProject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -439,6 +440,10 @@ class employeeController extends Controller
         $post = employee::with('memberProject')->find($id);
         $post->memberProject()->delete();
         $post->delete();
+
+        $users = User::where('name', $post->id)->first();
+        $users->status = "INACTIVE";
+        $users->save();
 
         return response()->json($post);
     }
