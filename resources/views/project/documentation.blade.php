@@ -130,7 +130,7 @@
                 },
                 {
                     data: function(row) {
-                        return row.user.employee ? row.user.employee.name : row.user.name;
+                        return row.user ? row.user.employee.name : "";
                     },
                     name: 'user.name'
                 },
