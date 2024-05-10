@@ -28,14 +28,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api.key')->get('/data', function (Request $request) {
-    $department = department::all();
-    $division = division::all();
-    $location = locationEmployee::all();
-    $roleEmployee = roleEmployee::all();
-    $typeProject = typeProject::all();
-    $skillLevel = skillLevel::all();
-    $specialization = specialization::all();
-    $employee = employee::all();
+    $department = department::withTrashed()->get();
+    $division = division::withTrashed()->get();
+    $location = locationEmployee::withTrashed()->get();
+    $roleEmployee = roleEmployee::withTrashed()->get();
+    $typeProject = typeProject::withTrashed()->get();
+    $skillLevel = skillLevel::withTrashed()->get();
+    $specialization = specialization::withTrashed()->get();
+    $employee = employee::withTrashed()->get();
 
 
     return response()->json(['department' => $department, 'division' => $division, 'location' => $location, 'roleEmployee' => $roleEmployee, 'skillLevel' => $skillLevel, 'specialization' => $specialization, 'employee' => $employee, 'typeProject' => $typeProject]);
