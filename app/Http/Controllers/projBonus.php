@@ -47,7 +47,7 @@ class projBonus extends Controller
                 return $value !== null ? $value : 0;
             }, $request->amount);
 
-            for ($count = 0; $count < count($description); $count++) {
+            for ($count = 1; $count < count($description) + 1; $count++) {
                 $projCosting = projectCosting::findOrNew($idCosting[$count]);
                 $projCosting->projectId = $id;
                 $projCosting->description = $description[$count];

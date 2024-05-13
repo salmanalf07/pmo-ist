@@ -51,7 +51,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="detailOrder">
-                                    <tr class="input-100">
+                                    <tr class="input-100" style="display: none;">
                                         <td hidden>
                                             <input type="text" name="idCosting[]" id="idCosting0">
                                         </td>
@@ -71,6 +71,38 @@
                                         </td>
                                         <td>
                                             <input id="picCosting0" name="picCosting[]" type="text">
+                                        </td>
+                                        <td>
+                                            @can('bisa-hapus')
+                                            <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
+                                                <i data-feather="trash-2" class="icon-xs"></i>
+                                                <div id="trashOne" class="d-none">
+                                                    <span>Delete</span>
+                                                </div>
+                                            </a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                    <tr class="input-100">
+                                        <td hidden>
+                                            <input type="text" name="idCosting[]" id="idCosting1">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="description[]" id="description1">
+                                        </td>
+                                        <td>
+                                            <div class="input-group me-3">
+                                                <input id="orderDate1" name="orderDate[]" type="text" class="text-center datepicker" data-input aria-describedby="date1" required>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="poNumber[]" id="poNumber1">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="amount[]" id="amount1" class="number-input text-end" placeholder="0" onchange="hitung2()">
+                                        </td>
+                                        <td>
+                                            <input id="picCosting1" name="picCosting[]" type="text">
                                         </td>
                                         <td>
                                             @can('bisa-hapus')
@@ -240,21 +272,23 @@
             hitung2();
 
             var costing = <?php echo json_encode($costing); ?>;
-            for (let j = 0; j < ('{{count($costing)}}' - 1); j++) {
+            for (let j = 0; j < ('{{count($costing)}}') - 1; j++) {
                 addRow();
             }
+            var idCost = 1;
             for (var i = 0; i < '{{count($costing)}}'; i++) {
-                $('#idCosting' + i).val(costing[i].id);
-                $('#description' + i).val(costing[i].description);
-                $('#orderDate' + i).val((costing[i].orderDate).split("-").reverse().join("-"));
-                $('#poNumber' + i).val(costing[i].poNumber);
-                $('#picCosting' + i).val(costing[i].pic);
+                $('#idCosting' + idCost).val(costing[i].id);
+                $('#description' + idCost).val(costing[i].description);
+                $('#orderDate' + idCost).val((costing[i].orderDate).split("-").reverse().join("-"));
+                $('#poNumber' + idCost).val(costing[i].poNumber);
+                $('#picCosting' + idCost).val(costing[i].pic);
                 if (costing[i].amount > 0) {
-                    $('#amount' + i).val(formatNumberr(costing[i].amount));
+                    $('#amount' + idCost).val(formatNumberr(costing[i].amount));
                 } else {
-                    $('#amount' + i).val(formatNumberr(0));
+                    $('#amount' + idCost).val(formatNumberr(0));
                 }
                 hitung2();
+                idCost++;
             }
             // console.log(data)
         }
