@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\allProjectByDate;
 use App\Exports\allProjectExport;
 use App\Exports\closeProjectExport;
 use App\Exports\dataSowExport;
@@ -38,7 +39,7 @@ class projectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = Project::with('customer', 'pm', 'saless', 'sponsors')->orderBy('created_at', 'DESC');
+        $dataa = Project::with('customer', 'pm', 'saless', 'sponsors')->orderBy('contractDate', 'DESC');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $names = explode(',', $request->cust_id);
@@ -107,6 +108,9 @@ class projectController extends Controller
         }
 
         $data = $dataa->get();
+        if ($request->segment(1) == "projInfoByDateExport") {
+            return Excel::download(new allProjectByDate($data), 'projInfoByDateExport.xlsx');
+        }
         return DataTables::of($data)
             ->addColumn('projectNamee', function ($data) {
                 return

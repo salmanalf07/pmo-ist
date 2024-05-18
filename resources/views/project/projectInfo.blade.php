@@ -150,6 +150,7 @@
             dom: '<"row"<"col-md-6"l><"col-md-6"f>>rt<"bottom"pi>',
             "responsive": true,
             "lengthChange": true,
+            "order": [],
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]

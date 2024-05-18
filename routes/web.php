@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsanaAPIController;
 use App\Http\Controllers\categoryOrderController;
 use App\Http\Controllers\communityCategory;
 use App\Http\Controllers\communityController;
@@ -495,6 +496,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_project', [projectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_project/{id}', [projectController::class, 'destroy']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportProjByMain', [projectController::class, 'ExportProjByMain']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/projInfoByDateExport', [projectController::class, 'json']);
 //summarry
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/project/summaryProject/{id}', function ($id) {
@@ -1155,6 +1157,10 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 //END MASTER DATA
 
 
+Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'asana'], function () {
+    Route::get('/getProjects', [AsanaAPIController::class, 'getProjects'])->name('getProjects');
+    Route::post('/store', [AsanaAPIController::class, 'store'])->name('storeRole');
+});
 
 //test google sheet
 Route::get('/gantt', function () {
@@ -1175,6 +1181,14 @@ Route::get('/gantt', function () {
     return view('/gantt/project', ['gantt' => $gantt]);
     // return $gantt;
 });
+
+
+//ASANA
+
+
+//END ASANA
+
+
 Route::get('/google/auth', [employeeController::class, 'auth']);
 Route::get('/google/callback', [employeeController::class, 'callback']);
 Route::get('/googleSheet', [employeeController::class, 'getSheetsData']);
