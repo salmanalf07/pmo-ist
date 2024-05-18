@@ -156,6 +156,10 @@
             return Math.ceil(priceWithVAT / (1 + '{{ Session::get("ppn") }}' / 100));
         }
 
+        function calculatePriceWithVAT(priceWithVAT) {
+            return Math.ceil(priceWithVAT * (1 + '{{ Session::get("ppn") }}' / 100));
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const initialContainers = document.getElementsByClassName('initial-container');
             for (let i = 0; i < initialContainers.length; i++) {

@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label class="form-label">Project Value</label>
-                                        <input name="projectValuePPN" id="projectValuePPN" type="text" class="form-control" value="0" placeholder="Enter Here" readonly>
+                                        <input name="projectValuePPN" id="projectValuePPN" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label class="form-label">Project Value + PPN</label>
@@ -323,6 +323,10 @@
         $('#projectValue').on('input', function() {
             var projectValue = $(this).val();
             $('#projectValuePPN').val(formatNumberr(calculatePriceWithoutVAT(projectValue.replace(/\./g, ""))));
+        });
+        $('#projectValuePPN').on('input', function() {
+            var projectValue = $(this).val();
+            $('#projectValue').val(formatNumberr(calculatePriceWithVAT(projectValue.replace(/\./g, ""))));
         });
 
     });
