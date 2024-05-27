@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\Rule;
 
 class employeeController extends Controller
 {
@@ -349,7 +350,7 @@ class employeeController extends Controller
     {
         try {
             $request->validate([
-                'employee_id' => ['required', 'string', 'max:255', 'unique:employees'],
+                'employee_id' => ['required', 'string', 'max:255', Rule::unique('employees')->whereNull('deleted_at')],
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
