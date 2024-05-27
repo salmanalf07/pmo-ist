@@ -15,7 +15,7 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissionNames = ['categoryOrder-editor'];
+        $permissionNames = ['memberProject-editor'];
 
         foreach ($permissionNames as $name) {
             Permission::create(['name' => $name]);

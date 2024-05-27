@@ -11,7 +11,7 @@
         <div class="card">
             <!-- card header -->
             <div class="card-header d-md-flex border-bottom-0">
-                @canany(['bisa-tambah'])
+                @canany(['bisa-tambah','memberProject-editor'])
                 <div class="flex-grow-1">
                     <a href="/project/changeProjMember/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
                 </div>
@@ -73,7 +73,7 @@
                         },
                         {
                             data: function(row, type) {
-                                if (row.roles != "#") {
+                                if (row.roles != "#" && row.roles) {
                                     var value = type === 'display' && row.roles.roleEmployee.length > 23 ? row.roles.roleEmployee.substring(0, 23) + '..' : row.roles.roleEmployee;
                                     return '<div data-toggle="tooltip" title="' + row.roles.roleEmployee + '">' + value + '</div>'
                                 } else {

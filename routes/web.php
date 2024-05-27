@@ -36,6 +36,7 @@ use App\Http\Controllers\timelineController;
 use App\Http\Controllers\topProjectController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\weeklyReportController;
+use App\Models\asanaProject;
 use App\Models\community;
 use App\Models\communityCategory as ModelsCommunityCategory;
 use App\Models\communityType as ModelsCommunityType;
@@ -605,15 +606,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     return view('project/projectMemberDashboard', ['judul' => "Project Member", 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
 })->name('projectMember');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectMember/{id}', [memberProjectController::class, 'edit'])->name('json_projectMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->get('/project/changeProjMember/{id}', [memberProjectController::class, 'edit'])->name('changeProjMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->post('/store_autoMember/{id}', [memberProjectController::class, 'autoSave'])->name('storeAutoMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm'])->delete('/delete_projectPartner/{id}', [memberProjectController::class, 'destroyPartner'])->name('deletePartner');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|memberProject-editor'])->get('/project/changeProjMember/{id}', [memberProjectController::class, 'edit'])->name('changeProjMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|memberProject-editor'])->post('/store_projectMember/{id}', [memberProjectController::class, 'store'])->name('storeProjectMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|memberProject-editor'])->post('/store_autoMember/{id}', [memberProjectController::class, 'autoSave'])->name('storeAutoMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|memberProject-editor'])->delete('/delete_projectMember/{id}', [memberProjectController::class, 'destroy'])->name('deleteMember');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role_or_permission:SuperAdm|memberProject-editor'])->delete('/delete_projectPartner/{id}', [memberProjectController::class, 'destroyPartner'])->name('deletePartner');
 //TimeLine
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{id}', function ($id) {
     $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
     $dataa = Project::with('customer')->where('id', $id);
+    $getProjectAsana = asanaProject::where('projectId', null)->get();
     if (Auth::user()->hasRole('PM')) {
         $dataa->where(function ($query) {
             $query->where('pmName', Auth::user()->name)
@@ -624,12 +626,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     if (!$value) {
         return view('/error', ['exception' => 'Project Not Allowed Access']);
     }
-    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName,]);
+    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'getProjectAsana' => $getProjectAsana]);
 })->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectTimeline/{id}', [timelineController::class, 'edit'])->name('json_projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->get('/project/changeprojectTimeline/{id}', [timelineController::class, 'edit'])->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_projectTimeline/{id}', [timelineController::class, 'store'])->name('storeprojectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_connectProject/{id}', [timelineController::class, 'connectProject'])->name('storeconnectProject');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/disconnect_project/{id}', [timelineController::class, 'disconnectProject'])->name('disconnectProject');
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
