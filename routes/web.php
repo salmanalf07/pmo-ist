@@ -37,6 +37,7 @@ use App\Http\Controllers\topProjectController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\weeklyReportController;
 use App\Models\asanaProject;
+use App\Models\asanaSection;
 use App\Models\community;
 use App\Models\communityCategory as ModelsCommunityCategory;
 use App\Models\communityType as ModelsCommunityType;
@@ -634,6 +635,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_connectProject/{id}', [timelineController::class, 'connectProject'])->name('storeconnectProject');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/disconnect_project/{id}', [timelineController::class, 'disconnectProject'])->name('disconnectProject');
+Route::get('/project/projectTimeline/{projectId}/sections/{sectionId}', function ($projectId, $sectionId) {
+    $projectName = asanaProject::where('id', $projectId)->first();
+    $section = asanaSection::with('task')->where('asana_id', $sectionId)->orderBy('ref', 'asc')->get();
+    $dataa = Project::with('customer')->where('id', $projectId);
+
+    $value = $dataa->first();
+
+    return view('/project/projectTimelineDetail', ['section' => $section, 'id' => $projectId, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName]);
+})->name('projectTimelineDetail');
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
@@ -910,6 +920,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     })->name('invoiceStatusSalesDetail');
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_invoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportInvoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/exportExcelInvoiceStatusSalesDetail', [topProjectController::class, 'invoiceStatusSalesDetail']);
 
     Route::get('/invoiceProgressPerSales', function () {
         $employee = Project::with('saless')->select('sales')->get();

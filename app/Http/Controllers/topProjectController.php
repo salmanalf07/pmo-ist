@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\financeExport;
+use App\Exports\invoiceStatusSalesDetail;
 use App\Models\Project;
 use App\Models\topProject;
 use Illuminate\Http\Request;
@@ -243,7 +244,7 @@ class topProjectController extends Controller
 
     public function invoiceStatusSalesDetail(Request $request)
     {
-        $dataa = topProject::with('project.saless')->orderBy('created_at', 'DESC');
+        $dataa = topProject::with('project.saless', 'project.customer')->orderBy('created_at', 'DESC');
 
         $dataa->whereHas('project', function ($query) use ($request) {
             if ($request->salesId != "#" && $request->salesId) {
@@ -290,6 +291,12 @@ class topProjectController extends Controller
             //return view('pdf.exportInvoiceStatusSalesAll', compact('groupedData', 'sum', 'status'));
             return $pdf->download('INVOICE STATUS PER PO PER SALES – DETAIL.pdf');
             // return $sum;
+        }
+        if ($request->segment(2) == "exportExcelInvoiceStatusSalesDetail") {
+            $dataExport = $data->sortBy(['projectId', 'noRef', 'project.saless.name']);
+            //return $dataExport;
+
+            return Excel::download(new invoiceStatusSalesDetail($dataExport), 'invoiceStatusSalesDetail.xlsx');
         }
     }
 
