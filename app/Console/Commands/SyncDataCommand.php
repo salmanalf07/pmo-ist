@@ -25,6 +25,7 @@ class SyncDataCommand extends Command
     }
     public function handle()
     {
+        $this->Log('Sync Data', 'Sync Data Start', 'Success');
         DB::beginTransaction();
         try {
             $response = Http::withHeaders([
