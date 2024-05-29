@@ -14,7 +14,18 @@ class CreateAsanaDetailTasksTable extends Migration
     public function up()
     {
         Schema::create('asana_detail_tasks', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('gid');
+            $table->integer('ref');
+            $table->string('task_id');
+            $table->string('assignee')->nullable();
+            $table->date('start_on')->nullable();
+            $table->date('due_on')->nullable();
+            $table->string('permalink_url');
+            $table->string('progress')->nullable();
+            $table->string('status');
+            $table->softDeletes();
+            $table->string('deleted_by')->nullable();
             $table->timestamps();
         });
     }

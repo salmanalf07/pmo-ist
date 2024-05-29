@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
 use App\Models\asanaTask;
@@ -80,6 +81,28 @@ class SyncDataCommand extends Command
                                     $saveTask->gid = $task['gid'];
                                     $saveTask->taskName = $task['name'];
                                     $saveTask->save();
+
+                                    $getDetailTask = Http::withHeaders([
+                                        'Authorization' => env('TOKEN_ASANA'),
+                                    ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
+
+                                    if ($getDetailTask->successful()) {
+                                        $dataDetailTask = $getDetailTask->json();
+                                        $refDetailTask = 1;
+                                        // foreach ($dataDetailTask['data'] as $detailTask) {
+                                        $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
+                                        $saveDetailTask->gid = $dataDetailTask['data']['gid'];
+                                        $saveDetailTask->ref = $refDetailTask;
+                                        $saveDetailTask->task_id = $saveTask->id;
+                                        $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['name'] ?? null;
+                                        $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
+                                        $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
+                                        $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
+                                        $saveDetailTask->progress = $dataDetailTask['data']['custom_fields'][1]['number_value'] ?? 0;
+                                        $saveDetailTask->status = $dataDetailTask['data']['completed'];
+                                        $saveDetailTask->save();
+                                        // }
+                                    }
                                 }
                             }
                         }

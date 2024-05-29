@@ -19,6 +19,11 @@ class asanaSection extends Model
         'deleted_by',
     ];
 
+    public function task()
+    {
+        return $this->hasMany(asanaTask::class, 'section_id', 'id');
+    }
+
     /**
      * The "booting" function of model
      *
