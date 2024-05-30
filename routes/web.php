@@ -635,9 +635,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_connectProject/{id}', [timelineController::class, 'connectProject'])->name('storeconnectProject');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/disconnect_project/{id}', [timelineController::class, 'disconnectProject'])->name('disconnectProject');
-Route::get('/project/projectTimeline/{projectId}/sections/{sectionId}', function ($projectId, $sectionId) {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{projectId}/sections/{sectionId}', function ($projectId, $sectionId) {
     $projectName = asanaProject::where('id', $projectId)->first();
-    $section = asanaSection::with('task')->where('asana_id', $sectionId)->orderBy('ref', 'asc')->get();
+    $section = asanaSection::with('task.detailTask')->where('asana_id', $sectionId)->orderBy('ref', 'asc')->get();
     $dataa = Project::with('customer')->where('id', $projectId);
 
     $value = $dataa->first();

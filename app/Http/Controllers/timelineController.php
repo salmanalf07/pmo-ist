@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\asanaProject;
 use App\Models\documentationProject;
 use App\Models\Project;
 use App\Models\scopeProject;
@@ -16,6 +17,7 @@ class timelineController extends Controller
     {
         $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
+        $asanaProject = asanaProject::where('projectId', $id)->get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($request->segment(2) == "changeprojectTimeline") {
@@ -43,7 +45,16 @@ class timelineController extends Controller
             return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg, 'aksiFile' => $aksiFile, 'file' => $file]);
         }
         if ($request->segment(2) == "json_projectTimeline") {
-            $dataTable1 = DataTables::of($get)->toJson();
+
+            $dataTable1 = DataTables::of($asanaProject)
+                ->addColumn('aksi', function ($data) {
+                    return auth()->user()->can('bisa-hapus') ?
+                        '<a href="/project/projectTimeline/' . $data->projectId . '/sections/' . $data->id . '" id="detail" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Detail">
+                        <i class="bi bi-search"></i></a><button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                <i class="bi bi-trash"></i></button>' : "";
+                })
+                ->rawColumns(['aksi'])
+                ->toJson();
 
             $response = array(
                 'dataTable1' => $dataTable1,
@@ -112,10 +123,29 @@ class timelineController extends Controller
         }
     }
 
+    public function connectProject(Request $request, $id)
+    {
+        foreach ($request->project as $data) {
+            $asanaProject = asanaProject::find($data);
+            $asanaProject->projectId = $id;
+            $asanaProject->save();
+        }
+
+        return redirect()->back();
+    }
+
     public function destroy($id)
     {
         $post = scopeProject::find($id);
         $post->delete();
+
+        return response()->json($post);
+    }
+    public function disconnectProject($id)
+    {
+        $post = asanaProject::find($id);
+        $post->projectId = null;
+        $post->save();
 
         return response()->json($post);
     }

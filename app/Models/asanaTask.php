@@ -19,6 +19,10 @@ class asanaTask extends Model
         'deleted_by',
     ];
 
+    public function detailTask()
+    {
+        return $this->hasOne(asanaDetailTask::class, 'task_id', 'id');
+    }
     /**
      * The "booting" function of model
      *

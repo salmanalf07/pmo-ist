@@ -6,7 +6,7 @@
 <!-- row -->
 <div class="row">
     <div class="col-xxl-12 col-12">
-        <div class="card  mb-4">
+        <!-- <div class="card  mb-4">
             <div class="card-header">
                 <h4 class="mb-0">Documentation</h4>
 
@@ -24,7 +24,7 @@
                     @endif
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- col -->
         <div class="col-12">
             <!-- card -->
@@ -33,7 +33,7 @@
                 <div class="card-header d-md-flex border-bottom-0">
                     @canany(['bisa-tambah','timeline-editor'])
                     <div class="flex-grow-1">
-                        <a href="/project/changeprojectTimeline/{{$id}}" class="btn btn-primary">+ Add Or Edit {{$judul}}</a>
+                        <button id="adddata" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">+ Connect Project</button>
                     </div>
                     @endcanany
                     <div style="width: 15em;">
@@ -53,9 +53,53 @@
             </div>
         </div>
     </div>
+    <!-- Offcanvas -->
+    <div class="modal fade gd-example-modal-lg" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" data-bs-focus="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Connect Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="reset_from()" aria-label="Close">
+
+                    </button>
+                </div>
+
+                <!-- card body -->
+                <div class="modal-body">
+                    <!-- form -->
+                    <form method="post" action="/store_connectProject/{{$id}}" role="form" id="form-add" enctype="multipart/form-data">
+                        <div class="row">
+                            <!-- form group -->
+                            @csrf
+                            <span id="peringatan"></span>
+                            <div class="mb-3 col-12">
+                                <label class="form-label" for="selectOne">Project</label>
+                                <select name="project[]" id="project" class="select2" multiple="multiple" aria-label="Default select example" required>
+                                    @foreach($getProjectAsana as $data)
+                                    <option value="{{$data->id}}">{{$data->projectName}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-8"></div>
+                            <!-- button -->
+                            <div class="col-12">
+                                <button id="in" class="btn btn-primary" type="submit">Connect</button>
+                                <button type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="modal" aria-label="Close" onclick="reset_from()">Close</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('.select2').select2({
+                dropdownParent: $('#taskModal'),
+                placeholder: 'Select multiple options...',
+            });
 
             $.ajax({
                 url: '/project/json_projectTimeline/{{$id}}', // Ganti dengan URL skrip PHP Anda
@@ -72,14 +116,14 @@
                         "autoWidth": false,
                         "responsive": true,
                         "columnDefs": [{
-                                targets: [2, 3, 4, 5],
+                                targets: [1, 2],
                                 render: function(oTable) {
                                     return moment(oTable).format('DD-MM-YYYY');
                                 },
                             },
                             {
                                 "className": "text-end",
-                                "targets": [6], // table ke 1
+                                "targets": [3], // table ke 1
                             },
                         ],
                         footerCallback: function(row, data, start, end, display) {
@@ -97,9 +141,9 @@
 
                             // Total over all pages
 
-                            if (api.column(6).data().length) {
+                            if (api.column(3).data().length) {
                                 var total = api
-                                    .column(6)
+                                    .column(3)
                                     .data()
                                     .reduce(function(a, b) {
                                         return intVal(a) + intVal(b);
@@ -108,46 +152,36 @@
                                 total = 0
                             };
 
-                            $('#totRecord').html("Progress " + Math.round(total / api.column(6).data().length) + "%");
+                            $('#totRecord').html("Progress " + Math.round(total / api.column(3).data().length) + "%");
                         },
                         columns: [{
-                                data: 'noRef',
-                                title: 'No'
-                            }, {
                                 data: function(row) {
-                                    var value = row.scope.length > 40 ? row.scope.substring(0, 40) + '..' : row.scope;
-                                    return '<div data-toggle="tooltip" title="' + row.scope + '">' + value + '</div>'
+                                    var value = row.projectName.length > 40 ? row.projectName.substring(0, 40) + '..' : row.projectName;
+                                    return '<div data-toggle="tooltip" title="' + row.projectName + '">' + value + '</div>'
                                 },
-                                title: 'Scope Of Work'
+                                title: 'Project Name'
                             },
                             {
-                                data: 'planStart',
-                                title: 'Plan Start Date'
+                                data: 'startDate',
+                                title: 'Start Date'
                             },
                             {
-                                data: 'planEnd',
-                                title: 'Plan End Date'
+                                data: 'dueDate',
+                                title: 'Due Date'
                             },
                             {
-                                data: 'actStart',
-                                title: 'Act Start Date'
-                            },
-                            {
-                                data: 'actEnd',
-                                title: 'Act End Date'
-                            },
-                            {
-                                // data: function(row) {
-                                //     return '<div class="d-flex align-items-center">' +
-                                //         '<div class="me-2"> <span>' + row.progProject + '%</span></div>' +
-                                //         '<div class="progress flex-auto" style="height: 6px;">' +
-                                //         '<div class="progress-bar bg-primary " role="progressbar" style="width: ' + row.progProject + '%;" aria-valuenow="' + row.progProject + '" aria-valuemin="0" aria-valuemax="100">' +
-                                //         '</div></div></div>'
-                                // },
                                 data: function(row) {
-                                    return row.progProject + "%"
+                                    return row.progress == null ? "0%" : row.progress + "%"
                                 },
                                 title: 'Progress %'
+                            },
+                            {
+                                data: 'status',
+                                title: 'Status'
+                            },
+                            {
+                                data: 'aksi',
+                                title: 'Action'
                             },
                         ]
                     });
@@ -166,91 +200,6 @@
                 $("#in").removeClass("btn btn-primary update");
                 $("#in").addClass("btn btn-primary add");
             });
-            //add data
-            $('.col-12').on('click', '.add', function() {
-                var form = document.getElementById("form-add");
-                var fd = new FormData(form);
-                $.ajax({
-                    type: 'POST',
-                    url: '/store_documentation/{{$id}}',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        if (data[1]) {
-                            let text = "";
-                            var dataa = Object.assign({}, data[0])
-                            for (let x in dataa) {
-                                text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
-                            }
-                            $('#peringatan').append(text);
-                        } else {
-                            $('#offcanvasRight').offcanvas('hide');
-                            document.getElementById("form-add").reset();
-                            $('#example1').DataTable().ajax.reload();
-                        }
-
-                    },
-                });
-            });
-            $(document).on('click', '#edit', function(e) {
-                e.preventDefault();
-                var uid = $(this).data('id');
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/edit_documentation/{{$id}}',
-                    data: {
-                        '_token': "{{ csrf_token() }}",
-                        'id': uid,
-                    },
-                    success: function(data) {
-                        //console.log(data);
-
-                        //isi form
-                        $('#id').val(data.id);
-                        $('#nameFile').val(data.nameFile);
-                        $('#link').val(data.link);
-
-                        id = $('#id').val();
-
-                        $('.modal-title').text('Edit Data');
-                        $("#in").removeClass("btn btn-primary add");
-                        $("#in").addClass("btn btn-primary update");
-                        $('#offcanvasRight').offcanvas('show');
-
-                    },
-                });
-
-            });
-            //end edit
-            //update
-            $('.col-12').on('click', '.update', function() {
-                var form = document.getElementById("form-add");
-                var fd = new FormData(form);
-                $.ajax({
-                    type: 'POST',
-                    url: '/update_documentation/' + id,
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        if (data[1]) {
-                            let text = "";
-                            var dataa = Object.assign({}, data[0])
-                            for (let x in dataa) {
-                                text += "<div class='alert alert-dismissible hide fade in alert-danger show'><strong>Errorr!</strong> " + dataa[x] + "<a href='#' class='close float-close' data-dismiss='alert' aria-label='close'>×</a></div>";
-                            }
-                            $('#peringatan').append(text);
-                        } else {
-                            $('#offcanvasRight').offcanvas('hide');
-                            document.getElementById("form-add").reset();
-                            $('#example1').DataTable().ajax.reload();
-                        }
-                    }
-                });
-            });
-            //end update
             $(document).on('click', '#delete', function(e) {
                 e.preventDefault();
                 if (confirm('Yakin akan menghapus data ini?')) {
@@ -258,13 +207,13 @@
 
                     $.ajax({
                         type: 'DELETE',
-                        url: '/delete_documentation/' + $(this).data('id'),
+                        url: '/disconnect_project/' + $(this).data('id'),
                         data: {
                             '_token': "{{ csrf_token() }}",
                         },
                         success: function(data) {
                             alert("Data Berhasil Dihapus");
-                            $('#example1').DataTable().ajax.reload();
+                            location.reload();
                         }
                     });
 
@@ -273,5 +222,11 @@
                 }
             });
         });
+
+        function reset_from() {
+            $('#project').val(null).trigger('change');
+            document.getElementById("form-add").reset();
+            $('.alert-danger').remove();
+        }
     </script>
     @endsection
