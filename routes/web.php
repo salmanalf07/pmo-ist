@@ -839,6 +839,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 //Report
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/financeExport', [topProjectController::class, 'financeExport']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/financeByInvoiceExport', [topProjectController::class, 'financeExport']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/financeByPaymentExport', [topProjectController::class, 'financeExport']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/financeTermsStatExport', [topProjectController::class, 'financeExport']);
 //r_allProject
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|BOD'])->group(function () {
     Route::get('/r_allProject', function () {

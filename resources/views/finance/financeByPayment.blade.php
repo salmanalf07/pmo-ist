@@ -34,7 +34,7 @@
                                         </button>
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <form method="post" role="form" id="form-print" action="financeExport" enctype="multipart/form-data" formtarget="_blank" target="_blank">
+                                        <form method="post" role="form" id="form-print" action="financeByPaymentExport" enctype="multipart/form-data" formtarget="_blank" target="_blank">
                                             @csrf
                                             <input type="text" id="date_st" name="date_st" hidden>
                                             <input type="text" id="date_ot" name="date_ot" hidden>

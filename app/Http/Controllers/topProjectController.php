@@ -165,13 +165,34 @@ class topProjectController extends Controller
     public function financeExport(Request $request)
     {
         $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
+        if ($request->segment(1) == 'financeExport' || $request->segment(1) == 'financeTermsStatExport') {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('bastDate', '=', date("m"))
+                    ->whereYear('bastDate', '=', date("Y"));
+            }
+        }
 
-        if ($request->date_st != "#" && $request->date_st) {
-            $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-        } else {
-            $dataa->whereMonth('bastDate', '=', date("m"))
-                ->whereYear('bastDate', '=', date("Y"));
+        if ($request->segment(1) == 'financeByInvoiceExport') {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('invDate', '=', date("m"))
+                    ->whereYear('invDate', '=', date("Y"));
+            }
+        }
+
+        if ($request->segment(1) == 'financeByPaymentExport') {
+            if ($request->date_st != "#" && $request->date_st) {
+                $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                    ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+            } else {
+                $dataa->whereMonth('payDate', '=', date("m"))
+                    ->whereYear('payDate', '=', date("Y"));
+            }
         }
 
         $dataa->whereHas('project', function ($query) use ($request) {
@@ -193,8 +214,8 @@ class topProjectController extends Controller
         }
 
 
-        $data = $dataa->get();
-        return Excel::download(new financeExport($data), 'Finance_Report.xlsx');
+        $data = $dataa->get()->sortBy(['projectId', 'noRef']);
+        return Excel::download(new financeExport($data, $request->segment(1)), 'Finance_Report.xlsx');
     }
 
     public function pdfPlanBAST(Request $request)

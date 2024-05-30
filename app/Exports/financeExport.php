@@ -12,10 +12,12 @@ use Maatwebsite\Excel\Events\AfterSheet;
 class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $data;
+    protected $segment;
 
-    public function __construct($data)
+    public function __construct($data, $segment)
     {
         $this->data = $data;
+        $this->segment = $segment;
     }
 
     public function collection()
@@ -43,14 +45,54 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
     public function headings(): array
     {
-        return [
-            'project.customer.company' => 'Customer',
-            'project.projectName' => 'Project Name',
-            'project.noContract' => 'No Contract',
-            'termsName' => 'Terms Name',
-            'termsValuePPN' => 'Terms of Payment',
-            'bastDate' => 'Plan/BAST Date',
-        ];
+        if ($this->segment == "financeExport") {
+
+            return [
+                'project.customer.company' => 'Customer',
+                'project.projectName' => 'Project Name',
+                'project.noContract' => 'No Contract',
+                'termsName' => 'Terms Name',
+                'termsValuePPN' => 'Terms of Payment',
+                'bastDate' => 'Plan/BAST Date',
+            ];
+        }
+
+        if ($this->segment == "financeByInvoiceExport") {
+
+            return [
+                'project.customer.company' => 'Customer',
+                'project.projectName' => 'Project Name',
+                'project.noContract' => 'No Contract',
+                'termsName' => 'Terms Name',
+                'termsValuePPN' => 'Terms of Payment',
+                'invDate' => 'Invoice Date',
+            ];
+        }
+
+        if ($this->segment == "financeByPaymentExport") {
+
+            return [
+                'project.customer.company' => 'Customer',
+                'project.projectName' => 'Project Name',
+                'project.noContract' => 'No Contract',
+                'termsName' => 'Terms Name',
+                'termsValuePPN' => 'Terms of Payment',
+                'payDate' => 'Payment Date',
+            ];
+        }
+
+        if ($this->segment == "financeTermsStatExport") {
+            return [
+                'project.customer.company' => 'Customer',
+                'project.projectName' => 'Project Name',
+                'project.noContract' => 'No Contract',
+                'termsName' => 'Terms Name',
+                'termsValuePPN' => 'Terms of Payment',
+                'bastDate' => 'Plan/BAST Date',
+                'invDate' => 'Invoice Date',
+                'payDate' => 'Payment Date',
+            ];
+        }
     }
 
     public function registerEvents(): array
