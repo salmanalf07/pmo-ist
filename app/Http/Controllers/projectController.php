@@ -109,7 +109,29 @@ class projectController extends Controller
 
         $data = $dataa->get();
         if ($request->segment(1) == "projInfoByDateExport") {
-            return Excel::download(new allProjectByDate($data), 'projInfoByDateExport.xlsx');
+            $dataExport = [];
+            foreach ($data as  $datas) {
+                $sponsorData = [];
+
+                // Loop foreach untuk mengakses nama karyawan dan menyimpannya dalam array
+                foreach ($datas->sponsors as $sponsor) {
+                    $sponsorName = $sponsor->employee->name ?? "";
+                    $sponsorData[] = $sponsorName;
+                }
+                $dataExport[] = [
+                    'noProject' => $datas->noProject,
+                    'customer' => $datas->customer->company,
+                    'saless' => $datas->saless->name,
+                    'projectName' => $datas->projectName,
+                    'noContract' => $datas->noContract,
+                    'contractStart' => $datas->contractStart,
+                    'contractEnd' => $datas->contractEnd,
+                    'sponsors' => implode(', ', $sponsorData),
+                    'overAllProg' => $datas->overAllProg
+                ];
+            }
+
+            return Excel::download(new allProjectByDate($dataExport), 'projInfoByDateExport.xlsx');
         }
         return DataTables::of($data)
             ->addColumn('projectNamee', function ($data) {

@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Events\AfterSheet;
 
 class allProjectByDate implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
@@ -20,36 +21,7 @@ class allProjectByDate implements FromCollection, WithHeadings, ShouldAutoSize, 
 
     public function collection()
     {
-        $columns = $this->headings(); // Simpan referensi ke method headings() dalam variabel $columns
-
-        return $this->data->map(function ($item) use ($columns) {
-            $rowData = [];
-            foreach ($columns as $column => $heading) {
-                if (strpos($column, '.') !== false) {
-                    // Menghandle eager loading (with)
-                    $relatedData = $item;
-                    $relatedColumns = explode('.', $column);
-                    foreach ($relatedColumns as $relatedColumn) {
-                        // Cek apakah $relatedData null atau '#'
-                        if (is_null($relatedData) || $relatedData === '#') {
-                            $relatedData = null; // Set $relatedData menjadi null dan keluar dari loop
-                            break;
-                        }
-                        $relatedData = $relatedData->{$relatedColumn};
-                    }
-
-                    // Atur nilai pada $rowData[$heading] sesuai kondisi null atau tidaknya
-                    if (is_null($relatedData)) {
-                        $rowData[$heading] = ''; // Atau bisa diatur menjadi nilai default lainnya
-                    } else {
-                        $rowData[$heading] = $relatedData;
-                    }
-                } else {
-                    $rowData[$heading] = $item->{$column};
-                }
-            }
-            return $rowData;
-        });
+        return new Collection($this->data);
     }
 
 
@@ -58,12 +30,13 @@ class allProjectByDate implements FromCollection, WithHeadings, ShouldAutoSize, 
     {
         return [
             'noProject' => 'Project Id',
-            'customer.company' => 'Customer',
-            'saless.name' => 'Sales',
+            'customer' => 'Customer',
+            'saless' => 'Sales',
             'projectName' => 'Project Name',
             'noContract' => 'SPK',
             'contractStart' => 'Contract Start',
             'contractEnd' => 'Contract End',
+            'sponsors' => 'Sponsor',
             'overAllProg' => 'Progress',
 
         ];
