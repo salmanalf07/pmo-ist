@@ -81,6 +81,10 @@
                                             <input id="remaks0" name="remaks[]" type="text">
                                         </td>
                                         <td>
+                                            @canany(['bisa-ubah','top-editor'])
+                                            <a href="#" onclick="moveRowUp(event)">↑</a>
+                                            <a href="#" onclick="moveRowDown(event)">↓</a>
+                                            @endcanany
                                             @canany(['bisa-hapus','top-editor'])
                                             @if (!Auth::user()->hasRole("PM"))
                                             <a href="#!" onclick="deleteRow(this)" class="btn btn-ghost btn-icon btn-sm rounded-circle texttooltip" data-template="trashOne">
@@ -295,9 +299,7 @@
         }
 
 
-        newCell5.addEventListener("click", function() {
-            deleteRow(this);
-        });
+
         // cell5.addEventListener("click", function() {
         //     deleteRow(this);
         // });
