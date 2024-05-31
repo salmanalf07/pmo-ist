@@ -30,11 +30,11 @@
                                         <input name="noProject" id="noProject" value="{{ (isset($noProject)) ? $noProject : $data->noProject }}" type="text" class="form-control" readonly>
                                     </div>
                                     <div class="mb-3 col-9">
-                                        <label class="form-label">Project Name</label>
+                                        <label class="form-label">Project Short Name</label>
                                         <input name="shortProjectName" id="shortProjectName" type="text" class="form-control" required>
                                     </div>
                                     <div class="mb-3 col-12">
-                                        <label class="form-label">Contract Name</label>
+                                        <label class="form-label">Project Name By Contract</label>
                                         <input name="projectName" id="projectName" type="text" class="form-control" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">

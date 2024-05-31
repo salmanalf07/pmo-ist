@@ -82,24 +82,31 @@
             <tr>
                 <th style="width: 5%;">No</th>
                 <th style="width: 11%;">Customer</th>
-                <th style="width: 30%;">Project Name</th>
-                <th style="width: 10%;">Target Date</th>
-                <th style="width: 10%;">Value</th>
-                <th style="width: 25%;">Remaks</th>
-                <th style="width: 9%;">Status</th>
+                <th style="width: 25%;">Project Name</th>
+                <th style="width: 20%;">Terms Name</th>
+                <th style="width: 9%;">Target Date</th>
+                <th style="width: 8%;">Value</th>
+                <th style="width: 20%;">Remaks</th>
             </tr>
         </thead>
         <tbody>
-            <?php $no = 1; ?>
-            @foreach ($data as $bast)
+            @php
+            // Sorting the data collection
+            $sortedData = $data->sortBy(function ($bast) {
+            return $bast->project->customer->company . ' ' . $bast->project->projectName . ' ' . $bast->termsName;
+            });
+            $no = 1; // Initialize the counter
+            @endphp
+
+            @foreach ($sortedData as $bast)
             <tr>
                 <td class="text-center">{{$no++}}</td>
                 <td>{{$bast->project->customer->company}}</td>
                 <td>{{$bast->project->projectName}}</td>
-                <td class="text-center">{{date("d-m-Y",strtotime($bast->bastDate))}}</td>
-                <td class="text-right">{{number_format($bast->termsValue,0,'.','.')}}</td>
+                <td>{{$bast->termsName}}</td>
+                <td class="text-center">{{date("d-m-Y", strtotime($bast->bastDate))}}</td>
+                <td class="text-right">{{number_format($bast->termsValue, 0, '.', '.')}}</td>
                 <td>{{$bast->remaks}}</td>
-                <td class="text-center">{{$bast->invMain == 1 ? 'Invoiced':''}}</td>
             </tr>
             @endforeach
         </tbody>
