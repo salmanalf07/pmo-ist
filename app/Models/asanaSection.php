@@ -16,6 +16,10 @@ class asanaSection extends Model
         'asana_id',
         'gid',
         'sectionName',
+        'start_on',
+        'due_on',
+        'progress',
+        'status',
         'deleted_by',
     ];
 

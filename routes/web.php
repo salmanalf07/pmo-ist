@@ -38,6 +38,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\weeklyReportController;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
+use App\Models\asanaTask;
 use App\Models\community;
 use App\Models\communityCategory as ModelsCommunityCategory;
 use App\Models\communityType as ModelsCommunityType;
@@ -636,14 +637,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/delete_projectTimeline/{id}', [timelineController::class, 'destroy'])->name('deleteprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->delete('/disconnect_project/{id}', [timelineController::class, 'disconnectProject'])->name('disconnectProject');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/projectTimeline/{projectId}/sections/{sectionId}', function ($projectId, $sectionId) {
-    $projectName = asanaProject::where('id', $projectId)->first();
-    $section = asanaSection::with('task.detailTask')->where('asana_id', $sectionId)->orderBy('ref', 'asc')->get();
     $dataa = Project::with('customer')->where('id', $projectId);
-
     $value = $dataa->first();
 
-    return view('/project/projectTimelineDetail', ['section' => $section, 'id' => $projectId, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName]);
+    return view('/project/projectTimelineSection', ['section' => $sectionId, 'id' => $projectId, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName]);
 })->name('projectTimelineDetail');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_section/{section}', [timelineController::class, 'json_section'])->name('jsonSection');
 //riskIssues
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/riskIssues/{id}', function ($id) {
     $dataa = Project::with('customer')->where('id', $id);
@@ -1247,5 +1246,32 @@ route::get(
             // return $data[$i];
         }
         return count($data);
+    }
+);
+
+route::get(
+    '/testData',
+    function () {
+        $section = asanaSection::all();
+        foreach ($section as $data) {
+            $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+
+            $totalTasks = $tasks->count();
+            $completedTasks = $tasks->filter(function ($task) {
+                return optional($task->detailTask)->status == 1;
+            })->count();
+
+            // Hitung persentase task yang complete
+            $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
+
+            $updSection = asanaSection::find($data['id']);
+            $updSection->start_on = $tasks->first()->detailTask->start_on ?? null;
+            $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
+            $updSection->progress = round($percentageComplete, 2);
+            $updSection->status = $percentageComplete == 100 ? 1 : 0;
+            $updSection->save();
+        }
+
+        return count($section);
     }
 );

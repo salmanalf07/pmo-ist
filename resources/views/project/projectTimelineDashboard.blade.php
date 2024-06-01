@@ -116,14 +116,14 @@
                         "autoWidth": false,
                         "responsive": true,
                         "columnDefs": [{
-                                targets: [1, 2],
+                                targets: [2, 3],
                                 render: function(oTable) {
                                     return moment(oTable).format('DD-MM-YYYY');
                                 },
                             },
                             {
                                 "className": "text-end",
-                                "targets": [3], // table ke 1
+                                "targets": [4], // table ke 1
                             },
                         ],
                         footerCallback: function(row, data, start, end, display) {
@@ -141,9 +141,9 @@
 
                             // Total over all pages
 
-                            if (api.column(3).data().length) {
+                            if (api.column(4).data().length) {
                                 var total = api
-                                    .column(3)
+                                    .column(4)
                                     .data()
                                     .reduce(function(a, b) {
                                         return intVal(a) + intVal(b);
@@ -152,7 +152,7 @@
                                 total = 0
                             };
 
-                            $('#totRecord').html("Progress " + Math.round(total / api.column(3).data().length) + "%");
+                            $('#totRecord').html("Progress " + Math.round(total / api.column(4).data().length) + "%");
                         },
                         columns: [{
                                 data: function(row) {
@@ -160,6 +160,10 @@
                                     return '<div data-toggle="tooltip" title="' + row.projectName + '">' + value + '</div>'
                                 },
                                 title: 'Project Name'
+                            },
+                            {
+                                data: 'owner',
+                                title: 'PM'
                             },
                             {
                                 data: 'startDate',

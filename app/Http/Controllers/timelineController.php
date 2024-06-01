@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\asanaProject;
+use App\Models\asanaSection;
 use App\Models\documentationProject;
 use App\Models\Project;
 use App\Models\scopeProject;
@@ -64,6 +65,14 @@ class timelineController extends Controller
             return json_encode($response);
         }
         //return $get;
+    }
+
+    public function json_section(Request $request, $section)
+    {
+        $data = asanaSection::where('asana_id', $section)->get();
+
+        return DataTables::of($data)
+            ->toJson();
     }
 
     public function store(Request $request, $id)
