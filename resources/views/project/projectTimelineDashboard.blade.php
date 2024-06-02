@@ -139,18 +139,20 @@
 
                             };
 
-                            // Total over all pages
+                            var data = api.column(4).data();
 
-                            if (api.column(4).data().length) {
-                                var total = api
-                                    .column(4)
-                                    .data()
-                                    .reduce(function(a, b) {
+                            if (data.length) {
+                                var total;
+                                if (data.length === 1) {
+                                    total = intVal(data[0]);
+                                } else {
+                                    total = data.reduce(function(a, b) {
                                         return intVal(a) + intVal(b);
-                                    })
+                                    });
+                                }
                             } else {
-                                total = 0
-                            };
+                                total = 0;
+                            }
 
                             $('#totRecord').html("Progress " + Math.round(total / api.column(4).data().length) + "%");
                         },
@@ -180,7 +182,9 @@
                                 title: 'Progress %'
                             },
                             {
-                                data: 'status',
+                                data: function(row) {
+                                    return row.status == 1 ? "Completed" : ''
+                                },
                                 title: 'Status'
                             },
                             {
