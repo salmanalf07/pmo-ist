@@ -24,9 +24,10 @@ class SyncDataCommand extends Command
         $activity->log_name = $log; // Set log_name
         $activity->save(); // Simpan aktivitas dengan log_name yang telah ditetapkan
     }
-    public function handle()
+
+    public function GetDataProject()
     {
-        $this->Log('Sync Data', 'Sync Data Start', 'Success');
+        $this->Log('Sync Data', 'Sync Data Start', 'Get Data Project');
         DB::beginTransaction();
         try {
             $response = Http::withHeaders([
@@ -113,12 +114,15 @@ class SyncDataCommand extends Command
                 }
             }
             DB::commit();
-            $this->Log('Sync Data', 'Sync Data Succesfully', 'Success');
+            $this->Log('Sync Data', 'Sync Data Succesfully', 'Get Data Project');
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
         }
+    }
 
+    public function GetDataSubTask()
+    {
         $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
         DB::beginTransaction();
         try {
@@ -158,6 +162,36 @@ class SyncDataCommand extends Command
             DB::rollBack();
             $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
         }
+    }
+    public function handle()
+    {
+        $retryLimit = 3; // Batas percobaan
+        $retryCount = 0; // Inisialisasi hitungan percobaan
+
+        while ($retryCount < $retryLimit) {
+            try {
+                $this->GetDataProject();
+                break; // Berhenti jika berhasil
+            } catch (\Throwable $th) {
+                $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get Data Project');
+                $retryCount++; // Menambah hitungan percobaan
+            }
+        }
+
+        // Setelah loop, jika berhasil, reset retryCount
+        $retryCount = 0;
+
+        while ($retryCount < $retryLimit) {
+            try {
+                $this->GetDataSubTask();
+                break; // Berhenti jika berhasil
+            } catch (\Throwable $th) {
+                $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get Data Sub Task');
+                $retryCount++; // Menambah hitungan percobaan
+            }
+        }
+
+        $retryCount = 0;
 
         $this->Log('Sync Data', 'Sync Data Start', 'calculate Progress & get date');
         DB::beginTransaction();
