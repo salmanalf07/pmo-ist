@@ -38,6 +38,8 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\weeklyReportController;
 use App\Jobs\SyncAsanaDetailProject;
 use App\Jobs\SyncCalculateAsanaProject;
+use App\Jobs\SyncGetAsanaSubTask;
+use App\Jobs\SyncGetOwnerAsanaProject;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
@@ -79,6 +81,7 @@ use Google\Service\Docs\Request;
 use Illuminate\Http\Request as RequestData;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -1267,8 +1270,12 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     route::get(
         '/detailProject',
         function () {
-            SyncAsanaDetailProject::dispatch();
-            return 'succes detailProject';
+            record('Sync Data', 'Sync Data Start', 'Detail Project & Sub Task');
+            SyncGetOwnerAsanaProject::dispatch();
+            SyncGetAsanaSubTask::dispatch();
+            SyncCalculateAsanaProject::dispatch();
+
+            return 'succes add Job detailProject';
         }
     );
     route::get(
