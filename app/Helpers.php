@@ -48,3 +48,12 @@ function getInitials($name)
 
     return $initials;
 }
+
+function record($log, $description, $err)
+{
+    $activity = activity()
+        ->withProperties(['login_ip' => request()->ip(), 'status' => $err])
+        ->log($description);
+    $activity->log_name = $log; // Set log_name
+    $activity->save(); // Simpan aktivitas dengan log_name yang telah ditetapkan
+}
