@@ -16,6 +16,8 @@ class SyncCalculateAsanaProject implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
+    public $timeout = 18000;
     /**
      * Create a new job instance.
      *
