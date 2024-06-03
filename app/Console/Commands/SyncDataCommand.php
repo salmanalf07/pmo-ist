@@ -50,6 +50,7 @@ class SyncDataCommand extends Command
                     $asanaProject = asanaProject::firstOrNew(['gid' => $project['gid']]);
                     $asanaProject->gid = $project['gid'];
                     $asanaProject->projectName = $project['name'];
+                    $asanaProject->owner = $dataProject['data']['owner']['name'] ?? null;
                     $asanaProject->startDate = $startDate ?? null;
                     $asanaProject->dueDate = $dueDate ?? null;
                     $asanaProject->save();
@@ -117,24 +118,10 @@ class SyncDataCommand extends Command
             DB::rollBack();
             $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
         }
-        $this->Log('Sync Data', 'Sync Data Start', 'Detail Project & Sub Task');
+
+        $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
         DB::beginTransaction();
         try {
-            $project = asanaProject::all();
-
-            foreach ($project as $data) {
-                $detailProject = Http::withHeaders([
-                    'Authorization' => env('TOKEN_ASANA'),
-                ])->get('https://app.asana.com/api/1.0/projects/' . $data['gid']);
-
-                if ($detailProject->successful()) {
-                    $dataProject = $detailProject->json();
-                    $asanaProject = asanaProject::find($data['id']);
-                    $asanaProject->owner = $dataProject['data']['owner']['name'] ?? null;
-                    $asanaProject->save();
-                }
-            };
-
             $task = asanaTask::all();
             foreach ($task as $data) {
                 $detailTask = Http::withHeaders([

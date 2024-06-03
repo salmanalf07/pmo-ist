@@ -1270,10 +1270,8 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
     route::get(
         '/detailProject',
         function () {
-            record('Sync Data', 'Sync Data Start', 'Detail Project & Sub Task');
-            SyncGetOwnerAsanaProject::dispatch();
+            record('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
             SyncGetAsanaSubTask::dispatch();
-            SyncCalculateAsanaProject::dispatch();
 
             return 'succes add Job detailProject';
         }
