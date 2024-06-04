@@ -64,12 +64,17 @@ class SyncDataCommand extends Command
                         $dataSection = $getSection->json();
                         $ref = 1;
                         foreach ($dataSection['data'] as $section) {
-                            $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
-                            $saveSection->ref = $ref++;
-                            $saveSection->asana_id = $asanaProject->id;
-                            $saveSection->gid = $section['gid'];
-                            $saveSection->sectionName = $section['name'];
-                            $saveSection->save();
+                            $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
+
+                            if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
+                                // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
+                                $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
+                                $saveSection->ref = $ref++;
+                                $saveSection->asana_id = $asanaProject->id;
+                                $saveSection->gid = $section['gid'];
+                                $saveSection->sectionName = $section['name'];
+                                $saveSection->save();
+                            }
 
                             $getTask = Http::withHeaders([
                                 'Authorization' => env('TOKEN_ASANA'),
@@ -207,7 +212,9 @@ class SyncDataCommand extends Command
                 $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
                 $updSection = asanaSection::find($data['id']);
-                $updSection->start_on = $tasks->first()->detailTask->start_on ? $tasks->first()->detailTask->start_on : null;
+                $updSection->start_on = $tasks->first()->detailTask->start_on
+                    ?? $tasks->first()->detailTask->due_on
+                    ?? null;
                 $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
                 $updSection->progress = round($percentageComplete, 2);
                 $updSection->status = $percentageComplete == 100 ? 1 : 0;
