@@ -123,44 +123,36 @@ class SyncDataCommand extends Command
 
     public function GetDataSubTask()
     {
-        $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
-        DB::beginTransaction();
-        try {
-            $task = asanaTask::all();
-            foreach ($task as $data) {
-                $detailTask = Http::withHeaders([
-                    'Authorization' => env('TOKEN_ASANA'),
-                ])->get('https://app.asana.com/api/1.0/tasks/' . $data['gid'] . '/subtasks');
 
-                if ($detailTask->successful()) {
-                    $dataTask = $detailTask->json();
-                    $refSubTask = 1;
-                    foreach ($dataTask['data'] as $tasks) {
-                        $getSubTask = Http::withHeaders([
-                            'Authorization' => env('TOKEN_ASANA'),
-                        ])->get('https://app.asana.com/api/1.0/tasks/' . $tasks['gid']);
-                        if ($getSubTask->successful()) {
-                            $dataSubTask = $getSubTask->json();
-                            $asanaSubTask = asanaSubTask::firstOrNew(['gid' => $dataSubTask['data']['gid']]);
-                            $asanaSubTask->task_id = $data['id'];
-                            $asanaSubTask->gid = $dataSubTask['data']['gid'];
-                            $asanaSubTask->ref = $refSubTask++;
-                            $asanaSubTask->subTaskName = $dataSubTask['data']['name'];
-                            $asanaSubTask->assignee = $dataSubTask['data']['assignee']['name'] ?? null;
-                            $asanaSubTask->start_on = $dataSubTask['data']['start_on'] ?? null;
-                            $asanaSubTask->due_on = $dataSubTask['data']['due_on'] ?? null;
-                            $asanaSubTask->permalink_url = $dataSubTask['data']['permalink_url'];
-                            $asanaSubTask->status = $dataSubTask['data']['completed'];
-                            $asanaSubTask->save();
-                        }
+        $task = asanaTask::all();
+        foreach ($task as $data) {
+            $detailTask = Http::withHeaders([
+                'Authorization' => env('TOKEN_ASANA'),
+            ])->get('https://app.asana.com/api/1.0/tasks/' . $data['gid'] . '/subtasks');
+
+            if ($detailTask->successful()) {
+                $dataTask = $detailTask->json();
+                $refSubTask = 1;
+                foreach ($dataTask['data'] as $tasks) {
+                    $getSubTask = Http::withHeaders([
+                        'Authorization' => env('TOKEN_ASANA'),
+                    ])->get('https://app.asana.com/api/1.0/tasks/' . $tasks['gid']);
+                    if ($getSubTask->successful()) {
+                        $dataSubTask = $getSubTask->json();
+                        $asanaSubTask = asanaSubTask::firstOrNew(['gid' => $dataSubTask['data']['gid']]);
+                        $asanaSubTask->task_id = $data['id'];
+                        $asanaSubTask->gid = $dataSubTask['data']['gid'];
+                        $asanaSubTask->ref = $refSubTask++;
+                        $asanaSubTask->subTaskName = $dataSubTask['data']['name'];
+                        $asanaSubTask->assignee = $dataSubTask['data']['assignee']['name'] ?? null;
+                        $asanaSubTask->start_on = $dataSubTask['data']['start_on'] ?? null;
+                        $asanaSubTask->due_on = $dataSubTask['data']['due_on'] ?? null;
+                        $asanaSubTask->permalink_url = $dataSubTask['data']['permalink_url'];
+                        $asanaSubTask->status = $dataSubTask['data']['completed'];
+                        $asanaSubTask->save();
                     }
                 }
             }
-            DB::commit();
-            $this->Log('Sync Data', 'Sync Data Succesfully', 'Detail Project & Sub Task Success');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
         }
     }
     public function handle()
@@ -182,10 +174,16 @@ class SyncDataCommand extends Command
         $retryCount = 0;
 
         while ($retryCount < $retryLimit) {
+            $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
+            DB::beginTransaction();
             try {
                 $this->GetDataSubTask();
+                DB::commit();
+                $this->Log('Sync Data', 'Sync Data Succesfully', 'Detail Project & Sub Task Success');
                 break; // Berhenti jika berhasil
             } catch (\Throwable $th) {
+                $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
+                DB::rollBack();
                 $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get Data Sub Task');
                 $retryCount++; // Menambah hitungan percobaan
             }
@@ -209,7 +207,7 @@ class SyncDataCommand extends Command
                 $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
                 $updSection = asanaSection::find($data['id']);
-                $updSection->start_on = $tasks->first()->detailTask->start_on ?? null;
+                $updSection->start_on = $tasks->first()->detailTask->start_on ? $tasks->first()->detailTask->start_on : null;
                 $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
                 $updSection->progress = round($percentageComplete, 2);
                 $updSection->status = $percentageComplete == 100 ? 1 : 0;
