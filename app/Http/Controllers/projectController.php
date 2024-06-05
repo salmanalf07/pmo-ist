@@ -126,7 +126,7 @@ class projectController extends Controller
                     'noContract' => $datas->noContract,
                     'contractStart' => $datas->contractStart,
                     'contractEnd' => $datas->contractEnd,
-                    'pm' => $datas->pmName,
+                    'pm' => $datas->pm->name ?? "",
                     'sponsors' => implode(', ', $sponsorData),
                     'overAllProg' => $datas->overAllProg
                 ];
