@@ -125,6 +125,30 @@
                                 "className": "text-end",
                                 "targets": [4], // table ke 1
                             },
+                            {
+                                targets: 5, // Indeks kolom 'status'
+                                render: function(data, type, row) {
+                                    var color = '';
+                                    switch (data) {
+                                        case 'On Track':
+                                            color = 'green';
+                                            break;
+                                        case 'At Risk':
+                                            color = 'yellow';
+                                            break;
+                                        case 'Off Track':
+                                            color = 'red';
+                                            break;
+                                        case 'On Hold':
+                                            color = 'blue';
+                                            break;
+                                        case 'Completed':
+                                            color = 'green';
+                                            break;
+                                    }
+                                    return '<span style="color:' + color + '">' + data + '</span>';
+                                }
+                            }
                         ],
                         footerCallback: function(row, data, start, end, display) {
                             var api = this.api();
@@ -183,7 +207,7 @@
                             },
                             {
                                 data: function(row) {
-                                    return row.status == 1 ? "Completed" : ''
+                                    return row.status == null ? "" : row.status
                                 },
                                 title: 'Status'
                             },

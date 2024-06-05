@@ -7,26 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class asanaProject extends Model
+class asanaSubTask2 extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'gid',
-        'projectId',
-        'projectName',
-        'owner',
-        'startDate',
-        'dueDate',
-        'actStartDate',
-        'actDueDate',
-        'progress',
-        'status'
+        'task_id',
+        'ref',
+        'subTaskName',
+        'assignee',
+        'start_on',
+        'due_on',
+        'permalink_url',
+        'status',
+        'deletedBy'
+
     ];
-    public function section()
-    {
-        return $this->hasMany(asanaSection::class, 'asana_id', 'id');
-    }
     /**
      * The "booting" function of model
      *
