@@ -36,6 +36,7 @@ class allProjectByDate implements FromCollection, WithHeadings, ShouldAutoSize, 
             'noContract' => 'SPK',
             'contractStart' => 'Contract Start',
             'contractEnd' => 'Contract End',
+            'pm' => 'PM',
             'sponsors' => 'Sponsor',
             'overAllProg' => 'Progress',
 
