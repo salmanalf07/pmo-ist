@@ -13,6 +13,7 @@ class asanaProject extends Model
 
     protected $fillable = [
         'gid',
+        'archived',
         'projectId',
         'projectName',
         'owner',
