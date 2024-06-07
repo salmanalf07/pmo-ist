@@ -40,6 +40,7 @@ use App\Jobs\SyncAsanaDetailProject;
 use App\Jobs\SyncCalculateAsanaProject;
 use App\Jobs\SyncGetAsanaSubTask;
 use App\Jobs\SyncGetOwnerAsanaProject;
+use App\Jobs\SyncProjectAsana;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
@@ -1258,29 +1259,12 @@ route::get(
     }
 );
 
-Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified'], 'prefix' => 'asana'], function () {
+route::get('/tes', function () {
+    $data = asanaProject::all();
 
-    route::get(
-        '/syncAsana',
-        function () {
-            Artisan::call('sync:data');
-            return 'succes syncAsana';
-        }
-    );
-    route::get(
-        '/detailProject',
-        function () {
-            record('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
-            SyncGetAsanaSubTask::dispatch();
+    foreach ($data as $item) {
+        $sync = SyncProjectAsana::dispatch($item->gid);
+    }
 
-            return 'succes add Job detailProject';
-        }
-    );
-    route::get(
-        '/calculateAsana',
-        function () {
-            SyncCalculateAsanaProject::dispatch();
-            return 'succes calculateAsana';
-        }
-    );
+    return 'susccess';
 });

@@ -76,7 +76,7 @@
                                 <label class="form-label" for="selectOne">Project</label>
                                 <select name="project[]" id="project" class="select2" multiple="multiple" aria-label="Default select example" required>
                                     @foreach($getProjectAsana as $data)
-                                    <option value="{{$data->id}}">{{$data->projectName}}</option>
+                                    <option value="{{$data->id}}">{{$data->archived == 1 ? '[Archived] - ' : ''}}{{$data->projectName}}</option>
                                     @endforeach
                                 </select>
                             </div>

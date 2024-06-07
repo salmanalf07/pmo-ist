@@ -34,7 +34,10 @@ class Project extends Model
         'contractEnd',
         'deleted_by'
     ];
-
+    public function asana()
+    {
+        return $this->hasMany(asanaProject::class, 'projectId', 'id');
+    }
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'cust_id', 'id');

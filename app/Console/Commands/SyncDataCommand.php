@@ -50,7 +50,7 @@ class SyncDataCommand extends Command
                     }
                     $asanaProject = asanaProject::firstOrNew(['gid' => $project['gid']]);
                     $asanaProject->gid = $project['gid'];
-                    $asanaProject->archived = $deProject['archived'];
+                    $asanaProject->archived = $deProject['archived'] ?? null;
                     $asanaProject->projectName = $project['name'];
                     $asanaProject->owner = $deProject['data']['owner']['name'] ?? null;
                     $asanaProject->startDate = $startDate ?? null;
