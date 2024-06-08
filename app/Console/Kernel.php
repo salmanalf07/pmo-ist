@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +17,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('queue:work --tries=3 --timeout=2000')->withoutOverlapping();
+        $schedule->command('queue:work --tries=3 --timeout=2000')->withoutOverlapping()->after(function () {
+            // Clear the cache after queue:work finishes
+            Artisan::call('cache:clear');
+        });;
     }
 
     /**
