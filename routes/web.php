@@ -638,9 +638,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     if (!$value) {
         return view('/error', ['exception' => 'Project Not Allowed Access']);
     }
-    return view('project/projectTimelineDashboard', ['judul' => "Project Timeline", 'id' => $id, 'file' => $file, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'getProjectAsana' => $getProjectAsana]);
+    if ($value->has_asana == 1) {
+        $view = "projectTimelineDashboard";
+    } else {
+        $view = "projectTimelineNonAsana";
+    }
+
+    return view('project/' . $view, ['judul' => "Project Timeline", 'id' => $id, 'file' => $file, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, 'getProjectAsana' => $getProjectAsana]);
 })->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectTimeline/{id}', [timelineController::class, 'edit'])->name('json_projectTimeline');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/project/json_projectTimelineAsana/{id}', [timelineController::class, 'edit'])->name('json_projectTimelineAsana');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->get('/project/changeprojectTimeline/{id}', [timelineController::class, 'edit'])->name('projectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_projectTimeline/{id}', [timelineController::class, 'store'])->name('storeprojectTimeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'role:SuperAdm|PM'])->post('/store_connectProject/{id}', [timelineController::class, 'connectProject'])->name('storeconnectProject');

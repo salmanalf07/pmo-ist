@@ -180,6 +180,7 @@ class projectController extends Controller
                 $post->overAllProg = 0;
             }
             $post->noProject = $request->noProject;
+            $post->has_asana = $request->hasAsana ? 1 : 0;
             $post->cust_id = $request->cust_id;
             $post->customerType = $request->customerType;
             $post->projectName = $request->projectName;

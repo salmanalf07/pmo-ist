@@ -13,6 +13,7 @@ class Project extends Model
 
     protected $fillable = [
         'noProject',
+        'has_asana',
         'cust_id',
         'customerType',
         'projectName',

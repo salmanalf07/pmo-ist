@@ -146,6 +146,12 @@
                                         </label>
                                         <input class="form-check-input" type="checkbox" id="payung">
                                     </div>
+                                    <div class="mb-3 col-12">
+                                        <label class="form-label" for="flexCheckChecked">
+                                            Has Asana?
+                                        </label>
+                                        <input name="hasAsana" id="hasAsana" class="form-check-input" type="checkbox">
+                                    </div>
                                     <div id="poHid" class="mb-3 col-12" hidden>
                                         <label class="form-label">Main Contract</label>
                                         <input name="po" id="po" type="text" value="{{ (isset($data->po)) ? $data->po : '' }}" class="form-control" placeholder="Enter Here">
@@ -352,6 +358,9 @@
             $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
             if ('{!! isset($data) && $data->po !== null !!}') {
                 $("#payung").prop("checked", true).trigger('change');
+            }
+            if ('{!! isset($data) && $data->has_asana === 1 !!}') {
+                $("#hasAsana").prop("checked", true);
             }
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
             $('#noPo').val('{!! isset($data) ? $data->noPo : "" !!}');

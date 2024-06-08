@@ -15,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Queue\MaxAttemptsExceededException;
 
 class SyncProjectAsana implements ShouldQueue
 {
@@ -63,7 +64,7 @@ class SyncProjectAsana implements ShouldQueue
             $asanaProject->gid = $gid;
             $asanaProject->archived = $deProject['data']['archived'] ?? null;
             $asanaProject->projectName = $deProject['data']['name'];
-            $asanaProject->owner = $deProject['data']['owner']['name'] ?? null;
+            $asanaProject->owner = $deProject['data']['owner']['gid'] ?? null;
             $asanaProject->startDate = $startDate ?? null;
             $asanaProject->dueDate = $dueDate ?? null;
             $asanaProject->save();
@@ -115,7 +116,7 @@ class SyncProjectAsana implements ShouldQueue
                                     $saveDetailTask->gid = $dataDetailTask['data']['gid'];
                                     $saveDetailTask->ref = $refDetailTask;
                                     $saveDetailTask->task_id = $saveTask->id;
-                                    $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['name'] ?? null;
+                                    $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['gid'] ?? null;
                                     $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
                                     $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
                                     $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
@@ -130,6 +131,7 @@ class SyncProjectAsana implements ShouldQueue
                     }
                 }
             }
+            $this->calculate($gid);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -159,7 +161,7 @@ class SyncProjectAsana implements ShouldQueue
                         $asanaSubTask->gid = $dataSubTask['data']['gid'];
                         $asanaSubTask->ref = $refSubTask++;
                         $asanaSubTask->subTaskName = $dataSubTask['data']['name'];
-                        $asanaSubTask->assignee = $dataSubTask['data']['assignee']['name'] ?? null;
+                        $asanaSubTask->assignee = $dataSubTask['data']['assignee']['gid'] ?? null;
                         $asanaSubTask->start_on = $dataSubTask['data']['start_on'] ?? null;
                         $asanaSubTask->due_on = $dataSubTask['data']['due_on'] ?? null;
                         $asanaSubTask->permalink_url = $dataSubTask['data']['permalink_url'];
@@ -168,6 +170,63 @@ class SyncProjectAsana implements ShouldQueue
                     }
                 }
             }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw new \Exception($th->getMessage());
+        }
+    }
+
+    public function calculate($gid)
+    {
+        DB::beginTransaction();
+        try {
+            $section = asanaSection::where('gid', $gid)->get();
+            foreach ($section as $data) {
+                $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+
+                $totalTasks = $tasks->count();
+                $completedTasks = $tasks->filter(function ($task) {
+                    return optional($task->detailTask)->status == 1;
+                })->count();
+
+                // Hitung persentase task yang complete
+                $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
+
+                $updSection = asanaSection::find($data['id']);
+                $updSection->start_on = $tasks->first()->detailTask->start_on
+                    ?? $tasks->first()->detailTask->due_on
+                    ?? null;
+                $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
+                $updSection->progress = round($percentageComplete, 2);
+                $updSection->status = $percentageComplete == 100 ? 1 : 0;
+                $updSection->save();
+            }
+
+            $project = asanaProject::where('gid', $gid)->first();
+
+            $sections = asanaSection::where('asana_id', $project['id'])->orderBy('ref', 'asc')->get();
+            $completedSections = $sections->filter(function ($section) {
+                return $section->status == 1;
+            })->count();
+
+            $percentageSection = $sections->count() > 0 ? ($completedSections / $sections->count()) * 100 : 0;
+
+            $startDate = $sections->first()->start_on
+                ?? $sections->first()->due_on
+                ?? null; // Misalkan null
+            $dueDate = $sections->last()->due_on ?? null;
+            $progressTask = round($percentageSection, 0); // Misalnya 70%
+
+            $status = tentukanStatusProyek($startDate, $dueDate, $progressTask);
+
+            $updProject = asanaProject::find($project['id']);
+            $updProject->startDate = $startDate;
+            $updProject->dueDate = $dueDate;
+            $updProject->progress = $progressTask;
+            $updProject->status = $status;
+            $updProject->save();
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -188,8 +247,13 @@ class SyncProjectAsana implements ShouldQueue
             // break; // Berhenti jika berhasil
         } catch (\Throwable $th) {
             $this->Log('Sync Data', 'Sync Data By Job Failed', $th->getMessage(), $this->data);
-            // $this->Log('Sync Data', 'Sync Data By Job Failed', 'retry Get Data Project By Job', $this->data);
-            // $retryCount++; // Menambah hitungan percobaan
+        }
+    }
+
+    public function failed(\Throwable $exception)
+    {
+        if ($exception instanceof MaxAttemptsExceededException) {
+            $this->Log('Sync Data', 'Sync Data By Job Failed', $exception->getMessage(), $this->data);
         }
     }
     // }

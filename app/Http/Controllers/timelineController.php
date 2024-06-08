@@ -45,7 +45,7 @@ class timelineController extends Controller
             }
             return view('project/projectTimeline', ['id' => $id, 'header' => $overAllProg->customer->company . ' - ' . $overAllProg->noContract . ' - ' . $overAllProg->projectName,  'aksi' => $aksi, 'data' => $get, 'overAllProg' => $overAllProg, 'aksiFile' => $aksiFile, 'file' => $file]);
         }
-        if ($request->segment(2) == "json_projectTimeline") {
+        if ($request->segment(2) == "json_projectTimelineAsana") {
 
             $dataTable1 = DataTables::of($asanaProject)
                 ->addColumn('aksi', function ($data) {
@@ -62,6 +62,16 @@ class timelineController extends Controller
                 // Tambahkan data lain jika diperlukan
             );
 
+            return json_encode($response);
+        }
+        if ($request->segment(2) == "json_projectTimeline") {
+
+            $dataTable1 = DataTables::of($get)->toJson();
+
+            $response = array(
+                'dataTable1' => $dataTable1,
+                // Tambahkan data lain jika diperlukan
+            );
             return json_encode($response);
         }
         //return $get;

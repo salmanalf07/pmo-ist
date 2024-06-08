@@ -102,7 +102,7 @@
             });
 
             $.ajax({
-                url: '/project/json_projectTimeline/{{$id}}', // Ganti dengan URL skrip PHP Anda
+                url: '/project/json_projectTimelineAsana/{{$id}}', // Ganti dengan URL skrip PHP Anda
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -134,7 +134,7 @@
                                             color = 'green';
                                             break;
                                         case 'At Risk':
-                                            color = 'yellow';
+                                            color = 'orange';
                                             break;
                                         case 'Off Track':
                                             color = 'red';
