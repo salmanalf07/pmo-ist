@@ -87,6 +87,11 @@ class Project extends Model
         return $this->hasMany(outScope::class, 'projectId', 'id');
     }
 
+    public function timeline()
+    {
+        return $this->hasMany(scopeProject::class, 'projectId', 'id');
+    }
+
 
     /**
      * The "booting" function of model

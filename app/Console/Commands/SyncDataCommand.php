@@ -50,73 +50,73 @@ class SyncDataCommand extends Command
                     }
                     $asanaProject = asanaProject::firstOrNew(['gid' => $project['gid']]);
                     $asanaProject->gid = $project['gid'];
-                    $asanaProject->archived = $deProject['archived'] ?? null;
+                    $asanaProject->archived = $deProject['data']['archived'] ?? null;
                     $asanaProject->projectName = $project['name'];
                     $asanaProject->owner = $deProject['data']['owner']['name'] ?? null;
                     $asanaProject->startDate = $startDate ?? null;
                     $asanaProject->dueDate = $dueDate ?? null;
                     $asanaProject->save();
 
-                    $getSection = Http::withHeaders([
-                        'Authorization' => env('TOKEN_ASANA'),
-                    ])->get('https://app.asana.com/api/1.0/projects/' . $project['gid'] . '/sections');
+                    // $getSection = Http::withHeaders([
+                    //     'Authorization' => env('TOKEN_ASANA'),
+                    // ])->get('https://app.asana.com/api/1.0/projects/' . $project['gid'] . '/sections');
 
-                    if ($getSection->successful()) {
-                        $dataSection = $getSection->json();
-                        $ref = 1;
-                        foreach ($dataSection['data'] as $section) {
-                            $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
+                    // if ($getSection->successful()) {
+                    //     $dataSection = $getSection->json();
+                    //     $ref = 1;
+                    //     foreach ($dataSection['data'] as $section) {
+                    //         $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
 
-                            if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
-                                // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
-                                $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
-                                $saveSection->ref = $ref++;
-                                $saveSection->asana_id = $asanaProject->id;
-                                $saveSection->gid = $section['gid'];
-                                $saveSection->sectionName = $section['name'];
-                                $saveSection->save();
-                            }
+                    //         if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
+                    //             // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
+                    //             $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
+                    //             $saveSection->ref = $ref++;
+                    //             $saveSection->asana_id = $asanaProject->id;
+                    //             $saveSection->gid = $section['gid'];
+                    //             $saveSection->sectionName = $section['name'];
+                    //             $saveSection->save();
+                    //         }
 
-                            $getTask = Http::withHeaders([
-                                'Authorization' => env('TOKEN_ASANA'),
-                            ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
+                    //         $getTask = Http::withHeaders([
+                    //             'Authorization' => env('TOKEN_ASANA'),
+                    //         ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
 
-                            if ($getTask->successful()) {
-                                $dataTask = $getTask->json();
-                                $refTask = 1;
-                                foreach ($dataTask['data'] as $task) {
-                                    $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
-                                    $saveTask->ref = $refTask++;
-                                    $saveTask->section_id = $saveSection->id;
-                                    $saveTask->gid = $task['gid'];
-                                    $saveTask->taskName = $task['name'];
-                                    $saveTask->save();
+                    //         if ($getTask->successful()) {
+                    //             $dataTask = $getTask->json();
+                    //             $refTask = 1;
+                    //             foreach ($dataTask['data'] as $task) {
+                    //                 $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
+                    //                 $saveTask->ref = $refTask++;
+                    //                 $saveTask->section_id = $saveSection->id;
+                    //                 $saveTask->gid = $task['gid'];
+                    //                 $saveTask->taskName = $task['name'];
+                    //                 $saveTask->save();
 
-                                    $getDetailTask = Http::withHeaders([
-                                        'Authorization' => env('TOKEN_ASANA'),
-                                    ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
+                    //                 $getDetailTask = Http::withHeaders([
+                    //                     'Authorization' => env('TOKEN_ASANA'),
+                    //                 ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
 
-                                    if ($getDetailTask->successful()) {
-                                        $dataDetailTask = $getDetailTask->json();
-                                        $refDetailTask = 1;
-                                        // foreach ($dataDetailTask['data'] as $detailTask) {
-                                        $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
-                                        $saveDetailTask->gid = $dataDetailTask['data']['gid'];
-                                        $saveDetailTask->ref = $refDetailTask;
-                                        $saveDetailTask->task_id = $saveTask->id;
-                                        $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['name'] ?? null;
-                                        $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
-                                        $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
-                                        $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
-                                        $saveDetailTask->progress = $dataDetailTask['data']['custom_fields'][1]['number_value'] ?? 0;
-                                        $saveDetailTask->status = $dataDetailTask['data']['completed'];
-                                        $saveDetailTask->save();
-                                        // }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //                 if ($getDetailTask->successful()) {
+                    //                     $dataDetailTask = $getDetailTask->json();
+                    //                     $refDetailTask = 1;
+                    //                     // foreach ($dataDetailTask['data'] as $detailTask) {
+                    //                     $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
+                    //                     $saveDetailTask->gid = $dataDetailTask['data']['gid'];
+                    //                     $saveDetailTask->ref = $refDetailTask;
+                    //                     $saveDetailTask->task_id = $saveTask->id;
+                    //                     $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['name'] ?? null;
+                    //                     $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
+                    //                     $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
+                    //                     $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
+                    //                     $saveDetailTask->progress = $dataDetailTask['data']['custom_fields'][1]['number_value'] ?? 0;
+                    //                     $saveDetailTask->status = $dataDetailTask['data']['completed'];
+                    //                     $saveDetailTask->save();
+                    //                     // }
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             }
             DB::commit();
@@ -185,76 +185,76 @@ class SyncDataCommand extends Command
         // Setelah loop, jika berhasil, reset retryCount
         $retryCount = 0;
 
-        while ($retryCount < $retryLimit) {
-            $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
-            try {
-                $this->GetDataSubTask();
-                $this->Log('Sync Data', 'Sync Data Succesfully', 'Detail Project & Sub Task Success');
-                break; // Berhenti jika berhasil
-            } catch (\Throwable $th) {
-                $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
-                $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get Data Sub Task');
-                $retryCount++; // Menambah hitungan percobaan
-            }
-        }
+        // while ($retryCount < $retryLimit) {
+        //     $this->Log('Sync Data', 'Sync Data Start', 'Get Data Sub Task');
+        //     try {
+        //         $this->GetDataSubTask();
+        //         $this->Log('Sync Data', 'Sync Data Succesfully', 'Detail Project & Sub Task Success');
+        //         break; // Berhenti jika berhasil
+        //     } catch (\Throwable $th) {
+        //         $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
+        //         $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get Data Sub Task');
+        //         $retryCount++; // Menambah hitungan percobaan
+        //     }
+        // }
 
-        $retryCount = 0;
+        // $retryCount = 0;
 
-        $this->Log('Sync Data', 'Sync Data Start', 'calculate Progress & get date');
-        DB::beginTransaction();
-        try {
-            $section = asanaSection::all();
-            foreach ($section as $data) {
-                $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+        // $this->Log('Sync Data', 'Sync Data Start', 'calculate Progress & get date');
+        // DB::beginTransaction();
+        // try {
+        //     $section = asanaSection::all();
+        //     foreach ($section as $data) {
+        //         $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
 
-                $totalTasks = $tasks->count();
-                $completedTasks = $tasks->filter(function ($task) {
-                    return optional($task->detailTask)->status == 1;
-                })->count();
+        //         $totalTasks = $tasks->count();
+        //         $completedTasks = $tasks->filter(function ($task) {
+        //             return optional($task->detailTask)->status == 1;
+        //         })->count();
 
-                // Hitung persentase task yang complete
-                $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
+        //         // Hitung persentase task yang complete
+        //         $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
-                $updSection = asanaSection::find($data['id']);
-                $updSection->start_on = $tasks->first()->detailTask->start_on
-                    ?? $tasks->first()->detailTask->due_on
-                    ?? null;
-                $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
-                $updSection->progress = round($percentageComplete, 2);
-                $updSection->status = $percentageComplete == 100 ? 1 : 0;
-                $updSection->save();
-            }
+        //         $updSection = asanaSection::find($data['id']);
+        //         $updSection->start_on = $tasks->first()->detailTask->start_on
+        //             ?? $tasks->first()->detailTask->due_on
+        //             ?? null;
+        //         $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
+        //         $updSection->progress = round($percentageComplete, 2);
+        //         $updSection->status = $percentageComplete == 100 ? 1 : 0;
+        //         $updSection->save();
+        //     }
 
-            $project = asanaProject::all();
-            foreach ($project as $data) {
-                $sections = asanaSection::where('asana_id', $data['id'])->orderBy('ref', 'asc')->get();
-                $completedSections = $sections->filter(function ($section) {
-                    return $section->status == 1;
-                })->count();
+        //     $project = asanaProject::all();
+        //     foreach ($project as $data) {
+        //         $sections = asanaSection::where('asana_id', $data['id'])->orderBy('ref', 'asc')->get();
+        //         $completedSections = $sections->filter(function ($section) {
+        //             return $section->status == 1;
+        //         })->count();
 
-                $percentageSection = $sections->count() > 0 ? ($completedSections / $sections->count()) * 100 : 0;
+        //         $percentageSection = $sections->count() > 0 ? ($completedSections / $sections->count()) * 100 : 0;
 
-                $startDate = $sections->first()->start_on
-                    ?? $sections->first()->due_on
-                    ?? null; // Misalkan null
-                $dueDate = $sections->last()->due_on ?? null;
-                $progressTask = round($percentageSection, 0); // Misalnya 70%
+        //         $startDate = $sections->first()->start_on
+        //             ?? $sections->first()->due_on
+        //             ?? null; // Misalkan null
+        //         $dueDate = $sections->last()->due_on ?? null;
+        //         $progressTask = round($percentageSection, 0); // Misalnya 70%
 
-                $status = tentukanStatusProyek($startDate, $dueDate, $progressTask);
+        //         $status = tentukanStatusProyek($startDate, $dueDate, $progressTask);
 
-                $updProject = asanaProject::find($data['id']);
-                $updProject->startDate = $startDate;
-                $updProject->dueDate = $dueDate;
-                $updProject->progress = $progressTask;
-                $updProject->status = $status;
-                $updProject->save();
-            }
+        //         $updProject = asanaProject::find($data['id']);
+        //         $updProject->startDate = $startDate;
+        //         $updProject->dueDate = $dueDate;
+        //         $updProject->progress = $progressTask;
+        //         $updProject->status = $status;
+        //         $updProject->save();
+        //     }
 
-            DB::commit();
-            $this->Log('Sync Data', 'Sync Data Succesfully', 'calculate Progress & get date Success');
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
-        }
+        //     DB::commit();
+        //     $this->Log('Sync Data', 'Sync Data Succesfully', 'calculate Progress & get date Success');
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        //     $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
+        // }
     }
 }
