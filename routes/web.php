@@ -1288,6 +1288,7 @@ route::get('/tes', function () {
     foreach ($data as $item) {
         $sync = SyncProjectAsana::dispatch($item->gid);
     }
+    // $sync = SyncProjectAsana::dispatch(1206491465169966);
 
     return 'susccess';
 });

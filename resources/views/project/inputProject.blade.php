@@ -359,7 +359,7 @@
             if ('{!! isset($data) && $data->po !== null !!}') {
                 $("#payung").prop("checked", true).trigger('change');
             }
-            if ('{!! isset($data) && $data->has_asana === 1 !!}') {
+            if ('{!! isset($data) && $data->has_asana == 1 !!}') {
                 $("#hasAsana").prop("checked", true);
             }
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
