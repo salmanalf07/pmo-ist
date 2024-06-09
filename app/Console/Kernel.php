@@ -17,7 +17,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('queue:work --tries=3 --timeout=2000')->withoutOverlapping();
+
+        $schedule->command('queue:work --tries=3 --timeout=5000')->withoutOverlapping()->after(function () {
+            // Clear the cache after queue:work finishes
+            Artisan::call('cache:clear');
+        });
     }
 
     /**
