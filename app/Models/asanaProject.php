@@ -28,6 +28,10 @@ class asanaProject extends Model
     {
         return $this->hasMany(asanaSection::class, 'asana_id', 'id');
     }
+    public function pm()
+    {
+        return $this->belongsTo(asanaUser::class, 'owner', 'gid');
+    }
     /**
      * The "booting" function of model
      *

@@ -1267,7 +1267,7 @@ route::get(
 );
 
 route::get('/tes', function () {
-    // $project = project::with('timeline')->get();
+    // $project = project::with('timeline')->where('has_asana', 1)->get();
 
     // foreach ($project as $data) {
     //     if ($data->timeline->isNotEmpty()) {
@@ -1288,7 +1288,7 @@ route::get('/tes', function () {
     foreach ($data as $item) {
         $sync = SyncProjectAsana::dispatch($item->gid);
     }
-    // $sync = SyncProjectAsana::dispatch(1206491465169966);
+    $sync = SyncProjectAsana::dispatch(1206491465169966);
 
     return 'susccess';
 });

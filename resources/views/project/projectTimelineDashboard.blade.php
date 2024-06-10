@@ -188,7 +188,9 @@
                                 title: 'Project Name'
                             },
                             {
-                                data: 'owner',
+                                data: function(row) {
+                                    return row.pm ? row.pm.name : '';
+                                },
                                 title: 'PM'
                             },
                             {
