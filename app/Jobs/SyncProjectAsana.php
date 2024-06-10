@@ -120,7 +120,11 @@ class SyncProjectAsana implements ShouldQueue
                                     $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
                                     $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
                                     $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
-                                    $saveDetailTask->progress = $dataDetailTask['data']['custom_fields'][1]['number_value'] ?? 0;
+                                    foreach ($dataDetailTask['data']['custom_fields'] as $value) {
+                                        if ($value['gid'] === "1206277209339208") {
+                                            $saveDetailTask->progress = $value['number_value'] ?? 0;
+                                        }
+                                    }
                                     $saveDetailTask->status = $dataDetailTask['data']['completed'];
                                     $saveDetailTask->save();
                                     // }
@@ -131,7 +135,7 @@ class SyncProjectAsana implements ShouldQueue
                     }
                 }
             }
-            $this->calculate($gid);
+            $this->calculate($asanaProject->id);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -181,7 +185,7 @@ class SyncProjectAsana implements ShouldQueue
     {
         DB::beginTransaction();
         try {
-            $section = asanaSection::where('gid', $gid)->get();
+            $section = asanaSection::where('asana_id', $gid)->get();
             foreach ($section as $data) {
                 $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
 
@@ -203,7 +207,7 @@ class SyncProjectAsana implements ShouldQueue
                 $updSection->save();
             }
 
-            $project = asanaProject::where('gid', $gid)->first();
+            $project = asanaProject::find($gid);
 
             $sections = asanaSection::where('asana_id', $project['id'])->orderBy('ref', 'asc')->get();
             $completedSections = $sections->filter(function ($section) {
