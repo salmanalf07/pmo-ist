@@ -1337,7 +1337,7 @@ route::get('/tes', function () {
     return 'susccess';
 });
 
-route::get('/tes/{gid}', function ($gid) {
+route::get('/syncOne/{gid}', function ($gid) {
     $sync = SyncProjectAsana::dispatch($gid);
 
 
