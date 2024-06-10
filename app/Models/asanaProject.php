@@ -22,7 +22,8 @@ class asanaProject extends Model
         'actStartDate',
         'actDueDate',
         'progress',
-        'status'
+        'status',
+        'sync_today'
     ];
     public function section()
     {
