@@ -1267,25 +1267,13 @@ route::get(
 );
 
 route::get('/tes', function () {
-    // $project = project::with('timeline')->where('has_asana', 1)->get();
-
-    // foreach ($project as $data) {
-    //     if ($data->timeline->isNotEmpty()) {
-    //         $average = round($data->timeline->avg('progProject'), 0);
-    //     } else {
-    //         $average = 0; // Atau nilai default lain jika tidak ada asanaSections terkait
-    //     }
-
-    //     $saveProgress = project::find($data->id);
-    //     $saveProgress->overAllProg = $average;
-    //     $saveProgress->save();
-    //     echo "Project ID: {$data->id}, Average Progress: {$average}\n";
-    // }
-
 
     $data = asanaProject::all();
 
     foreach ($data as $item) {
+        $project = project::find($item->id);
+        $project->sync_today = null;
+        $project->save();
         $sync = SyncProjectAsana::dispatch($item->gid);
     }
 

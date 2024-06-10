@@ -150,6 +150,17 @@ class timelineController extends Controller
             $asanaProject->save();
         }
 
+        $project = Project::with('asana')->find($id);
+
+        if ($project->asana->isNotEmpty()) {
+            $average = round($project->asana->avg('progress'), 0);
+        } else {
+            $average = 0; // Atau nilai default lain jika tidak ada asanaSections terkait
+        }
+
+        $project->overAllProg = $average;
+        $project->save();
+
         return redirect()->back();
     }
 
@@ -163,8 +174,23 @@ class timelineController extends Controller
     public function disconnectProject($id)
     {
         $post = asanaProject::find($id);
+
+        //calcualted
+        $project = Project::with('asana')->find($post->projectId);
+
+        if ($project->asana->isNotEmpty()) {
+            $average = round($project->asana->avg('progress'), 0);
+        } else {
+            $average = 0; // Atau nilai default lain jika tidak ada asanaSections terkait
+        }
+
+        $project->overAllProg = $average;
+        $project->save();
+
+        //sesi delete
         $post->projectId = null;
         $post->save();
+
 
         return response()->json($post);
     }
