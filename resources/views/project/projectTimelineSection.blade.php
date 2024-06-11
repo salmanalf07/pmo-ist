@@ -31,6 +31,7 @@
                 serverSide: true,
                 "autoWidth": false,
                 "responsive": true,
+                "paging": false,
                 'orderBy': [
                     [0, 'asc']
                 ],

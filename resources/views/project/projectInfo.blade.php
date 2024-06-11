@@ -68,6 +68,15 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="mb-3 col-4">
+                                            <label class="form-label">Has Asana</label>
+                                            <select name="hasAsana" id="hasAsana" class="select2" aria-label="Default select example" required>
+                                                <option value="#" selected>Open this select menu</option>
+                                                <option value="all">All</option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row col-2 pt-7 ms-3">
                                         <div class="mb-3 col-12">
@@ -223,7 +232,7 @@
             ],
         });
         // $('.col-12').on('click', '#in', function() {
-        $('#cust_id, #pmName, #status, #sales, #sponsors').on('change', function() {
+        $('#cust_id, #pmName, #status, #sales, #sponsors, #hasAsana').on('change', function() {
             $('#salesId').val($('#sales').val());
             $('#pmId').val($('#pmName').val());
             $('#custId').val($('#cust_id').val());
@@ -235,6 +244,7 @@
                 'status': $('#status').val(),
                 'salesId': $('#salesId').val(),
                 'sponsors': $('#sponsor').val(),
+                'hasAsana': $('#hasAsana').val(),
             });
             $('#example1').DataTable().draw();
         });
@@ -244,6 +254,7 @@
             $('#pmName').val('#').trigger('change');
             $('#status').val('#').trigger('change');
             $('#sponsors').val('#').trigger('change');
+            $('#hasAsana').val('#').trigger('change');
 
             $('#salesId').val("#");
             $('#example1').data('dt_params', {});

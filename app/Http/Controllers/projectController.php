@@ -10,6 +10,7 @@ use App\Exports\ExportProjByMain;
 use App\Exports\invByMonthExport;
 use App\Exports\planInvhByCustExport;
 use App\Exports\statPaymentExport;
+use App\Models\asanaProject;
 use App\Models\Customer;
 use App\Models\documentationProject;
 use App\Models\employee;
@@ -93,6 +94,14 @@ class projectController extends Controller
                     // Gunakan whereIn untuk mencocokkan multiple values
                     $query->whereIn('sponsorId', $names);
                 });
+            }
+        }
+        if ($request->hasAsana != "#" && $request->hasAsana) {
+            if ($request->hasAsana == "yes") {
+                $dataa->where('has_asana', '=', 1);
+            }
+            if ($request->hasAsana == "no") {
+                $dataa->where('has_asana', '=', 0);
             }
         }
 
@@ -180,7 +189,15 @@ class projectController extends Controller
                 $post->overAllProg = 0;
             }
             $post->noProject = $request->noProject;
-            $post->has_asana = $request->hasAsana ? 1 : 0;
+            if ($request->hasAsana) {
+                $asana = asanaProject::where('projectId', $request->id)->get();
+                $post->has_asana = 1;
+                $post->overAllProg = $asana->avg('progress') ?? 0;
+            } else {
+                $timeline = scopeProject::where('projectId', $request->id)->get();
+                $post->has_asana = 0;
+                $post->overAllProg = $timeline->avg('progProject') ?? 0;
+            }
             $post->cust_id = $request->cust_id;
             $post->customerType = $request->customerType;
             $post->projectName = $request->projectName;
