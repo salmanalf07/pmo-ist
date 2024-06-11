@@ -23,6 +23,10 @@ class asanaTask extends Model
     {
         return $this->hasOne(asanaDetailTask::class, 'task_id', 'id');
     }
+    public function subTask()
+    {
+        return $this->hasMany(asanaSubTask::class, 'task_id', 'id');
+    }
     /**
      * The "booting" function of model
      *

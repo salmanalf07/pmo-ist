@@ -191,11 +191,22 @@ class SyncProjectAsana implements ShouldQueue
         try {
             $section = asanaSection::where('asana_id', $gid)->get();
             foreach ($section as $data) {
-                $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+                $tasksCalSub = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
 
+                foreach ($tasksCalSub as $subtask) {
+                    $updTask = asanaTask::with('detailTask', 'subTask')->find($subtask['id']);
+                    if (count($updTask->subTask)) {
+                        $progressSubtask = $updTask->subTask->avg('status') * 100 ?? 0;
+                        $updTask->detailTask->progress =  $progressSubtask;
+                        $updTask->detailTask->status = $progressSubtask == 100 ? 1 : 0;
+                        $updTask->detailTask->save();
+                    }
+                }
+                $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
                 $totalTasks = $tasks->count();
                 $completedTasks = $tasks->filter(function ($task) {
-                    return optional($task->detailTask)->status == 1;
+                    $detailTask = $task->detailTask;
+                    return optional($detailTask)->status == 1;
                 })->count();
 
                 // Hitung persentase task yang complete
@@ -215,18 +226,17 @@ class SyncProjectAsana implements ShouldQueue
 
             $sections = asanaSection::where('asana_id', $project['id'])->orderBy('ref', 'asc')->get();
 
-            $startDate = $sections->first()->start_on
-                ?? $sections->first()->due_on
-                ?? null; // Misalkan null
-            $dueDate = $sections->last()->due_on ?? null;
+            // $startDate = $sections->first()->start_on
+            //     ?? $sections->first()->due_on
+            //     ?? null; // Misalkan null
+            // $dueDate = $sections->last()->due_on ?? null;
 
 
             $updProject = asanaProject::with('section')->find($project['id']);
             $progressTask = round($updProject->section->avg('progress'), 0);
-            $status = tentukanStatusProyek($startDate, $dueDate, $progressTask);
-
-            $updProject->startDate = $startDate;
-            $updProject->dueDate = $dueDate;
+            $status = tentukanStatusProyek($updProject->startDate, $updProject->dueDate, $progressTask);
+            // $updProject->startDate = $startDate;
+            // $updProject->dueDate = $dueDate;
             $updProject->progress = $progressTask;
             $updProject->status = $status;
             $updProject->save();

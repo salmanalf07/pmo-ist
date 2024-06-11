@@ -76,14 +76,14 @@ class SyncDataCommand extends Command
         $retryCount = 0; // Inisialisasi hitungan percobaan
 
         while ($retryCount < $retryLimit) {
-            $this->Log('Sync Data', 'Sync Data Start', 'Get Data New Project');
+            $this->Log('Sync Data', 'Sync New Data Start', 'Get Data New Project');
             try {
                 $this->GetDataProject();
-                $this->Log('Sync Data', 'Sync Data Succesfully', 'Get Data New Project');
+                $this->Log('Sync Data', 'Sync New Data Succesfully', 'Get Data New Project');
                 break; // Berhenti jika berhasil
             } catch (\Throwable $th) {
-                $this->Log('Sync Data', 'Sync Data Failed', $th->getMessage());
-                $this->Log('Sync Data', 'Sync Data Failed', 'Retry Get New Data Project');
+                $this->Log('Sync Data', 'Sync New Data Failed', $th->getMessage());
+                $this->Log('Sync Data', 'Sync New Data Failed', 'Retry Get New Data Project');
                 $retryCount++; // Menambah hitungan percobaan
             }
         }

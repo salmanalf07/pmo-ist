@@ -83,7 +83,7 @@ class SyncDataAsanaUsers extends Command
         $this->Log('Sync Data', 'Sync Data Asana Users', 'Sync Data Asana Users', '');
         try {
             $this->getAsanaUser();
-            $this->Log('Sync Data', 'Sync Data Succesfully', 'Get Data Asana Users', '');
+            $this->Log('Sync Data', 'Sync Data Asana Users Succesfully', 'Get Data Asana Users', '');
             // break; // Berhenti jika berhasil
         } catch (\Throwable $th) {
             $this->Log('Sync Data', 'Sync Data Asana Users Failed', $th->getMessage(), '');
