@@ -1268,7 +1268,9 @@ route::get(
 
 route::get('/tes', function () {
 
-    $data = asanaProject::whereNotIn('status', ['on_hold', 'complete'])->get();
+    $data = asanaProject::whereNotIn('status', ['on_hold', 'complete'])
+        ->orWhereNull('status')
+        ->get();
 
     foreach ($data as $item) {
         $project = asanaProject::find($item->id);
