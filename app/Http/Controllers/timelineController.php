@@ -18,7 +18,7 @@ class timelineController extends Controller
     {
         $get = scopeProject::where('projectId', $id)->orderByRaw('CONVERT(noRef, SIGNED) asc')->get();
         $file = documentationProject::where('projectId', $id)->where('type', 'TIMELINE')->get();
-        $asanaProject = asanaProject::with('pm')->where('projectId', $id)->get();
+        $asanaProject = asanaProject::with('pm', 'statuss')->where('projectId', $id)->get();
         //->first() = hanya menampilkan satu saja dari hasil query
         //->get() = returnnya berbentuk array atau harus banyak data
         if ($request->segment(2) == "changeprojectTimeline") {

@@ -33,6 +33,10 @@ class asanaProject extends Model
     {
         return $this->belongsTo(asanaUser::class, 'owner', 'gid');
     }
+    public function statuss()
+    {
+        return $this->belongsTo(asanaStatus::class, 'status', 'code');
+    }
     /**
      * The "booting" function of model
      *

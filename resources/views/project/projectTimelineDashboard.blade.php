@@ -209,7 +209,7 @@
                             },
                             {
                                 data: function(row) {
-                                    return row.status == null ? "" : row.status
+                                    return row.status == null ? "" : row.statuss.name
                                 },
                                 title: 'Status'
                             },
