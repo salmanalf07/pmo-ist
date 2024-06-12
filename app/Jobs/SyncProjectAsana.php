@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
+use App\Models\asanaStatus;
 use App\Models\asanaSubTask;
 use App\Models\asanaTask;
 use Illuminate\Bus\Queueable;
@@ -59,6 +60,13 @@ class SyncProjectAsana implements ShouldQueue
 
                 $startDate = $deProject['data']['start_on'];
                 $dueDate = $deProject['data']['due_date'];
+
+                if ($deProject['data']['current_status'] != null) {
+                    $getStatus = asanaStatus::where('color', $deProject['data']['current_status']['color'])->first();
+                    $currentStatus = $getStatus->code;
+                } else {
+                    $currentStatus = null;
+                }
             }
             $asanaProject = asanaProject::firstOrNew(['gid' => $gid]);
             $asanaProject->gid = $gid;
@@ -67,6 +75,7 @@ class SyncProjectAsana implements ShouldQueue
             $asanaProject->owner = $deProject['data']['owner']['gid'] ?? null;
             $asanaProject->startDate = $startDate ?? null;
             $asanaProject->dueDate = $dueDate ?? null;
+            $asanaProject->status = $currentStatus;
             $asanaProject->sync_today = null;
             $asanaProject->save();
 
@@ -238,12 +247,38 @@ class SyncProjectAsana implements ShouldQueue
             // $updProject->startDate = $startDate;
             // $updProject->dueDate = $dueDate;
             $updProject->progress = $progressTask;
-            $updProject->status = $status;
+            if ($status != $updProject->status) {
+                if (!in_array($updProject->status, ['on_hold', 'complete'])) {
+                    $updProject->status = $status;
+                    $this->setStatus($updProject->gid, $status);
+                }
+            }
             $updProject->save();
+
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            throw new \Exception($th->getMessage());
+        }
+    }
+    public function setStatus($gid, $status)
+    {
+        try {
+
+            $response = Http::withHeaders([
+                'Authorization' => env('TOKEN_ASANA'),
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ])->post('https://app.asana.com/api/1.0/status_updates', [
+                'data' => [
+                    'status_type' => $status,
+                    'text' => 'Update By Portal',
+                    'parent' => $gid,
+                ],
+            ]);
+            $this->Log('Sync Data', 'Set Status', 'Succes', $gid);
+        } catch (\Throwable $th) {
             throw new \Exception($th->getMessage());
         }
     }
