@@ -86,6 +86,20 @@ class SyncProjectAsana implements ShouldQueue
             if ($getSection->successful()) {
                 $dataSection = $getSection->json();
                 $ref = 1;
+
+                $returnedGids = array_column($dataSection['data'], 'gid');
+
+                // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+                $sectionToDelete =  asanaSection::where('asana_id', $asanaProject->id)
+                    ->whereNotIn('gid', $returnedGids)
+                    ->get();
+
+                // Hapus setiap task beserta relasinya
+                $sectionToDelete->each(function ($task) {
+                    // Hapus task utama
+                    $task->delete();
+                });
+
                 foreach ($dataSection['data'] as $section) {
                     $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
 
@@ -106,6 +120,20 @@ class SyncProjectAsana implements ShouldQueue
                         if ($getTask->successful()) {
                             $dataTask = $getTask->json();
                             $refTask = 1;
+                            // Ambil semua gid dari data yang di-return
+                            $GidsTask = array_column($dataTask['data'], 'gid');
+
+                            // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+                            $tasksToDelete = asanaTask::with('detailTask', 'subTask')
+                                ->where('section_id', $section['gid'])
+                                ->whereNotIn('gid', $GidsTask)
+                                ->get();
+                            // Hapus setiap task beserta relasinya
+                            $tasksToDelete->each(function ($task) {
+                                // Hapus task utama
+                                $task->delete();
+                            });
+
                             foreach ($dataTask['data'] as $task) {
                                 $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
                                 $saveTask->ref = $refTask++;
@@ -167,6 +195,18 @@ class SyncProjectAsana implements ShouldQueue
             if ($detailTask->successful()) {
                 $dataTask = $detailTask->json();
                 $refSubTask = 1;
+
+                $GidsSubTask = array_column($dataTask['data'], 'gid');
+
+                $subTasksToDelete = asanaSubTask::where('task_id', $taskId)
+                    ->whereNotIn('gid', $GidsSubTask)
+                    ->get();
+                // Hapus setiap task beserta relasinya
+                $subTasksToDelete->each(function ($task) {
+                    // Hapus task utama
+                    $task->delete();
+                });
+
                 foreach ($dataTask['data'] as $tasks) {
                     $getSubTask = Http::withHeaders([
                         'Authorization' => env('TOKEN_ASANA'),

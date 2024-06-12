@@ -40,6 +40,15 @@ class asanaSection extends Model
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
         });
+
+        static::deleting(function ($section) {
+            // Hapus semua detailtask yang terkait
+            $section->task()->each(function ($task) {
+                $task->detailTask()->delete();
+                $task->subTask()->delete();
+                $task->delete();
+            });
+        });
     }
 
     /**

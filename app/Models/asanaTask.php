@@ -39,6 +39,12 @@ class asanaTask extends Model
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
         });
+
+        static::deleting(function ($task) {
+            // Hapus semua detailtask yang terkait
+            $task->detailTask()->delete();
+            $task->subTask()->delete();
+        });
     }
 
     /**
