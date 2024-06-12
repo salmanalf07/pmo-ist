@@ -112,6 +112,28 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Mandays Plan</label>
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" value="Based On Contract" name="planMandays" id="BoControl">
+                                                    <label class="form-check-label" for="BoControl">
+                                                        Based On Contract
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" value="Project Based" name="planMandays" id="BoProject" checked>
+                                                    <label class="form-check-label" for="BoProject">
+                                                        Project Based
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input name="mandaysPlan" id="mandaysPlan" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,13 +162,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
                                         <label class="form-label" for="flexCheckChecked">
                                             Has main contract?
                                         </label>
                                         <input class="form-check-input" type="checkbox" id="payung">
                                     </div>
-                                    <div class="mb-3 col-12">
+                                    <div class="mb-3 col-6">
                                         <label class="form-label" for="flexCheckChecked">
                                             Has Asana?
                                         </label>
@@ -356,6 +378,12 @@
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
             $('#noContract').val(`{!! isset($data) ? $data->noContract : "" !!}`);
             $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
+            $('#mandaysPlan').val('{!! isset($data) ? $data->mandaysPlan : "" !!}');
+            if ('{!! isset($data) && $data->planMandays == "Based On Contract" !!}') {
+                $("#BoControl").prop("checked", true);
+            } else {
+                $("#BoProject").prop("checked", true);
+            }
             if ('{!! isset($data) && $data->po !== null !!}') {
                 $("#payung").prop("checked", true).trigger('change');
             }

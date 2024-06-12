@@ -220,6 +220,8 @@ class projectController extends Controller
             $post->coPm = $request->coPm;
             $post->contractStart = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractStart)));
             $post->contractEnd = date("Y-m-d", strtotime(str_replace('-', '-', $request->contractEnd)));
+            $post->planMandays = $request->planMandays;
+            $post->mandaysPlan = $request->mandaysPlan;
             $post->save();
 
 
