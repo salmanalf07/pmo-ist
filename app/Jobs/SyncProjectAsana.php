@@ -105,12 +105,14 @@ class SyncProjectAsana implements ShouldQueue
 
                     if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
                         // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
-                        $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
-                        $saveSection->ref = $ref++;
-                        $saveSection->asana_id = $asanaProject->id;
-                        $saveSection->gid = $section['gid'];
-                        $saveSection->sectionName = $section['name'];
-                        $saveSection->save();
+                        if (!in_array($section['name'], ['Bagian tanpa judul', 'Untitled section'])) {
+                            $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
+                            $saveSection->ref = $ref++;
+                            $saveSection->asana_id = $asanaProject->id;
+                            $saveSection->gid = $section['gid'];
+                            $saveSection->sectionName = $section['name'];
+                            $saveSection->save();
+                        }
 
 
                         $getTask = Http::withHeaders([
