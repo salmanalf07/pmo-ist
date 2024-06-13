@@ -278,6 +278,9 @@ class projectController extends Controller
         riskProject::whereIn('projectId', [$id])->delete();
         issuesProject::whereIn('projectId', [$id])->delete();
         documentationProject::whereIn('projectId', [$id])->delete();
+        $delAsana = asanaProject::find($id);
+        $delAsana->projectId = null;
+        $delAsana->save();
 
         return response()->json();
     }
