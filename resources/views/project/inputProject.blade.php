@@ -76,6 +76,31 @@
                                         <input name="projectValue" id="projectValue" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
                                     </div>
                                     <div class="mb-3 col-6">
+                                        <label class="form-label">Mandays Plan</label>
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" value="Based On Contract" name="planMandays" id="BoControl">
+                                                    <label class="form-check-label" for="BoControl">
+                                                        Based On Contract
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" value="Project Based" name="planMandays" id="BoProject" checked>
+                                                    <label class="form-check-label" for="BoProject">
+                                                        Project Based
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input name="mandaysPlan" id="mandaysPlan" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
+                                    </div>
+                                    <div class="mb-3 col-6">
+
+                                    </div>
+                                    <div class="mb-3 col-6">
                                         <label class="form-label" for="selectOne">Project Type</label>
                                         <select name="projectType" id="projectType" class="select2" aria-label="Default select example" required>
                                             <option value="#" selected>Open this select menu</option>
@@ -112,28 +137,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-6">
-                                        <label class="form-label">Mandays Plan</label>
-                                        <div class="row">
-                                            <div class="mb-3 col-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" value="Based On Contract" name="planMandays" id="BoControl">
-                                                    <label class="form-check-label" for="BoControl">
-                                                        Based On Contract
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 col-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" value="Project Based" name="planMandays" id="BoProject" checked>
-                                                    <label class="form-check-label" for="BoProject">
-                                                        Project Based
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <input name="mandaysPlan" id="mandaysPlan" type="text" class="form-control number-input" value="0" placeholder="Enter Here" required>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
