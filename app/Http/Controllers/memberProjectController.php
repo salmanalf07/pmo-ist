@@ -16,7 +16,13 @@ class memberProjectController extends Controller
 {
     public function edit(Request $request, $id)
     {
-        $get = memberProject::with('employees.divisis', 'employees.departments', 'roles')->where('projectId', $id)->orderBy('created_at')->get();
+        $baseData = memberProject::with('employees.divisis', 'employees.departments', 'roles')->where('projectId', $id);
+        $get = $baseData->orderBy('created_at')->get();
+        $memActiveQuery = clone $baseData;
+        $memActive = $memActiveQuery->whereDate('endDate', '>=', date('Y-m-d'))->orderBy('created_at')->get();
+        $memNonactiveQuery = clone $baseData;
+        $memNonactive =  $memNonactiveQuery->whereDate('endDate', '<=', date('Y-m-d'))->orderBy('created_at')->get();
+
         $partner = partnerProject::with('roles')->where('projectId', $id)->orderBy('created_at')->get();
         $employee = employee::get();
         $divisi = division::get();
@@ -33,12 +39,14 @@ class memberProjectController extends Controller
             return view('project/projectMember', ['judul' => "Project", 'divisi' => $divisi, 'id' => $id, 'header' => $value->customer->company . ' - ' . $value->noContract . ' - ' . $value->projectName, "employee" => $employee, 'aksi' => $aksi, 'data' => $get, 'partner' => $partner, 'role' => $role, 'roleMember' => $role]);
         }
         if ($request->segment(2) == "json_projectMember") {
-            $dataTable1 = DataTables::of($get)->toJson();
-            $dataTable2 = DataTables::of($partner)->toJson();
+            $dataTable1 = DataTables::of($memActive)->toJson();
+            $dataTable2 = DataTables::of($memNonactive)->toJson();
+            $dataTable3 = DataTables::of($partner)->toJson();
 
             $response = array(
                 'dataTable1' => $dataTable1,
                 'dataTable2' => $dataTable2,
+                'dataTable3' => $dataTable3,
                 // Tambahkan data lain jika diperlukan
             );
 

@@ -18,17 +18,28 @@
                 @endcanany
             </div>
             <!-- table -->
-            <div class="card-body mb-10">
+            <div class="card-body mb-5">
                 <div class="table-responsive">
                     <table id="MemberProject" class="table mb-0 text-nowrap table-hover table-centered">
+                        <h5>Project Member Active</h5>
                         <thead class="table-light">
                         </thead>
                     </table>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive overflow-y-hidden table-card">
+            <div class="card-body mb-5">
+                <div class="table-responsive">
+                    <table id="MemberProjectNonactive" class="table mb-0 text-nowrap table-hover table-centered">
+                        <h5>Project Member Nonactive</h5>
+                        <thead class="table-light">
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="card-body mb-5">
+                <div class="table-responsive">
                     <table id="PartnerProject" class="table mb-0 text-nowrap table-hover table-centered">
+                        <h5>Project Partner</h5>
                         <thead class="table-light">
                         </thead>
                     </table>
@@ -110,8 +121,70 @@
                     ]
                 });
 
+                var MemberProjectNonactive = response.dataTable2.original.data;
+
+                // Misalnya, tampilkan DataTables menggunakan library DataTables
+                $('#MemberProjectNonactive').DataTable({
+                    data: MemberProjectNonactive,
+                    processing: true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "columnDefs": [{
+                        targets: [4, 5],
+                        render: function(data, type, row, meta) {
+                            if (type === 'display' || type === 'filter') {
+                                // Use moment.js to format the date for display and filtering
+                                return moment(data).format('DD-MM-YYYY');
+                            }
+                            // For sorting and other operations, use the original data
+                            return data;
+                        },
+                    }, ],
+                    columns: [{
+                            data: 'employees.name',
+                            title: 'Member Name'
+                        },
+                        {
+                            data: function(row, type) {
+                                if (row.roles != "#" && row.roles) {
+                                    var value = type === 'display' && row.roles.roleEmployee.length > 23 ? row.roles.roleEmployee.substring(0, 23) + '..' : row.roles.roleEmployee;
+                                    return '<div data-toggle="tooltip" title="' + row.roles.roleEmployee + '">' + value + '</div>'
+                                } else {
+                                    return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                                }
+                            },
+                            title: 'Role'
+                        },
+                        {
+                            data: function(row) {
+                                return row.accesType != "#" ? row.accesType : "";
+                            },
+                            title: 'Acces Type'
+                        },
+                        {
+                            data: function(row, type) {
+                                if (row.employees.departments != "#") {
+                                    var value = type === 'display' && row.employees.departments.department.length > 23 ? row.employees.departments.department.substring(0, 23) + '..' : row.employees.departments.department;
+                                    return '<div data-toggle="tooltip" title="' + row.employees.departments.department + '">' + value + '</div>'
+                                } else {
+                                    return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
+                                }
+                            },
+                            title: 'Dept/Div'
+                        },
+                        {
+                            data: 'startDate',
+                            title: 'Start Date'
+                        },
+                        {
+                            data: 'endDate',
+                            title: 'End Date'
+                        },
+                    ]
+                });
+
                 // Handle DataTable pertama
-                var PartnerProject = response.dataTable2.original.data;
+                var PartnerProject = response.dataTable3.original.data;
 
                 // Misalnya, tampilkan DataTables menggunakan library DataTables
                 $('#PartnerProject').DataTable({
