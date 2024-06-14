@@ -64,11 +64,11 @@ function tentukanStatusProyek($startDate, $dueDate, $progressTask)
     // Jika startDate atau dueDate null, langsung skip pengecekan durasi
     if (is_null($startDate) || is_null($dueDate)) {
         if ($progressTask == 100) {
-            return "Completed";
+            return "complete";
         }
     } else {
         if ($progressTask == 100) {
-            return "Completed";
+            return "complete";
         }
 
         if (Carbon::parse($dueDate)->greaterThan(Carbon::parse($startDate))) {
@@ -83,11 +83,11 @@ function tentukanStatusProyek($startDate, $dueDate, $progressTask)
 
             // Memeriksa kondisi untuk status proyek
             if (Carbon::now()->greaterThan(Carbon::parse($dueDate)) && $progressTask < 100) {
-                return "Off Track";
+                return "off_track";
             } elseif ($progressTask < $persentaseWaktu) {
-                return "At Risk";
+                return "at_risk";
             } else {
-                return "On Track";
+                return "on_track";
             }
         }
     }
