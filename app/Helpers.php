@@ -64,28 +64,30 @@ function tentukanStatusProyek($startDate, $dueDate, $progressTask)
     // Jika startDate atau dueDate null, langsung skip pengecekan durasi
     if (is_null($startDate) || is_null($dueDate)) {
         if ($progressTask == 100) {
-            return "complete";
+            return "Completed";
         }
     } else {
         if ($progressTask == 100) {
-            return "complete";
+            return "Completed";
         }
-        if ($dueDate > $startDate) {
+
+        if (Carbon::parse($dueDate)->greaterThan(Carbon::parse($startDate))) {
             // Menghitung durasi antara start date dan due date
             $durasiTotal = Carbon::parse($startDate)->diffInDays(Carbon::parse($dueDate));
 
             // Menghitung durasi antara start date dan hari ini
             $durasiBerlalu = Carbon::parse($startDate)->diffInDays(Carbon::now());
+
             // Menghitung persentase waktu yang telah berlalu
             $persentaseWaktu = ($durasiBerlalu / $durasiTotal) * 100;
 
             // Memeriksa kondisi untuk status proyek
             if (Carbon::now()->greaterThan(Carbon::parse($dueDate)) && $progressTask < 100) {
-                return "off_track";
-            } elseif ($persentaseWaktu < $progressTask && $progressTask < 100) {
-                return "at_risk";
+                return "Off Track";
+            } elseif ($progressTask < $persentaseWaktu) {
+                return "At Risk";
             } else {
-                return "on_track"; // Atau status lain sesuai kebutuhan
+                return "On Track";
             }
         }
     }
