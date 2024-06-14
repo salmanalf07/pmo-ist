@@ -1282,6 +1282,21 @@ route::get('/tes', function () {
     return "susccess";
 });
 
+route::get('/tes/null', function () {
+
+    $data = asanaProject::WhereNull('status')
+        ->get();
+
+    foreach ($data as $item) {
+        $project = asanaProject::find($item->id);
+        $project->sync_today = null;
+        $project->save();
+        $sync = SyncProjectAsana::dispatch($item->gid);
+    }
+
+    return "susccess";
+});
+
 route::get('/syncOne/{gid}', function ($gid) {
     $sync = SyncProjectAsana::dispatch($gid);
 
