@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\topProject;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -66,13 +67,25 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
                     } else {
                         $rowData[$heading] = $item->{$column};
                     }
+
+                    // Pengecekan status karyawan berdasarkan endDate
+                    if ($heading === 'Project Status') {
+                        $rowData[$heading] = $this->setStatusEmployee($item->endDate);
+                    }
                 }
             }
             return $rowData;
         });
     }
 
-
+    public function setStatusEmployee(string $endDate): string
+    {
+        if (Carbon::parse($endDate)->greaterThan(Carbon::now())) {
+            return "Active";
+        } else {
+            return "Non Active";
+        }
+    }
 
     public function headings(): array
     {
@@ -94,10 +107,11 @@ class employByAsignExport implements FromCollection, WithHeadings, ShouldAutoSiz
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
             'employees.typeProjects.typeProject' => 'Type Project',
+            'Project Status' => 'Project Status',
             'employees.status' => 'Status'
-
         ];
     }
+
 
     public function registerEvents(): array
     {
