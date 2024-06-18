@@ -110,14 +110,18 @@
                         <div class="table-responsive">
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
-                                    <tr>
-                                        <th>Project Id</th>
-                                        <th>Customer</th>
-                                        <th>Project Name</th>
-                                        <th>SPK</th>
-                                        <th>Project Manager</th>
-                                        <th>Progress</th>
-                                        <th></th>
+                                    <tr class="two-rows">
+                                        <th rowspan="2">Project Id</th>
+                                        <th rowspan="2">Customer</th>
+                                        <th rowspan="2">Project Name</th>
+                                        <th rowspan="2">SPK</th>
+                                        <th rowspan="2">Project Manager</th>
+                                        <th class="text-center" colspan="2">Progress</th>
+                                        <th rowspan="2"></th>
+                                    </tr>
+                                    <tr class="normal-row">
+                                        <th>Project</th>
+                                        <th>Invoice</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -224,6 +228,10 @@
                 {
                     data: 'progress',
                     name: 'progress'
+                },
+                {
+                    data: 'progressInv',
+                    name: 'progressInv'
                 },
                 {
                     data: 'aksi',

@@ -818,8 +818,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/financeTermsStat', function () {
         $customer = Customer::where('type', 'customer')->get();
         $employee = Project::with('saless')->select('sales')->get();
+        $sponsors = projectSponsor::with('employee')->get();
 
-        return view('finance/financeTermsStat', ['judul' => "Term Status", 'customer' => $customer, 'employee' => $employee,]);
+        return view('finance/financeTermsStat', ['judul' => "Term Status", 'customer' => $customer, 'employee' => $employee, 'sponsors' => $sponsors]);
     })->name('financeTermsStat');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

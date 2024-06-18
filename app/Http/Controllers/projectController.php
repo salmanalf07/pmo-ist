@@ -40,7 +40,7 @@ class projectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = Project::with('customer', 'pm', 'saless', 'sponsors')->orderBy('contractDate', 'DESC');
+        $dataa = Project::with('topProject', 'customer', 'pm', 'saless', 'sponsors')->orderBy('contractDate', 'DESC');
 
         if ($request->cust_id != "#" && $request->cust_id) {
             $names = explode(',', $request->cust_id);
@@ -153,21 +153,34 @@ class projectController extends Controller
                     </div>';
             })
             ->addColumn('progress', function ($data) {
-                return
-                    '<div class="d-flex align-items-center">
-                        <div class="me-2"> <span>' . $data->overAllProg . '%</span></div>
-                            <div class="progress flex-auto" style="height: 6px;">
-                                <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $data->overAllProg . '%;" aria-valuenow="' . $data->overAllProg . '" aria-valuemin="0" aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>';
+                // return
+                //     '<div class="d-flex align-items-center">
+                //         <div class="me-2"> <span>' . $data->overAllProg . '%</span></div>
+                //             <div class="progress flex-auto" style="height: 6px;">
+                //                 <div class="progress-bar bg-primary " role="progressbar" style="width: ' . $data->overAllProg . '%;" aria-valuenow="' . $data->overAllProg . '" aria-valuemin="0" aria-valuemax="100">
+                //             </div>
+                //         </div>
+                //     </div>';
+                return $data->overAllProg . '%';
+            })
+            ->addColumn('progressInv', function ($data) {
+                $sumInv = topProject::where([
+                    ['projectId', '=', $data->id],
+                    ['invMain', '=', 1]
+                ])->sum('termsValue');
+
+                if ($sumInv > 0) {
+                    return $invoiced = round(($sumInv / $data->projectValue) * 100, 0) . '%';
+                } else {
+                    return $invoiced = '0%';
+                }
             })
             ->addColumn('aksi', function ($data) {
                 return auth()->user()->can('bisa-hapus') ?
                     '<button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
                 <i class="bi bi-trash"></i></button>' : "";
             })
-            ->rawColumns(['projectNamee', 'progress', 'aksi'])
+            ->rawColumns(['projectNamee', 'progress', 'progressInv', 'aksi'])
             ->toJson();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\topProject;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -22,25 +23,29 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
     public function collection()
     {
-        $columns = $this->headings(); // Simpan referensi ke method headings() dalam variabel $columns
+        if ($this->segment == "financeTermsStatExport") {
+            return new Collection($this->data);
+        } else {
+            $columns = $this->headings(); // Simpan referensi ke method headings() dalam variabel $columns
 
-        return $this->data->map(function ($item) use ($columns) {
-            $rowData = [];
-            foreach ($columns as $column => $heading) {
-                if (strpos($column, '.') !== false) {
-                    // Menghandle eager loading (with)
-                    $relatedData = $item;
-                    $relatedColumns = explode('.', $column);
-                    foreach ($relatedColumns as $relatedColumn) {
-                        $relatedData = $relatedData->{$relatedColumn};
+            return $this->data->map(function ($item) use ($columns) {
+                $rowData = [];
+                foreach ($columns as $column => $heading) {
+                    if (strpos($column, '.') !== false) {
+                        // Menghandle eager loading (with)
+                        $relatedData = $item;
+                        $relatedColumns = explode('.', $column);
+                        foreach ($relatedColumns as $relatedColumn) {
+                            $relatedData = $relatedData->{$relatedColumn};
+                        }
+                        $rowData[$heading] = $relatedData;
+                    } else {
+                        $rowData[$heading] = $item->{$column};
                     }
-                    $rowData[$heading] = $relatedData;
-                } else {
-                    $rowData[$heading] = $item->{$column};
                 }
-            }
-            return $rowData;
-        });
+                return $rowData;
+            });
+        }
     }
 
     public function headings(): array
@@ -83,14 +88,21 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
         if ($this->segment == "financeTermsStatExport") {
             return [
-                'project.customer.company' => 'Customer',
-                'project.projectName' => 'Project Name',
-                'project.noContract' => 'No Contract',
+
+                'noProject' => 'No Project',
+                'company' => 'Customer',
+                'sales' => 'Sales Name',
+                'sponsors' => 'Sponsors',
+                'projectName' => 'Project Name',
+                'noContract' => 'No Contract',
                 'termsName' => 'Terms Name',
-                'termsValuePPN' => 'Terms of Payment',
+                'termsValuePPN' => 'Terms Value',
                 'bastDate' => 'Plan/BAST Date',
+                'bastMain' => 'Plan/BAST Status',
                 'invDate' => 'Invoice Date',
+                'invMain' => 'Invoice Status',
                 'payDate' => 'Payment Date',
+                'payMain' => 'Payment Status',
             ];
         }
     }

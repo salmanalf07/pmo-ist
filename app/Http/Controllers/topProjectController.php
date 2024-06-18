@@ -19,7 +19,7 @@ class topProjectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
+        $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('created_at', 'DESC');
 
         if ($request->segment(1) == "json_finance") {
             if ($request->date_st != "#" && $request->date_st) {
@@ -40,6 +40,16 @@ class topProjectController extends Controller
                     }
                 }
             });
+            if ($request->sponsors != "#" && $request->sponsors) {
+                $names = explode(',', $request->sponsors);
+                // Periksa apakah 'name' adalah string '#' atau array kosong
+                if (is_array($names) && count($names) > 0) {
+                    $dataa->whereHas('project.sponsors', function ($query) use ($names) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->whereIn('sponsorId', $names);
+                    });
+                }
+            }
         }
         if ($request->segment(1) == "json_financeByInvoice") {
             if ($request->date_st != "#" && $request->date_st) {
@@ -164,7 +174,7 @@ class topProjectController extends Controller
 
     public function financeExport(Request $request)
     {
-        $dataa = topProject::with('project', 'project.customer')->orderBy('created_at', 'DESC');
+        $dataa = topProject::with('project.saless', 'project.sponsors.employee', 'project.customer')->orderBy('created_at', 'DESC');
         if ($request->segment(1) == 'financeExport' || $request->segment(1) == 'financeTermsStatExport') {
             if ($request->date_st != "#" && $request->date_st) {
                 $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -205,6 +215,16 @@ class topProjectController extends Controller
                 }
             }
         });
+        if ($request->sponsorId != "#" && $request->sponsorId) {
+            $names = explode(',', $request->sponsorId);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                $dataa->whereHas('project.sponsors', function ($query) use ($names) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sponsorId', $names);
+                });
+            }
+        }
 
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
@@ -215,6 +235,39 @@ class topProjectController extends Controller
 
 
         $data = $dataa->get()->sortBy(['projectId', 'noRef']);
+
+        if ($request->segment(1) == "financeTermsStatExport") {
+            $projectDetail = [];
+            foreach ($data as  $project) {
+                $sponsorData = [];
+
+                // Loop foreach untuk mengakses nama karyawan dan menyimpannya dalam array
+                foreach ($project->project->sponsors as $sponsor) {
+                    $sponsorName = $sponsor->employee->name ?? "";
+                    $sponsorData[] = $sponsorName;
+                }
+
+                $projectDetail[] = [
+                    'noProject' => $project->project->noProject,
+                    'company' => $project->project->customer->company,
+                    'sales' => $project->project->saless->name,
+                    'sponsors' => implode(', ', $sponsorData) ?? '',
+                    'projectName' => $project->project->projectName,
+                    'noContract' => $project->project->noContract,
+                    'termsName' => $project->termsName,
+                    'termsValuePPN' => $project->termsValuePPN,
+                    'bastDate' => $project->bastDate,
+                    'bastMain' => $project->bastDateMain == 1 ? 'Done' : '',
+                    'invDate' => $project->invDate,
+                    'invMain' => $project->invDateMain == 1 ? 'Done' : '',
+                    'payDate' => $project->payDate,
+                    'payMain' => $project->payDateMain == 1 ? 'Done' : '',
+
+                ];
+            }
+            $data = $projectDetail;
+        }
+
         return Excel::download(new financeExport($data, $request->segment(1)), 'Finance_Report.xlsx');
     }
 
