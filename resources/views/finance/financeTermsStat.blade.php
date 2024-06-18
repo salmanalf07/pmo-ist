@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="row col-7">
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Plan BAST Date Range</label>
+                                        <label class="form-label">BAST Date Range</label>
                                         <div class="input-group me-3">
                                             <input type="text" class="form-control float-right" id="reservation">
                                             <div class="input-group-append custom-picker">
