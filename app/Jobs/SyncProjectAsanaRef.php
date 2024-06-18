@@ -51,7 +51,7 @@ class SyncProjectAsanaRef implements ShouldQueue
     {
         $client = new Client([
             'base_uri' => 'https://app.asana.com/api/1.0/',
-            'timeout'  => 60.0,  // Set timeout to 10 seconds
+            'timeout'  => 300.0,  // Set timeout to 10 seconds
         ]);
 
         DB::beginTransaction();
@@ -165,7 +165,7 @@ class SyncProjectAsanaRef implements ShouldQueue
     {
         $client = new Client([
             'base_uri' => 'https://app.asana.com/api/1.0/',
-            'timeout'  => 60.0,  // Set timeout to 10 seconds
+            'timeout'  => 300,  // Set timeout to 10 seconds
         ]);
         DB::beginTransaction();
         try {
