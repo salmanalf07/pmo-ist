@@ -223,7 +223,11 @@
                             return ""; // Mengembalikan string kosong jika tidak ada nilai yang valid
                         }
                     },
-                    name: 'pm.name'
+                    name: 'pm.name',
+                    render: function(data, type, row) {
+                        var value = type === 'display' && data.length > 15 ? data.substring(0, 15) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
+                    }
                 },
                 {
                     data: 'progress',
