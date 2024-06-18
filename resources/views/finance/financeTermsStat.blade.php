@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="row col-7">
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Date Range</label>
+                                        <label class="form-label">Plan BAST Date Range</label>
                                         <div class="input-group me-3">
                                             <input type="text" class="form-control float-right" id="reservation">
                                             <div class="input-group-append custom-picker">
@@ -41,7 +41,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label class="form-label">Project Sponsors</label>
+                                        <label class="form-label">Sponsor</label>
                                         <input type="text" id="sponsor" name="sponsor" value="#" hidden>
                                         <select name="sponsors[]" id="sponsors" multiple="multiple" class="select2" aria-label="Default select example" required>
                                             @foreach($sponsors->unique('sponsorId') as $sponsor)
