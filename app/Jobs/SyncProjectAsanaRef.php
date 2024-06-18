@@ -157,7 +157,7 @@ class SyncProjectAsanaRef implements ShouldQueue
 
         // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
         $tasksToDelete = asanaTask::with('detailTask', 'subTask')
-            ->where('section_id', $tasks)
+            ->where('section_id', $saveSection['gid'])
             ->whereNotIn('gid', $GidsTask)
             ->get();
         // Hapus setiap task beserta relasinya
@@ -219,7 +219,7 @@ class SyncProjectAsanaRef implements ShouldQueue
             if ($detailTask && $detailTask->getStatusCode() == 200) {
                 $dataTasks = json_decode($detailTask->getBody(), true)['data'];
 
-                $GidsSubTask = array_column($dataTasks['data'], 'gid');
+                $GidsSubTask = array_column($dataTasks, 'gid');
 
                 $subTasksToDelete = asanaSubTask::where('task_id', $taskId)
                     ->whereNotIn('gid', $GidsSubTask)
