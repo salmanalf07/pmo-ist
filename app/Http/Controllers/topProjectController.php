@@ -257,11 +257,11 @@ class topProjectController extends Controller
                     'termsName' => $project->termsName,
                     'termsValuePPN' => $project->termsValuePPN,
                     'bastDate' => $project->bastDate,
-                    'bastMain' => $project->bastDateMain == 1 ? 'Done' : '',
+                    'bastMain' => $project->bastMain == 1 ? 'Done' : '',
                     'invDate' => $project->invDate,
-                    'invMain' => $project->invDateMain == 1 ? 'Done' : '',
+                    'invMain' => $project->invMain == 1 ? 'Done' : '',
                     'payDate' => $project->payDate,
-                    'payMain' => $project->payDateMain == 1 ? 'Done' : '',
+                    'payMain' => $project->payMain == 1 ? 'Done' : '',
 
                 ];
             }
