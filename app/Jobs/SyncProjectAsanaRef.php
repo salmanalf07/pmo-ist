@@ -16,8 +16,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\MaxAttemptsExceededException;
+use GuzzleHttp\Client;
 
-class SyncProjectAsana implements ShouldQueue
+class SyncProjectAsanaRef implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -48,13 +49,22 @@ class SyncProjectAsana implements ShouldQueue
 
     public function GetDataProject($gid)
     {
+        $client = new Client([
+            'base_uri' => 'https://app.asana.com/api/1.0/',
+            'timeout'  => 60.0,  // Set timeout to 10 seconds
+        ]);
+
         DB::beginTransaction();
         try {
-            $detailProject = Http::withHeaders([
-                'Authorization' => env('TOKEN_ASANA'),
-            ])->get('https://app.asana.com/api/1.0/projects/' . $gid);
-            if ($detailProject->successful()) {
-                $deProject = $detailProject->json();
+            $detailProject = $client->request('GET', "projects/" . $gid, [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => env('TOKEN_ASANA'),
+                ],
+            ]);
+
+            if ($detailProject->getStatusCode() == 200) {
+                $deProject = json_decode($detailProject->getBody(), true);
 
                 $startDate = $deProject['data']['start_on'];
                 $dueDate = $deProject['data']['due_date'];
@@ -69,12 +79,14 @@ class SyncProjectAsana implements ShouldQueue
             $asanaProject->sync_today = null;
             $asanaProject->save();
 
-            $getSection = Http::withHeaders([
-                'Authorization' => env('TOKEN_ASANA'),
-            ])->get('https://app.asana.com/api/1.0/projects/' . $gid . '/sections');
-
-            if ($getSection->successful()) {
-                $dataSection = $getSection->json();
+            $getSection = $client->request('GET', "projects/" . $gid . "/sections", [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => env('TOKEN_ASANA'),
+                ],
+            ]);
+            if ($getSection->getStatusCode() == 200) {
+                $dataSection = json_decode($getSection->getBody(), true);
                 $ref = 1;
                 foreach ($dataSection['data'] as $section) {
                     $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
@@ -88,13 +100,14 @@ class SyncProjectAsana implements ShouldQueue
                         $saveSection->sectionName = $section['name'];
                         $saveSection->save();
 
-
-                        $getTask = Http::withHeaders([
-                            'Authorization' => env('TOKEN_ASANA'),
-                        ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
-
-                        if ($getTask->successful()) {
-                            $dataTask = $getTask->json();
+                        $getTask = $client->request('GET', "sections/" . $section['gid'] . '/tasks', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Authorization' => env('TOKEN_ASANA'),
+                            ],
+                        ]);
+                        if ($getTask->getStatusCode() == 200) {
+                            $dataTask = json_decode($getTask->getBody(), true);
                             $refTask = 1;
                             foreach ($dataTask['data'] as $task) {
                                 $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
@@ -104,12 +117,14 @@ class SyncProjectAsana implements ShouldQueue
                                 $saveTask->taskName = $task['name'];
                                 $saveTask->save();
 
-                                $getDetailTask = Http::withHeaders([
-                                    'Authorization' => env('TOKEN_ASANA'),
-                                ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
-
-                                if ($getDetailTask->successful()) {
-                                    $dataDetailTask = $getDetailTask->json();
+                                $getDetailTask = $client->request('GET', "tasks/" . $task['gid'], [
+                                    'headers' => [
+                                        'Accept' => 'application/json',
+                                        'Authorization' => env('TOKEN_ASANA'),
+                                    ],
+                                ]);
+                                if ($getDetailTask->getStatusCode() == 200) {
+                                    $dataDetailTask = json_decode($getDetailTask->getBody(), true);
                                     $refDetailTask = 1;
                                     // foreach ($dataDetailTask['data'] as $detailTask) {
                                     $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
@@ -148,21 +163,30 @@ class SyncProjectAsana implements ShouldQueue
 
     public function GetDataSubTask($gid, $taskId)
     {
+        $client = new Client([
+            'base_uri' => 'https://app.asana.com/api/1.0/',
+            'timeout'  => 60.0,  // Set timeout to 10 seconds
+        ]);
         DB::beginTransaction();
         try {
-            $detailTask = Http::withHeaders([
-                'Authorization' => env('TOKEN_ASANA'),
-            ])->get('https://app.asana.com/api/1.0/tasks/' . $gid . '/subtasks');
-
-            if ($detailTask->successful()) {
-                $dataTask = $detailTask->json();
+            $detailTask = $client->request('GET', "tasks/" . $gid . '/subtasks', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Authorization' => env('TOKEN_ASANA'),
+                ],
+            ]);
+            if ($detailTask->getStatusCode() == 200) {
+                $dataTask = json_decode($detailTask->getBody(), true);
                 $refSubTask = 1;
                 foreach ($dataTask['data'] as $tasks) {
-                    $getSubTask = Http::withHeaders([
-                        'Authorization' => env('TOKEN_ASANA'),
-                    ])->get('https://app.asana.com/api/1.0/tasks/' . $tasks['gid']);
-                    if ($getSubTask->successful()) {
-                        $dataSubTask = $getSubTask->json();
+                    $getSubTask = $client->request('GET', "tasks/" . $tasks['gid'], [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Authorization' => env('TOKEN_ASANA'),
+                        ],
+                    ]);
+                    if ($getSubTask->getStatusCode() == 200) {
+                        $dataSubTask = json_decode($getSubTask->getBody(), true);
                         $asanaSubTask = asanaSubTask::firstOrNew(['gid' => $dataSubTask['data']['gid']]);
                         $asanaSubTask->task_id = $taskId;
                         $asanaSubTask->gid = $dataSubTask['data']['gid'];

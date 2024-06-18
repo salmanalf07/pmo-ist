@@ -1301,7 +1301,7 @@ route::get('/tes/null', function () {
 });
 
 route::get('/syncOne/{gid}', function ($gid) {
-    $sync = SyncProjectAsana::dispatch($gid);
+    $sync = SyncProjectAsanaRef::dispatch($gid);
 
     return "susccess";
 });
