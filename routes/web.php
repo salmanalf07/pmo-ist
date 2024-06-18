@@ -41,6 +41,7 @@ use App\Jobs\SyncCalculateAsanaProject;
 use App\Jobs\SyncGetAsanaSubTask;
 use App\Jobs\SyncGetOwnerAsanaProject;
 use App\Jobs\SyncProjectAsana;
+use App\Jobs\SyncProjectAsanaRef;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
@@ -87,6 +88,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
+use Asana\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -1300,6 +1302,5 @@ route::get('/tes/null', function () {
 route::get('/syncOne/{gid}', function ($gid) {
     $sync = SyncProjectAsana::dispatch($gid);
 
-
-    return 'susccess';
+    return "susccess";
 });
