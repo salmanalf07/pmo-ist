@@ -51,7 +51,7 @@
                                                 <th>Employee Name</th>
                                                 <th>Company</th>
                                                 <th>Customer</th>
-                                                <th>Project Name</th>
+                                                <th>Contract Name</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                             </tr>

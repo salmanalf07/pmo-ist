@@ -61,7 +61,7 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 col-3">
-                                                <label class="form-label" for="selectOne">Project Name</label>
+                                                <label class="form-label" for="selectOne">Contract Name</label>
                                                 <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
                                                 </select>
@@ -117,7 +117,7 @@
                                             <tr>
                                                 <th>Nama Karyawan</th>
                                                 <th>Partner Corp</th>
-                                                <th>Project Name</th>
+                                                <th>Contract Name</th>
                                                 <th>customer</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>

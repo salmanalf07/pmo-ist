@@ -97,7 +97,7 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 col-3">
-                                                <label class="form-label">Project Progress</label>
+                                                <label class="form-label">Contract Progress</label>
                                                 <select name="overAllProg" id="overAllProg" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
                                                     <option value="all">All</option>
@@ -133,7 +133,7 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 col-4">
-                                                <label class="form-label" for="selectOne">Project Name</label>
+                                                <label class="form-label" for="selectOne">Contract Name</label>
                                                 <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
                                                 </select>
@@ -209,7 +209,7 @@
                                             <th>Nama Karyawan</th>
                                             <th>Department</th>
                                             <th>Division</th>
-                                            <th>Project Name</th>
+                                            <th>Contract Name</th>
                                             <th>customer</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>

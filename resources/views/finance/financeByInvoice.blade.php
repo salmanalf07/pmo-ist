@@ -77,7 +77,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Customer</th>
-                                        <th>Project Name</th>
+                                        <th>Contract Name</th>
                                         <th>No Contract</th>
                                         <th>Terms Name</th>
                                         <th>Terms Value</th>

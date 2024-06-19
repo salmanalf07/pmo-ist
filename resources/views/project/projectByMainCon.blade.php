@@ -92,11 +92,11 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Project Id</th>
+                                        <th>Contract Id</th>
                                         <th>Main Contract</th>
                                         <th>Contract</th>
                                         <th>Customer</th>
-                                        <th>Project Name</th>
+                                        <th>Contract Name</th>
                                         <th class="text-end">Value</th>
                                         <th>Progress</th>
                                         <th></th>

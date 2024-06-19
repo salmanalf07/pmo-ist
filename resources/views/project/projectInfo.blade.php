@@ -38,7 +38,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3 col-4">
-                                            <label class="form-label">Project Status</label>
+                                            <label class="form-label">Contract Progress</label>
                                             <select name="status" id="status" class="select2" aria-label="Default select example" required>
                                                 <option value="#" selected>Open this select menu</option>
                                                 <option value="all">All</option>
@@ -111,9 +111,9 @@
                             <table id="example1" class="table text-nowrap table-centered mt-0">
                                 <thead class="table-light">
                                     <tr class="two-rows">
-                                        <th rowspan="2">Project Id</th>
+                                        <th rowspan="2">Contract Id</th>
                                         <th rowspan="2">Customer</th>
-                                        <th rowspan="2">Project Name</th>
+                                        <th rowspan="2">Contract Name</th>
                                         <th rowspan="2">SPK</th>
                                         <th rowspan="2">Project Manager</th>
                                         <th class="text-center" colspan="2">Progress</th>

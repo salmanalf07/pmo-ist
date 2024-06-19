@@ -122,13 +122,13 @@
                     @endrole
                     <li class="nav-item dropdown">
                         <a class="nav-link {{ request()->is('projectInfo','projectInfoByDate','projectByMainCon','project/*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Project
+                            Contract
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
 
                             <li>
                                 <a class="dropdown-item" href="/projectInfo">
-                                    Project All
+                                    Contract All
                                 </a>
                             </li>
                             <li>
