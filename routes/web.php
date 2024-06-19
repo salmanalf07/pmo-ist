@@ -1279,7 +1279,7 @@ route::get('/tes', function () {
         $project = asanaProject::find($item->id);
         $project->sync_today = null;
         $project->save();
-        $sync = SyncProjectAsanaRef::dispatch($item->gid);
+        $sync = SyncProjectAsana::dispatch($item->gid);
     }
 
     return "susccess";
