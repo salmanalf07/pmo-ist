@@ -1304,7 +1304,7 @@ route::get('/tes/kosong', function () {
 });
 
 route::get('/syncOne/{gid}', function ($gid) {
-    $sync = SyncProjectAsanaRef2::dispatch($gid);
+    $sync = asanaProject::dispatch($gid);
 
     return "susccess";
 });
