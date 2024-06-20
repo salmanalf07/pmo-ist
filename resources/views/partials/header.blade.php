@@ -7,7 +7,7 @@
         <div class="d-flex align-items-center">
           <!-- avatar -->
           <div class="avatar-xxl me-2 position-relative d-flex justify-content-end align-items-end mt-n10" style="width: 10rem;">
-            <img src="/assets/images/logo-ist.png" class="avatar-xl rounded-circle border border-2 " alt="Image">
+            <img src="/assets/images/Logo-ist.png" class="avatar-xl rounded-circle border border-2 " alt="Image">
           </div>
           <!-- text -->
           <div class="lh-1">
