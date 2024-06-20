@@ -42,10 +42,12 @@ use App\Jobs\SyncGetAsanaSubTask;
 use App\Jobs\SyncGetOwnerAsanaProject;
 use App\Jobs\SyncProjectAsana;
 use App\Jobs\SyncProjectAsanaRef;
+use App\Jobs\SyncProjectAsanaRef2;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
 use App\Models\asanaSubTask;
+use App\Models\asanaSubTask2;
 use App\Models\asanaTask;
 use App\Models\community;
 use App\Models\communityCategory as ModelsCommunityCategory;
@@ -89,6 +91,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Asana\Client;
+use Illuminate\Support\Facades\Redis;
 
 /*
 |--------------------------------------------------------------------------
@@ -1285,7 +1288,7 @@ route::get('/tes', function () {
     return "susccess";
 });
 
-route::get('/tes/null', function () {
+route::get('/tes/kosong', function () {
 
     $data = asanaProject::WhereNull('status')
         ->get();
@@ -1294,14 +1297,22 @@ route::get('/tes/null', function () {
         $project = asanaProject::find($item->id);
         $project->sync_today = null;
         $project->save();
-        $sync = SyncProjectAsanaRef::dispatch($item->gid);
+        $sync = SyncProjectAsana::dispatch($item->gid);
     }
+
+    return "susccess-kosong";
+});
+
+route::get('/syncOne/{gid}', function ($gid) {
+    $sync = SyncProjectAsanaRef2::dispatch($gid);
 
     return "susccess";
 });
 
-route::get('/syncOne/{gid}', function ($gid) {
-    $sync = SyncProjectAsana::dispatch($gid);
-
-    return "susccess";
+Route::get('/test-tasknew', function () {
+    // $task = asanaSubTask2::whereNull('parent_uuid')->with('children')->get();
+    $project = asanaProject::with('section.newTask.children.children')->where('gid', 1206493767209136)->first();
+    // $task = asanaSubTask2::find('0959a564-d607-4431-a8c0-fa36d68e35e6');
+    // $task->delete();
+    return $project;
 });
