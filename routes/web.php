@@ -91,6 +91,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Asana\Client;
+use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Support\Facades\Redis;
 
 /*
@@ -1304,7 +1305,7 @@ route::get('/tes/kosong', function () {
 });
 
 route::get('/syncOne/{gid}', function ($gid) {
-    $sync = asanaProject::dispatch($gid);
+    $sync = SyncProjectAsana::dispatch($gid);
 
     return "susccess";
 });
