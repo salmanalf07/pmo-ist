@@ -67,119 +67,119 @@ class SyncProjectAsana implements ShouldQueue
                 } else {
                     $currentStatus = null;
                 }
-            }
-            $asanaProject = asanaProject::firstOrNew(['gid' => $gid]);
-            $asanaProject->gid = $gid;
-            $asanaProject->archived = $deProject['data']['archived'] ?? null;
-            $asanaProject->projectName = $deProject['data']['name'];
-            $asanaProject->owner = $deProject['data']['owner']['gid'] ?? null;
-            $asanaProject->startDate = $startDate ?? null;
-            $asanaProject->dueDate = $dueDate ?? null;
-            $asanaProject->status = $currentStatus;
-            $asanaProject->sync_today = null;
-            $asanaProject->save();
+                $asanaProject = asanaProject::firstOrNew(['gid' => $gid]);
+                $asanaProject->gid = $gid;
+                $asanaProject->archived = $deProject['data']['archived'] ?? null;
+                $asanaProject->projectName = $deProject['data']['name'];
+                $asanaProject->owner = $deProject['data']['owner']['gid'] ?? null;
+                $asanaProject->startDate = $startDate ?? null;
+                $asanaProject->dueDate = $dueDate ?? null;
+                $asanaProject->status = $currentStatus;
+                $asanaProject->sync_today = null;
+                $asanaProject->save();
 
-            $getSection = Http::withHeaders([
-                'Authorization' => env('TOKEN_ASANA'),
-            ])->get('https://app.asana.com/api/1.0/projects/' . $gid . '/sections');
+                $getSection = Http::withHeaders([
+                    'Authorization' => env('TOKEN_ASANA'),
+                ])->get('https://app.asana.com/api/1.0/projects/' . $gid . '/sections');
 
-            if ($getSection->successful()) {
-                $dataSection = $getSection->json();
-                $ref = 1;
+                if ($getSection->successful()) {
+                    $dataSection = $getSection->json();
+                    $ref = 1;
 
-                $returnedGids = array_column($dataSection['data'], 'gid');
+                    $returnedGids = array_column($dataSection['data'], 'gid');
 
-                // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
-                $sectionToDelete =  asanaSection::where('asana_id', $asanaProject->id)
-                    ->whereNotIn('gid', $returnedGids)
-                    ->get();
+                    // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+                    $sectionToDelete =  asanaSection::where('asana_id', $asanaProject->id)
+                        ->whereNotIn('gid', $returnedGids)
+                        ->get();
 
-                // Hapus setiap task beserta relasinya
-                $sectionToDelete->each(function ($task) {
-                    // Hapus task utama
-                    $task->delete();
-                });
+                    // Hapus setiap task beserta relasinya
+                    $sectionToDelete->each(function ($task) {
+                        // Hapus task utama
+                        $task->delete();
+                    });
 
-                foreach ($dataSection['data'] as $section) {
-                    $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
+                    foreach ($dataSection['data'] as $section) {
+                        $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
 
-                    if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
-                        // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
-                        if (!in_array($section['name'], ['Bagian tanpa judul', 'Untitled section'])) {
-                            $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
-                            $saveSection->ref = $ref++;
-                            $saveSection->asana_id = $asanaProject->id;
-                            $saveSection->gid = $section['gid'];
-                            $saveSection->sectionName = $section['name'];
-                            $saveSection->save();
-                        }
+                        if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
+                            // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
+                            if (!in_array($section['name'], ['Bagian tanpa judul', 'Untitled section'])) {
+                                $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
+                                $saveSection->ref = $ref++;
+                                $saveSection->asana_id = $asanaProject->id;
+                                $saveSection->gid = $section['gid'];
+                                $saveSection->sectionName = $section['name'];
+                                $saveSection->save();
+                            }
 
 
-                        $getTask = Http::withHeaders([
-                            'Authorization' => env('TOKEN_ASANA'),
-                        ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
+                            $getTask = Http::withHeaders([
+                                'Authorization' => env('TOKEN_ASANA'),
+                            ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
 
-                        if ($getTask->successful()) {
-                            $dataTask = $getTask->json();
-                            $refTask = 1;
-                            // Ambil semua gid dari data yang di-return
-                            $GidsTask = array_column($dataTask['data'], 'gid');
+                            if ($getTask->successful()) {
+                                $dataTask = $getTask->json();
+                                $refTask = 1;
+                                // Ambil semua gid dari data yang di-return
+                                $GidsTask = array_column($dataTask['data'], 'gid');
 
-                            // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
-                            $tasksToDelete = asanaTask::with('detailTask', 'subTask')
-                                ->where('section_id', $section['gid'])
-                                ->whereNotIn('gid', $GidsTask)
-                                ->get();
-                            // Hapus setiap task beserta relasinya
-                            $tasksToDelete->each(function ($task) {
-                                // Hapus task utama
-                                $task->delete();
-                            });
+                                // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+                                $tasksToDelete = asanaTask::with('detailTask', 'subTask')
+                                    ->where('section_id', $section['gid'])
+                                    ->whereNotIn('gid', $GidsTask)
+                                    ->get();
+                                // Hapus setiap task beserta relasinya
+                                $tasksToDelete->each(function ($task) {
+                                    // Hapus task utama
+                                    $task->delete();
+                                });
 
-                            foreach ($dataTask['data'] as $task) {
-                                $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
-                                $saveTask->ref = $refTask++;
-                                $saveTask->section_id = $saveSection->id;
-                                $saveTask->gid = $task['gid'];
-                                $saveTask->taskName = $task['name'];
-                                $saveTask->save();
+                                foreach ($dataTask['data'] as $task) {
+                                    $saveTask = asanaTask::firstOrNew(['gid' => $task['gid']]);
+                                    $saveTask->ref = $refTask++;
+                                    $saveTask->section_id = $saveSection->id;
+                                    $saveTask->gid = $task['gid'];
+                                    $saveTask->taskName = $task['name'];
+                                    $saveTask->save();
 
-                                $getDetailTask = Http::withHeaders([
-                                    'Authorization' => env('TOKEN_ASANA'),
-                                ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
+                                    $getDetailTask = Http::withHeaders([
+                                        'Authorization' => env('TOKEN_ASANA'),
+                                    ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
 
-                                if ($getDetailTask->successful()) {
-                                    $dataDetailTask = $getDetailTask->json();
-                                    $refDetailTask = 1;
-                                    // foreach ($dataDetailTask['data'] as $detailTask) {
-                                    $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
-                                    $saveDetailTask->gid = $dataDetailTask['data']['gid'];
-                                    $saveDetailTask->ref = $refDetailTask;
-                                    $saveDetailTask->task_id = $saveTask->id;
-                                    $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['gid'] ?? null;
-                                    $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
-                                    $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
-                                    $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
-                                    foreach ($dataDetailTask['data']['custom_fields'] as $value) {
-                                        if ($value['gid'] === "1206277209339208") {
-                                            $saveDetailTask->progress = $value['number_value'] ?? 0;
+                                    if ($getDetailTask->successful()) {
+                                        $dataDetailTask = $getDetailTask->json();
+                                        $refDetailTask = 1;
+                                        // foreach ($dataDetailTask['data'] as $detailTask) {
+                                        $saveDetailTask = asanaDetailTask::firstOrNew(['gid' => $dataDetailTask['data']['gid']]);
+                                        $saveDetailTask->gid = $dataDetailTask['data']['gid'];
+                                        $saveDetailTask->ref = $refDetailTask;
+                                        $saveDetailTask->task_id = $saveTask->id;
+                                        $saveDetailTask->assignee = $dataDetailTask['data']['assignee']['gid'] ?? null;
+                                        $saveDetailTask->start_on = $dataDetailTask['data']['start_on'];
+                                        $saveDetailTask->due_on = $dataDetailTask['data']['due_on'];
+                                        $saveDetailTask->permalink_url = $dataDetailTask['data']['permalink_url'];
+                                        foreach ($dataDetailTask['data']['custom_fields'] as $value) {
+                                            if ($value['gid'] === "1206277209339208") {
+                                                $saveDetailTask->progress = $value['number_value'] ?? 0;
+                                            }
                                         }
+                                        $saveDetailTask->status = $dataDetailTask['data']['completed'];
+                                        $saveDetailTask->save();
+                                        // }
                                     }
-                                    $saveDetailTask->status = $dataDetailTask['data']['completed'];
-                                    $saveDetailTask->save();
-                                    // }
+                                    $this->GetDataSubTask($task['gid'], $saveTask->id);
                                 }
-                                $this->GetDataSubTask($task['gid'], $saveTask->id);
                             }
                         }
                     }
                 }
+                $this->calculate($asanaProject->id);
+                $updStatusSync = asanaProject::find($asanaProject->id);
+                $updStatusSync->sync_today = 1;
+                $updStatusSync->save();
+                DB::commit();
             }
-            $this->calculate($asanaProject->id);
-            $updStatusSync = asanaProject::find($asanaProject->id);
-            $updStatusSync->sync_today = 1;
-            $updStatusSync->save();
-            DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             throw new \Exception($th->getMessage());
@@ -338,6 +338,7 @@ class SyncProjectAsana implements ShouldQueue
             // break; // Berhenti jika berhasil
         } catch (\Throwable $th) {
             $this->Log('Sync Data', 'Sync Data By Job Failed', $th->getMessage(), $this->data);
+            throw $th; // Rethrow untuk membiarkan job ditandai sebagai gagal
         }
     }
 
