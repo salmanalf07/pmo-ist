@@ -22,6 +22,7 @@ class asanaSubTask2 extends Model
         'start_on',
         'due_on',
         'permalink_url',
+        'progress',
         'status',
         'deletedBy'
 

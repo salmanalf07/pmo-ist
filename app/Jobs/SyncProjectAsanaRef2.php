@@ -245,32 +245,31 @@ class SyncProjectAsanaRef2 implements ShouldQueue
         try {
             $section = asanaSection::where('asana_id', $gid)->get();
             foreach ($section as $data) {
-                $tasksCalSub = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+                $tasksCalSub = asanaSubTask2::with('children')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
 
                 foreach ($tasksCalSub as $subtask) {
-                    $updTask = asanaTask::with('detailTask', 'subTask')->find($subtask['id']);
-                    if (count($updTask->subTask)) {
-                        $progressSubtask = $updTask->subTask->avg('status') * 100 ?? 0;
-                        $updTask->detailTask->progress =  $progressSubtask;
-                        $updTask->detailTask->status = $progressSubtask == 100 ? 1 : 0;
-                        $updTask->detailTask->save();
+                    $updTask = asanaSubTask2::with('children')->find($subtask['id']);
+                    if (count($updTask->children)) {
+                        $progressSubtask = $updTask->children->avg('status') * 100 ?? 0;
+                        $updTask->progress =  $progressSubtask;
+                        $updTask->status = $progressSubtask == 100 ? 1 : 0;
+                        $updTask->save();
                     }
                 }
-                $tasks = asanaTask::with('detailTask')->where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
+                $tasks = asanaSubTask2::where('section_id', $data['id'])->orderBy('ref', 'asc')->get();
                 $totalTasks = $tasks->count();
                 $completedTasks = $tasks->filter(function ($task) {
-                    $detailTask = $task->detailTask;
-                    return optional($detailTask)->status == 1;
+                    return optional($task)->status == 1;
                 })->count();
 
                 // Hitung persentase task yang complete
                 $percentageComplete = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
 
                 $updSection = asanaSection::find($data['id']);
-                $updSection->start_on = $tasks->first()->detailTask->start_on
-                    ?? $tasks->first()->detailTask->due_on
+                $updSection->start_on = $tasks->first()->start_on
+                    ?? $tasks->first()->due_on
                     ?? null;
-                $updSection->due_on = $tasks->last()->detailTask->due_on ?? null;
+                $updSection->due_on = $tasks->last()->due_on ?? null;
                 $updSection->progress = round($percentageComplete, 0);
                 $updSection->status = $percentageComplete == 100 ? 1 : 0;
                 $updSection->save();
