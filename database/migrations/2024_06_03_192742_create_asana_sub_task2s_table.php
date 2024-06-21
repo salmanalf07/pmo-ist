@@ -15,10 +15,11 @@ class CreateAsanaSubTask2sTable extends Migration
     {
         Schema::create('asana_sub_task2s', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('task_id');
+            $table->string('section_id')->nullable();
+            $table->uuid('parent_uuid')->nullable();
             $table->string('gid');
             $table->integer('ref');
-            $table->longText('subTaskName')->nullable();
+            $table->longText('taskName')->nullable();
             $table->string('assignee')->nullable();
             $table->date('start_on')->nullable();
             $table->date('due_on')->nullable();

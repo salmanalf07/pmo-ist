@@ -12,6 +12,8 @@ class asanaSubTask2 extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'section_id',
+        'parent_uuid',
         'gid',
         'task_id',
         'ref',
@@ -24,6 +26,16 @@ class asanaSubTask2 extends Model
         'deletedBy'
 
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(asanaSubTask2::class, 'parent_uuid', 'id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(asanaSubTask2::class, 'parent_uuid', 'id');
+    }
     /**
      * The "booting" function of model
      *
@@ -35,6 +47,11 @@ class asanaSubTask2 extends Model
 
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Str::uuid();
+        });
+
+        static::deleting(function ($task) {
+            // Hapus children yang terkait
+            $task->children()->delete();
         });
     }
 

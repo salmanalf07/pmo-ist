@@ -1289,6 +1289,22 @@ route::get('/tes', function () {
     return "susccess";
 });
 
+route::get('/tes/v2', function () {
+
+    $data = asanaProject::whereNotIn('status', ['on_hold', 'complete'])
+        ->orWhereNull('status')
+        ->get();
+
+    foreach ($data as $item) {
+        $project = asanaProject::find($item->id);
+        $project->sync_today = null;
+        $project->save();
+        $sync = SyncProjectAsanaRef2::dispatch($item->gid);
+    }
+
+    return "susccess";
+});
+
 route::get('/tes/kosong', function () {
 
     $data = asanaProject::WhereNull('sync_today')

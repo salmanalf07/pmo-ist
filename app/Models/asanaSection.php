@@ -27,6 +27,10 @@ class asanaSection extends Model
     {
         return $this->hasMany(asanaTask::class, 'section_id', 'id');
     }
+    public function newTask()
+    {
+        return $this->hasMany(asanaSubTask2::class, 'section_id', 'id');
+    }
 
     /**
      * The "booting" function of model
