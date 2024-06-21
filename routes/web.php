@@ -1291,7 +1291,7 @@ route::get('/tes', function () {
 
 route::get('/tes/kosong', function () {
 
-    $data = asanaProject::WhereNull('status')
+    $data = asanaProject::WhereNull('sync_today')
         ->get();
 
     foreach ($data as $item) {
