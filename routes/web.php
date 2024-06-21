@@ -844,6 +844,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_finance', [topProjectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeByInvoice', [topProjectController::class, 'json']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeByPayment', [topProjectController::class, 'json']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/financeUnschduled', function () {
+        $customer = Customer::where('type', 'customer')->get();
+        $employee = Project::with('saless')->select('sales')->get();
+        $sponsors = projectSponsor::with('employee')->get();
+        return view('finance/financeUnschduled', ['judul' => "Unschduled BAST", 'customer' => $customer, 'employee' => $employee, 'sponsors' => $sponsors]);
+    })->name('financeUnschduled');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_financeUnschduled', [topProjectController::class, 'json']);
 //end Finance
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/pipeline', [pipelineController::class, 'index'])->name('pipeline');
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/store_pipeline', [pipelineController::class, 'store']);
@@ -1289,6 +1298,21 @@ route::get('/tes', function () {
     return "susccess";
 });
 
+route::get('/tes/kosong', function () {
+
+    $data = asanaProject::WhereNull('sync_today')
+        ->get();
+
+    foreach ($data as $item) {
+        $project = asanaProject::find($item->id);
+        $project->sync_today = null;
+        $project->save();
+        $sync = SyncProjectAsana::dispatch($item->gid);
+    }
+
+    return "susccess-kosong";
+});
+
 route::get('/tes/v2', function () {
 
     $data = asanaProject::whereNotIn('status', ['on_hold', 'complete'])
@@ -1305,7 +1329,7 @@ route::get('/tes/v2', function () {
     return "susccess";
 });
 
-route::get('/tes/kosong', function () {
+route::get('/tes/kosongV2', function () {
 
     $data = asanaProject::WhereNull('sync_today')
         ->get();
@@ -1314,7 +1338,7 @@ route::get('/tes/kosong', function () {
         $project = asanaProject::find($item->id);
         $project->sync_today = null;
         $project->save();
-        $sync = SyncProjectAsana::dispatch($item->gid);
+        $sync = SyncProjectAsanaRef2::dispatch($item->gid);
     }
 
     return "susccess-kosong";
