@@ -21,6 +21,26 @@ class topProjectController extends Controller
     {
         $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('created_at', 'DESC');
 
+        $dataa->whereHas('project', function ($query) use ($request) {
+            if ($request->salesId != "#" && $request->salesId) {
+                $names = explode(',', $request->salesId);
+                // Periksa apakah 'name' adalah string '#' atau array kosong
+                if (is_array($names) && count($names) > 0) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sales', $names);
+                }
+            }
+        });
+        if ($request->sponsors != "#" && $request->sponsors) {
+            $names = explode(',', $request->sponsors);
+            // Periksa apakah 'name' adalah string '#' atau array kosong
+            if (is_array($names) && count($names) > 0) {
+                $dataa->whereHas('project.sponsors', function ($query) use ($names) {
+                    // Gunakan whereIn untuk mencocokkan multiple values
+                    $query->whereIn('sponsorId', $names);
+                });
+            }
+        }
         if ($request->segment(1) == "json_finance") {
             if ($request->date_st != "#" && $request->date_st) {
                 $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
@@ -28,27 +48,6 @@ class topProjectController extends Controller
             } else {
                 $dataa->whereMonth('bastDate', '=', date("m"))
                     ->whereYear('bastDate', '=', date("Y"));
-            }
-
-            $dataa->whereHas('project', function ($query) use ($request) {
-                if ($request->salesId != "#" && $request->salesId) {
-                    $names = explode(',', $request->salesId);
-                    // Periksa apakah 'name' adalah string '#' atau array kosong
-                    if (is_array($names) && count($names) > 0) {
-                        // Gunakan whereIn untuk mencocokkan multiple values
-                        $query->whereIn('sales', $names);
-                    }
-                }
-            });
-            if ($request->sponsors != "#" && $request->sponsors) {
-                $names = explode(',', $request->sponsors);
-                // Periksa apakah 'name' adalah string '#' atau array kosong
-                if (is_array($names) && count($names) > 0) {
-                    $dataa->whereHas('project.sponsors', function ($query) use ($names) {
-                        // Gunakan whereIn untuk mencocokkan multiple values
-                        $query->whereIn('sponsorId', $names);
-                    });
-                }
             }
         }
         if ($request->segment(1) == "json_financeByInvoice") {
@@ -69,6 +68,10 @@ class topProjectController extends Controller
                 $dataa->whereMonth('payDate', '=', date("m"))
                     ->whereYear('payDate', '=', date("Y"));
             }
+        }
+        if ($request->segment(1) == "json_financeUnschduled") {
+            $dataa->whereDate('bastDate', '1990-01-01')
+                ->orWhereDate('bastDate', '1900-01-01');
         }
         if (Auth::user()->hasRole('PM')) {
             $dataa->whereHas('project', function ($query) use ($request) {
@@ -204,6 +207,10 @@ class topProjectController extends Controller
                     ->whereYear('payDate', '=', date("Y"));
             }
         }
+        if ($request->segment(1) == "financeUnschduledExport") {
+            $dataa->whereDate('bastDate', '1990-01-01')
+                ->orWhereDate('bastDate', '1900-01-01');
+        }
 
         $dataa->whereHas('project', function ($query) use ($request) {
             if ($request->salesId != "#" && $request->salesId) {
@@ -236,7 +243,7 @@ class topProjectController extends Controller
 
         $data = $dataa->get()->sortBy(['projectId', 'noRef']);
 
-        if ($request->segment(1) == "financeTermsStatExport") {
+        if ($request->segment(1) == "financeTermsStatExport" || $request->segment(1) == "financeUnschduledExport") {
             $projectDetail = [];
             foreach ($data as  $project) {
                 $sponsorData = [];

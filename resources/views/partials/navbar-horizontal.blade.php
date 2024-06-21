@@ -145,7 +145,7 @@
                     </li>
                     @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('financeInfo','financeTermsStat','financeByInvoice','financeByPayment') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('financeInfo','financeTermsStat','financeByInvoice','financeByPayment','financeUnschduled') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Finance
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -168,6 +168,11 @@
                             <li>
                                 <a class="dropdown-item" href="/financeTermsStat">
                                     Terms Status
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/financeUnschduled">
+                                    Unschduled BAST
                                 </a>
                             </li>
                         </ul>

@@ -23,7 +23,7 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
 
     public function collection()
     {
-        if ($this->segment == "financeTermsStatExport") {
+        if ($this->segment == "financeTermsStatExport" || $this->segment == "financeUnschduledExport") {
             return new Collection($this->data);
         } else {
             $columns = $this->headings(); // Simpan referensi ke method headings() dalam variabel $columns
@@ -86,7 +86,7 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             ];
         }
 
-        if ($this->segment == "financeTermsStatExport") {
+        if ($this->segment == "financeTermsStatExport" || $this->segment == "financeUnschduledExport") {
             return [
 
                 'noProject' => 'No Project',
