@@ -382,7 +382,7 @@
             $('#po').val('{!! isset($data) ? $data->po : "" !!}');
             $('#noContract').val(`{!! isset($data) ? $data->noContract : "" !!}`);
             $('#contractDate').val(('{!! isset($data) ? $data->contractDate : "" !!}').split("-").reverse().join("-"));
-            $('#mandaysPlan').val('{!! isset($data) ? $data->mandaysPlan : "" !!}');
+            $('#mandaysPlan').val(formatNumberr('{!! isset($data) ? $data->mandaysPlan : "" !!}'));
             if ('{!! isset($data) && $data->planMandays == "Based On Contract" !!}') {
                 $("#BoControl").prop("checked", true);
             } else {
