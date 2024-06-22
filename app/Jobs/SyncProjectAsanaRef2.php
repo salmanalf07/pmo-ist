@@ -25,6 +25,7 @@ class SyncProjectAsanaRef2 implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $data;
+    public $timeout = 5000;
     /**
      * Create a new job instance.
      *
@@ -89,87 +90,89 @@ class SyncProjectAsanaRef2 implements ShouldQueue
                 'Authorization' => env('TOKEN_ASANA'),
             ])->get('https://app.asana.com/api/1.0/projects/' . $gid . '/sections');
 
-            if ($getSection->successful()) {
-                $dataSection = $getSection->json();
-                $ref = 1;
+            if (!$detailProject->successful()) {
+                throw new \Exception('Failed to fetch section from Asana API');
+            }
+            $dataSection = $getSection->json();
+            $ref = 1;
 
-                $returnedGids = array_column($dataSection['data'], 'gid');
+            $returnedGids = array_column($dataSection['data'], 'gid');
 
-                // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
-                $sectionToDelete =  asanaSection::where('asana_id', $asanaProject->id)
-                    ->whereNotIn('gid', $returnedGids)
-                    ->get();
+            // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+            $sectionToDelete =  asanaSection::where('asana_id', $asanaProject->id)
+                ->whereNotIn('gid', $returnedGids)
+                ->get();
 
-                // Hapus setiap task beserta relasinya
-                $sectionToDelete->each(function ($task) {
-                    // Hapus task utama
-                    $task->delete();
-                });
+            // Hapus setiap task beserta relasinya
+            $sectionToDelete->each(function ($task) {
+                // Hapus task utama
+                $task->delete();
+            });
 
-                foreach ($dataSection['data'] as $section) {
-                    $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
+            foreach ($dataSection['data'] as $section) {
+                $existingSection = asanaSection::withTrashed()->where('gid', $section['gid'])->first();
 
-                    if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
-                        // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
-                        if (!in_array($section['name'], ['Bagian tanpa judul', 'Untitled section'])) {
-                            $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
-                            $saveSection->ref = $ref++;
-                            $saveSection->asana_id = $asanaProject->id;
-                            $saveSection->gid = $section['gid'];
-                            $saveSection->sectionName = $section['name'];
-                            $saveSection->save();
-                        }
+                if (!$existingSection || ($existingSection && is_null($existingSection->deleted_at))) {
+                    // Jika tidak ditemukan atau ditemukan tetapi tidak di-soft-delete, buat record baru
+                    if (!in_array($section['name'], ['Bagian tanpa judul', 'Untitled section'])) {
+                        $saveSection = asanaSection::firstOrNew(['gid' => $section['gid']]);
+                        $saveSection->ref = $ref++;
+                        $saveSection->asana_id = $asanaProject->id;
+                        $saveSection->gid = $section['gid'];
+                        $saveSection->sectionName = $section['name'];
+                        $saveSection->save();
 
 
                         $getTask = Http::withHeaders([
                             'Authorization' => env('TOKEN_ASANA'),
-                        ])->get('https://app.asana.com/api/1.0/sections/' . $section['gid'] . '/tasks');
+                        ])->get('https://app.asana.com/api/1.0/sections/' . $saveSection['gid'] . '/tasks');
+                        if (!$getTask->successful()) {
+                            throw new \Exception('Failed to fetch task from Asana API');
+                        }
+                        $dataTask = $getTask->json();
+                        // Ambil semua gid dari data yang di-return
+                        $GidsTask = array_column($dataTask['data'], 'gid');
 
-                        if ($getTask->successful()) {
-                            $dataTask = $getTask->json();
-                            // Ambil semua gid dari data yang di-return
-                            $GidsTask = array_column($dataTask['data'], 'gid');
+                        // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
+                        $tasksToDelete = asanaSubTask2::where('section_id', $saveSection['gid'])
+                            ->whereNotIn('gid', $GidsTask)
+                            ->get();
+                        // Hapus setiap task beserta relasinya
+                        $tasksToDelete->each(function ($task) {
+                            // Hapus task utama
+                            $task->delete();
+                        });
 
-                            // Cari gid yang ada di database tetapi tidak ada di data yang di-return dan hapus
-                            $tasksToDelete = asanaSubTask2::where('section_id', $section['gid'])
-                                ->whereNotIn('gid', $GidsTask)
-                                ->get();
-                            // Hapus setiap task beserta relasinya
-                            $tasksToDelete->each(function ($task) {
-                                // Hapus task utama
-                                $task->delete();
-                            });
+                        $refDetailTask = 1;
+                        foreach ($dataTask['data'] as $task) {
 
-                            $refDetailTask = 1;
-                            foreach ($dataTask['data'] as $task) {
+                            $getDataTask = Http::withHeaders([
+                                'Authorization' => env('TOKEN_ASANA'),
+                            ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
 
-                                $getDataTask = Http::withHeaders([
-                                    'Authorization' => env('TOKEN_ASANA'),
-                                ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
-
-                                if ($getDataTask->successful()) {
-                                    $dataDetailTask = $getDataTask->json()['data'];
-                                    // foreach ($dataDetailTask['data'] as $detailTask) {
-                                    $saveTask = asanaSubTask2::firstOrNew(['gid' => $dataDetailTask['gid']]);
-                                    $saveTask->gid = $dataDetailTask['gid'];
-                                    $saveTask->ref = $refDetailTask++;
-                                    $saveTask->section_id = $saveSection['id'];
-                                    $saveTask->taskName = $dataDetailTask['name'];
-                                    $saveTask->assignee = $dataDetailTask['assignee']['gid'] ?? null;
-                                    $saveTask->start_on = $dataDetailTask['start_on'];
-                                    $saveTask->due_on = $dataDetailTask['due_on'];
-                                    $saveTask->permalink_url = $dataDetailTask['permalink_url'];
-                                    foreach ($dataDetailTask['custom_fields'] as $value) {
-                                        if ($value['gid'] === "1206277209339208") {
-                                            $saveTask->progress = $value['number_value'] ?? 0;
-                                        }
-                                    }
-                                    $saveTask->status = $dataDetailTask['completed'];
-                                    $saveTask->save();
-                                    // }
-                                }
-                                $this->GetDataSubTask($task['gid'], $saveTask);
+                            if (!$getDataTask->successful()) {
+                                throw new \Exception('Failed to fetch Data task from Asana API');
                             }
+                            $dataDetailTask = $getDataTask->json()['data'];
+                            // foreach ($dataDetailTask['data'] as $detailTask) {
+                            $saveTask = asanaSubTask2::firstOrNew(['gid' => $dataDetailTask['gid']]);
+                            $saveTask->gid = $dataDetailTask['gid'];
+                            $saveTask->ref = $refDetailTask++;
+                            $saveTask->section_id = $saveSection['id'];
+                            $saveTask->taskName = $dataDetailTask['name'];
+                            $saveTask->assignee = $dataDetailTask['assignee']['gid'] ?? null;
+                            $saveTask->start_on = $dataDetailTask['start_on'];
+                            $saveTask->due_on = $dataDetailTask['due_on'];
+                            $saveTask->permalink_url = $dataDetailTask['permalink_url'];
+                            foreach ($dataDetailTask['custom_fields'] as $value) {
+                                if ($value['gid'] === "1206277209339208") {
+                                    $saveTask->progress = $value['number_value'] ?? 0;
+                                }
+                            }
+                            $saveTask->status = $dataDetailTask['completed'];
+                            $saveTask->save();
+                            // }
+                            $this->GetDataSubTask($task['gid'], $saveTask);
                         }
                     }
                 }
@@ -187,56 +190,56 @@ class SyncProjectAsanaRef2 implements ShouldQueue
 
     public function GetDataSubTask($gid, $taskId)
     {
-        try {
-            $detailTask = Http::withHeaders([
-                'Authorization' => env('TOKEN_ASANA'),
-            ])->get('https://app.asana.com/api/1.0/tasks/' . $gid . '/subtasks');
+        // try {
+        $detailTask = Http::withHeaders([
+            'Authorization' => env('TOKEN_ASANA'),
+        ])->get('https://app.asana.com/api/1.0/tasks/' . $gid . '/subtasks');
 
-            if ($detailTask->successful()) {
-                $dataTask = $detailTask->json();
-                $refSubTask = 1;
+        if ($detailTask->successful()) {
+            $dataTask = $detailTask->json();
+            $refSubTask = 1;
 
-                $GidsSubTask = array_column($dataTask['data'], 'gid');
+            $GidsSubTask = array_column($dataTask['data'], 'gid');
 
-                $subTasksToDelete = asanaSubTask2::where('parent_uuid', $taskId['id'])
-                    ->whereNotIn('gid', $GidsSubTask)
-                    ->get();
-                // Hapus setiap task beserta relasinya
-                $subTasksToDelete->each(function ($task) {
-                    // Hapus task utama
-                    $task->delete();
-                });
+            $subTasksToDelete = asanaSubTask2::where('parent_uuid', $taskId['id'])
+                ->whereNotIn('gid', $GidsSubTask)
+                ->get();
+            // Hapus setiap task beserta relasinya
+            $subTasksToDelete->each(function ($task) {
+                // Hapus task utama
+                $task->delete();
+            });
 
-                foreach ($dataTask['data'] as $tasks) {
-                    $getSubTask = Http::withHeaders([
-                        'Authorization' => env('TOKEN_ASANA'),
-                    ])->get('https://app.asana.com/api/1.0/tasks/' . $tasks['gid']);
-                    if ($getSubTask->successful()) {
-                        $dataSubTask = $getSubTask->json()['data'];
-                        $asanaSubTask = asanaSubTask2::firstOrNew(
-                            ['gid' => $dataSubTask['gid']] // Kondisi untuk dicari
-                        );
+            foreach ($dataTask['data'] as $tasks) {
+                $getSubTask = Http::withHeaders([
+                    'Authorization' => env('TOKEN_ASANA'),
+                ])->get('https://app.asana.com/api/1.0/tasks/' . $tasks['gid']);
+                if ($getSubTask->successful()) {
+                    $dataSubTask = $getSubTask->json()['data'];
+                    $asanaSubTask = asanaSubTask2::firstOrNew(
+                        ['gid' => $dataSubTask['gid']] // Kondisi untuk dicari
+                    );
 
-                        // Isi atribut lainnya
-                        $asanaSubTask->ref = $refSubTask++;
-                        $asanaSubTask->parent_uuid = $taskId['id'];
-                        $asanaSubTask->taskName = $dataSubTask['name'];
-                        $asanaSubTask->assignee = $dataSubTask['assignee']['gid'] ?? null;
-                        $asanaSubTask->start_on = $dataSubTask['start_on'] ?? null;
-                        $asanaSubTask->due_on = $dataSubTask['due_on'] ?? null;
-                        $asanaSubTask->permalink_url = $dataSubTask['permalink_url'];
-                        $asanaSubTask->status = $dataSubTask['completed'];
+                    // Isi atribut lainnya
+                    $asanaSubTask->ref = $refSubTask++;
+                    $asanaSubTask->parent_uuid = $taskId['id'];
+                    $asanaSubTask->taskName = $dataSubTask['name'];
+                    $asanaSubTask->assignee = $dataSubTask['assignee']['gid'] ?? null;
+                    $asanaSubTask->start_on = $dataSubTask['start_on'] ?? null;
+                    $asanaSubTask->due_on = $dataSubTask['due_on'] ?? null;
+                    $asanaSubTask->permalink_url = $dataSubTask['permalink_url'];
+                    $asanaSubTask->status = $dataSubTask['completed'];
 
-                        // Simpan instance ke database
-                        $asanaSubTask->save();
+                    // Simpan instance ke database
+                    $asanaSubTask->save();
 
-                        $this->GetDataSubTask($tasks['gid'], $asanaSubTask);
-                    }
+                    $this->GetDataSubTask($tasks['gid'], $asanaSubTask);
                 }
             }
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
         }
+        // } catch (\Throwable $th) {
+        //     throw new \Exception($th->getMessage());
+        // }
     }
 
     public function calculate($gid)
