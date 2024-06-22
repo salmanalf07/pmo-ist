@@ -31,6 +31,7 @@ class Project extends Model
         'pmName',
         'coPm',
         'sponsor',
+        'managerCharge',
         'contractStart',
         'contractEnd',
         'deleted_by'
@@ -78,6 +79,14 @@ class Project extends Model
     public function sponsors()
     {
         return $this->hasMany(projectSponsor::class, 'projectId', 'id');
+    }
+    public function managerCharge()
+    {
+        return $this->belongsToMany(managerCharge::class, 'manager_charges', 'projectId', 'managerId');
+    }
+    public function managerCharges()
+    {
+        return $this->hasMany(managerCharge::class, 'projectId', 'id');
     }
     public function inScope()
     {

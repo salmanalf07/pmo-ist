@@ -260,11 +260,19 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-6">
                                         <label class="form-label">Sponsor</label>
                                         <select name="sponsor[]" id="sponsor" multiple="multiple" class="select2 multi-sponsor" aria-label="Default select example" required>
                                             @foreach($employee as $sponsor)
                                             <option value="{{$sponsor->id}}">{{$sponsor->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Manager In Charge</label>
+                                        <select name="managerCharge[]" id="managerCharge" multiple="multiple" class="select2 multi-managerCharge" aria-label="Default select example" required>
+                                            @foreach($employee as $managerCharge)
+                                            <option value="{{$managerCharge->id}}">{{$managerCharge->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -412,6 +420,11 @@
             var dataArray = JSON.parse(rawData);
             var sponsorIds = dataArray.map(item => item.sponsorId);
             $('#sponsor').val(sponsorIds).trigger('change');
+
+            var rawDataMgr = '{!! isset($data) ? $data->managerCharges : "" !!}';
+            var dataArrayMgr = JSON.parse(rawDataMgr);
+            var managerIds = dataArrayMgr.map(item => item.managerId);
+            $('#managerCharge').val(managerIds).trigger('change');
             //end
             $('#contractStart').val(('{!! isset($data) ? $data->contractStart : "" !!}').split("-").reverse().join("-"));
             $('#contractEnd').val(('{!! isset($data) ? $data->contractEnd : "" !!}').split("-").reverse().join("-"));

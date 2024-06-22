@@ -249,6 +249,17 @@ class projectController extends Controller
                 }
             }
 
+            if ($request->managerCharge) {
+                $post->managerCharge()->detach();
+                // Membuat array dari UUID managerCharges yang diterima dari form
+                $managerIds = $request->input('managerCharge');
+
+                foreach ($managerIds as $managerId) {
+                    $pivotId = Uuid::uuid4()->toString();
+                    $post->managerCharge()->attach([$managerId => ['id' => $pivotId]]);
+                }
+            }
+
             $data = [$post];
             return response()->json($data);
         } catch (ValidationException $error) {
@@ -258,7 +269,7 @@ class projectController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $dataa = Project::with('sponsors.employee')->where('id', $id);
+        $dataa = Project::with('sponsors.employee', 'managerCharges.employee')->where('id', $id);
         if (Auth::user()->hasRole('PM')) {
             $dataa->where(function ($query) {
                 $query->where('pmName', Auth::user()->name)
