@@ -19,66 +19,65 @@ class topProjectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('created_at', 'DESC');
-
-        $dataa->whereHas('project', function ($query) use ($request) {
-            if ($request->salesId != "#" && $request->salesId) {
-                $names = explode(',', $request->salesId);
-                // Periksa apakah 'name' adalah string '#' atau array kosong
-                if (is_array($names) && count($names) > 0) {
-                    // Gunakan whereIn untuk mencocokkan multiple values
-                    $query->whereIn('sales', $names);
+        $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('created_at', 'DESC')
+            ->where(function ($query) use ($request) {
+                if ($request->segment(1) == "json_finance") {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('bastDate', '=', date("m"))
+                            ->whereYear('bastDate', '=', date("Y"));
+                    }
                 }
-            }
-        });
-        if ($request->sponsors != "#" && $request->sponsors) {
-            $names = explode(',', $request->sponsors);
-            // Periksa apakah 'name' adalah string '#' atau array kosong
-            if (is_array($names) && count($names) > 0) {
-                $dataa->whereHas('project.sponsors', function ($query) use ($names) {
-                    // Gunakan whereIn untuk mencocokkan multiple values
-                    $query->whereIn('sponsorId', $names);
-                });
-            }
-        }
-        if ($request->segment(1) == "json_finance") {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('bastDate', '=', date("m"))
-                    ->whereYear('bastDate', '=', date("Y"));
-            }
-        }
-        if ($request->segment(1) == "json_financeByInvoice") {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('invDate', '=', date("m"))
-                    ->whereYear('invDate', '=', date("Y"));
-            }
-            // $dataa->where('payMain', '=', 0);
-        }
-        if ($request->segment(1) == "json_financeByPayment") {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('payDate', '=', date("m"))
-                    ->whereYear('payDate', '=', date("Y"));
-            }
-        }
-        if ($request->segment(1) == "json_financeUnschduled") {
-            $dataa->whereDate('bastDate', '1990-01-01')
-                ->orWhereDate('bastDate', '1900-01-01');
-        }
-        if (Auth::user()->hasRole('PM')) {
-            $dataa->whereHas('project', function ($query) use ($request) {
-                $query->where('pmName', Auth::user()->name)
-                    ->orWhere('coPm', Auth::user()->name);
+                if ($request->segment(1) == "json_financeByInvoice") {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('invDate', '=', date("m"))
+                            ->whereYear('invDate', '=', date("Y"));
+                    }
+                    // $query->where('payMain', '=', 0);
+                }
+                if ($request->segment(1) == "json_financeByPayment") {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('payDate', '=', date("m"))
+                            ->whereYear('payDate', '=', date("Y"));
+                    }
+                }
+                if ($request->segment(1) == "json_financeUnschduled") {
+                    $query->whereDate('bastDate', '1990-01-01')
+                        ->orWhereDate('bastDate', '1900-01-01');
+                }
+            })
+            ->whereHas('project', function ($query) use ($request) {
+                if ($request->salesId != "#" && $request->salesId) {
+                    $names = explode(',', $request->salesId);
+                    // Periksa apakah 'name' adalah string '#' atau array kosong
+                    if (is_array($names) && count($names) > 0) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->whereIn('sales', $names);
+                    }
+                }
+                if (Auth::user()->hasRole('PM')) {
+                    $query->where('pmName', Auth::user()->name)
+                        ->orWhere('coPm', Auth::user()->name);
+                }
+            })
+            ->whereHas('project.sponsors', function ($query) use ($request) {
+                if ($request->sponsors != "#" && $request->sponsors) {
+                    $names = explode(',', $request->sponsors);
+                    // Periksa apakah 'name' adalah string '#' atau array kosong
+                    if (is_array($names) && count($names) > 0) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->where('sponsorId', $names);
+                    }
+                }
             });
-        }
 
         $data = $dataa->get();
         return DataTables::of($data)
@@ -175,71 +174,72 @@ class topProjectController extends Controller
         return response()->json($post);
     }
 
+    public function finance(Request $request)
+    {
+    }
+
     public function financeExport(Request $request)
     {
-        $dataa = topProject::with('project.saless', 'project.sponsors.employee', 'project.customer')->orderBy('created_at', 'DESC');
-        if ($request->segment(1) == 'financeExport' || $request->segment(1) == 'financeTermsStatExport') {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('bastDate', '=', date("m"))
-                    ->whereYear('bastDate', '=', date("Y"));
-            }
-        }
-
-        if ($request->segment(1) == 'financeByInvoiceExport') {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('invDate', '=', date("m"))
-                    ->whereYear('invDate', '=', date("Y"));
-            }
-        }
-
-        if ($request->segment(1) == 'financeByPaymentExport') {
-            if ($request->date_st != "#" && $request->date_st) {
-                $dataa->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
-                    ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
-            } else {
-                $dataa->whereMonth('payDate', '=', date("m"))
-                    ->whereYear('payDate', '=', date("Y"));
-            }
-        }
-        if ($request->segment(1) == "financeUnschduledExport") {
-            $dataa->whereDate('bastDate', '1990-01-01')
-                ->orWhereDate('bastDate', '1900-01-01');
-        }
-
-        $dataa->whereHas('project', function ($query) use ($request) {
-            if ($request->salesId != "#" && $request->salesId) {
-                $names = explode(',', $request->salesId);
-                // Periksa apakah 'name' adalah string '#' atau array kosong
-                if (is_array($names) && count($names) > 0) {
-                    // Gunakan whereIn untuk mencocokkan multiple values
-                    $query->whereIn('sales', $names);
+        $dataa = topProject::with('project.saless', 'project.sponsors.employee', 'project.customer')->orderBy('created_at', 'DESC')
+            ->where(function ($query) use ($request) {
+                if ($request->segment(1) == "financeUnschduledExport") {
+                    $query->whereDate('bastDate', '1990-01-01')
+                        ->orWhereDate('bastDate', '1900-01-01');
                 }
-            }
-        });
-        if ($request->sponsorId != "#" && $request->sponsorId) {
-            $names = explode(',', $request->sponsorId);
-            // Periksa apakah 'name' adalah string '#' atau array kosong
-            if (is_array($names) && count($names) > 0) {
-                $dataa->whereHas('project.sponsors', function ($query) use ($names) {
-                    // Gunakan whereIn untuk mencocokkan multiple values
-                    $query->whereIn('sponsorId', $names);
-                });
-            }
-        }
+                if ($request->segment(1) == 'financeExport' || $request->segment(1) == 'financeTermsStatExport') {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('bastDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('bastDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('bastDate', '=', date("m"))
+                            ->whereYear('bastDate', '=', date("Y"));
+                    }
+                }
 
-        if (Auth::user()->hasRole('PM')) {
-            $dataa->whereHas('project', function ($query) use ($request) {
-                $query->where('pmName', Auth::user()->name)
-                    ->orWhere('coPm', Auth::user()->name);
+                if ($request->segment(1) == 'financeByInvoiceExport') {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('invDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('invDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('invDate', '=', date("m"))
+                            ->whereYear('invDate', '=', date("Y"));
+                    }
+                }
+
+                if ($request->segment(1) == 'financeByPaymentExport') {
+                    if ($request->date_st != "#" && $request->date_st) {
+                        $query->whereDate('payDate', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                            ->whereDate('payDate', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                    } else {
+                        $query->whereMonth('payDate', '=', date("m"))
+                            ->whereYear('payDate', '=', date("Y"));
+                    }
+                }
+            })
+            ->whereHas('project.sponsors', function ($query) use ($request) {
+                if ($request->sponsorId != "#" && $request->sponsorId) {
+                    $names = explode(',', $request->sponsorId);
+                    // Periksa apakah 'name' adalah string '#' atau array kosong
+                    if (is_array($names) && count($names) > 0) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->whereIn('sponsorId', $names);
+                    }
+                }
+            })
+            ->whereHas('project', function ($query) use ($request) {
+                if ($request->salesId != "#" && $request->salesId) {
+                    $names = explode(',', $request->salesId);
+                    // Periksa apakah 'name' adalah string '#' atau array kosong
+                    if (is_array($names) && count($names) > 0) {
+                        // Gunakan whereIn untuk mencocokkan multiple values
+                        $query->whereIn('sales', $names);
+                    }
+                }
+                if (Auth::user()->hasRole('PM')) {
+                    $query->where('pmName', Auth::user()->name)
+                        ->orWhere('coPm', Auth::user()->name);
+                }
             });
-        }
-
 
         $data = $dataa->get()->sortBy(['projectId', 'noRef']);
 
