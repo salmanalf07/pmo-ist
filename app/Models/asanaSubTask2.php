@@ -28,6 +28,14 @@ class asanaSubTask2 extends Model
 
     ];
 
+    public function assignees()
+    {
+        return $this->belongsTo(asanaUser::class, 'assignee', 'gid');
+    }
+    public function section()
+    {
+        return $this->belongsTo(asanaSection::class, 'section_id', 'id');
+    }
     public function parent()
     {
         return $this->belongsTo(asanaSubTask2::class, 'parent_uuid', 'id');

@@ -439,6 +439,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('empByAssignment');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/empByAsana', function () {
+        $employee = employee::get();
+        $project = Project::get();
+        $role = roleEmployee::get();
+        $typeProject = typeProject::get();
+        $customer = Customer::get();
+        $skill = skillLevel::get();
+        $location = locationEmployee::get();
+        $department = department::get();
+        $division = division::get();
+        return view('employee/byAsana', ['judul' => "By Asana", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer, 'location' => $location, 'skill' => $skill, 'department' => $department, 'division' => $division]);
+    })->name('empByAsana');
+});
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/partByAssignment', function () {
         $employee = partnerProject::get();
         $project = Project::get();
@@ -473,6 +487,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAssignment', [employeeController::class, 'jsonByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/ExportEmpByAsign', [employeeController::class, 'exportByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/GanttEmpByAsign', [employeeController::class, 'exportByAssignment']);
+//byAsana
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ByAsana', [employeeController::class, 'jsonByAsana']);
 //byAssign
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_partByAssignment', [employeeController::class, 'jsonPartByAssignment']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/json_ExtResources', [employeeController::class, 'jsonExtResources']);
@@ -1358,9 +1374,9 @@ route::get('/syncOne/{gid}', function ($gid) {
 });
 
 Route::get('/test-tasknew', function () {
-    // $task = asanaSubTask2::whereNull('parent_uuid')->with('children')->get();
-    $project = asanaProject::with('section.newTask.children.children')->where('gid', 1206493767209136)->first();
+    $task = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->get();
+    //$project = asanaProject::with('section.newTask.children.children')->where('gid', 1206493767209136)->first();
     // $task = asanaSubTask2::find('0959a564-d607-4431-a8c0-fa36d68e35e6');
     // $task->delete();
-    return $project;
+    return $task;
 });

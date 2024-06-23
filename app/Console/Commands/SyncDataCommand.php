@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SyncProjectAsana;
+use App\Jobs\SyncProjectAsanaRef2;
 use App\Models\asanaDetailTask;
 use App\Models\asanaProject;
 use App\Models\asanaSection;
@@ -60,7 +61,7 @@ class SyncDataCommand extends Command
                     $asanaProject->dueDate = $dueDate ?? null;
                     $asanaProject->save();
 
-                    SyncProjectAsana::dispatch($project['gid']);
+                    SyncProjectAsanaRef2::dispatch($project['gid']);
                 }
             }
             DB::commit();

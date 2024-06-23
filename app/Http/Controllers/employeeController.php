@@ -6,6 +6,7 @@ use App\Exports\allEmployeeExport;
 use App\Exports\employByAsignExport;
 use App\Exports\employByUnasignExport;
 use App\Exports\partnerByAsignExport;
+use App\Models\asanaSubTask2;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\employee;
 use App\Models\memberProject;
@@ -180,6 +181,75 @@ class employeeController extends Controller
         $data = $dataa->get();
         return DataTables::of($data)
             ->toJson();
+    }
+    function jsonByAsana(Request $request)
+    {
+        $query = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->where('assignee', '!=', null);
+
+        // $data = $query->get();
+        return DataTables::eloquent($query)
+            ->addColumn('projectName', function ($query) {
+
+                // Cek parent parent section
+                if ($query->parent && $query->parent->parent && $query->parent->parent->section && $query->parent->parent->section->asanaProject) {
+                    $project = $query->parent->parent->section->asanaProject->projectName;
+                }
+
+                // Cek parent section
+                if ($query->parent && $query->parent->section && $query->parent->section->asanaProject) {
+                    $project = $query->parent->section->asanaProject->projectName;
+                }
+
+                // Cek section
+                if ($query->section && $query->section->asanaProject) {
+                    $project = $query->section->asanaProject->projectName;
+                }
+
+                return '<div data-toggle="tooltip" title="' . $project . '">' . mb_substr($project, 0, 20, 'UTF-8')  . '</div>';
+            })
+            ->addColumn('sectionCol', function ($query) {
+
+                // Cek parent parent section
+                if ($query->parent && $query->parent->parent && $query->parent->parent->section) {
+                    $section = $query->parent->parent->section->sectionName;
+                }
+
+                // Cek parent section
+                if ($query->parent && $query->parent->section) {
+                    $section = $query->parent->section->sectionName;
+                }
+
+                // Cek section
+                if ($query->section) {
+                    $section = $query->section->sectionName;
+                }
+
+                return '<div data-toggle="tooltip" title="' . $section . '">' . mb_substr($section, 0, 20, 'UTF-8')  . '</div>';
+            })
+            ->addColumn('typeTask', function ($query) {
+
+                // Cek parent parent section
+                if ($query->parent && $query->parent->parent && $query->parent->parent->section) {
+                    $data = 'Sub Task 2';
+                }
+
+                // Cek parent section
+                if ($query->parent && $query->parent->section) {
+                    $data = 'Sub Task';
+                }
+
+                // Cek section
+                if ($query->section) {
+                    $data = 'Task';
+                }
+
+                return '<div data-toggle="tooltip" title="' . $data . '">' . mb_substr($data, 0, 20, 'UTF-8')  . '</div>';
+            })
+            ->addColumn('taskNames', function ($query) {
+                return '<div data-toggle="tooltip" title="' . $query->taskName . '">' . mb_substr($query->taskName, 0, 20, 'UTF-8')  . '</div>';
+            })
+            ->rawColumns(['projectName', 'sectionCol', 'typeTask', 'taskNames'])
+            ->make(true);
     }
     function exportByAssignment(Request $request)
     {
