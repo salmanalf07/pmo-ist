@@ -252,6 +252,7 @@
                         url: '/disconnect_project/' + $(this).data('id'),
                         data: {
                             '_token': "{{ csrf_token() }}",
+                            'projectId':$(this).data('project')
                         },
                         success: function(data) {
                             alert("Data Berhasil Dihapus");

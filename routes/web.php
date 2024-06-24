@@ -440,16 +440,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/empByAsana', function () {
-        $employee = employee::get();
-        $project = Project::get();
-        $role = roleEmployee::get();
-        $typeProject = typeProject::get();
-        $customer = Customer::get();
-        $skill = skillLevel::get();
-        $location = locationEmployee::get();
-        $department = department::get();
-        $division = division::get();
-        return view('employee/byAsana', ['judul' => "By Asana", 'employee' => $employee, 'project' => $project, 'role' => $role, 'typeProject' => $typeProject, 'customer' => $customer, 'location' => $location, 'skill' => $skill, 'department' => $department, 'division' => $division]);
+        $asanaProject = asanaProject::get();
+        return view('employee/byAsana', ['judul' => "By Asana", 'asanaProject' => $asanaProject]);
     })->name('empByAsana');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {

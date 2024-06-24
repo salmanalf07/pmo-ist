@@ -52,7 +52,7 @@ class timelineController extends Controller
                     return
                         '<a href="/project/projectTimeline/' . $data->projectId . '/sections/' . $data->id . '" id="detail" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Detail">
                         <i class="bi bi-search"></i></a>
-                        <button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                        <button id="delete" data-id="' . $data->id . '" data-project="' . $data->projectId . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
                         <i class="bi bi-trash"></i></button>
                         <a target="_blank" href="' . $data->permalink_url . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Link">
                         <i class="bi bi-link-45deg icon-lg"></i></a>';
@@ -174,12 +174,15 @@ class timelineController extends Controller
 
         return response()->json($post);
     }
-    public function disconnectProject($id)
+    public function disconnectProject($id, Request $request)
     {
         $post = asanaProject::find($id);
+        //sesi delete
+        $post->projectId = null;
+        $post->save();
 
         //calcualted
-        $project = Project::with('asana')->find($post->projectId);
+        $project = Project::with('asana')->find($request->projectId);
 
         if ($project->asana->isNotEmpty()) {
             $average = round($project->asana->avg('progress'), 0);
@@ -190,9 +193,6 @@ class timelineController extends Controller
         $project->overAllProg = $average;
         $project->save();
 
-        //sesi delete
-        $post->projectId = null;
-        $post->save();
 
 
         return response()->json($post);
