@@ -19,7 +19,7 @@ class topProjectController extends Controller
 {
     public function json(Request $request)
     {
-        $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('created_at', 'DESC')
+        $dataa = topProject::with('project.sponsors', 'project.customer')->orderBy('projectId', 'ASC')->orderBy('noRef', 'ASC')
             ->where(function ($query) use ($request) {
                 if ($request->segment(1) == "json_finance") {
                     if ($request->date_st != "#" && $request->date_st) {
