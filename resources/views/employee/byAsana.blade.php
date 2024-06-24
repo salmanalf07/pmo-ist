@@ -13,156 +13,40 @@
         <div class="container-fluid">
             <div>
                 <!-- row -->
-                <!-- <div class="row mb-3">
+                <div class="row mb-3">
                     <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-
-
-                                    <div class="mb-3 col-10">
+                                    <div class="mb-3 col-9">
                                         <div class="row">
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label" for="selectOne">Employee</label>
-                                                <select name="name[]" id="name" multiple="multiple" class="select2" aria-label="Default select example">
-                                                    @foreach(collect($employee)->sortBy('name') as $employees)
-                                                    <option value="{{$employees->id}}">{{$employees->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Department</label>
-                                                <select name="department" id="department" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($department as $departments)
-                                                    <option value="{{$departments->id}}">{{$departments->department}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Division</label>
-                                                <select name="division" id="division" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($division as $divisions)
-                                                    <option value="{{$divisions->id}}">{{$divisions->division}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Location</label>
-                                                <select name="location" id="location" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($location as $locations)
-                                                    <option value="{{$locations->id}}">{{$locations->location}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Level</label>
-                                                <select name="levell" id="levell" class="select2" aria-label="Default select example">
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($skill as $skills)
-                                                    <option value="{{$skills->id}}">{{$skills->skillLevel}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label" for="selectOne">Role</label>
-                                                <select name="role" id="role" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($role as $roles)
-                                                    <option value="{{$roles->id}}">{{$roles->roleEmployee}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label" for="selectOne">Direct Manager</label>
-                                                <select name="directManager" id="directManager" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach(collect($employee)->sortBy('name') as $directManager)
-                                                    <option value="{{$directManager->id}}">{{$directManager->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Type Project</label>
-                                                <select name="typeProject" id="typeProject" class="select2" aria-label="Default select example">
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($typeProject as $typeProjects)
-                                                    <option value="{{$typeProjects->id}}">{{$typeProjects->typeProject}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-2">
-                                                <label class="form-label">Status</label>
-                                                <select name="status" id="status" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    <option value="ACTIVE">ACTIVE</option>
-                                                    <option value="RESIGN">RESIGN</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label">Contract Progress</label>
-                                                <select name="overAllProg" id="overAllProg" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    <option value="all">All</option>
-                                                    <option value="progress">In Progress</option>
-                                                    <option value="completed">Completed</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-2">
-                                                <label class="form-label">Available Date</label>
+                                            <div class="mb-3 col-6">
+                                                <label class="form-label">Start Date Range</label>
                                                 <div class="input-group me-3 datepicker">
-                                                    <input id="availableAt" name="availableAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
+                                                    <input id="start_on" name="start_on" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
                                                     <div class="input-group-append custom-picker">
                                                         <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="mb-3 col-2">
-                                                <label class="form-label">Active Date</label>
-                                                <div class="input-group me-3 datepicker">
-                                                    <input id="activeAt" name="activeAt" type="text" class="form-control rounded" data-input aria-describedby="date1" required>
-                                                    <div class="input-group-append custom-picker">
-                                                        <button class="btn btn-light" type="button" id="date1" title="toggle" data-toggle><i data-feather="calendar" class="icon-xs"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 col-3">
-                                                <label class="form-label" for="selectOne">Customer</label>
-                                                <select name="customer" id="customer" class="select2" aria-label="Default select example" required>
-                                                    <option value="#" selected>Open this select menu</option>
-                                                    @foreach($customer as $customers)
-                                                    <option value="{{$customers->id}}">{{$customers->company}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-4">
-                                                <label class="form-label" for="selectOne">Contract Name</label>
+
+                                            <div class="mb-3 col-6">
+                                                <label class="form-label" for="selectOne">Project Name</label>
                                                 <select name="projectId" id="projectId" class="select2" aria-label="Default select example" required>
                                                     <option value="#" selected>Open this select menu</option>
+                                                    @foreach ($asanaProject as $asana )
+                                                    <option value="{{$asana->id}}">{{$asana->projectName}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3 col-2">
-                                        <form method="post" role="form" id="form_export" enctype="multipart/form-data" target="_blank">
+                                    <div class="mb-3 col-3">
+                                        <form method="post" role="form" id="formAsana_export" enctype="multipart/form-data" target="_blank">
                                             @csrf
-                                            <input type="text" id="namee" name="namee" value="#" hidden>
-                                            <input type="text" id="locations" name="locations" value="#" hidden>
-                                            <input type="text" id="departments" name="departments" value="#" hidden>
-                                            <input type="text" id="divisions" name="divisions" value="#" hidden>
-                                            <input type="text" id="levells" name="levells" value="#" hidden>
-                                            <input type="text" id="rolee" name="rolee" value="#" hidden>
-                                            <input type="text" id="activeAtt" name="activeAtt" value="#" hidden>
-                                            <input type="text" id="availableAtt" name="availableAtt" value="#" hidden>
-                                            <input type="text" id="dateRangee" name="dateRangee" value="#" hidden>
+                                            <input type="text" id="date_st" name="date_st" value="#" hidden>
+                                            <input type="text" id="date_ot" name="date_ot" value="#" hidden>
                                             <input type="text" id="projectIdd" name="projectIdd" value="#" hidden>
-                                            <input type="text" id="customerr" name="customerr" value="#" hidden>
-                                            <input type="text" id="directManagerr" name="directManagerr" value="#" hidden>
-                                            <input type="text" id="typeProjectt" name="typeProjectt" value="#" hidden>
-                                            <input type="text" id="statuss" name="statuss" value="#" hidden>
-                                            <input type="text" id="overAllProgs" name="overAllProgs" value="#" hidden>
 
                                             <div class="row">
                                                 <div class="mb-3 pt-7 col-6">
@@ -195,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
                 <div class="col-12">
                     <div class="card">
@@ -227,10 +111,15 @@
 <script>
     $(document).ready(function() {
 
-        flatpickr("#availableAt,#activeAt", {
-            dateFormat: "d/m/Y",
-            defaultDate: new Date(),
-            allowInput: true, // Mengizinkan input manual
+        $('#start_on').daterangepicker({
+            startDate: moment().startOf('month'), // Mengatur tanggal awal ke awal bulan ini
+            endDate: moment().endOf('month'), // Mengatur tanggal akhir ke akhir bulan ini
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        }, function(start, end) {
+            var dateinn = start.format('YYYY-MM-DD');
+            var dateenn = end.format('YYYY-MM-DD');
         });
 
         $('select.select2:not(.normal)').each(function() {
@@ -300,6 +189,10 @@
             columns: [{
                     data: 'assignees.name',
                     title: 'Employee By Asana',
+                    render: function(data, type, row) {
+                        var value = type === 'display' && data.length > 20 ? data.substring(0, 20) + '..' : data;
+                        return '<div data-toggle="tooltip" title="' + data + '">' + value + '</div>'
+                    }
                 },
                 {
                     data: 'projectName',
@@ -338,140 +231,42 @@
                 },
             ],
         });
-        $('#activeAt').on('change', function() {
-            $('#namee').val($('#name').val());
+        $('#start_on').on('change', function() {
             $('#projectIdd').val($('#projectId').val());
-            $('#customerr').val($('#customer').val());
-            $('#activeAtt').val($('#activeAt').val());
-            $('#rolee').val($('#role').val());
-            $('#directManagerr').val($('#directManager').val());
-            $('#statuss').val($('#status').val());
-            $('#typeProjectt').val($('#typeProject').val());
-            $('#levells').val($('#levell').val());
-            $('#locations').val($('#location').val());
-            $('#overAllProgs').val($('#overAllProg').val());
+            var date = $('#start_on').val().split(" - ");
+            $('#date_st').val(date[0])
+            $('#date_ot').val(date[1])
+
+            $('#example1').data('dt_params', {
+                'date_st': date[0],
+                'date_ot': date[1],
+                'activeAt': $('#activeAtt').val(),
+                'projectId': $('#projectIdd').val(),
+
+            });
+            $('#example1').DataTable().draw();
+            // console.log(date)
+        });
+
+        $('#projectId').on('change', function() {
+            $('#projectIdd').val($('#projectId').val());
 
             $('#example1').data('dt_params', {
                 // 'dateChange': dateChange,
                 // 'date_st': date[0],
                 // 'date_ot': date[1],
                 'activeAt': $('#activeAtt').val(),
-                'name': $('#namee').val(),
                 'projectId': $('#projectIdd').val(),
-                'customer': $('#customerr').val(),
-                'role': $('#rolee').val(),
-                'directManager': $('#directManagerr').val(),
-                'typeProject': $('#typeProjectt').val(),
-                'status': $('#statuss').val(),
-                'levell': $('#levells').val(),
-                'location': $('#locations').val(),
-                'overAllProg': $('#overAllProgs').val(),
-                'department': $('#departments').val(),
-                'division': $('#divisions').val(),
-
-            });
-            $('#example1').DataTable().draw();
-            // console.log(date)
-        });
-        $('#availableAt').on('change', function() {
-            $('#namee').val($('#name').val());
-            $('#projectIdd').val($('#projectId').val());
-            $('#customerr').val($('#customer').val());
-            $('#availableAtt').val($('#availableAt').val());
-            $('#rolee').val($('#role').val());
-            $('#directManagerr').val($('#directManager').val());
-            $('#statuss').val($('#status').val());
-            $('#typeProjectt').val($('#typeProject').val());
-            $('#levells').val($('#levell').val());
-            $('#locations').val($('#location').val());
-            $('#overAllProgs').val($('#overAllProg').val());
-
-            $('#example1').data('dt_params', {
-                // 'dateChange': dateChange,
-                // 'date_st': date[0],
-                // 'date_ot': date[1],
-                'availableAt': $('#availableAtt').val(),
-                'name': $('#namee').val(),
-                'projectId': $('#projectIdd').val(),
-                'customer': $('#customerr').val(),
-                'role': $('#rolee').val(),
-                'directManager': $('#directManagerr').val(),
-                'typeProject': $('#typeProjectt').val(),
-                'status': $('#statuss').val(),
-                'levell': $('#levells').val(),
-                'location': $('#locations').val(),
-                'overAllProg': $('#overAllProgs').val(),
-                'department': $('#departments').val(),
-                'division': $('#divisions').val(),
-
-            });
-            $('#example1').DataTable().draw();
-            // console.log(date)
-        });
-        $('#name, #projectId,#customer,#role, #directManager, #typeProject, #status, #levell, #location, #overAllProg,#department,#division').on('change', function() {
-            $('#namee').val($('#name').val());
-            $('#projectIdd').val($('#projectId').val());
-            $('#customerr').val($('#customer').val());
-            $('#rolee').val($('#role').val());
-            $('#directManagerr').val($('#directManager').val());
-            $('#statuss').val($('#status').val());
-            $('#typeProjectt').val($('#typeProject').val());
-            $('#levells').val($('#levell').val());
-            $('#locations').val($('#location').val());
-            $('#overAllProgs').val($('#overAllProg').val());
-            $('#departments').val($('#department').val());
-            $('#divisions').val($('#division').val());
-
-            $('#example1').data('dt_params', {
-                // 'dateChange': dateChange,
-                // 'date_st': date[0],
-                // 'date_ot': date[1],
-                'availableAt': $('#availableAtt').val(),
-                'activeAt': $('#activeAtt').val(),
-                'name': $('#namee').val(),
-                'projectId': $('#projectIdd').val(),
-                'customer': $('#customerr').val(),
-                'role': $('#rolee').val(),
-                'directManager': $('#directManagerr').val(),
-                'typeProject': $('#typeProjectt').val(),
-                'status': $('#statuss').val(),
-                'levell': $('#levells').val(),
-                'location': $('#locations').val(),
-                'overAllProg': $('#overAllProgs').val(),
-                'department': $('#departments').val(),
-                'division': $('#divisions').val(),
 
             });
             $('#example1').DataTable().draw();
             // console.log(date)
         });
         $('.col-12').on('click', '#clear', function() {
-            $('#name').val('#').trigger('change.select2');
             $('#projectId').val('#').trigger('change.select2');
-            $('#customer').val('#').trigger('change.select2');
-            $('#role').val('#').trigger('change.select2');
-            $('#directManager').val('#').trigger('change.select2');
-            $('#typeProject').val('#').trigger('change.select2');
-            $('#status').val('#').trigger('change.select2');
-            $('#levell').val('#').trigger('change.select2');
-            $('#location').val('#').trigger('change.select2');
-            $('#overAllProg').val('#').trigger('change.select2');
-            $('#department').val('#').trigger('change.select2');
-            $('#division').val('#').trigger('change.select2');
-
-            $('#namee').val('#');
             $('#projectIdd').val('#');
-            $('#customerr').val('#');
-            $('#roles').val('#');
-            $('#directManagerr').val('#');
-            $('#typeProjectt').val('#');
-            $('#statuss').val('#');
-            $('#levells').val('#');
-            $('#locations').val('#');
-            $('#overAllProgs').val('#');
-            $('#dateRangee').val('#');
-            $('#departments').val("#");
-            $('#divisions').val("#");
+            $('#date_st').val("#");
+            $('#date_ot').val("#");
 
             $('#example1').data('dt_params', {});
             $('#example1').DataTable().draw();

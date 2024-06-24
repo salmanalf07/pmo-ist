@@ -184,7 +184,30 @@ class employeeController extends Controller
     }
     function jsonByAsana(Request $request)
     {
-        $query = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->where('assignee', '!=', null);
+        $query = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')
+            ->where('assignee', '!=', null)
+            ->where(function ($query) use ($request) {
+                if ($request->projectId != "#" && $request->projectId) {
+                    $query->whereHas('section.asanaProject', function ($q) use ($request) {
+                        $q->where('id', '=', $request->projectId);
+                    })
+                        ->orWhereHas('parent.section.asanaProject', function ($q)  use ($request) {
+                            $q->where('id', '=', $request->projectId);
+                        })
+                        ->orWhereHas('parent.parent.section.asanaProject', function ($q)  use ($request) {
+                            $q->where('id', '=', $request->projectId);
+                        });
+                }
+            })
+            ->where(function ($query) use ($request) {
+                if ($request->date_st != "#" && $request->date_st) {
+                    $query->whereDate('start_on', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                        ->whereDate('start_on', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                } else {
+                    $query->whereMonth('start_on', '=', date("m"))
+                        ->whereYear('start_on', '=', date("Y"));
+                }
+            });
 
         // $data = $query->get();
         return DataTables::eloquent($query)
