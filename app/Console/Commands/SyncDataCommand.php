@@ -59,6 +59,7 @@ class SyncDataCommand extends Command
                     $asanaProject->owner = $deProject['data']['owner']['gid'] ?? null;
                     $asanaProject->startDate = $startDate ?? null;
                     $asanaProject->dueDate = $dueDate ?? null;
+                    $asanaProject->permalink_url = $deProject['data']['permalink_url'];
                     $asanaProject->save();
 
                     SyncProjectAsanaRef2::dispatch($project['gid']);

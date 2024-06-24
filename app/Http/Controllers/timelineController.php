@@ -49,10 +49,13 @@ class timelineController extends Controller
 
             $dataTable1 = DataTables::of($asanaProject)
                 ->addColumn('aksi', function ($data) {
-                    return auth()->user()->can('bisa-hapus') ?
+                    return
                         '<a href="/project/projectTimeline/' . $data->projectId . '/sections/' . $data->id . '" id="detail" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Detail">
-                        <i class="bi bi-search"></i></a><button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
-                <i class="bi bi-trash"></i></button>' : "";
+                        <i class="bi bi-search"></i></a>
+                        <button id="delete" data-id="' . $data->id . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Delete">
+                        <i class="bi bi-trash"></i></button>
+                        <a target="_blank" href="' . $data->permalink_url . '" class="btn btn-ghost btn-icon btn-sm rounded-circle" data-bs-toggle="tooltip" data-placement="top" title="Link">
+                        <i class="bi bi-link-45deg icon-lg"></i></a>';
                 })
                 ->rawColumns(['aksi'])
                 ->toJson();

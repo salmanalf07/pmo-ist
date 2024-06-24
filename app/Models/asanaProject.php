@@ -22,6 +22,7 @@ class asanaProject extends Model
         'actStartDate',
         'actDueDate',
         'progress',
+        'permalink_url',
         'status',
         'sync_today'
     ];

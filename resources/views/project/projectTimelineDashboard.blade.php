@@ -126,6 +126,10 @@
                                 "targets": [4], // table ke 1
                             },
                             {
+                                "className": "text-center",
+                                "targets": [6], // table ke 1
+                            },
+                            {
                                 targets: 5, // Indeks kolom 'status'
                                 render: function(data, type, row) {
                                     var color = '';
@@ -182,14 +186,18 @@
                         },
                         columns: [{
                                 data: function(row) {
-                                    var value = row.projectName.length > 40 ? row.projectName.substring(0, 40) + '..' : row.projectName;
+                                    var value = row.projectName.length > 30 ? row.projectName.substring(0, 30) + '..' : row.projectName;
                                     return '<div data-toggle="tooltip" title="' + row.projectName + '">' + value + '</div>'
                                 },
                                 title: 'Project Name'
                             },
                             {
                                 data: function(row) {
-                                    return row.pm ? row.pm.name : '';
+                                    if (!row.pm) {
+                                        return '';
+                                    }
+                                    var value = row.pm.name.length > 20 ? row.pm.name.substring(0, 20) + '..' : row.pm.name;
+                                    return '<div data-toggle="tooltip" title="' + row.pm.name + '">' + value + '</div>'
                                 },
                                 title: 'PM'
                             },

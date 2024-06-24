@@ -83,6 +83,7 @@ class SyncProjectAsanaRef2 implements ShouldQueue
             $asanaProject->startDate = $startDate ?? null;
             $asanaProject->dueDate = $dueDate ?? null;
             $asanaProject->status = $currentStatus;
+            $asanaProject->permalink_url = $deProject['data']['permalink_url'];
             $asanaProject->sync_today = null;
             $asanaProject->save();
 
