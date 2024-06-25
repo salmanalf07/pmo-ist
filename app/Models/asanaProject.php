@@ -17,6 +17,7 @@ class asanaProject extends Model
         'projectId',
         'projectName',
         'owner',
+        'sales',
         'startDate',
         'dueDate',
         'actStartDate',

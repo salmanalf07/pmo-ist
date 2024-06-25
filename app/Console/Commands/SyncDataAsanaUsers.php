@@ -71,6 +71,20 @@ class SyncDataAsanaUsers extends Command
                     $user->save();
                 }
             }
+            $asanaSales = Http::withHeaders([
+                'Authorization' => env('TOKEN_ASANA'),
+            ])->get('https://app.asana.com/api/1.0/custom_fields/1206905828314029');
+
+            if ($asanaSales->successful()) {
+                $resultSales = $asanaSales->json();
+                foreach ($resultSales['data']['enum_options'] as $data) {
+                    $sales = asanaUser::firstOrNew(['gid' => $data['gid']]);
+                    $sales->gid = $data['gid'];
+                    $sales->name = $data['name'];
+                    $sales->email = '-';
+                    $sales->save();
+                }
+            }
 
             DB::commit();
         } catch (\Throwable $th) {

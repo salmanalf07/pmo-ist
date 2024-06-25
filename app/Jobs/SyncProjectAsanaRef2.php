@@ -84,6 +84,11 @@ class SyncProjectAsanaRef2 implements ShouldQueue
             $asanaProject->dueDate = $dueDate ?? null;
             $asanaProject->status = $currentStatus;
             $asanaProject->permalink_url = $deProject['data']['permalink_url'];
+            foreach ($deProject['data']['custom_fields'] as $value) {
+                if ($value['gid'] === "1206905828314029") {
+                    $asanaProject->sales = $value['enum_value']['gid'] ?? 0;
+                }
+            }
             $asanaProject->sync_today = null;
             $asanaProject->save();
 
