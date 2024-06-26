@@ -264,6 +264,8 @@ class topProjectController extends Controller
                     'termsName' => $project->termsName,
                     'termsValuePPN' => $project->termsValuePPN,
                     'bastDate' => $project->bastDate,
+                    'bastMonth' => date('m', strtotime($project->bastDate)),
+                    'bastYear' => date('Y', strtotime($project->bastDate)),
                     'bastMain' => $project->bastMain == 1 ? 'Done' : '',
                     'invDate' => $project->invDate,
                     'invMain' => $project->invMain == 1 ? 'Done' : '',

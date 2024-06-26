@@ -86,7 +86,28 @@ class financeExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             ];
         }
 
-        if ($this->segment == "financeTermsStatExport" || $this->segment == "financeUnschduledExport") {
+        if ($this->segment == "financeTermsStatExport") {
+            return [
+
+                'noProject' => 'No Project',
+                'company' => 'Customer',
+                'sales' => 'Sales Name',
+                'sponsors' => 'Sponsors',
+                'projectName' => 'Project Name',
+                'noContract' => 'No Contract',
+                'termsName' => 'Terms Name',
+                'termsValuePPN' => 'Terms Value',
+                'bastDate' => 'Plan/BAST Date',
+                'bastMonth' => 'Plan/BAST Month',
+                'bastYear' => 'Plan/BAST Year',
+                'bastMain' => 'Plan/BAST Status',
+                'invDate' => 'Invoice Date',
+                'invMain' => 'Invoice Status',
+                'payDate' => 'Payment Date',
+                'payMain' => 'Payment Status',
+            ];
+        }
+        if ($this->segment == "financeUnschduledExport") {
             return [
 
                 'noProject' => 'No Project',
