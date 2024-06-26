@@ -292,6 +292,7 @@ class projectController extends Controller
     public function destroy($id)
     {
         $post = Project::find($id);
+        $post->sponsors()->delete();
         $post->delete();
         //project
         Order::whereIn('projectId', [$id])->delete();
@@ -302,9 +303,11 @@ class projectController extends Controller
         riskProject::whereIn('projectId', [$id])->delete();
         issuesProject::whereIn('projectId', [$id])->delete();
         documentationProject::whereIn('projectId', [$id])->delete();
-        $delAsana = asanaProject::find($id);
-        $delAsana->projectId = null;
-        $delAsana->save();
+        $delAsana = asanaProject::where('projectId', '=', $id)->first();
+        if ($delAsana) {
+            $delAsana->projectId = null;
+            $delAsana->save();
+        }
 
         return response()->json();
     }
