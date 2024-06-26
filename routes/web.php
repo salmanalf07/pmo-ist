@@ -213,6 +213,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('resourcesDashboard');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/get_chart_resource', [employeeController::class, 'chartResource']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/pmoDashboard', [employeeController::class, 'chartEmployee']);
 //end Dashboard
 //PMO
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -444,6 +445,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('employee/byAsana', ['judul' => "By Asana", 'asanaProject' => $asanaProject]);
     })->name('empByAsana');
 });
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/empAsana_export', [employeeController::class, 'exportByAsana']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/partByAssignment', function () {
         $employee = partnerProject::get();

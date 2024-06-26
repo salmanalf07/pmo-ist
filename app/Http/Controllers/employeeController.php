@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\allEmployeeExport;
+use App\Exports\employByAsanaExport;
 use App\Exports\employByAsignExport;
 use App\Exports\employByUnasignExport;
 use App\Exports\partnerByAsignExport;
@@ -661,6 +662,87 @@ class employeeController extends Controller
 
         //return $data;
         return Excel::download(new allEmployeeExport($data), 'Employee_All_Export.xlsx');
+    }
+
+    function exportByAsana(Request $request)
+    {
+        $query = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')
+            ->where('assignee', '!=', null)
+            ->where(function ($query) use ($request) {
+                if ($request->projectId != "#" && $request->projectId) {
+                    $query->whereHas('section.asanaProject', function ($q) use ($request) {
+                        $q->where('id', '=', $request->projectId);
+                    })
+                        ->orWhereHas('parent.section.asanaProject', function ($q)  use ($request) {
+                            $q->where('id', '=', $request->projectId);
+                        })
+                        ->orWhereHas('parent.parent.section.asanaProject', function ($q)  use ($request) {
+                            $q->where('id', '=', $request->projectId);
+                        });
+                }
+            })
+            ->where(function ($query) use ($request) {
+                if ($request->date_st != "#" && $request->date_st) {
+                    $query->whereDate('start_on', '>=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_st))))
+                        ->whereDate('start_on', '<=', date('Y-m-d', strtotime(str_replace('/', '-', $request->date_ot))));
+                } else {
+                    $query->whereMonth('start_on', '=', date("m"))
+                        ->whereYear('start_on', '=', date("Y"));
+                }
+            });
+
+
+        $data = $query->get();
+        $projectDetail = [];
+        foreach ($data as  $project) {
+
+            //Add Projectname
+            if ($project->parent && $project->parent->parent && $project->parent->parent->section && $project->parent->parent->section->asanaProject) {
+                $projectName = $project->parent->parent->section->asanaProject->projectName;
+            }
+            if ($project->parent && $project->parent->section && $project->parent->section->asanaProject) {
+                $projectName = $project->parent->section->asanaProject->projectName;
+            }
+            if ($project->section && $project->section->asanaProject) {
+                $projectName = $project->section->asanaProject->projectName;
+            }
+            //Add Projectname
+
+
+            //Add Section
+            if ($project->parent && $project->parent->parent && $project->parent->parent->section) {
+                $section = $project->parent->parent->section->sectionName;
+            }
+            if ($project->parent && $project->parent->section) {
+                $section = $project->parent->section->sectionName;
+            }
+            if ($project->section) {
+                $section = $project->section->sectionName;
+            }
+            //Add Section
+
+            //Add typeTask
+            if ($project->parent && $project->parent->parent && $project->parent->parent->section) {
+                $typeTask = 'Sub Task 2';
+            }
+            if ($project->parent && $project->parent->section) {
+                $typeTask = 'Sub Task';
+            }
+            if ($project->section) {
+                $typeTask = 'Task';
+            }
+            $projectDetail[] = [
+                'employee' => $project->assignees->name,
+                'projectName' => $projectName,
+                'section' => $section,
+                'typeTask' => $typeTask,
+                'takName' => $project->taskName,
+                'start_on' => date('d-m-Y', strtotime($project->start_on)),
+                'due_on' => date('d-m-Y', strtotime($project->due_on)),
+                'status' => $project->status == 1 ? 'Done' : 'Not Done',
+            ];
+        }
+        return Excel::download(new employByAsanaExport($projectDetail), 'Employee_By_Asana.xlsx');
     }
 
     function chartResource(Request $request)
