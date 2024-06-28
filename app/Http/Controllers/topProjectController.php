@@ -29,6 +29,10 @@ class topProjectController extends Controller
                         $query->whereMonth('bastDate', '=', date("m"))
                             ->whereYear('bastDate', '=', date("Y"));
                     }
+                    if ($request->statBASTs != "#" && $request->statBASTs) {
+                        $bastMain = $request->statBASTs == 'done' ? 1 : 0;
+                        $query->where('bastMain', '=', $bastMain);
+                    }
                 }
                 if ($request->segment(1) == "json_financeByInvoice") {
                     if ($request->date_st != "#" && $request->date_st) {
@@ -193,6 +197,10 @@ class topProjectController extends Controller
                     } else {
                         $query->whereMonth('bastDate', '=', date("m"))
                             ->whereYear('bastDate', '=', date("Y"));
+                    }
+                    if ($request->statBASTs != "#" && $request->statBASTs) {
+                        $bastMain = $request->statBASTs == 'done' ? 1 : 0;
+                        $query->where('bastMain', '=', $bastMain);
                     }
                 }
 
