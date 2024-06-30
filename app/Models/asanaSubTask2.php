@@ -14,6 +14,7 @@ class asanaSubTask2 extends Model
     protected $fillable = [
         'section_id',
         'parent_uuid',
+        'project_gid',
         'gid',
         'task_id',
         'ref',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AsanaAPIController;
+use App\Http\Controllers\asanaController;
 use App\Http\Controllers\categoryOrderController;
 use App\Http\Controllers\communityCategory;
 use App\Http\Controllers\communityController;
@@ -213,7 +214,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('resourcesDashboard');
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/get_chart_resource', [employeeController::class, 'chartResource']);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->post('/pmoDashboard', [employeeController::class, 'chartEmployee']);
+//asana Dashboard
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/asanaDashboard', function () {
+        return view('/dashboard/asanaDashboard');
+    });
+
+    Route::post('/json_asanaDashboard/{year}', [asanaController::class, 'asanaDashboard']);
+});
 //end Dashboard
 //PMO
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -1368,9 +1376,9 @@ route::get('/syncOne/{gid}', function ($gid) {
 });
 
 Route::get('/test-tasknew', function () {
-    $task = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->get();
-    //$project = asanaProject::with('section.newTask.children.children')->where('gid', 1206493767209136)->first();
+    //$task = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->get();
+    $project = asanaProject::with('section.newTask.children.children')->where('gid', 1207282308083197)->first();
     // $task = asanaSubTask2::find('0959a564-d607-4431-a8c0-fa36d68e35e6');
     // $task->delete();
-    return $task;
+    return $project;
 });

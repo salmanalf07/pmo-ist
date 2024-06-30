@@ -229,6 +229,7 @@ class SyncProjectAsanaRef2 implements ShouldQueue
                     // Isi atribut lainnya
                     $asanaSubTask->ref = $refSubTask++;
                     $asanaSubTask->parent_uuid = $taskId['id'];
+                    $asanaSubTask->project_gid = $dataSubTask['projects']['gid'];
                     $asanaSubTask->taskName = $dataSubTask['name'];
                     $asanaSubTask->assignee = $dataSubTask['assignee']['gid'] ?? null;
                     $asanaSubTask->start_on = $dataSubTask['start_on'] ?? null;

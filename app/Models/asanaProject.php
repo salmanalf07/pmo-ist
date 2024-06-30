@@ -35,9 +35,17 @@ class asanaProject extends Model
     {
         return $this->belongsTo(asanaUser::class, 'owner', 'gid');
     }
+    public function saless()
+    {
+        return $this->belongsTo(asanaUser::class, 'sales', 'gid');
+    }
     public function statuss()
     {
         return $this->belongsTo(asanaStatus::class, 'status', 'code');
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'projectId', 'id');
     }
     /**
      * The "booting" function of model

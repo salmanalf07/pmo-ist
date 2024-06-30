@@ -36,6 +36,20 @@
     <link rel="stylesheet" href="{{asset('/assets/libs/gantt/common/controls_styles.css?v=8.0.6')}}">
     <title>PMO PORTAL</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .arrow_box {
+            padding: 10px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Hitam dengan opacity 70% */
+            border-radius: 3px;
+            /* Tambahkan padding dan style lain sesuai kebutuhan */
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
 </head>
 
 <body>

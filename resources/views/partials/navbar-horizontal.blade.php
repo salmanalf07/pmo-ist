@@ -19,7 +19,7 @@
                     </a> -->
                     @role(['SuperAdm','BOD'])
                     <li class="nav-item dropdown">
-                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','r_allProject','r_projectClose','r_invByMonth','r_planInvhByCust','r_statPayment','r_planBast','r_sales*','r_pm*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link {{ request()->is('dashboard','projectDashboard','asanaDashboard','r_allProject','r_projectClose','r_invByMonth','r_planInvhByCust','r_statPayment','r_planBast','r_sales*','r_pm*') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dashboard & Report
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarPages">
@@ -32,6 +32,11 @@
                             <li>
                                 <a class="dropdown-item" href="/projectDashboard">
                                     Project Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/asanaDashboard">
+                                    PMO Dashboard
                                 </a>
                             </li>
                             <li>
