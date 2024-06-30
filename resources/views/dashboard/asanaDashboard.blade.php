@@ -594,7 +594,6 @@
                         var names = projByStatus.map(item => item.status); // Array of status names
                         var projectCounts = projByStatus.map(item => {
                             var count = Number(item.total_projects);
-                            console.log(`Converting ${item.total_projects} to number:`, count);
                             return count;
                         });
                         var colors = {
@@ -607,7 +606,6 @@
 
                         // Map each status name to its corresponding color from the colors object
                         var colorValues = names.map(status => colors[status]);
-                        console.log(projectCounts, [21, 24, 24, 24, 25]);
                         var options = {
                             series: projectCounts,
                             chart: {
