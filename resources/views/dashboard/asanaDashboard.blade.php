@@ -268,7 +268,7 @@
         </div>
     </div>
 
-    <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <script>
         function getRandomColor() {
