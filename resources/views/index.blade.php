@@ -86,9 +86,8 @@
     <script src="/assets/js/theme.min.js"></script>
     <script src="/assets/libs/jsvectormap/dist/js/jsvectormap.min.js"></script>
     <script src="/assets/libs/jsvectormap/dist/maps/world.js"></script>
-    <!-- <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script> -->
-    <!-- <script src="/assets/js/vendors/chart.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="/assets/js/vendors/chart.js"></script>
 
     <!-- datatable -->
     <script src="/assets/libs/datatables/media/js/jquery.dataTables.min.js"></script>

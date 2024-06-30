@@ -268,7 +268,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <script>
         function getRandomColor() {
@@ -604,16 +604,14 @@
                         // Map each status name to its corresponding color from the colors object
                         var colorValues = names.map(status => colors[status]);
 
-                        console.log([colorValues, names, projectCounts]);
-
                         var options = {
-                            series: projectCounts,
+                            series: [10, 20, 30], // Contoh data statis
                             chart: {
                                 type: 'pie',
                                 height: 280
                             },
-                            labels: names,
-                            colors: colorValues,
+                            labels: ['Label1', 'Label2', 'Label3'],
+                            colors: ['#90ee90', '#0000ff', '#ff0000'],
                             tooltip: {
                                 custom: function({
                                     series,
