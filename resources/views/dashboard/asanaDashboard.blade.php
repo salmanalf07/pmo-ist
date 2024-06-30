@@ -610,8 +610,8 @@
                                 type: 'pie',
                                 height: 280
                             },
-                            labels: ['Label1', 'Label2', 'Label3'],
-                            colors: ['#90ee90', '#0000ff', '#ff0000'],
+                            labels: ['Label1', 'Label2', 'Label3', 'Label4', 'Label5'],
+                            colors: ['#90ee90', '#0000ff', '#ff0000', '#006400', '#ffff00'],
                             tooltip: {
                                 custom: function({
                                     series,
