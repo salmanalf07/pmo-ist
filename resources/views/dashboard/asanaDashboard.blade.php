@@ -605,7 +605,7 @@
                         var colorValues = names.map(status => colors[status]);
 
                         var options = {
-                            series: [10, 20, 30], // Contoh data statis
+                            series: projectCounts,
                             chart: {
                                 type: 'pie',
                                 height: 280
