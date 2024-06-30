@@ -201,14 +201,7 @@
                         </div>
                         <div class="card-body">
                             <div id="chart">
-                                <div id="chartByStatus" class="d-flex justify-content-center"></div>
-                            </div>
-
-                            <div class="mt-8">
-                                <div class="row row-cols-lg-3 text-center" id="chartProjByStatus">
-
-
-                                </div>
+                                <div id="chartByStatus" class="d-flex justify-content-center mt-8"></div>
                             </div>
                         </div>
 
@@ -599,7 +592,7 @@
                         var projByStatus = data.projectByStatus; // Assuming data is properly populated
 
                         var names = projByStatus.map(item => item.status); // Array of status names
-                        var data = projByStatus.map(item => item.total_projects); // Array of project counts
+                        var projectCounts = projByStatus.map(item => item.total_projects); // Array of project counts
                         var colors = {
                             'On Track': '#90ee90', // light green
                             'On Hold': '#0000ff', // blue
@@ -612,10 +605,10 @@
                         var colorValues = names.map(status => colors[status]);
 
                         var options = {
-                            series: data,
+                            series: projectCounts,
                             chart: {
                                 type: 'pie',
-                                height: 280,
+                                height: 280
                             },
                             labels: names,
                             colors: colorValues,
@@ -633,10 +626,8 @@
                             }
                         };
 
-                        $('#chartByStatus').html(""); // Clear previous chart content
                         var chart = new ApexCharts(document.querySelector("#chartByStatus"), options);
                         chart.render();
-
                     } else {
                         $('#chartByStatus').remove();
 
