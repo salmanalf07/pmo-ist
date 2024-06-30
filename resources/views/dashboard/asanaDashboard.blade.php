@@ -23,10 +23,6 @@
         <div class="pt-12 pb-21 "></div>
         <div class="container-fluid mt-n22 ">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-12 mb-3">
                     <div class="card">
                         <div class="card-body">
@@ -131,7 +127,7 @@
             <div class="row ">
                 <!-- card  -->
                 <div class="col-xl-6 mb-5">
-                    <div class="card h-50 mb-5">
+                    <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Projects By Project Manager</h4>
                             <div class="dropdown dropstart">
@@ -151,42 +147,10 @@
                         </div>
 
                     </div>
-                    <div class="card h-50 mb-5">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Projects By Customer</h4>
-                            <div class="dropdown dropstart">
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart">
-                                <div id="projByCust" class="d-flex justify-content-center"></div>
-                            </div>
-
-                            <div class="mt-8">
-                                <div class="row row-cols-lg-3 text-center" id="chartProjByCustomer">
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card h-50">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Total Assigned</h4>
-                            <div class="dropdown dropstart">
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="chartSumCustomer">
-                                <div id="summaryCustomer" class="d-flex justify-content-center mt-2"></div>
-                            </div>
-                        </div>
-
-                    </div>
                     <!-- card  -->
                 </div>
                 <div class="col-xl-6 mb-5">
-                    <div class="card h-50 mb-5">
+                    <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Projects By Sales</h4>
                             <div class="dropdown dropstart">
@@ -206,7 +170,30 @@
                         </div>
 
                     </div>
-                    <div class="card h-50">
+                </div>
+                <div class="col-xl-6 mb-5">
+                    <div class="card mb-5">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Projects By Customer</h4>
+                            <div class="dropdown dropstart">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart">
+                                <div id="projByCust" class="d-flex justify-content-center"></div>
+                            </div>
+
+                            <div class="mt-8">
+                                <div class="row row-cols-lg-3 text-center" id="chartProjByCustomer">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 mb-5">
+                    <div class="card mb-5">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Projects By Status</h4>
                             <div class="dropdown dropstart">
@@ -222,6 +209,21 @@
 
 
                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-6 mb-5">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Total Assigned</h4>
+                            <div class="dropdown dropstart">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chartSumCustomer">
+                                <div id="summaryCustomer" class="d-flex justify-content-center mt-2"></div>
                             </div>
                         </div>
 
