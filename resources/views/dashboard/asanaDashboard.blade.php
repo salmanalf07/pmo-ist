@@ -605,13 +605,13 @@
                         var colorValues = names.map(status => colors[status]);
 
                         var options = {
-                            series: projectCounts,
+                            series: ['21', '22', '23', '24', '25'],
                             chart: {
                                 type: 'pie',
                                 height: 280
                             },
-                            labels: ['Label1', 'Label2', 'Label3', 'Label4', 'Label5'],
-                            colors: ['#90ee90', '#0000ff', '#ff0000', '#006400', '#ffff00'],
+                            labels: names,
+                            colors: colorValues,
                             tooltip: {
                                 custom: function({
                                     series,
