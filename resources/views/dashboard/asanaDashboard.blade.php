@@ -592,7 +592,11 @@
                         var projByStatus = data.projectByStatus; // Assuming data is properly populated
 
                         var names = projByStatus.map(item => item.status); // Array of status names
-                        var projectCounts = projByStatus.map(item => item.total_projects); // Array of project counts
+                        var projectCounts = projByStatus.map(item => {
+                            var count = Number(item.total_projects);
+                            console.log(`Converting ${item.total_projects} to number:`, count);
+                            return count;
+                        });
                         var colors = {
                             'On Track': '#90ee90', // light green
                             'On Hold': '#0000ff', // blue
@@ -605,7 +609,7 @@
                         var colorValues = names.map(status => colors[status]);
                         console.log(projectCounts, [21, 24, 24, 24, 25]);
                         var options = {
-                            series: [21, 5, 16, 2, 16],
+                            series: projectCounts,
                             chart: {
                                 type: 'pie',
                                 height: 280
