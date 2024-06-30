@@ -603,9 +603,9 @@
 
                         // Map each status name to its corresponding color from the colors object
                         var colorValues = names.map(status => colors[status]);
-
+                        console.log(projectCounts, [21, 24, 24, 24, 25]);
                         var options = {
-                            series: [21, 24, 24, 24, 25],
+                            series: [21, 5, 16, 2, 16],
                             chart: {
                                 type: 'pie',
                                 height: 280
