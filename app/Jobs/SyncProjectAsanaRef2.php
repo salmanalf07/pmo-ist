@@ -148,38 +148,43 @@ class SyncProjectAsanaRef2 implements ShouldQueue
                             // Hapus task utama
                             $task->delete();
                         });
+                        // Pengecekan apakah section memiliki task atau tidak
+                        if (empty($GidsTask)) {
+                            // Jika tidak ada task, hapus section dan lanjutkan ke iterasi berikutnya
+                            $saveSection->delete();
+                        } else {
+                            $refDetailTask = 1;
+                            foreach ($dataTask['data'] as $task) {
 
-                        $refDetailTask = 1;
-                        foreach ($dataTask['data'] as $task) {
+                                $getDataTask = Http::withHeaders([
+                                    'Authorization' => env('TOKEN_ASANA'),
+                                ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
 
-                            $getDataTask = Http::withHeaders([
-                                'Authorization' => env('TOKEN_ASANA'),
-                            ])->get('https://app.asana.com/api/1.0/tasks/' . $task['gid']);
-
-                            if (!$getDataTask->successful()) {
-                                throw new \Exception('Failed to fetch Data task from Asana API');
-                            }
-                            $dataDetailTask = $getDataTask->json()['data'];
-                            // foreach ($dataDetailTask['data'] as $detailTask) {
-                            $saveTask = asanaSubTask2::firstOrNew(['gid' => $dataDetailTask['gid']]);
-                            $saveTask->gid = $dataDetailTask['gid'];
-                            $saveTask->ref = $refDetailTask++;
-                            $saveTask->project_gid = $dataDetailTask['projects'][0]['gid']  ?? null;
-                            $saveTask->section_id = $saveSection['id'];
-                            $saveTask->taskName = $dataDetailTask['name'];
-                            $saveTask->assignee = $dataDetailTask['assignee']['gid'] ?? null;
-                            $saveTask->start_on = $dataDetailTask['start_on'];
-                            $saveTask->due_on = $dataDetailTask['due_on'];
-                            $saveTask->permalink_url = $dataDetailTask['permalink_url'];
-                            foreach ($dataDetailTask['custom_fields'] as $value) {
-                                if ($value['gid'] === "1206277209339208") {
-                                    $saveTask->progress = $value['number_value'] ?? 0;
+                                if (!$getDataTask->successful()) {
+                                    throw new \Exception('Failed to fetch Data task from Asana API');
                                 }
+                                $dataDetailTask = $getDataTask->json()['data'];
+                                // foreach ($dataDetailTask['data'] as $detailTask) {
+                                $saveTask = asanaSubTask2::firstOrNew(['gid' => $dataDetailTask['gid']]);
+                                $saveTask->gid = $dataDetailTask['gid'];
+                                $saveTask->ref = $refDetailTask++;
+                                $saveTask->project_gid = $dataDetailTask['projects'][0]['gid']  ?? null;
+                                $saveTask->section_id = $saveSection['id'];
+                                $saveTask->taskName = $dataDetailTask['name'];
+                                $saveTask->assignee = $dataDetailTask['assignee']['gid'] ?? null;
+                                $saveTask->start_on = $dataDetailTask['start_on'];
+                                $saveTask->due_on = $dataDetailTask['due_on'];
+                                $saveTask->permalink_url = $dataDetailTask['permalink_url'];
+                                foreach ($dataDetailTask['custom_fields'] as $value) {
+                                    if ($value['gid'] === "1206277209339208") {
+                                        $saveTask->progress = $value['number_value'] ?? 0;
+                                    }
+                                }
+                                $saveTask->status = $dataDetailTask['completed'];
+                                $saveTask->save();
+                                // }
+                                $this->GetDataSubTask($task['gid'], $saveTask);
                             }
-                            $saveTask->status = $dataDetailTask['completed'];
-                            $saveTask->save();
-                            // }
-                            $this->GetDataSubTask($task['gid'], $saveTask);
                         }
                     }
                 }
