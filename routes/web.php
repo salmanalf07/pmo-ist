@@ -1375,12 +1375,13 @@ route::get('/syncOne/{gid}', function ($gid) {
     return "susccess";
 });
 
-Route::get('/test-tasknew', function () {
+Route::get('/test-tasknew/{gid}', function ($gid) {
     //$task = asanaSubTask2::with('assignees', 'section.asanaProject', 'parent.section.asanaProject', 'parent.parent.section.asanaProject')->get();
-    // $project = asanaProject::with('section.newTask.children.children')->where('gid', 1207282308083197)->first();
-    $project = asanaSection::with('task')
-        ->whereDoesntHave('task')
-        ->get();
+    $project = asanaProject::with('section.newTask.children.children')->where('gid', $gid)->first();
+    // $project = asanaSection::with('task')
+    //     ->whereDoesntHave('task')
+    //     ->get();
+
     // $task = asanaSubTask2::find('0959a564-d607-4431-a8c0-fa36d68e35e6');
     // $task->delete();
     return $project;
