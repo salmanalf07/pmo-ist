@@ -1344,7 +1344,7 @@ route::get('/tes/v2', function () {
         })
         ->orWhereNull('status')
         ->get();
-    return $data;
+
     foreach ($data as $item) {
         $project = asanaProject::find($item->id);
         $project->sync_today = null;
