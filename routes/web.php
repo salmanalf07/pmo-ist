@@ -1334,10 +1334,17 @@ route::get('/tes/kosong', function () {
 
 route::get('/tes/v2', function () {
 
-    $data = asanaProject::whereNotIn('status', ['on_hold', 'complete'])
+    $data = asanaProject::where('status', '!=', 'on_hold')
+        ->where(function ($query) {
+            $query->where('status', '!=', 'complete')
+                ->orWhere(function ($query) {
+                    $query->where('status', 'complete')
+                        ->where('progress', '<', 100);
+                });
+        })
         ->orWhereNull('status')
         ->get();
-
+    return $data;
     foreach ($data as $item) {
         $project = asanaProject::find($item->id);
         $project->sync_today = null;
