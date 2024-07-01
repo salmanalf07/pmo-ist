@@ -16,6 +16,16 @@
     .col {
         width: 25%;
     }
+
+    .chart-container {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .chart-scroll {
+        width: 5000px;
+        /* Set the width based on your data */
+    }
 </style>
 <link href="/assets/css/select2Custom.css" rel="stylesheet">
 <div id="app-content">
@@ -215,8 +225,14 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="chartSumCustomer">
-                                <div id="summaryCustomer" class="d-flex justify-content-center mt-2"></div>
+                            <div id="chart" class="chart-container">
+                                <div id="totAssigeByEmp" class="d-flex justify-content-center chart-scroll"></div>
+                            </div>
+
+                            <div class="mt-8 chart-container">
+                                <div class="row row-cols-lg-3 text-center chart-scroll" id="chartTotAssigeByEmp">
+
+                                </div>
                             </div>
                         </div>
 
@@ -644,6 +660,92 @@
 
                         // Clear the content of the element with id "chartSecRevenue"
                         $('#chartProjByStatus').html("");
+                    }
+
+                    if (data.totAssigeByEmp.length > 0) {
+                        $('#chartTotAssigeByEmp').html("");
+                        var totAssigeByEmp = data.totAssigeByEmp;
+                        var datatotAssigeByEmp = [];
+
+                        // Iterate through the salesRevenueData array and create objects in the required format
+                        for (var value of totAssigeByEmp) {
+                            datatotAssigeByEmp.push({
+                                y: value.total_tasks,
+                                x: getInitials(value.emp),
+                                fillColor: getRandomColor(),
+                                fullName: value.emp // Storing full name for tooltip
+                            });
+                        }
+
+                        var e = {
+                            series: [{
+                                data: datatotAssigeByEmp
+                            }],
+                            chart: {
+                                type: 'bar',
+                                height: 350,
+                                width: 5000,
+                                scrollable: true
+
+                            },
+                            plotOptions: {
+                                bar: {
+                                    horizontal: false,
+                                },
+                            },
+                            dataLabels: {
+                                enabled: true
+                            },
+                            tooltip: {
+                                custom: function({
+                                    series,
+                                    seriesIndex,
+                                    dataPointIndex,
+                                    w
+                                }) {
+                                    var dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+                                    return '<div class="arrow_box" sytle="padding: 10px">' +
+                                        '<span><strong>' + dataPoint.fullName + '</strong><br>Project Count: ' + dataPoint.y + '</span>' +
+                                        '</div>';
+                                }
+                            },
+                            yaxis: {
+                                title: {
+                                    text: 'Task Count'
+                                },
+                                min: 0,
+                                tickAmount: 4
+                            },
+                            xaxis: {
+                                scrollable: {
+                                    enabled: true,
+                                    offsetX: 0,
+                                    offsetY: 0
+                                }
+                            }
+                        };
+
+                        $('#totAssigeByEmp').html("");
+                        new ApexCharts(
+                            document.querySelector("#totAssigeByEmp"),
+                            e
+                        ).render();
+                    } else {
+                        // Remove the element with id "totAssigeByEmp"
+                        $('#totAssigeByEmp').remove();
+
+                        // Get the parent element with id "chart"
+                        var chartParentElement = $('#chart');
+
+                        // Create a new element with the same id and content
+                        var newChartCampaignEmailElement = $('<div id="totAssigeByEmp" class="d-flex justify-content-center mt-8"></div>');
+
+                        // Add the new element back to the parent
+                        chartParentElement.append(newChartCampaignEmailElement);
+
+                        // Clear the content of the element with id "chartSecRevenue"
+                        $('#chartTotAssigeByEmp').html("");
+
                     }
                 }
             });

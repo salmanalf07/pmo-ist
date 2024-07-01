@@ -128,7 +128,10 @@ class asanaController extends Controller
                 ];
             });
 
-        $totAssigeByEmp = asanaSubTask2::with('assignees')
+        $totAssigeByEmp = asanaSubTask2::with('assignees', 'project')
+            ->whereHas('project', function ($query) use ($year) {
+                $query->whereYear('startDate', $year);
+            })
             ->select('assignee', DB::raw('count(*) as total_tasks'))
             ->groupBy('assignee')
             ->orderByDesc('total_tasks')

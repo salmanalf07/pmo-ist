@@ -29,6 +29,10 @@ class asanaSubTask2 extends Model
 
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(asanaProject::class, 'project_gid', 'gid');
+    }
     public function assignees()
     {
         return $this->belongsTo(asanaUser::class, 'assignee', 'gid');
