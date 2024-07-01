@@ -307,10 +307,15 @@ class SyncProjectAsanaRef2 implements ShouldQueue
             // $updProject->startDate = $startDate;
             // $updProject->dueDate = $dueDate;
             $updProject->progress = $progressTask;
-            if ($status != $updProject->status) {
-                if (!in_array($updProject->status, ['on_hold', 'complete'])) {
-                    $updProject->status = $status;
-                    $this->setStatus($updProject->gid, $status);
+            if ($updProject->status == 'complete' && $progressTask < 100) {
+                $updProject->status = $status; // Set status ke "on_track" atau status lain yang sesuai
+                $this->setStatus($updProject->gid, 'on_track');
+            } else {
+                if ($status != $updProject->status) {
+                    if (!in_array($updProject->status, ['on_hold', 'complete'])) {
+                        $updProject->status = $status;
+                        $this->setStatus($updProject->gid, $status);
+                    }
                 }
             }
             $updProject->save();
