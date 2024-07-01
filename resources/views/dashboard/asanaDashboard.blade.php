@@ -610,7 +610,7 @@
                             series: projectCounts,
                             chart: {
                                 type: 'pie',
-                                height: 280
+                                height: 263
                             },
                             labels: names,
                             colors: colorValues,

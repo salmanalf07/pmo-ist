@@ -164,6 +164,7 @@ class SyncProjectAsanaRef2 implements ShouldQueue
                             $saveTask = asanaSubTask2::firstOrNew(['gid' => $dataDetailTask['gid']]);
                             $saveTask->gid = $dataDetailTask['gid'];
                             $saveTask->ref = $refDetailTask++;
+                            $saveTask->project_gid = $dataDetailTask['projects'][0]['gid']  ?? null;
                             $saveTask->section_id = $saveSection['id'];
                             $saveTask->taskName = $dataDetailTask['name'];
                             $saveTask->assignee = $dataDetailTask['assignee']['gid'] ?? null;
@@ -229,7 +230,7 @@ class SyncProjectAsanaRef2 implements ShouldQueue
                     // Isi atribut lainnya
                     $asanaSubTask->ref = $refSubTask++;
                     $asanaSubTask->parent_uuid = $taskId['id'];
-                    $asanaSubTask->project_gid = $dataSubTask['projects']['gid'] ?? $taskId['project_gid'] ?? null;
+                    $asanaSubTask->project_gid = $taskId['project_gid'] ?? null;
                     $asanaSubTask->taskName = $dataSubTask['name'];
                     $asanaSubTask->assignee = $dataSubTask['assignee']['gid'] ?? null;
                     $asanaSubTask->start_on = $dataSubTask['start_on'] ?? null;
